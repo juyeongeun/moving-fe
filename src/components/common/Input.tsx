@@ -18,6 +18,18 @@ interface InputProps {
   onChange?: (value: string) => void;
 }
 
+const styles = {
+  container: "flex flex-col",
+  inputContainer: "relative flex items-center",
+  input:
+    "input placeholder:text-grayscale-400 border-[1px] border-line-200 rounded-[16px] p-[14px] pr-10 focus:border-pr-blue-300 focus:outline-none text-black-400 text-xl font-regular",
+  authInput: "bg-white",
+  defaultInput: "bg-bg-200",
+  passwordIcon: "absolute cursor-pointer right-[14px]",
+  errorMessage:
+    "text-pr-red-200 text-lg font-medium text-right mt-[4px] mr-[8px]",
+};
+
 export default function Input({
   name,
   placeholder = "",
@@ -42,12 +54,12 @@ export default function Input({
 
   return (
     <div
-      className={`flex flex-col `}
+      className={styles.container}
       style={{
         width: typeof width === "number" ? `${width}` : width,
       }}
     >
-      <div className="relative flex items-center">
+      <div className={styles.inputContainer}>
         <input
           id={name}
           placeholder={placeholder}
@@ -56,10 +68,9 @@ export default function Input({
             width: typeof width === "number" ? `${width}px` : width,
             height: typeof height === "number" ? `${height}px` : height,
           }}
-          className={`input ${
-            className === "auth" ? "bg-white" : "bg-bg-200"
-          } placeholder:text-grayscale-400 border-[1px] border-line-200 rounded-[16px] p-[14px]
-          pr-10 focus:border-pr-blue-300 focus:outline-none text-black-400 text-xl font-regular`}
+          className={`${styles.input} ${
+            className === "auth" ? styles.authInput : styles.defaultInput
+          }`}
           value={inputValue}
           onChange={handleInputChange}
         />
@@ -74,15 +85,11 @@ export default function Input({
             height={24}
             alt={showPassword ? "Hide password" : "Show password"}
             onClick={togglePasswordVisibility}
-            className="absolute cursor-pointer right-[14px]"
+            className={styles.passwordIcon}
           />
         )}
       </div>
-      {error && (
-        <p className="text-pr-red-200 text-lg font-medium text-right mt-[4px] mr-[8px]">
-          {error}
-        </p>
-      )}
+      {error && <p className={styles.errorMessage}>{error}</p>}
     </div>
   );
 }
