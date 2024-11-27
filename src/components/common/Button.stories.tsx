@@ -10,11 +10,13 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof Button>;
 
+const handleClick = () => console.log("clicked");
+
 export const Primary: Story = {
   args: {
     variant: "primary",
     children: "Primary Button",
-    onClick: () => console.log("clicked"),
+    onClick: handleClick,
   },
 };
 
@@ -22,7 +24,7 @@ export const Secondary: Story = {
   args: {
     variant: "secondary",
     children: "Secondary Button",
-    onClick: () => console.log("clicked"),
+    onClick: handleClick,
   },
 };
 
@@ -30,7 +32,7 @@ export const Outlined: Story = {
   args: {
     variant: "outlined",
     children: "Outlined Button",
-    onClick: () => console.log("clicked"),
+    onClick: handleClick,
   },
 };
 
@@ -38,6 +40,6 @@ export const Disabled: Story = {
   args: {
     disabled: true,
     children: "Disabled Button",
-    onClick: () => console.log("clicked"),
+    onClick: handleClick,
   },
 };

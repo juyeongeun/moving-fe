@@ -1,5 +1,16 @@
 import React from "react";
 
+interface ButtonProps {
+  onClick: () => void;
+  width?: string | number;
+  height?: string | number;
+  children: React.ReactNode;
+  disabled?: boolean;
+  variant?: "primary" | "secondary" | "outlined";
+  type?: "button" | "submit" | "reset";
+  className?: string;
+}
+
 /**
  * 범용적으로 사용할 수 있는 Button 컴포넌트
  *
@@ -28,36 +39,23 @@ import React from "react";
  * @param {string} [className] - 추가 스타일링을 위한 클래스명
  */
 
-interface ButtonProps {
-  onClick: () => void;
-  width?: string | number;
-  height?: string | number;
-  children: React.ReactNode;
-  disabled?: boolean;
-  variant?: "primary" | "secondary" | "outlined";
-  type?: "button" | "submit" | "reset";
-  className?: string;
-}
-
-const Button: React.FC<ButtonProps> = ({
+const Button = ({
   onClick,
-  width,
-  height,
+  width = "auto",
+  height = "auto",
   children,
   disabled = false,
   variant = "primary",
   type = "button",
   className = "",
-}) => {
-  const getStyle = () => {
-    const baseStyle = {
-      width: width || "auto",
-      height: height || "auto",
-      cursor: disabled ? "not-allowed" : "pointer",
-      opacity: disabled ? 0.6 : 1,
-    };
-
-    return baseStyle;
+}: ButtonProps): JSX.Element => {
+  const variantClasses = {
+    primary:
+      "bg-pr-blue-200 text-gray-50 text-lg rounded-[16px] font-semibold p-4 hover:bg-pr-blue-300",
+    secondary:
+      "bg-pr-blue-200 text-gray-50 text-lg rounded-[16px] font-semibold p-4 hover:bg-pr-blue-300",
+    outlined:
+      "bg-transparent text-blue-500 border-2 border-blue-500 hover:bg-blue-100",
   };
 
   return (
@@ -65,8 +63,13 @@ const Button: React.FC<ButtonProps> = ({
       onClick={onClick}
       disabled={disabled}
       type={type}
-      className={`button ${variant} ${className}`}
-      style={getStyle()}
+      className={`button ${variantClasses[variant]} ${className} 
+        ${
+          disabled
+            ? "bg-gray-100 text-gray-50 text-lg rounded-[16px] font-semibold p-4 cursor-not-allowed"
+            : "cursor-pointer"
+        } 
+        w-${width} h-${height}`}
     >
       {children}
     </button>
