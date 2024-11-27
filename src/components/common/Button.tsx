@@ -1,14 +1,17 @@
 import React from "react";
+import Image from "next/image";
 
 interface ButtonProps {
   onClick: () => void;
   width?: string | number;
   height?: string | number;
+  radius?: string | number;
   children: React.ReactNode;
   disabled?: boolean;
-  variant?: "primary" | "secondary" | "outlined";
+  variant?: "primary" | "outlined";
   type?: "button" | "submit" | "reset";
   className?: string;
+  withIcon?: boolean;
 }
 
 /**
@@ -20,8 +23,11 @@ interface ButtonProps {
  *
  * // variant 설정
  * <Button variant="primary">Primary Button</Button>
- * <Button variant="secondary">Secondary Button</Button>
  * <Button variant="outlined">Outlined Button</Button>
+ *
+ * // 아이콘이 있는 버튼
+ * <Button variant="primary" withIcon>Write Post</Button>
+ * <Button variant="outlined" withIcon>New Draft</Button>
  *
  * // 크기 커스터마이징
  * <Button width="200px" height="50px">Custom Size</Button>
@@ -32,30 +38,77 @@ interface ButtonProps {
  * @param {Function} onClick - 클릭 이벤트 핸들러
  * @param {string|number} [width] - 버튼의 너비 (px, rem, % 등 단위 포함)
  * @param {string|number} [height] - 버튼의 높이 (px, rem, % 등 단위 포함)
+ * @param {string|number} [radius] - 버튼의 모서리 둥글기 (기본값: 16px)
  * @param {React.ReactNode} children - 버튼 내부 콘텐츠
  * @param {boolean} [disabled] - 버튼 비활성화 여부
- * @param {'primary'|'secondary'|'outlined'} [variant] - 버튼 스타일 변형
+ * @param {'primary'|'outlined'} [variant] - 버튼 스타일 변형
  * @param {'button'|'submit'|'reset'} [type] - 버튼의 HTML type 속성
  * @param {string} [className] - 추가 스타일링을 위한 클래스명
+ * @param {boolean} [withIcon] - 우측에 아이콘 표시 여부
  */
 
-const Button = ({
-  onClick,
-  width = "auto",
-  height = "auto",
-  children,
-  disabled = false,
-  variant = "primary",
-  type = "button",
-  className = "",
-}: ButtonProps): JSX.Element => {
+const Button = ({ ...props }: ButtonProps): JSX.Element => {
+  const {
+    onClick,
+    width = "auto",
+    height = "auto",
+    radius = "16px",
+    children,
+    disabled = false,
+    variant = "primary",
+    type = "button",
+    className = "",
+    withIcon = false,
+  } = props;
+
+  const formatDimension = (value: string | number) => {
+    if (typeof value === "number") return `${value}px`;
+    if (typeof value === "string" && !isNaN(Number(value))) return `${value}px`;
+    return value;
+  };
+
   const variantClasses = {
-    primary:
-      "bg-pr-blue-200 text-gray-50 text-lg rounded-[16px] font-semibold p-4 hover:bg-pr-blue-300",
-    secondary:
-      "bg-pr-blue-200 text-gray-50 text-lg rounded-[16px] font-semibold p-4 hover:bg-pr-blue-300",
-    outlined:
-      "bg-transparent text-blue-500 border-2 border-blue-500 hover:bg-blue-100",
+    primary: {
+      default: `bg-pr-blue-300 text-gray-50 text-lg font-semibold p-4 hover:bg-pr-blue-200`,
+      disabled: "bg-gray-100 text-gray-50 cursor-not-allowed",
+    },
+    outlined: {
+      default:
+        "bg-transparent text-pr-blue-300 text-left border-[1px] border-pr-blue-300 hover:bg-pr-blue-50",
+      disabled:
+        "bg-transparent text-left text-gray-100 border-[1px] border-gray-100 cursor-not-allowed",
+    },
+  };
+
+  const getStyles = () => ({
+    width: formatDimension(width),
+    height: formatDimension(height),
+    borderRadius: formatDimension(radius),
+  });
+
+  const getClassNames = () => {
+    const baseClasses = "button text-lg font-semibold px-6 py-4";
+    const layoutClasses = withIcon ? "flex items-center justify-center" : "";
+    const variantClass =
+      variantClasses[variant][disabled ? "disabled" : "default"];
+
+    return [baseClasses, layoutClasses, variantClass, className]
+      .filter(Boolean)
+      .join(" ");
+  };
+
+  const renderIcon = () => {
+    if (!withIcon) return null;
+
+    return (
+      <Image
+        src="/icons/ic_writing.svg"
+        alt="writing icon"
+        width={24}
+        height={24}
+        className="ml-1"
+      />
+    );
   };
 
   return (
@@ -63,15 +116,11 @@ const Button = ({
       onClick={onClick}
       disabled={disabled}
       type={type}
-      className={`button ${variantClasses[variant]} ${className} 
-        ${
-          disabled
-            ? "bg-gray-100 text-gray-50 text-lg rounded-[16px] font-semibold p-4 cursor-not-allowed"
-            : "cursor-pointer"
-        } 
-        w-${width} h-${height}`}
+      style={getStyles()}
+      className={getClassNames()}
     >
       {children}
+      {renderIcon()}
     </button>
   );
 };

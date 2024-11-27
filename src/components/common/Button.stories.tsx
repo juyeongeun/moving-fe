@@ -1,9 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import Button from "./Button";
 
-const meta = {
+const meta: Meta<typeof Button> = {
   title: "Components/Button",
   component: Button,
+  parameters: {
+    layout: "centered",
+  },
   tags: ["autodocs"],
 } satisfies Meta<typeof Button>;
 
@@ -15,31 +18,15 @@ const handleClick = () => console.log("clicked");
 export const Primary: Story = {
   args: {
     variant: "primary",
-    children: "Primary Button",
+    children: "기본 버튼",
     onClick: handleClick,
   },
 };
 
-export const Secondary: Story = {
-  args: {
-    variant: "secondary",
-    children: "Secondary Button",
-    onClick: handleClick,
-  },
-};
-
-export const Outlined: Story = {
+export const OutlinedButton: Story = {
   args: {
     variant: "outlined",
-    children: "Outlined Button",
-    onClick: handleClick,
-  },
-};
-
-export const Disabled: Story = {
-  args: {
-    disabled: true,
-    children: "Disabled Button",
+    children: "아웃라인 버튼",
     onClick: handleClick,
   },
 };
