@@ -9,8 +9,10 @@
     "start": "next start",
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "image": "node src/utils/generateImgSrc.js"
   },
+  "type": "module",
   "dependencies": {
     "@tanstack/react-query": "^5.61.4",
     "@tanstack/react-query-devtools": "^5.61.4",
