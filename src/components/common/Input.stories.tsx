@@ -22,8 +22,6 @@ export const Default: Story = {
     name: "default-input",
     placeholder: "Enter text here...",
     type: "text",
-    width: "375px",
-    height: "54px",
     className: "",
   },
 };
@@ -34,8 +32,6 @@ export const AuthInput: Story = {
     name: "auth-input",
     placeholder: "Enter your info",
     type: "text",
-    width: "375px",
-    height: "54px",
     className: "auth", // "auth" 클래스는 흰색 배경으로 설정됨
   },
 };
@@ -46,8 +42,6 @@ export const PasswordInput: Story = {
     name: "password-input",
     placeholder: "Enter your password",
     type: "password",
-    width: "375px",
-    height: "54px",
     className: "auth", // "auth" 클래스는 흰색 배경으로 설정
   },
 };
@@ -58,8 +52,6 @@ export const ValueInput: Story = {
     name: "value-input",
     placeholder: "Enter your name",
     type: "text",
-    width: "375px",
-    height: "54px",
     className: "",
     value: "안녕하시렵니까",
   },
@@ -71,8 +63,6 @@ export const ErrorMessageInput: Story = {
     name: "none-auth-input",
     placeholder: "Enter anything",
     type: "text",
-    width: "375px",
-    height: "54px",
     className: "",
     error: "4040404040404040440404",
   },
