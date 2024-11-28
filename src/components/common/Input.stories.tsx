@@ -6,6 +6,9 @@ const meta: Meta<typeof Input> = {
   component: Input,
   parameters: {
     layout: "centered",
+    backgrounds: {
+      default: "dark",
+    },
   },
   tags: ["autodocs"],
 } satisfies Meta<typeof Input>;

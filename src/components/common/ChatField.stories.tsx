@@ -6,6 +6,9 @@ const meta: Meta<typeof ChatField> = {
   component: ChatField,
   parameters: {
     layout: "centered",
+    backgrounds: {
+      default: "dark",
+    },
   },
   tags: ["autodocs"],
 } satisfies Meta<typeof ChatField>;
@@ -25,7 +28,7 @@ export const DefaultSmall: Story = {
 export const DefaultLarge: Story = {
   args: {
     radius: "30px",
-    value: "Hello, world!",
+    value: "Hello, world!Hello, world!Hello, world!",
     variant: "default",
   },
 };
@@ -41,7 +44,7 @@ export const PrimarySmall: Story = {
 export const PrimaryLarge: Story = {
   args: {
     radius: "30px",
-    value: "Hello, world!",
+    value: "Hello, world!Hello, world!Hello, world!",
     variant: "primary",
   },
 };
@@ -57,7 +60,7 @@ export const SecondarySmall: Story = {
 export const SecondaryLarge: Story = {
   args: {
     radius: "30px",
-    value: "Hello, world!",
+    value: "Hello, world!Hello, world!Hello, world!",
     variant: "secondary",
   },
 };

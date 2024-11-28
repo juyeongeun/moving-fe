@@ -14,7 +14,7 @@ export default function ChatField({
   className = "",
 }: ChatFieldProps): JSX.Element {
   const variantClasses = {
-    default: `bg-pr-grayscale-50 text-black-400 text-md px-[20px] py-[12px]`,
+    default: `bg-white text-black-400 text-md px-[20px] py-[12px]`,
     primary: `bg-pr-blue-300 text-white text-left text-md px-[20px] py-[12px]`,
     secondary: `bg-pr-blue-100 text-pr-blue-300 text-md px-[20px] py-[12px]`,
   };

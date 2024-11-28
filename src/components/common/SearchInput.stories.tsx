@@ -6,6 +6,9 @@ const meta: Meta<typeof SearchInput> = {
   component: SearchInput,
   parameters: {
     layout: "centered",
+    backgrounds: {
+      default: "dark",
+    },
   },
   tags: ["autodocs"],
 } satisfies Meta<typeof SearchInput>;

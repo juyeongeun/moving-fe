@@ -18,18 +18,6 @@ interface InputProps {
   onChange?: (value: string) => void;
 }
 
-const styles = {
-  container: "flex flex-col",
-  inputContainer: "relative flex items-center",
-  input:
-    "input placeholder:text-grayscale-400 border-[1px] border-line-200 rounded-[16px] p-[14px] pr-10 focus:border-pr-blue-300 focus:outline-none text-black-400 text-xl font-regular",
-  authInput: "bg-white",
-  defaultInput: "bg-bg-200",
-  passwordIcon: "absolute cursor-pointer right-[14px]",
-  errorMessage:
-    "text-pr-red-200 text-lg font-medium text-right mt-[4px] mr-[8px]",
-};
-
 export default function Input({
   name,
   placeholder = "",
@@ -41,6 +29,21 @@ export default function Input({
   error = "",
   onChange,
 }: InputProps): JSX.Element {
+  const styles = {
+    container: "flex flex-col",
+    inputContainer: "relative flex items-center",
+    input: `input placeholder:text-grayscale-400 border-[1px] border-line-200 rounded-[16px] p-[14px] pr-10 \
+      focus:border-[1px] focus:${
+        error ? "border-pr-red-200" : "border-pr-blue-300"
+      } focus:outline-none text-black-400 text-xl font-regular \
+      ${error ? "border-pr-red-200" : "border-transparent"}`,
+    authInput: "bg-white",
+    defaultInput: "bg-bg-200",
+    passwordIcon: "absolute cursor-pointer right-[14px]",
+    errorMessage:
+      "text-pr-red-200 text-lg font-medium text-right mt-[4px] mr-[8px]",
+  };
+
   const [showPassword, setShowPassword] = useState(false);
   const [inputValue, setInputValue] = useState<string>(value);
 
