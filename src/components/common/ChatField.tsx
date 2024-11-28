@@ -14,9 +14,25 @@ export default function ChatField({
   className = "",
 }: ChatFieldProps): JSX.Element {
   const variantClasses = {
-    default: `bg-white text-black-400 text-md px-[20px] py-[12px]`,
-    primary: `bg-pr-blue-300 text-white text-left text-md px-[20px] py-[12px]`,
-    secondary: `bg-pr-blue-100 text-pr-blue-300 text-md px-[20px] py-[12px]`,
+    default: `
+      bg-white text-black-400
+      mobile:text-md mobile:px-[20px] mobile:py-[12px]
+      pc:text-2lg pc:px-[40px] pc:py-[20px]
+    `,
+    primary: `
+      bg-pr-blue-300 text-white text-left
+      mobile:text-md mobile:px-[20px] mobile:py-[12px]
+      pc:text-2lg pc:px-[24px] pc:py-[16px]
+    `,
+    secondary: `
+      bg-pr-blue-100 text-pr-blue-300
+      mobile:text-md mobile:px-[20px] mobile:py-[12px]
+      pc:text-2lg pc:px-[24px] pc:py-[16px]
+    `,
+  };
+
+  const styles = {
+    container: "mobile:w-full tablet:w-[332px] pc:w-[1200px]",
   };
 
   const borderRadiusStyles = (variant: string) => {
@@ -47,16 +63,18 @@ export default function ChatField({
   };
 
   return (
-    <p
-      style={{
-        display: "inline-block",
-        boxShadow: "2px 2px 8px 0px #E0E0E033",
-        wordBreak: "break-word",
-        ...borderRadiusStyles(variant),
-      }}
-      className={`${variantClasses[variant]} ${className}`}
-    >
-      {value}
-    </p>
+    <div className={styles.container}>
+      <p
+        style={{
+          display: "inline-block",
+          boxShadow: "2px 2px 8px 0px #E0E0E033",
+          wordBreak: "break-word",
+          ...borderRadiusStyles(variant),
+        }}
+        className={`${variantClasses[variant]} ${className}`}
+      >
+        {value}
+      </p>
+    </div>
   );
 }

@@ -9,26 +9,52 @@ import assets from "@/variables/images";
 interface SearchInputProps {
   name: string;
   placeholder?: string;
-  width?: string | number;
-  height?: string | number;
-  leftMargin?: string;
 }
 
 const styles = {
-  container: "relative flex items-center",
-  input:
-    "input placeholder:text-grayscale-400  rounded-[16px] pr-10 focus:border-pr-blue-300 \
-    focus:outline-none text-black-400 text-xl font-regular bg-bg-200",
-  clearIcon: "absolute cursor-pointer right-[50px]",
-  searchIcon: "absolute cursor-pointer",
+  container: `relative flex items-center
+  mobile:w-[327px]
+  tablet:w-full
+  pc:w-[955px]`,
+  input: `
+    input placeholder:text-grayscale-400 rounded-[16px] focus:outline-none
+    text-black-400 bg-bg-100 transition-all
+    mobile:text-md mobile:w-[327px] mobile:h-[52px] mobile:py-[14px]
+    tablet: tablet:w-full
+    pc:text-xl pc:w-[955px] pc:h-[64px] pc:py-[16px]
+  `,
+  inputWithValue: `
+    mobile:pl-[16px] mobile:pr-[84px]
+    pc:pl-[24px] pc:pr-[116px]
+  `,
+  inputEmpty: `
+    mobile:pl-[52px] mobile:pr-[16px]
+    pc:pl-[72px] pc:pr-[24px]
+  `,
+  searchIconLeft: `
+    absolute transition-all cursor-pointer
+    mobile:left-[16px] mobile:w-[24px] mobile:h-[24px]
+    pc:left-[24px] pc:w-[36px] pc:h-[36px]
+  `,
+  searchIconRight: `
+    mobile:w-[24px] mobile:h-[24px]
+    pc:w-[36px] pc:h-[36px] cursor-pointer
+  `,
+  iconWrapper: `
+    absolute right-0 flex items-center gap-2
+    mobile:pr-[16px]
+    pc:pr-[24px]
+  `,
+  clearIcon: `
+    cursor-pointer
+    mobile:w-[24px] mobile:h-[24px]
+    pc:w-[36px] pc:h-[36px]
+  `,
 };
 
 export default function Input({
   name,
   placeholder = "",
-  width = "auto",
-  height = "auto",
-  leftMargin = "16px",
 }: SearchInputProps): JSX.Element {
   const [inputValue, setInputValue] = useState<string>("");
 
@@ -41,52 +67,47 @@ export default function Input({
   };
 
   return (
-    <div
-      className={styles.container}
-      style={{
-        width: typeof width === "number" ? `${width}` : width,
-      }}
-    >
+    <div className={styles.container}>
       <input
         id={name}
         placeholder={placeholder}
         type="text"
         value={inputValue}
         onChange={handleInputChange}
-        style={{
-          width: typeof width === "number" ? `${width}px` : width,
-          height: typeof height === "number" ? `${height}px` : height,
-          paddingLeft: inputValue
-            ? leftMargin
-            : leftMargin === "16px"
-            ? "46px"
-            : "62px",
-        }}
-        className={`${styles.input} `}
+        className={`${styles.input} ${
+          inputValue ? styles.inputWithValue : styles.inputEmpty
+        }`}
       />
 
-      {inputValue && (
+      {!inputValue && (
         <Image
-          src={assets.icons.x}
+          src={assets.icons.search}
           width={24}
           height={24}
-          alt="clear"
-          onClick={clearInput}
-          className={styles.clearIcon}
+          alt="search"
+          className={styles.searchIconLeft}
         />
       )}
 
-      <Image
-        src={assets.icons.search}
-        width={24}
-        height={24}
-        alt="search"
-        style={{
-          left: inputValue ? "unset" : leftMargin,
-          right: inputValue ? "14px" : "unset",
-        }}
-        className={styles.searchIcon}
-      />
+      {inputValue && (
+        <div className={styles.iconWrapper}>
+          <Image
+            src={assets.icons.x}
+            width={24}
+            height={24}
+            alt="clear"
+            onClick={clearInput}
+            className={styles.clearIcon}
+          />
+          <Image
+            src={assets.icons.search}
+            width={24}
+            height={24}
+            alt="search"
+            className={styles.searchIconRight}
+          />
+        </div>
+      )}
     </div>
   );
 }

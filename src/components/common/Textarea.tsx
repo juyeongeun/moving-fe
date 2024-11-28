@@ -7,25 +7,21 @@ import React, { useState } from "react";
 interface TextareaProps {
   name?: string;
   placeholder?: string;
-  width?: string | number;
-  height?: string | number;
-  xPadding?: string;
+  type?: "modal" | "form"; // modal은 모달 형식, form은 폼 형식에 들어가는 textarea
   value?: string;
   onChange?: (value: string) => void;
   className?: string;
   error?: string;
 }
 
-export default function TextField({
+export default function Textarea({
   name = "",
   placeholder = "",
-  width = "auto",
-  height = "auto",
-  xPadding = "16px",
   value = "",
   onChange,
   className,
   error = "",
+  type = "form",
 }: TextareaProps) {
   const [textareaValue, setTextareaValue] = useState<string>(value);
 
@@ -35,36 +31,33 @@ export default function TextField({
     onChange && onChange(newValue);
   };
 
+  const getResponsiveStyles = () => {
+    const baseStyles = "h-[160px]";
+
+    return type === "modal"
+      ? `w-full ${baseStyles} tablet:w-full pc:w-[560px]`
+      : `w-full ${baseStyles}`;
+  };
+
   const styles = {
-    textarea: `textarea placeholder:text-grayscale-300 rounded-[16px] \
-    py-[14px] text-black-400 text-xl font-regular resize-none \
+    textarea: `mobile:px-[16px] mobile:text-lg pc:px-[24px] pc:text-xl
+    textarea placeholder:text-grayscale-300 rounded-[16px] \
+    py-[14px] text-black-400 font-regular resize-none \
     scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent \
-    focus:outline-none ${error ? "border border-pr-red-200" : "border-none"}`,
-    container: "flex flex-col",
+    focus:outline-none ${getResponsiveStyles()} \
+    ${error ? "border border-pr-red-200" : "border-none"}`,
+    container: "flex flex-col w-full",
     errorMessage:
       "text-pr-red-200 text-lg font-medium text-left mt-[4px] mr-[8px]",
   };
 
   return (
-    <div
-      className={styles.container}
-      style={{
-        width: typeof width === "number" ? `${width}` : width,
-      }}
-    >
+    <div className={styles.container}>
       <textarea
         name={name}
         placeholder={placeholder}
         value={textareaValue}
         onChange={handleTextareaChange}
-        style={{
-          width: typeof width === "number" ? `${width}px` : width,
-          height: typeof height === "number" ? `${height}px` : height,
-          paddingLeft:
-            typeof xPadding === "number" ? `${xPadding}px` : xPadding,
-          paddingRight:
-            typeof xPadding === "number" ? `${xPadding}px` : xPadding,
-        }}
         className={`${styles.textarea} ${className}`}
       />
       {error && <p className={styles.errorMessage}>{error}</p>}
