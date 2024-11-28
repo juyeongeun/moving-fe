@@ -19,7 +19,7 @@ export default function FavoriteUi({
     <div className="inline-flex items-center gap-0.5 pc:gap-1">
       <Image src={heartIcon} alt="favorite icon" width={24} height={24} />
 
-      <span className="text-sm font-semibold pc:text-2lg text-pr-blue-400">
+      <span className="text-sm font-medium pc:text-2lg text-pr-blue-400">
         {formatCount(favoriteCount)}
       </span>
     </div>
