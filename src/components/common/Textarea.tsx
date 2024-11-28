@@ -35,7 +35,7 @@ export default function Textarea({
     const baseStyles = "h-[160px]";
 
     return type === "modal"
-      ? `w-full ${baseStyles} tablet:w-full pc:w-[560px]`
+      ? `mobile:w-full ${baseStyles} pc:w-[560px]`
       : `w-full ${baseStyles}`;
   };
 

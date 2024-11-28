@@ -28,8 +28,7 @@ export default function Input({
   const styles = {
     container: `relative flex flex-col
   mobile:w-[327px]
-  tablet:w-full
-  pc:w-[955px]`,
+  pc:w-[640px]`,
     inputContainer: "relative flex items-center",
     input: `
       mobile:w-[327px]

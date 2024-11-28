@@ -19,9 +19,6 @@ type Story = StoryObj<typeof Textarea>;
 export const Default: Story = {
   args: {
     name: "default",
-    width: 560,
-    height: 160,
-    xPadding: "24px",
     placeholder: "최소 10자 이상 입력해주세요",
   },
 };
@@ -29,9 +26,6 @@ export const Default: Story = {
 export const Scrolled: Story = {
   args: {
     name: "scrolled",
-    width: 327,
-    height: 160,
-    xPadding: "16px",
     value:
       "text area는 최소 10자 이상 입력해야 버튼이 활성화됩니다. 또한 input 내용이 길어지면 내부 스크롤이 나타납니다. text area는 최소 10자 이상 입력해야 버튼이 활성화됩니다. 또한 input 내용이 길어지면 내부 스크롤이 나타납",
   },
@@ -40,9 +34,6 @@ export const Scrolled: Story = {
 export const Error: Story = {
   args: {
     name: "error",
-    width: 327,
-    height: 160,
-    xPadding: "16px",
     value: "후기",
     error: "최소 10자 이상 입력해주세요",
   },
