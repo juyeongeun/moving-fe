@@ -1,24 +1,33 @@
 import AddressChip from "./AddressChip";
 
 interface AddressFieldProps {
+  onClick: () => void;
   zipCode: string;
   roadAddress: string;
   streetAddress: string;
   selected?: boolean;
+  className?: string;
 }
 
 export default function AddressField({
+  onClick,
   zipCode,
   roadAddress,
   streetAddress,
   selected = false,
+  className,
 }: AddressFieldProps) {
   const styles = {
     container: `
-        rounded-[16px] px-[16px] py-[20px] text-left
-        mobile:w-[260px] mobile:h-[196px]
-        pc:w-[560px] pc:h-[158px]
-        ${selected ? "bg-pr-blue-50 border border-pr-blue-200" : "bg-white"}
+        rounded-[16px] px-[16px] py-[20px] text-left border-[1px] border-solid  w-full cursor-pointer
+        mobile:h-[196px]
+        pc:h-[158px] 
+        ${className}
+        ${
+          selected
+            ? "bg-pr-blue-50 border-pr-blue-200"
+            : "bg-white border-line-100"
+        }
     `,
     zipCode: `
         mobile:text-md pc:text-lg
@@ -37,15 +46,15 @@ export default function AddressField({
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} onClick={onClick}>
       <p className={styles.zipCode}>{zipCode}</p>
       <div className={styles.addressWrapper}>
         <div className={styles.addressRow}>
-          <AddressChip type="도로명" />
+          <AddressChip text="도로명" />
           <p className={styles.address}>{roadAddress}</p>
         </div>
         <div className={styles.addressRow}>
-          <AddressChip type="지번" />
+          <AddressChip text="지번" />
           <p className={styles.address}>{streetAddress}</p>
         </div>
       </div>

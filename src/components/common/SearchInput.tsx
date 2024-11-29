@@ -9,25 +9,23 @@ import assets from "@/variables/images";
 interface SearchInputProps {
   name: string;
   placeholder?: string;
+  className?: string;
 }
 
 const styles = {
-  container: `relative flex items-center
-  mobile:w-[327px]
-  tablet:w-full
-  pc:w-[955px]`,
+  container: `relative flex items-center w-full
+  `,
   input: `
     input placeholder:text-grayscale-400 rounded-[16px] focus:outline-none
     text-black-400 bg-bg-100 transition-all
-    mobile:text-md mobile:w-[327px] mobile:h-[52px] mobile:py-[14px]
-    tablet: tablet:w-full
-    pc:text-xl pc:w-[955px] pc:h-[64px] pc:py-[16px]
+    mobile:text-md mobile:w-full mobile:h-[52px] mobile:py-[14px]
+    pc:text-xl pc:h-[64px] pc:py-[16px]
   `,
   inputWithValue: `
     mobile:pl-[16px] mobile:pr-[84px]
     pc:pl-[24px] pc:pr-[116px]
   `,
-  inputEmpty: `
+  inputEmpty: ` 
     mobile:pl-[52px] mobile:pr-[16px]
     pc:pl-[72px] pc:pr-[24px]
   `,
@@ -55,6 +53,7 @@ const styles = {
 export default function Input({
   name,
   placeholder = "",
+  className = "",
 }: SearchInputProps): JSX.Element {
   const [inputValue, setInputValue] = useState<string>("");
 
@@ -67,7 +66,7 @@ export default function Input({
   };
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${className}`}>
       <input
         id={name}
         placeholder={placeholder}
