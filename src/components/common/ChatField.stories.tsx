@@ -22,6 +22,7 @@ export const DefaultSmall: Story = {
     radius: "24px",
     value: "Hello, world!",
     variant: "default",
+    type: "admin",
   },
 };
 
@@ -30,6 +31,7 @@ export const DefaultLarge: Story = {
     radius: "30px",
     value: "Hello, world!Hello, world!Hello, world!",
     variant: "default",
+    type: "custom",
   },
 };
 
@@ -38,6 +40,7 @@ export const PrimarySmall: Story = {
     radius: "24px",
     value: "Hello, world!",
     variant: "primary",
+    type: "admin",
   },
 };
 
@@ -46,6 +49,7 @@ export const PrimaryLarge: Story = {
     radius: "30px",
     value: "Hello, world!Hello, world!Hello, world!",
     variant: "primary",
+    type: "custom",
   },
 };
 
@@ -54,6 +58,7 @@ export const SecondarySmall: Story = {
     radius: "24px",
     value: "Hello, world!",
     variant: "secondary",
+    type: "admin",
   },
 };
 
@@ -62,5 +67,6 @@ export const SecondaryLarge: Story = {
     radius: "30px",
     value: "Hello, world!Hello, world!Hello, world!",
     variant: "secondary",
+    type: "custom",
   },
 };

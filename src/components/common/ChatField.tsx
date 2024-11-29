@@ -5,6 +5,7 @@ interface ChatFieldProps {
   value?: string;
   variant?: "default" | "primary" | "secondary";
   className?: string;
+  type?: "custom" | "admin";
 }
 
 export default function ChatField({
@@ -12,6 +13,7 @@ export default function ChatField({
   value = "",
   variant = "default",
   className = "",
+  type = "admin",
 }: ChatFieldProps): JSX.Element {
   const variantClasses = {
     default: `
@@ -35,23 +37,16 @@ export default function ChatField({
     container: "mobile:w-full tablet:w-[332px] pc:w-[1200px]",
   };
 
-  const borderRadiusStyles = (variant: string) => {
-    switch (variant) {
-      case "primary":
+  const borderRadiusStyles = (type: string) => {
+    switch (type) {
+      case "custom":
         return {
           borderTopLeftRadius: radius,
           borderTopRightRadius: "0",
           borderBottomRightRadius: radius,
           borderBottomLeftRadius: radius,
         };
-      case "secondary":
-        return {
-          borderTopLeftRadius: radius,
-          borderTopRightRadius: "0",
-          borderBottomRightRadius: radius,
-          borderBottomLeftRadius: radius,
-        };
-      case "default":
+      case "admin":
       default:
         return {
           borderTopLeftRadius: "0",
@@ -69,7 +64,7 @@ export default function ChatField({
           display: "inline-block",
           boxShadow: "2px 2px 8px 0px #E0E0E033",
           wordBreak: "break-word",
-          ...borderRadiusStyles(variant),
+          ...borderRadiusStyles(type),
         }}
         className={`${variantClasses[variant]} ${className}`}
       >
