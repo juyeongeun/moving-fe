@@ -1,10 +1,10 @@
-import AddressInput from "./AddressInput";
+import AddressModal from "./AddressModal";
 import { Meta, StoryObj } from "@storybook/react";
 import { useState } from "react";
 
-const meta: Meta<typeof AddressInput> = {
-  title: "components/AddressInput",
-  component: AddressInput,
+const meta: Meta<typeof AddressModal> = {
+  title: "components/AddressModal",
+  component: AddressModal,
   parameters: {
     layout: "centered",
     backgrounds: {
@@ -16,7 +16,7 @@ const meta: Meta<typeof AddressInput> = {
 
 export default meta;
 
-type Story = StoryObj<typeof AddressInput>;
+type Story = StoryObj<typeof AddressModal>;
 
 export const StartAddress: Story = {
   decorators: [
