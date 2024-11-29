@@ -50,7 +50,7 @@ const styles = {
   `,
 };
 
-export default function Input({
+export default function SearchInput({
   name,
   placeholder = "",
   className = "",

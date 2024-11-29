@@ -32,7 +32,8 @@ export const AuthInput: Story = {
     name: "auth-input",
     placeholder: "Enter your info",
     type: "text",
-    className: "auth", // "auth" 클래스는 흰색 배경으로 설정됨
+    className: "",
+    isAuth: true, // "auth" 클래스는 흰색 배경으로 설정됨
   },
 };
 
@@ -42,7 +43,8 @@ export const PasswordInput: Story = {
     name: "password-input",
     placeholder: "Enter your password",
     type: "password",
-    className: "auth", // "auth" 클래스는 흰색 배경으로 설정
+    className: "",
+    isAuth: true,
   },
 };
 

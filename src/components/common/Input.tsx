@@ -11,6 +11,7 @@ interface InputProps {
   placeholder?: string;
   type?: string;
   className?: string;
+  isAuth?: boolean;
   value?: string;
   error?: string;
   onChange?: (value: string) => void;
@@ -21,6 +22,7 @@ export default function Input({
   placeholder = "",
   type = "text",
   className = "",
+  isAuth = false,
   value = "",
   error = "",
   onChange,
@@ -79,8 +81,8 @@ export default function Input({
           id={name}
           placeholder={placeholder}
           type={type === "password" && showPassword ? "text" : type}
-          className={`${styles.input} ${
-            className === "auth" ? styles.authInput : styles.defaultInput
+          className={`${styles.input} ${className} ${
+            isAuth ? styles.authInput : styles.defaultInput
           }`}
           value={inputValue}
           onChange={handleInputChange}

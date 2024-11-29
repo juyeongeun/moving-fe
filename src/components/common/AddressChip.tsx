@@ -7,7 +7,7 @@ export default function AddressChip({ text }: AddressChipProps) {
     container: `
         whitespace-nowrap h-fit w-[54px] text-center
         bg-pr-blue-50 rounded-[16px] text-pr-blue-300
-        mobile:px-[6px] mobile:py-[2px] mobile:text-xs
+        px-[6px] py-[2px] text-xs
         pc:px-[8.5px] pc:py-[2px] pc:text-md
     `,
   };

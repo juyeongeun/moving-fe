@@ -7,7 +7,7 @@ import React, { useState } from "react";
 interface TextareaProps {
   name?: string;
   placeholder?: string;
-  type?: "modal" | "form"; // modal은 모달 형식, form은 폼 형식에 들어가는 textarea
+  isModal?: boolean; // modal은 모달 형식, form은 폼 형식에 들어가는 textarea
   value?: string;
   onChange?: (value: string) => void;
   className?: string;
@@ -21,7 +21,7 @@ export default function Textarea({
   onChange,
   className,
   error = "",
-  type = "form",
+  isModal = false,
 }: TextareaProps) {
   const [textareaValue, setTextareaValue] = useState<string>(value);
 
@@ -34,7 +34,7 @@ export default function Textarea({
   const getResponsiveStyles = () => {
     const baseStyles = "h-[160px]";
 
-    return type === "modal"
+    return isModal
       ? `mobile:w-full ${baseStyles} pc:w-[560px]`
       : `w-full ${baseStyles}`;
   };
