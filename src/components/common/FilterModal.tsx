@@ -51,14 +51,14 @@ export default function FilterModal({
 
   const styles = {
     container: `flex flex-col gap-[16px] px-[24px] pt-[16px] pb-[32px] bg-white
-    mobile:w-[100%] mobile:rounded-t-[32px]
+    w-[100%] rounded-t-[32px]
     tablet:w-[375px] tablet:rounded-[32px]`,
     active: "text-pr-black-400",
     inactive: "text-grayscale-300",
     typeContainer: "flex flex-row justify-between p-[8px]",
     type: "flex gap-[24px]",
     filterType: `flex justify-between items-center border-b border-solid border-grayscale-100
-    mobile:px-[10px] mobile:py-[13px]
+    px-[10px] py-[13px]
     tablet:px-[16px] tablet:py-[21px]`,
     filterFont: "text-2lg font-semibold cursor-pointer",
   };
@@ -133,7 +133,7 @@ export default function FilterModal({
         children="조회하기"
         variant="primary"
         disabled={selectedAddress.length === 0}
-        className="mobile:mt-[24px]"
+        className="mt-[24px]"
       />
     </div>
   );

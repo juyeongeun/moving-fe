@@ -35,12 +35,12 @@ export default function Textarea({
     const baseStyles = "h-[160px]";
 
     return isModal
-      ? `mobile:w-full ${baseStyles} pc:w-[560px]`
+      ? `w-full ${baseStyles} pc:w-[560px]`
       : `w-full ${baseStyles}`;
   };
 
   const styles = {
-    textarea: `mobile:px-[16px] mobile:text-lg pc:px-[24px] pc:text-xl
+    textarea: `px-[16px] text-lg pc:px-[24px] pc:text-xl
     textarea placeholder:text-grayscale-300 rounded-[16px] \
     py-[14px] text-black-400 font-regular resize-none \
     scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent \

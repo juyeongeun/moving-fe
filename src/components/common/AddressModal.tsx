@@ -36,20 +36,16 @@ export default function AddressInput({
 
   const styles = {
     overlay: `fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50`,
-    container: `px-[16px] py-[24px] bg-white rounded-[32px]
-    mobile:w-[292px]
-    pc:w-[608px]
-    relative`,
-    inputWrapper: `flex items-center justify-between 
-    mobile:mb-[30px]
+    container: `px-[16px] py-[24px] bg-white rounded-[32px] w-[292px] relative
+    pc:w-[608px]`,
+    inputWrapper: `flex items-center justify-between mb-[30px]
     pc:mb-[40px]
     `,
     font: `
-    mobile:text-2lg mobile:font-bold
+    text-2lg font-bold
     pc:text-2xl pc:font-semibold
     `,
-    clearIcon: `cursor-pointer
-    mobile:w-[24px] mobile:h-[24px]
+    clearIcon: `cursor-pointer w-[24px] h-[24px]
     pc:w-[36px] pc:h-[36px]`,
   };
   return (
@@ -73,7 +69,7 @@ export default function AddressInput({
           roadAddress="서울특별시 강남구 테헤란로 14길 6 남도빌딩"
           streetAddress="서울특별시 강남구 테헤란로 14길 6 남도빌딩"
           selected={selectedAddress === "12345"}
-          className="mobile:mt-[16px] pc:mt-[24px]"
+          className="mt-[16px] pc:mt-[24px]"
         />
         <Button
           onClick={handleClick}
@@ -81,7 +77,7 @@ export default function AddressInput({
           disabled={!selectedAddress}
           variant="primary"
           width="100%"
-          className="mobile:mt-[24px] mobile:h-[54px] pc:mt-[40px] pc:h-[64px]"
+          className="mt-[24px] h-[54px] pc:mt-[40px] pc:h-[64px]"
         />
       </div>
     </div>

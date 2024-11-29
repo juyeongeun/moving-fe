@@ -18,23 +18,23 @@ export default function ChatField({
   const variantClasses = {
     default: `
       bg-white text-black-400
-      mobile:text-md mobile:px-[20px] mobile:py-[12px]
+      text-md px-[20px] py-[12px]
       pc:text-2lg pc:px-[40px] pc:py-[20px]
     `,
     primary: `
       bg-pr-blue-300 text-white text-left
-      mobile:text-md mobile:px-[20px] mobile:py-[12px]
+      text-md px-[20px] py-[12px]
       pc:text-2lg pc:px-[24px] pc:py-[16px]
     `,
     secondary: `
       bg-pr-blue-100 text-pr-blue-300
-      mobile:text-md mobile:px-[20px] mobile:py-[12px]
+      text-md px-[20px] py-[12px]
       pc:text-2lg pc:px-[24px] pc:py-[16px]
     `,
   };
 
   const styles = {
-    container: "mobile:w-full tablet:w-[332px] pc:w-[1200px]",
+    container: "w-full tablet:w-[332px] pc:w-[1200px]",
   };
 
   const borderRadiusStyles = (type: string) => {

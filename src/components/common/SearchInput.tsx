@@ -18,34 +18,32 @@ const styles = {
   input: `
     input placeholder:text-grayscale-400 rounded-[16px] focus:outline-none
     text-black-400 bg-bg-100 transition-all
-    mobile:text-md mobile:w-full mobile:h-[52px] mobile:py-[14px]
+    text-md w-full h-[52px] py-[14px]
     pc:text-xl pc:h-[64px] pc:py-[16px]
   `,
   inputWithValue: `
-    mobile:pl-[16px] mobile:pr-[84px]
+    pl-[16px] pr-[84px]
     pc:pl-[24px] pc:pr-[116px]
   `,
   inputEmpty: ` 
-    mobile:pl-[52px] mobile:pr-[16px]
+    pl-[52px] pr-[16px]
     pc:pl-[72px] pc:pr-[24px]
   `,
   searchIconLeft: `
     absolute transition-all cursor-pointer
-    mobile:left-[16px] mobile:w-[24px] mobile:h-[24px]
+    left-[16px] w-[24px] h-[24px]
     pc:left-[24px] pc:w-[36px] pc:h-[36px]
   `,
   searchIconRight: `
-    mobile:w-[24px] mobile:h-[24px]
+    w-[24px] h-[24px]
     pc:w-[36px] pc:h-[36px] cursor-pointer
   `,
   iconWrapper: `
-    absolute right-0 flex items-center gap-2
-    mobile:pr-[16px]
+    absolute right-0 flex items-center gap-2 pr-[16px]
     pc:pr-[24px]
   `,
   clearIcon: `
-    cursor-pointer
-    mobile:w-[24px] mobile:h-[24px]
+    cursor-pointer w-[24px] h-[24px]
     pc:w-[36px] pc:h-[36px]
   `,
 };

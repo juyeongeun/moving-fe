@@ -19,8 +19,7 @@ export default function AddressField({
 }: AddressFieldProps) {
   const styles = {
     container: `
-        rounded-[16px] px-[16px] py-[20px] text-left border-[1px] border-solid  w-full cursor-pointer
-        mobile:h-[196px]
+        rounded-[16px] px-[16px] py-[20px] text-left border-[1px] border-solid  w-full cursor-pointer h-[196px]
         pc:h-[158px] 
         ${className}
         ${
@@ -30,12 +29,13 @@ export default function AddressField({
         }
     `,
     zipCode: `
-        mobile:text-md pc:text-lg
+        pc:text-lg
+        text-md 
         font-semibold text-black-400 
     `,
     address: `
-        mobile:text-md pc:text-lg
-        text-black-400 word-break:break-word
+        pc:text-lg
+        text-black-400 word-break:break-word text-md
     `,
     addressWrapper: `
         flex flex-col gap-[16px] mt-[16px]

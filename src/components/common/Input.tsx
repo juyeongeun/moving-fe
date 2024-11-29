@@ -28,15 +28,11 @@ export default function Input({
   onChange,
 }: InputProps): JSX.Element {
   const styles = {
-    container: `relative flex flex-col
-  mobile:w-[327px]
-  pc:w-[640px]`,
+    container: `relative flex flex-col w-[327px]
+      pc:w-[640px]`,
     inputContainer: "relative flex items-center",
     input: `
-      mobile:w-[327px]
-      mobile:text-lg
-      mobile:p-[12px]
-      mobile:border-[0.5px]
+      w-[327px] text-lg p-[12px] border-[0.5px]
 
       pc:w-[640px]
       pc:text-xl
