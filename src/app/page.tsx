@@ -1,9 +1,3 @@
-import FilterModal from "@/components/common/FilterModal";
-
 export default function Home() {
-  return (
-    <div className="bg-gray-900">
-      <FilterModal count={[20, 4, 2, 10]} />
-    </div>
-  );
+  return <div className="text-gray-">랜딩페이지입니다</div>;
 }
