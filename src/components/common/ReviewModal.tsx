@@ -7,7 +7,7 @@ import Image from "next/image";
 import Button from "./Button";
 import StarRating from "./StartRating";
 import ServiceChip from "./card/ServiceChip";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface ReviewModalProps {
   onClose: () => void;
@@ -24,15 +24,27 @@ export default function ReviewModal({
 }: ReviewModalProps) {
   const [rating, setRating] = useState<number>(0);
   const [review, setReview] = useState<string>("");
+  const [isResponsive, setIsResponsive] = useState<boolean>(
+    window.innerWidth >= 1024
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsResponsive(window.innerWidth >= 1024);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const isValid = rating > 0 && review.length >= 10;
 
   const styles = {
     container: `flex flex-col bg-white rounded-t-[32px] px-[24px] pt-[32px] pb-[40px]
     pc:w-[608px] pc:h-[854px] pc:rounded-[32px]`,
-    titleContainer: `text-2lg font-bold text-black-400 flex justify-between mb-[26px]
+    titleContainer: `text-2lg font-bold text-black-400 flex justify-between items-center mb-[26px]
     pc:text-2xl pc:font-semibold pc:mb-[40px]`,
-    closeIcon: `cursor-pointer w-[24px] h-[24px] pc:w-[32px] pc:h-[32px]`,
+    closeIcon: `cursor-pointer pc:w-[32px] pc:h-[32px]`,
     chipsContainer: `flex flex-wrap gap-[8px] mb-[14px] pc:mb-[24px]`,
     ratingContainer: `flex flex-wrap gap-[8px] mb-[20px] pb-[20px] border-b-[1px] border-solid border-line-200
     pc:mb-[32px] pc:pb-[32px]`,
@@ -72,8 +84,10 @@ export default function ReviewModal({
         />
       </div>
       <div className={styles.chipsContainer}>
-        <ServiceChip variant={service} />
-        {isDesignatedQuote && <ServiceChip variant="designatedQuote" />}
+        <ServiceChip variant={service} isResponsive={isResponsive} />
+        {isDesignatedQuote && (
+          <ServiceChip variant="designatedQuote" isResponsive={isResponsive} />
+        )}
       </div>
       <ReviewMover
         moverName="김코드"

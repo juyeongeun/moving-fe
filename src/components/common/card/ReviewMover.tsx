@@ -24,7 +24,7 @@ export default function ReviewMover({
     profileImage: `w-[46px] h-[46px] pc:w-[120px] pc:h-[120px]`,
     moverInfo: `flex flex-col gap-[6px]`,
     moveInfo: `flex flex-row gap-[12px] items-center`,
-    chipsContainer: `flex flex-row gap-[6px]`,
+    chipsContainer: `flex flex-row gap-[6px] items-center`,
     chips: `bg-bg-400 py-[2px] px-[4px] rounded-[4px] w-fit h-fit text-sm font-medium text-grayscale-400 
     pc:font-regular pc:text-2lg`,
     moverName: `text-md font-semibold text-black-300 pc:text-2xl`,
