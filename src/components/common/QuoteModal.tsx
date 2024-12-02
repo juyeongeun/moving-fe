@@ -105,7 +105,7 @@ export default function QuoteModal({
         />
       </div>
       <Button
-        children="견적 보내기"
+        children={isRejected ? "반려하기" : "견적 보내기"}
         variant="primary"
         onClick={onSubmit}
         disabled={!isValid}

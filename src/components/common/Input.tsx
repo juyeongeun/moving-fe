@@ -30,17 +30,17 @@ export default function Input({
   const styles = {
     container: `relative flex flex-col w-full`,
     inputContainer: "relative flex items-center",
-    input: `
+    input: `input
       w-full text-lg p-[12px] border-[0.5px]
-      pc:text-xl
-      pc:px-[14px] pc:py-[16px]
-      pc:border-[1px]
-      
-      input placeholder:text-grayscale-400  
+      placeholder:text-grayscale-400  
       border-line-200 
       rounded-[16px] 
       pr-10
-      ${error ? "border-pr-red-200" : "border-transparent"}
+
+      pc:text-xl
+      pc:px-[14px] pc:py-[16px]
+      pc:border-[1px]
+      ${error ? "border-pr-red-200" : "border-line-200"}
       focus:border-[1px] 
       focus:${error ? "border-pr-red-200" : "border-pr-blue-300"} 
       focus:outline-none 
