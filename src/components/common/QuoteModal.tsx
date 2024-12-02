@@ -5,7 +5,7 @@ import QuoteModalMover from "./card/QuoteModalMover";
 import Input from "./Input";
 import Textarea from "./Textarea";
 import Button from "./Button";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 interface QuoteModalProps {
   onClose?: () => void;

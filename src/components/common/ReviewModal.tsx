@@ -7,7 +7,7 @@ import Image from "next/image";
 import Button from "./Button";
 import StarRating from "./StartRating";
 import ServiceChip from "./card/ServiceChip";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface ReviewModalProps {
   onClose: () => void;
