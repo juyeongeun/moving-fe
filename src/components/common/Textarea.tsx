@@ -40,7 +40,7 @@ export default function Textarea({
   };
 
   const styles = {
-    textarea: `px-[16px] text-lg pc:px-[24px] pc:text-xl
+    textarea: `px-[16px] text-lg bg-bg-200 pc:px-[24px] pc:text-xl
     textarea placeholder:text-grayscale-300 rounded-[16px] \
     py-[14px] text-black-400 font-regular resize-none \
     scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent \

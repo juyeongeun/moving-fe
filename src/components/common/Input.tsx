@@ -28,13 +28,10 @@ export default function Input({
   onChange,
 }: InputProps): JSX.Element {
   const styles = {
-    container: `relative flex flex-col w-[327px]
-      pc:w-[640px]`,
+    container: `relative flex flex-col w-full`,
     inputContainer: "relative flex items-center",
     input: `
-      w-[327px] text-lg p-[12px] border-[0.5px]
-
-      pc:w-[640px]
+      w-full text-lg p-[12px] border-[0.5px]
       pc:text-xl
       pc:px-[14px] pc:py-[16px]
       pc:border-[1px]
