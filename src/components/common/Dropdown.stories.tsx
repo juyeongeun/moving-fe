@@ -56,3 +56,19 @@ export const notificationDropdown: Story = {
     disabled: false,
   },
 };
+
+export const sortMoverDropdown: Story = {
+  args: {
+    type: DropdownType.SORT_MOVER,
+    onSelect: testSelect,
+    disabled: false,
+  },
+};
+
+export const sortMovingRequestDropdown: Story = {
+  args: {
+    type: DropdownType.SORT_MOVING_REQUEST,
+    onSelect: testSelect,
+    disabled: false,
+  },
+};
