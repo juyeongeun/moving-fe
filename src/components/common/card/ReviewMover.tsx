@@ -49,7 +49,7 @@ export default function ReviewMover({
           <p className={styles.divider}>|</p>
           <div className={styles.chipsContainer}>
             <p className={styles.chips}>견적가</p>
-            <p className={styles.cost}>{formatCost(cost)}</p>
+            <p className={styles.cost}>{formatCost(cost)}원</p>
           </div>
         </div>
       </div>
