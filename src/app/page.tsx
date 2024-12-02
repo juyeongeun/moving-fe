@@ -4,7 +4,12 @@ import MoverInfo from "@/components/common/card/MoverInfo";
 export default function Home() {
   return (
     <>
-      <div className="text-gray-">랜딩페이지입니다</div>
+      <MoverInfoCard data={mover} className="m-10" size="fixed" />
+      <MoverInfo data={mover} className="m-10" />
+      <div className="flex gap-2 m-10">
+        <GrayLabel>이사일 solid</GrayLabel>
+        <GrayLabel type="border">이사일 border</GrayLabel>
+      </div>
     </>
   );
 }
