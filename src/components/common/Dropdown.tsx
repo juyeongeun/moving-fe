@@ -29,11 +29,11 @@ export enum DropdownType {
 interface DropdownItemProps {
   type: DropdownType;
   children: string;
-  value: string;
+  time?: string;
   onClick?: () => void;
 }
 
-function DropdownItem({ type, children, value, onClick }: DropdownItemProps) {
+function DropdownItem({ type, children, time, onClick }: DropdownItemProps) {
   const dropdownItemClass = clsx(
     "box-border flex flex-row justify-between items-center px-[14px] py-4 pc:px-6 pc:py-4 w-75px h-9 pc:w-[164px] pc:h-[64px]",
     "text-md pc:text-2lg",
@@ -44,13 +44,36 @@ function DropdownItem({ type, children, value, onClick }: DropdownItemProps) {
 
 const DROPDOWN_LIST_CLASSES: Record<DropdownType, string> = {
   [DropdownType.REGION]:
-    "grid grid-cols-2 h-full overflow-y-scroll \
+    "grid grid-cols-2 overflow-y-scroll overflow-x-hidden\
+    h-full \
     scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar \
-    scrollbar-thumb-grayscale-200 scrollbar-w-1 pc:scrollbar-w-1.5",
-  [DropdownType.SERVICE]: "flex flex-col items-center",
-  [DropdownType.PROFILE_CUSTOMER]: "flex flex-col items-center",
-  [DropdownType.PROFILE_MOVER]: "flex flex-col items-center",
-  [DropdownType.NOTIFICATION]: "flex flex-col items-center",
+    scrollbar-thumb-grayscale-200 scrollbar-w-1 \
+    pc:scrollbar-w-1.5",
+  [DropdownType.SERVICE]:
+    "absolute flex flex-col items-center overflow-y-hidden \
+    top-11 w-[89px] h-[144px] \
+    border-solid border-[1px] border-line-100 rounded-2xl \
+    bg-white \
+    pc:top-20 pc:w-[328px] pc:h-[256px]",
+  [DropdownType.PROFILE_CUSTOMER]:
+    "absolute flex flex-col items-center overflow-y-hidden \
+    p-1.5 pt-2.5 top-[37px] right-0 w-[89px] \
+    border-solid border-[1px] border-line-100 rounded-2xl \
+    bg-white \
+    pc:top-[54px] pc:w-[248px]",
+  [DropdownType.PROFILE_MOVER]:
+    "absolute flex flex-col items-center overflow-y-hidden \
+    p-1.5 pt-2.5 top-[37px] right-0 w-[89px] \
+    border-solid border-[1px] border-line-100 rounded-2xl \
+    bg-white \
+    pc:top-[54px] pc:w-[248px]",
+  [DropdownType.NOTIFICATION]:
+    "absolute flex flex-col items-center overflow-y-hidden \
+    p-4 py-2.5 top-[37px] right-[-100px] w-[312px] \
+    border-solid border-[1px] border-line-100 rounded-2xl \
+    bg-white \
+    tablet:right-[-56px] \
+    pc:top-[54px] pc:w-[359px] pc:right-0",
   [DropdownType.SORT_MOVER]: "flex flex-col items-center",
   [DropdownType.SORT_MOVING_REQUEST]: "flex flex-col items-center",
 };
@@ -60,38 +83,36 @@ interface DropdownListProps {
 }
 
 function DropdownList({ type }: DropdownListProps) {
-  const dropdownListBaseClass = "relative overflow-x-hidden";
-
   if (type === DropdownType.REGION) {
     const keys = Object.keys(REGION_CODES);
     const items = keys.map((key) => {
       return (
-        <DropdownItem type={type} value={key} key={key}>
+        <DropdownItem type={type} key={key}>
           {REGION_CODES[key]}
         </DropdownItem>
       );
     });
 
     const dropdownListWrapperClass = clsx(
-      "absolute top-11 pc:top-20 w-[150px] h-[179px] pc:w-[328px] pc:h-[320px] overflow-hidden",
-      "box-border border-solid border-[1px] border-line-100",
-      "rounded-[16px] bg-white"
-    );
-    const dropdownListClass = clsx(
-      DROPDOWN_LIST_CLASSES[type],
-      dropdownListBaseClass
+      "absolute box-border overflow-hidden",
+      "top-11 w-[150px] h-[179px]",
+      "border-solid border-[1px] border-line-100 rounded-lg",
+      "bg-white",
+      "pc:top-20 pc:w-[328px] pc:h-[320px] pc:rounded-2xl"
     );
 
     const dynamicLineHeight = `${Math.ceil(keys.length / 2) * 36}px`;
     const dynamicLineHeightPC = `${Math.ceil(keys.length / 2) * 64}px`;
     const dynamicLineClass = clsx(
-      "absolute top-0 bottom-0 left-1/2 w-px bg-line-100 pointer-events-none",
+      "absolute",
+      "top-0 bottom-0 left-1/2 w-px",
+      "bg-line-100 pointer-events-none",
       `h-[${dynamicLineHeight}] pc:h-[${dynamicLineHeightPC}]`
     );
 
     return (
       <div className={dropdownListWrapperClass}>
-        <div className={dropdownListClass}>
+        <div className={DROPDOWN_LIST_CLASSES[type]}>
           {items}
           <div className={dynamicLineClass}></div>
         </div>
@@ -99,11 +120,155 @@ function DropdownList({ type }: DropdownListProps) {
     );
   }
 
-  if (
-    type === DropdownType.PROFILE_CUSTOMER ||
-    type === DropdownType.PROFILE_MOVER
-  ) {
-    // 로그아웃 추가
+  const dropdownListBaseClass =
+    "border-solid border-[1px] border-line-100 bg-white";
+
+  if (type === DropdownType.SERVICE) {
+    const items = SERVICES.map((service) => {
+      return (
+        <DropdownItem type={type} key={service}>
+          {service}
+        </DropdownItem>
+      );
+    });
+
+    const dropdownListClass = clsx(
+      DROPDOWN_LIST_CLASSES[type],
+      dropdownListBaseClass
+    );
+
+    return <div className={dropdownListClass}>{items}</div>;
+  }
+
+  const name = "고객명"; // 임시. 로그인 후 가지고 있을 고객명 값을 받아와 기입 예정
+  const nameClass = clsx(
+    "flex flex-row justify-left items-center",
+    "pl-3 w-full h-[54px]",
+    "text-2lg text-black-300 font-bold",
+    "pc:pl-6"
+  );
+  const signOutClass = clsx(
+    "flex flex-row justify-center items-center",
+    "w-full h-[46px]",
+    "text-md text-grayscale-500 font-medium"
+  );
+  if (type === DropdownType.PROFILE_CUSTOMER) {
+    const items = PROFILE_CUSTOMER.map((customerMenu) => {
+      return (
+        <DropdownItem type={type} key={customerMenu}>
+          {customerMenu}
+        </DropdownItem>
+      );
+    });
+
+    const dropdownListClass = clsx(
+      DROPDOWN_LIST_CLASSES[type],
+      dropdownListBaseClass
+    );
+
+    return (
+      <div className={dropdownListClass}>
+        <div className={nameClass}>{`${name} 고객님`}</div>
+        {items}
+        <div className={signOutClass}>로그아웃</div>
+      </div>
+    );
+  }
+
+  if (type === DropdownType.PROFILE_MOVER) {
+    const items = PROFILE_MOVER.map((moverMenu) => {
+      return (
+        <DropdownItem type={type} key={moverMenu}>
+          {moverMenu}
+        </DropdownItem>
+      );
+    });
+
+    const dropdownListClass = clsx(
+      DROPDOWN_LIST_CLASSES[type],
+      dropdownListBaseClass
+    );
+
+    return (
+      <div className={dropdownListClass}>
+        <div className={nameClass}>{`${name} 기사님`}</div>
+        {items}
+        <div className={signOutClass}>로그아웃</div>
+      </div>
+    );
+  }
+
+  const alarmClass = clsx(
+    "flex flex-row justify-between items-center",
+    "pl-4 pr-[15px] w-full h-[54px]",
+    "text-lg text-black-400 font-bold",
+    "pc:pl-6 pc:text-2lg"
+  );
+  if (type === DropdownType.NOTIFICATION) {
+    const items = [
+      { text: "알림1", time: "1시간 전" },
+      { text: "알림2", time: "2시간 전" },
+    ].map((notificationInfo, index) => {
+      return (
+        <DropdownItem
+          type={type}
+          time={notificationInfo.time}
+          key={`${index}-${notificationInfo.text}`}
+        >
+          {notificationInfo.text}
+        </DropdownItem>
+      );
+    });
+
+    const dropdownListClass = clsx(
+      DROPDOWN_LIST_CLASSES[type],
+      dropdownListBaseClass
+    );
+
+    return (
+      <div className={dropdownListClass}>
+        <div className={alarmClass}>
+          <div>알림</div>
+          <Image src={assets.icons.x} alt="알림 닫기" width={24} height={24} />
+          {/* 임시. x 클릭시 동작 로직 연결 필요*/}
+        </div>
+        {items}
+      </div>
+    );
+  }
+
+  if (type === DropdownType.SORT_MOVER) {
+    const items = SORT_MOVER.map((sortMover) => {
+      return (
+        <DropdownItem type={type} key={sortMover}>
+          {sortMover}
+        </DropdownItem>
+      );
+    });
+
+    const dropdownListClass = clsx(
+      DROPDOWN_LIST_CLASSES[type],
+      dropdownListBaseClass
+    );
+
+    return <div className={dropdownListClass}>{items}</div>;
+  }
+
+  if (type === DropdownType.SORT_MOVING_REQUEST) {
+    const items = SORT_MOVING_REQUEST.map((sortMovingRequest) => {
+      return (
+        <DropdownItem type={type} key={sortMovingRequest}>
+          {sortMovingRequest}
+        </DropdownItem>
+      );
+    });
+
+    const dropdownListClass = clsx(
+      DROPDOWN_LIST_CLASSES[type],
+      dropdownListBaseClass
+    );
+
+    return <div className={dropdownListClass}>{items}</div>;
   }
 }
 
@@ -117,9 +282,9 @@ const DROPDOWN_CLASSES: Record<
   }
 > = {
   [DropdownType.REGION]: {
-    base: "absolute box-border flex flex-row justify-between items-center \
+    base: "relative box-border flex flex-row justify-between items-center \
           pl-3.5 pr-2.5 w-[75px] h-9 \
-          border-solid border-[1px] border-grayscale-100 \
+          border-solid border-[1px] border-grayscale-100 rounded-lg \
           bg-transparent shadow-[4px_4px_10px_rgba(238,238,238,0.1)] \
           pc:w-[328px] pc:h-16 pc:px-6 pc:rounded-2xl",
     able: "shadow-md hover:bg-pr-blue-50",
@@ -127,7 +292,7 @@ const DROPDOWN_CLASSES: Record<
     disabled: "cursor-not-allowed",
   },
   [DropdownType.SERVICE]: {
-    base: "absolute box-border flex flex-row justify-between items-center \
+    base: "relative box-border flex flex-row justify-between items-center \
           pl-3.5 pr-2.5 w-[87px] h-9 \
           border-solid border-[1px] border-grayscale-100 rounded-lg \
           bg-transparent shadow-[4px_4px_10px_rgba(238,238,238,0.1)] \
@@ -137,25 +302,25 @@ const DROPDOWN_CLASSES: Record<
     disabled: "cursor-not-allowed",
   },
   [DropdownType.PROFILE_CUSTOMER]: {
-    base: "absolute flex flex-row gap-4 items-center justify-between rounded-full",
+    base: "relative flex flex-row gap-4 items-center justify-between rounded-full",
     able: "",
     open: "",
     disabled: "cursor-not-allowed",
   },
   [DropdownType.PROFILE_MOVER]: {
-    base: "absolute flex flex-row gap-4 items-center justify-between rounded-full",
+    base: "relative flex flex-row gap-4 items-center justify-between rounded-full",
     able: "",
     open: "",
     disabled: "cursor-not-allowed",
   },
   [DropdownType.NOTIFICATION]: {
-    base: "absolute w-6 h-6",
+    base: "relative w-6 h-6",
     able: "",
     open: "",
     disabled: "cursor-not-allowed",
   },
   [DropdownType.SORT_MOVER]: {
-    base: "absolute flex flex-row justify-center items-center \
+    base: "relative flex flex-row justify-center items-center \
           px-1.5 m-auto w-[91px] h-8 \
           bg-white rounded-lg \
           pc:px-2.5 pc:w-[114px] pc:h-10",
@@ -164,7 +329,7 @@ const DROPDOWN_CLASSES: Record<
     disabled: "cursor-not-allowed",
   },
   [DropdownType.SORT_MOVING_REQUEST]: {
-    base: "absolute flex flex-row justify-center items-center \
+    base: "relative flex flex-row justify-center items-center \
           px-1.5 m-auto w-[91px] h-8 \
           bg-white rounded-lg \
           pc:px-2.5 pc:w-[114px] pc:h-10",
@@ -241,12 +406,12 @@ export default function Dropdown({
   );
 
   const dropdownImage = (
-    <div className="w-5 h-5 pc:w-9 pc:h-9 relative">
+    <div className="relative w-5 h-5 pc:w-9 pc:h-9">
       <Image src={assets.icons.chevronDown} alt="드롭 다운" fill />
     </div>
   );
 
-  const commonImageFrameClass = clsx("w-6 h-6 pc:w-9 pc:h-9 relative");
+  const commonImageFrameClass = clsx("relative w-6 h-6 pc:w-9 pc:h-9");
   const profileImage = (
     <div className={commonImageFrameClass}>
       <Image src={profileImageUrl} alt="프로필 드롭 다운" fill />
@@ -260,8 +425,8 @@ export default function Dropdown({
   );
 
   const sortDropdownImage = (
-    <div className="w-5 h-5 relative">
-      <Image src={assets.icons.chevronDown} alt="드롭 다운" fill />
+    <div className="relative w-5 h-5">
+      <Image src={assets.icons.chevronDown} alt="정렬 드롭 다운" fill />
     </div>
   );
 
