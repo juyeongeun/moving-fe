@@ -5,7 +5,7 @@ import Image from "next/image";
 import FavoriteUi from "./FavoriteUi";
 import LineSeparator from "../LineSeparator";
 import ProfileImage from "./ProfileImage";
-import { MoverInfoProps } from "@/components/cards/MoverInfoCard";
+import { type BaseMoverData } from "@/types/mover";
 
 const moverExperienceVariants = cva(
   "flex items-center text-sm font-medium text-black-300 gap-2.5",
@@ -26,7 +26,8 @@ const MoverExperience = ({
   data,
   size,
   className,
-}: Partial<MoverInfoProps> & {
+}: {
+  data: BaseMoverData;
   className?: string;
   size?: "fixed" | "responsive";
 }) => {
@@ -82,7 +83,11 @@ const MoverInfo = ({
   data,
   className,
   size,
-}: Partial<MoverInfoProps> & { className?: string }) => {
+}: {
+  data: BaseMoverData;
+  className?: string;
+  size?: "fixed" | "responsive";
+}) => {
   if (!data) return null;
 
   const isResponsive = size === "responsive";
