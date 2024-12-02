@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { cn } from "@/config/clsx";
 
 const pretendard = localFont({
   src: "./fonts/PretendardVariable.woff2",
@@ -8,6 +9,9 @@ const pretendard = localFont({
   weight: "45 920",
   variable: "--font-pretendard",
 });
+
+//global로 필요한거 있으면 여기에 넣을께요
+const globalStyles = "text-black-400";
 
 export const metadata: Metadata = {
   title: "무빙",
@@ -24,9 +28,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body
-        className={`${pretendard.variable} ${pretendard.variable} antialiased`}
-      >
+      <body className={cn(pretendard.variable, "antialiased", globalStyles)}>
         {children}
       </body>
     </html>

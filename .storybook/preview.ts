@@ -2,13 +2,7 @@ import type { Preview } from "@storybook/react";
 import { StoryFn } from "@storybook/react";
 import React from "react";
 import "../src/app/globals.css";
-import localFont from "next/font/local";
-
-const pretendard = localFont({
-  src: "../public/fonts/PretendardVariable.woff2",
-  variable: "--font-pretendard",
-  display: "swap",
-});
+import "../src/app/fonts/pretendard.css";
 
 const preview: Preview = {
   parameters: {
@@ -24,7 +18,8 @@ const preview: Preview = {
       React.createElement(
         "div",
         {
-          className: `${pretendard.variable} font-pretendard`,
+          className: "font-pretendard",
+          style: { fontFamily: "Pretendard" },
         },
         React.createElement(Story)
       ),

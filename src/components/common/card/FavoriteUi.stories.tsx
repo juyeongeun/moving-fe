@@ -20,7 +20,7 @@ export const Default: Story = {
   },
 };
 
-export const Favorited: Story = {
+export const Favorite: Story = {
   args: {
     favoriteCount: 42,
     isFavorite: true,
