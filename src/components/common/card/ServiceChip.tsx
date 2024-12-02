@@ -5,7 +5,7 @@ import { cn } from "@/config/clsx";
 import assets from "@/variables/images";
 
 const chipVariants = cva(
-  "inline-flex items-center justify-center gap-[1px] py-0.5 shadow-[4px_4px_8px_0px_rgba(217,217,217,0.1)] font-semibold rounded-[4px] text-sm",
+  "inline-flex w-fit items-center justify-center gap-[1px] py-0.5 shadow-[4px_4px_8px_0px_rgba(217,217,217,0.1)] font-semibold rounded-[4px] text-sm",
   {
     variants: {
       variant: {

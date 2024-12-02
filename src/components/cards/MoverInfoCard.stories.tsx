@@ -19,7 +19,7 @@ const mockMoverData = {
   career: 5,
   introduction: "안전하고 신속한 이사를 약속드립니다.",
   imageUrl: "https://picsum.photos/200",
-  services: [1, 2], // 가정이사, 사무실이사
+  services: [1, 2],
   regions: [1, 2],
   ratings: {
     1: 0,
