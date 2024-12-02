@@ -45,18 +45,6 @@ export default function QuoteModal({
 
   const [quote, setQuote] = useState<string>("");
   const [comment, setComment] = useState<string>("");
-  const [isResponsive, setIsResponsive] = useState<boolean>(
-    window.innerWidth >= 1024
-  );
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsResponsive(window.innerWidth >= 1024);
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   const isValid = isRejected
     ? comment.length >= 10 && typeof comment === "string"

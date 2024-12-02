@@ -24,18 +24,6 @@ export default function ReviewModal({
 }: ReviewModalProps) {
   const [rating, setRating] = useState<number>(0);
   const [review, setReview] = useState<string>("");
-  const [isResponsive, setIsResponsive] = useState<boolean>(
-    window.innerWidth >= 1024
-  );
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsResponsive(window.innerWidth >= 1024);
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   const isValid = rating > 0 && review.length >= 10;
 
@@ -84,10 +72,8 @@ export default function ReviewModal({
         />
       </div>
       <div className={styles.chipsContainer}>
-        <ServiceChip variant={service} isResponsive={isResponsive} />
-        {isDesignatedQuote && (
-          <ServiceChip variant="designatedQuote" isResponsive={isResponsive} />
-        )}
+        <ServiceChip variant={service} />
+        {isDesignatedQuote && <ServiceChip variant="designatedQuote" />}
       </div>
       <ReviewMover
         moverName="김코드"
