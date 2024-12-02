@@ -1,7 +1,7 @@
 import Image from "next/image";
 import assets from "@/variables/images";
 import ServiceChip from "./card/ServiceChip";
-import QuoteModalMover from "./card/QuoteModalMover";
+import QuoteModalMover from "./card/QuoteModalUser";
 import Input from "./Input";
 import Textarea from "./Textarea";
 import Button from "./Button";
@@ -13,6 +13,10 @@ interface QuoteModalProps {
   serviceType: number;
   isDesignatedQuote: boolean;
   isRejected: boolean;
+  startAddress: string;
+  endAddress: string;
+  moveDate: string;
+  customerName: string;
 }
 
 const styles = {
@@ -35,6 +39,10 @@ export default function QuoteModal({
   serviceType,
   isDesignatedQuote,
   isRejected = false,
+  startAddress = "서울특별시 강남구 테헤란로 14길 6 남도빌딩",
+  endAddress = "서울특별시 강남구 테헤란로 14길 6 남도빌딩",
+  moveDate = "2024. 01. 01(목)",
+  customerName = "김코드",
 }: QuoteModalProps) {
   const service: "smallMove" | "homeMove" | "officeMove" =
     serviceType === 2
@@ -71,10 +79,10 @@ export default function QuoteModal({
         {isDesignatedQuote && <ServiceChip variant="designatedQuote" />}
       </div>
       <QuoteModalMover
-        customerName="김코드"
-        moveDate="2024. 01. 01(목)"
-        startAddress="서울특별시 강남구"
-        endAddress="서울특별시 강남구"
+        customerName={customerName}
+        moveDate={moveDate}
+        startAddress={startAddress}
+        endAddress={endAddress}
       />
       {!isRejected && (
         <div className={styles.quoteContainer}>
