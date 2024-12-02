@@ -2,7 +2,7 @@ import MoverInfo from "../common/card/MoverInfo";
 import ServiceChip, { ChipType } from "../common/card/ServiceChip";
 import { mapServiceType } from "@/utils/utilFunctions";
 import { cva } from "class-variance-authority";
-import { cn } from "@/config/clsx";
+import CardContainer from "../common/card/CardContainer";
 
 interface MoverData {
   id: number;
@@ -27,26 +27,14 @@ interface MoverData {
   isDesignated: boolean;
 }
 
-export interface MoverInfoProps {
-  data: MoverData;
+export interface CardProps {
   size?: "fixed" | "responsive";
   className?: string;
 }
 
-const moverInfoCardVariants = cva(
-  "flex py-4 px-3.5 flex-col gap-3.5 rounded-[16px] shadow-card border-[0.5px] border-line-100 min-w-[327px]",
-  {
-    variants: {
-      size: {
-        fixed: "w-[327px]",
-        responsive: " pc:py-5 pc:px-6",
-      },
-    },
-    defaultVariants: {
-      size: "responsive",
-    },
-  }
-);
+export interface MoverInfoProps extends CardProps {
+  data: MoverData;
+}
 
 const titleVariants = cva("text-lg font-semibold text-black-300", {
   variants: {
@@ -68,7 +56,7 @@ const MoverInfoCard = ({
   const serviceTypes = mapServiceType(data.services);
 
   return (
-    <div className={cn(moverInfoCardVariants({ size }), className)}>
+    <CardContainer size={size} className={className}>
       <div className="flex gap-2">
         {serviceTypes.map((serviceType) => (
           <ServiceChip
@@ -80,7 +68,7 @@ const MoverInfoCard = ({
       </div>
       <h4 className={titleVariants({ size })}>{data.introduction}</h4>
       <MoverInfo data={data} size={size} />
-    </div>
+    </CardContainer>
   );
 };
 
