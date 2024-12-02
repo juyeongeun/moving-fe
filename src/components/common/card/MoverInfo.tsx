@@ -37,7 +37,7 @@ const MoverExperience = ({
 
   return (
     <div className={cn(moverExperienceVariants({ size, className }))}>
-      <div className="inline-flex items-center gap-0.5">
+      <div className="inline-flex items-center gap-0.5 whitespace-nowrap">
         <Image
           className={cn("w-5 h-5", {
             "pc:w-6 pc:h-6": isResponsive,
@@ -51,12 +51,12 @@ const MoverExperience = ({
         <span className="text-grayscale-300">{`(${data.reviewCount})`}</span>
       </div>
       <LineSeparator />
-      <span className="flex items-center gap-1">
+      <span className="flex items-center gap-1 whitespace-nowrap">
         <span className="text-grayscale-300">경력</span>
         {`${data.career}년`}
       </span>
       <LineSeparator />
-      <span className="flex items-center gap-1">
+      <span className="flex items-center gap-1 whitespace-nowrap">
         {`${data.confirmCount}건`}
         <span className="text-grayscale-300">확정</span>
       </span>
