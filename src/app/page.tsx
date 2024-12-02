@@ -46,8 +46,8 @@ export default function Home() {
     favoriteCount: 22,
     isFavorite: false,
     movingDate: "2024-11-30T10:00:00.000Z",
-    pickupAddress: "서울시 강서구 @@로 111",
-    dropOffAddress: "서울시 강동구 ##로 111",
+    pickupAddress: "서울특별시 강남구 역삼동 123-456",
+    dropOffAddress: "서울특별시 서초구 서초동 789-012",
     cost: 200000,
     requestDate: "2024-11-26T08:00:00.000Z",
   };
@@ -60,7 +60,7 @@ export default function Home() {
         <GrayLabel>이사일 solid</GrayLabel>
         <GrayLabel type="border">이사일 border</GrayLabel>
       </div>
-      <PendingRequestCard data={pendingRequest} />
+      <PendingRequestCard data={pendingRequest} className="m-10" />
     </>
   );
 }

@@ -1,7 +1,7 @@
 import { cva } from "class-variance-authority";
 
 const greyLabelVariants = cva(
-  "text-md font-medium text-grayscale-400 py-0.5 px-1.5 rounded-[4px]",
+  "flex-shrink-0 w-fit text-md font-medium text-grayscale-400 py-0.5 px-1.5 rounded-[4px]",
   {
     variants: {
       type: {
