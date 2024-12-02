@@ -33,7 +33,7 @@ type ChipWithIconType =
   | "officeMove"
   | "designatedQuote";
 type ChipWithoutIconType = "pendingConfirm";
-type ChipType = ChipWithIconType | ChipWithoutIconType;
+export type ChipType = ChipWithIconType | ChipWithoutIconType;
 
 const icons: Record<ChipWithIconType, string> = {
   smallMove: assets.icons.box,
