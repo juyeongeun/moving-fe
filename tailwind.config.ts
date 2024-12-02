@@ -69,7 +69,11 @@ export default {
         tablet: "744px",
         pc: "1200px",
       },
+      boxShadow: {
+        card: "2px 2px 10px 0px rgba(220, 220, 220, 0.14), -2px -2px 10px 0px rgba(220, 220, 220, 0.14)",
+        border: "4px 4px 16px 0px rgba(233, 233, 233, 0.1)",
+      },
     },
   },
-  plugins: [],
+  plugins: [require("tailwind-scrollbar")({ nocompatible: true })],
 } satisfies Config;

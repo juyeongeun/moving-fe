@@ -1,5 +1,8 @@
 import type { Preview } from "@storybook/react";
+import { StoryFn } from "@storybook/react";
+import React from "react";
 import "../src/app/globals.css";
+import "../src/app/fonts/pretendard.css";
 import "antd/dist/reset.css";
 
 const customViewports = {
@@ -39,6 +42,17 @@ const preview: Preview = {
       },
     },
   },
+  decorators: [
+    (Story: StoryFn) =>
+      React.createElement(
+        "div",
+        {
+          className: "font-pretendard",
+          style: { fontFamily: "Pretendard" },
+        },
+        React.createElement(Story)
+      ),
+  ],
 };
 
 export default preview;
