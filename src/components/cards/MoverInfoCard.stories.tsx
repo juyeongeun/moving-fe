@@ -15,7 +15,7 @@ type Story = StoryObj<typeof MoverInfoCard>;
 
 const mockMoverData = {
   id: 1,
-  nickname: "홍길동",
+  nickname: "김코드",
   career: 5,
   introduction: "안전하고 신속한 이사를 약속드립니다.",
   imageUrl: "https://picsum.photos/200",
