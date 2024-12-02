@@ -45,19 +45,5 @@ const assets = {
     logoNaver: "/assets/images/img_logo_naver.svg",
     logoWordmark: "/assets/images/img_logo_wordmark.svg",
   },
-  images: {
-    imagePlaceholder: "/assets/images/img_image_placeholder.svg",
-    landingMd01: "/assets/images/img_landing_md_01.svg",
-    landingMd02: "/assets/images/img_landing_md_02.svg",
-    landingMd03: "/assets/images/img_landing_md_03.svg",
-    landingSm01: "/assets/images/img_landing_sm_01.svg",
-    landingSm02: "/assets/images/img_landing_sm_02.svg",
-    landingSm03: "/assets/images/img_landing_sm_03.svg",
-    logo: "/assets/images/img_logo.svg",
-    logoGoogle: "/assets/images/img_logo_google.svg",
-    logoKakao: "/assets/images/img_logo_kakao.svg",
-    logoNaver: "/assets/images/img_logo_naver.svg",
-    logoWordmark: "/assets/images/img_logo_wordmark.svg",
-  },
 };
 export default assets;
