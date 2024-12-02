@@ -31,7 +31,7 @@ export default function ReviewModal({
     container: `flex flex-col bg-white rounded-t-[32px] px-[24px] pt-[32px] pb-[40px]
     pc:w-[608px] pc:h-[854px] pc:rounded-[32px]`,
     titleContainer: `text-2lg font-bold text-black-400 flex justify-between mb-[26px]
-    pc:text-2xl pc:font-semibold mb-[40px]`,
+    pc:text-2xl pc:font-semibold pc:mb-[40px]`,
     closeIcon: `cursor-pointer w-[24px] h-[24px] pc:w-[32px] pc:h-[32px]`,
     chipsContainer: `flex flex-wrap gap-[8px] mb-[14px] pc:mb-[24px]`,
     ratingContainer: `flex flex-wrap gap-[8px] mb-[20px] pb-[20px] border-b-[1px] border-solid border-line-200
