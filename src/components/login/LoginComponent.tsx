@@ -41,34 +41,13 @@ export default function LoginComponent({ isUser }: LoginComponentProps) {
       [name]: value,
     }));
 
-    // 유효성 검사
-    if (name === "email") {
-      if (!validateEmail(value)) {
-        setErrors((prev) => ({
-          ...prev,
-          email: "올바른 이메일 형식이 아닙니다",
-        }));
-      } else {
-        setErrors((prev) => ({
-          ...prev,
-          email: "",
-        }));
-      }
-    }
+    const validationResult =
+      name === "email" ? validateEmail(value) : validatePassword(value);
 
-    if (name === "password") {
-      if (!validatePassword(value)) {
-        setErrors((prev) => ({
-          ...prev,
-          password: "비밀번호는 8자리 이상이어야 합니다",
-        }));
-      } else {
-        setErrors((prev) => ({
-          ...prev,
-          password: "",
-        }));
-      }
-    }
+    setErrors((prev) => ({
+      ...prev,
+      [name]: validationResult.error,
+    }));
   };
 
   const isFormValid = () => {
@@ -92,14 +71,14 @@ export default function LoginComponent({ isUser }: LoginComponentProps) {
       {isUser ? (
         <p className={styles.linkDescription}>
           기사님이신가요?{" "}
-          <a href="/user/auth/login" className={styles.link}>
+          <a href="/mover/auth/login" className={styles.link}>
             기사님 전용 페이지
           </a>
         </p>
       ) : (
         <p className={styles.linkDescription}>
           일반 유저라면?{" "}
-          <a href="/user/auth/login" className={styles.link}>
+          <a href="/auth/login" className={styles.link}>
             일반 유저 전용 페이지
           </a>
         </p>
@@ -135,6 +114,7 @@ export default function LoginComponent({ isUser }: LoginComponentProps) {
         </div>
         <Button
           children="로그인"
+          type="submit"
           onClick={() => {}}
           variant="primary"
           className={styles.button}
