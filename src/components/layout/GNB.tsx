@@ -57,11 +57,10 @@ const GNB = ({ userType = null }: GNBProps) => {
   };
 
   return (
-    <nav className="w-full py-6 border-b border-line-100 bg-white">
+    <nav className="w-full py-[10px] px-6 border-b border-line-100 bg-white">
       <div className="max-w-[1400px] h-full px-5 mx-auto flex justify-between items-center">
         <div className="flex items-center gap-20">
           <Link href="/">
-            {" "}
             <div className="text-2xl font-bold">
               <Image
                 src={assets.images.logo}
@@ -73,8 +72,8 @@ const GNB = ({ userType = null }: GNBProps) => {
               <Image
                 src={assets.images.logoMarkonly}
                 alt="logo"
-                width={36}
-                height={36}
+                width={24}
+                height={24}
                 className="block tablet:hidden"
               />
             </div>
@@ -88,16 +87,18 @@ const GNB = ({ userType = null }: GNBProps) => {
             <Image
               src={assets.icons.alarm}
               alt="alarm"
-              width={36}
-              height={36}
+              width={24}
+              height={24}
+              className="pc:w-8 pc:h-8"
             />
           </button>
           <div className="flex items-center">
             <Image
               src={assets.icons.userProfile}
               alt="user"
-              width={36}
-              height={36}
+              width={24}
+              height={24}
+              className="pc:w-8 pc:h-8"
             />
             <span className="hidden pc:block text-2lg font-medium text-black-400 ml-2">
               김가나
@@ -107,7 +108,7 @@ const GNB = ({ userType = null }: GNBProps) => {
             className="block pc:hidden"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            <Image src={assets.icons.menu} alt="menu" width={36} height={36} />
+            <Image src={assets.icons.menu} alt="menu" width={24} height={24} />
           </button>
         </div>
       </div>
