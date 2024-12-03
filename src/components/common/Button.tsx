@@ -189,7 +189,3 @@ const Button = ({
 };
 
 export default Button;
-
-/**TODO
- * 1. 전역 폰트 설정
- */
