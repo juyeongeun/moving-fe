@@ -1,9 +1,9 @@
 import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@/config/clsx";
+import cn from "@/config/clsx";
 import FavoriteUi from "./FavoriteUi";
 import ProfileImage from "./ProfileImage";
 import MoverExperience from "./MoverExperience";
-import { type FullMoverData } from "@/types/mover";
+import { FavoriteFields, type BaseMoverData } from "@/types/mover";
 
 const moverInfoVariants = cva(
   "flex gap-3 items-center text-black-300 border-solid rounded-md border-line-100 shadow-border border-[1px] p-2.5",
@@ -20,15 +20,13 @@ const moverInfoVariants = cva(
   }
 );
 
-const MoverInfo = ({
-  data,
-  className,
-  size,
-}: {
-  data: FullMoverData;
+type MoverInfoProps = {
+  data: BaseMoverData & FavoriteFields;
   className?: string;
   size?: "fixed" | "responsive";
-}) => {
+};
+
+const MoverInfo = ({ data, className, size }: MoverInfoProps) => {
   if (!data) return null;
 
   const isResponsive = size === "responsive";

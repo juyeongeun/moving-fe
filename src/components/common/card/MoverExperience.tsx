@@ -2,7 +2,7 @@ import assets from "@/variables/images";
 import Image from "next/image";
 import LineSeparator from "../LineSeparator";
 import { type BaseMoverData } from "@/types/mover";
-import { cn } from "@/config/clsx";
+import cn from "@/config/clsx";
 import { cva, type VariantProps } from "class-variance-authority";
 
 const moverExperienceVariants = cva(

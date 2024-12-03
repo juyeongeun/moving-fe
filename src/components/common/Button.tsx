@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import assets from "@/variables/images";
 import { cva, type VariantProps } from "class-variance-authority";
+import cn from "@/config/clsx";
 
 // 버튼 스타일 정의
 const buttonVariants = cva(
@@ -106,11 +107,21 @@ const Button = ({
     return value;
   };
 
-  const getStyles = () => ({
-    width: formatDimension(width),
-    height: formatDimension(height),
-    borderRadius: formatDimension(radius),
-  });
+  const getStyles = () => {
+    const styles: React.CSSProperties = {
+      borderRadius: formatDimension(radius),
+    };
+
+    if (width !== "auto") {
+      styles.width = formatDimension(width);
+    }
+
+    if (height !== "auto") {
+      styles.height = formatDimension(height);
+    }
+
+    return styles;
+  };
 
   const renderIcon = () => {
     if (!withIcon) return null;
@@ -148,12 +159,14 @@ const Button = ({
       disabled={disabled}
       type={type}
       style={getStyles()}
-      className={buttonVariants({
-        variant,
-        disabled,
-        withIcon,
-        className,
-      })}
+      className={cn(
+        buttonVariants({
+          variant,
+          disabled,
+          withIcon,
+        }),
+        className
+      )}
       {...rest}
     >
       {children}
