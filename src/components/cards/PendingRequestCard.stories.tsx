@@ -7,6 +7,13 @@ const meta = {
   parameters: {
     layout: "centered",
   },
+  decorators: [
+    (Story) => (
+      <div className="p-4">
+        <Story />
+      </div>
+    ),
+  ],
   tags: ["autodocs"],
 } satisfies Meta<typeof PendingRequestCard>;
 
@@ -46,5 +53,13 @@ export const Default: Story = {
   args: {
     data: mockData,
     size: "responsive",
+  },
+};
+
+export const WithCustomClassName: Story = {
+  args: {
+    data: mockData,
+    size: "responsive",
+    className: "max-w-[800px]",
   },
 };
