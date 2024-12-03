@@ -1,9 +1,14 @@
 import React from "react";
+import GNB from "@/components/layout/GNB";
 
-export default function MoverLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return <div>{children}</div>;
-}
+const Layout: React.FC = ({ children }) => {
+  return (
+    <div>
+      <GNB />
+
+      <main>{children}</main>
+    </div>
+  );
+};
+
+export default Layout;

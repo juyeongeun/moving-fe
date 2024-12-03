@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import GNB from "@/components/layout/GNB";
 import localFont from "next/font/local";
 import "./globals.css";
-import { cn } from "@/config/clsx";
+import QuoteGNB from "@/components/layout/QuoteGNB";
 
 const pretendard = localFont({
   src: "./fonts/PretendardVariable.woff2",
@@ -28,8 +29,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={cn(pretendard.variable, "antialiased", globalStyles)}>
-        {children}
+      <body className={`${pretendard.variable} font-pretendard antialiased`}>
+        <GNB />
+        <QuoteGNB />
+        <div className="max-w-[1400px] px-5 mx-auto">{children}</div>
       </body>
     </html>
   );
