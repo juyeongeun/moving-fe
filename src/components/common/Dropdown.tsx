@@ -4,8 +4,8 @@ import { useState, ReactNode } from "react";
 import Image from "next/image";
 import clsx from "clsx";
 
-import { REGION_CODES } from "../../constants/regions";
-import { SERVICES } from "../../constants/services";
+import { REGION_CODES } from "../../variables/regions";
+import { SERVICES } from "../../variables/services";
 import {
   PROFILE_CUSTOMER,
   PROFILE_MOVER,
@@ -15,21 +15,31 @@ import {
   DROPDOWN_ITEM_CLASSES,
   DROPDOWN_LIST_CLASSES,
   DROPDOWN_CLASSES,
-} from "../../constants/dropdown";
+} from "../../variables/dropdown";
 import assets from "../../variables/images.js";
 
 interface DropdownItemProps {
   type: DropdownType;
   children: string;
   time?: string;
-  onClick?: () => void;
+  onClick?: (value: string) => void;
+  href?: string;
 }
 
 function DropdownItem({ type, children, time, onClick }: DropdownItemProps) {
   const timeClass = clsx("text-sm text-gray-300 font-medium");
 
+  const handleClickDropdownItem = () => {
+    const value = "temp";
+
+    onClick ? onClick(value) : undefined;
+  };
+
   return (
-    <div className={DROPDOWN_ITEM_CLASSES[type]}>
+    <div
+      className={DROPDOWN_ITEM_CLASSES[type]}
+      onClick={handleClickDropdownItem}
+    >
       {children}
       {time ? <div className={timeClass}>{time}</div> : null}
     </div>
