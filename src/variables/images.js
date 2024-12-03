@@ -22,6 +22,7 @@ const assets = {
     radioInactive: "/assets/icons/ic_radio_inactive.svg",
     search: "/assets/icons/ic_search.svg",
     starActive: "/assets/icons/ic_star_active.svg",
+    starActiveHalf: "/assets/icons/ic_star_active_half.svg",
     starInactive: "/assets/icons/ic_star_inactive.svg",
     userProfile: "/assets/icons/ic_user_profile.svg",
     visibilityOff: "/assets/icons/ic_visibility_off.svg",
