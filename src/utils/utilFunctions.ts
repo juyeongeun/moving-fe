@@ -19,8 +19,6 @@ export const formatDateWithDay = (date: string | Date): string => {
   return format(dateObj, "yyyy. MM. dd(E)", { locale: ko });
 };
 
-export const getRegionText = (
-  code: (typeof REGION_CODES)[keyof typeof REGION_CODES]
-): string => {
-  return REGION_TEXTS[code];
+export const getRegionText = (code: number): string => {
+  return REGION_TEXTS[code as keyof typeof REGION_TEXTS] || "지역 미정";
 };
