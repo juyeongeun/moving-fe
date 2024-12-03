@@ -4,27 +4,19 @@ import { useState, ReactNode } from "react";
 import Image from "next/image";
 import clsx from "clsx";
 
-import { REGION_CODES } from "../../variables/regions";
-import { SERVICES } from "../../variables/services";
+import { REGION_CODES } from "../../constants/regions";
+import { SERVICES } from "../../constants/services";
 import {
   PROFILE_CUSTOMER,
   PROFILE_MOVER,
   SORT_MOVING_REQUEST,
   SORT_MOVER,
-} from "@/variables/dropdown";
+  DropdownType,
+  DROPDOWN_ITEM_CLASSES,
+  DROPDOWN_LIST_CLASSES,
+  DROPDOWN_CLASSES,
+} from "../../constants/dropdown";
 import assets from "../../variables/images.js";
-
-// import style from "./Dropdown.module.css";
-
-export enum DropdownType {
-  REGION,
-  SERVICE,
-  PROFILE_CUSTOMER,
-  PROFILE_MOVER,
-  NOTIFICATION,
-  SORT_MOVER,
-  SORT_MOVING_REQUEST,
-}
 
 interface DropdownItemProps {
   type: DropdownType;
@@ -34,55 +26,26 @@ interface DropdownItemProps {
 }
 
 function DropdownItem({ type, children, time, onClick }: DropdownItemProps) {
-  const dropdownItemClass = clsx(
-    "box-border flex flex-row justify-between items-center px-[14px] py-4 pc:px-6 pc:py-4 w-75px h-9 pc:w-[164px] pc:h-[64px]",
-    "text-md pc:text-2lg",
-    "bg-white hover:bg-pr-blue-50 flex-none order-0 grow-0"
-  );
-  return <div className={dropdownItemClass}>{children}</div>;
-}
+  const timeClass = clsx("text-sm text-gray-300 font-medium");
 
-const DROPDOWN_LIST_CLASSES: Record<DropdownType, string> = {
-  [DropdownType.REGION]:
-    "grid grid-cols-2 overflow-y-scroll overflow-x-hidden\
-    h-full \
-    scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar \
-    scrollbar-thumb-grayscale-200 scrollbar-w-1 \
-    pc:scrollbar-w-1.5",
-  [DropdownType.SERVICE]:
-    "absolute flex flex-col items-center overflow-y-hidden \
-    top-11 w-[89px] h-[144px] \
-    border-solid border-[1px] border-line-100 rounded-2xl \
-    bg-white \
-    pc:top-20 pc:w-[328px] pc:h-[256px]",
-  [DropdownType.PROFILE_CUSTOMER]:
-    "absolute flex flex-col items-center overflow-y-hidden \
-    p-1.5 pt-2.5 top-[37px] right-0 w-[89px] \
-    border-solid border-[1px] border-line-100 rounded-2xl \
-    bg-white \
-    pc:top-[54px] pc:w-[248px]",
-  [DropdownType.PROFILE_MOVER]:
-    "absolute flex flex-col items-center overflow-y-hidden \
-    p-1.5 pt-2.5 top-[37px] right-0 w-[89px] \
-    border-solid border-[1px] border-line-100 rounded-2xl \
-    bg-white \
-    pc:top-[54px] pc:w-[248px]",
-  [DropdownType.NOTIFICATION]:
-    "absolute flex flex-col items-center overflow-y-hidden \
-    p-4 py-2.5 top-[37px] right-[-100px] w-[312px] \
-    border-solid border-[1px] border-line-100 rounded-2xl \
-    bg-white \
-    tablet:right-[-56px] \
-    pc:top-[54px] pc:w-[359px] pc:right-0",
-  [DropdownType.SORT_MOVER]: "flex flex-col items-center",
-  [DropdownType.SORT_MOVING_REQUEST]: "flex flex-col items-center",
-};
+  return (
+    <div className={DROPDOWN_ITEM_CLASSES[type]}>
+      {children}
+      {time ? <div className={timeClass}>{time}</div> : null}
+    </div>
+  );
+}
 
 interface DropdownListProps {
   type: DropdownType;
+  onClose: (value: boolean) => void;
 }
 
-function DropdownList({ type }: DropdownListProps) {
+function DropdownList({ type, onClose }: DropdownListProps) {
+  const handleCloseList = () => {
+    onClose(false);
+  };
+
   if (type === DropdownType.REGION) {
     const keys = Object.keys(REGION_CODES);
     const items = keys.map((key) => {
@@ -98,6 +61,7 @@ function DropdownList({ type }: DropdownListProps) {
       "top-11 w-[150px] h-[179px]",
       "border-solid border-[1px] border-line-100 rounded-lg",
       "bg-white",
+      "tablet:top-11",
       "pc:top-20 pc:w-[328px] pc:h-[320px] pc:rounded-2xl"
     );
 
@@ -150,7 +114,8 @@ function DropdownList({ type }: DropdownListProps) {
   const signOutClass = clsx(
     "flex flex-row justify-center items-center",
     "w-full h-[46px]",
-    "text-md text-grayscale-500 font-medium"
+    "text-md text-grayscale-500 font-medium",
+    "cursor-pointer"
   );
   if (type === DropdownType.PROFILE_CUSTOMER) {
     const items = PROFILE_CUSTOMER.map((customerMenu) => {
@@ -229,8 +194,14 @@ function DropdownList({ type }: DropdownListProps) {
       <div className={dropdownListClass}>
         <div className={alarmClass}>
           <div>알림</div>
-          <Image src={assets.icons.x} alt="알림 닫기" width={24} height={24} />
-          {/* 임시. x 클릭시 동작 로직 연결 필요*/}
+          <div onClick={handleCloseList}>
+            <Image
+              src={assets.icons.x}
+              alt="알림 닫기"
+              width={24}
+              height={24}
+            />
+          </div>
         </div>
         {items}
       </div>
@@ -272,73 +243,6 @@ function DropdownList({ type }: DropdownListProps) {
   }
 }
 
-const DROPDOWN_CLASSES: Record<
-  DropdownType,
-  {
-    base: string;
-    able: string;
-    open: string;
-    disabled: string;
-  }
-> = {
-  [DropdownType.REGION]: {
-    base: "relative box-border flex flex-row justify-between items-center \
-          pl-3.5 pr-2.5 w-[75px] h-9 \
-          border-solid border-[1px] border-grayscale-100 rounded-lg \
-          bg-transparent shadow-[4px_4px_10px_rgba(238,238,238,0.1)] \
-          pc:w-[328px] pc:h-16 pc:px-6 pc:rounded-2xl",
-    able: "shadow-md hover:bg-pr-blue-50",
-    open: "border-pr-blue-300",
-    disabled: "cursor-not-allowed",
-  },
-  [DropdownType.SERVICE]: {
-    base: "relative box-border flex flex-row justify-between items-center \
-          pl-3.5 pr-2.5 w-[87px] h-9 \
-          border-solid border-[1px] border-grayscale-100 rounded-lg \
-          bg-transparent shadow-[4px_4px_10px_rgba(238,238,238,0.1)] \
-          pc:w-[328px] pc:h-16 pc:px-6 pc:rounded-2xl",
-    able: "shadow-md hover:bg-pr-blue-50",
-    open: "border-pr-blue-300",
-    disabled: "cursor-not-allowed",
-  },
-  [DropdownType.PROFILE_CUSTOMER]: {
-    base: "relative flex flex-row gap-4 items-center justify-between rounded-full",
-    able: "",
-    open: "",
-    disabled: "cursor-not-allowed",
-  },
-  [DropdownType.PROFILE_MOVER]: {
-    base: "relative flex flex-row gap-4 items-center justify-between rounded-full",
-    able: "",
-    open: "",
-    disabled: "cursor-not-allowed",
-  },
-  [DropdownType.NOTIFICATION]: {
-    base: "relative w-6 h-6",
-    able: "",
-    open: "",
-    disabled: "cursor-not-allowed",
-  },
-  [DropdownType.SORT_MOVER]: {
-    base: "relative flex flex-row justify-center items-center \
-          px-1.5 m-auto w-[91px] h-8 \
-          bg-white rounded-lg \
-          pc:px-2.5 pc:w-[114px] pc:h-10",
-    able: "",
-    open: "",
-    disabled: "cursor-not-allowed",
-  },
-  [DropdownType.SORT_MOVING_REQUEST]: {
-    base: "relative flex flex-row justify-center items-center \
-          px-1.5 m-auto w-[91px] h-8 \
-          bg-white rounded-lg \
-          pc:px-2.5 pc:w-[114px] pc:h-10",
-    able: "",
-    open: "",
-    disabled: "cursor-not-allowed",
-  },
-};
-
 interface DropdownProps {
   type: DropdownType;
   profileImageUrl?: string;
@@ -370,7 +274,7 @@ export default function Dropdown({
     [DROPDOWN_CLASSES[type].disabled]: disabled,
   });
   const dropdownTexts = ["지역", "서비스", userName, userName];
-  const dropdownTextBaseClass = clsx("text-nowrap text-black-400");
+  const dropdownTextBaseClass = clsx("text-nowrap");
   const dropdownFilterClass = clsx(
     dropdownTextBaseClass,
     "text-md pc:text-2lg font-medium"
@@ -407,7 +311,11 @@ export default function Dropdown({
 
   const dropdownImage = (
     <div className="relative w-5 h-5 pc:w-9 pc:h-9">
-      <Image src={assets.icons.chevronDown} alt="드롭 다운" fill />
+      <Image
+        src={isOpen ? assets.icons.chevronDownActive : assets.icons.chevronDown}
+        alt="드롭 다운"
+        fill
+      />
     </div>
   );
 
@@ -426,7 +334,11 @@ export default function Dropdown({
 
   const sortDropdownImage = (
     <div className="relative w-5 h-5">
-      <Image src={assets.icons.chevronDown} alt="정렬 드롭 다운" fill />
+      <Image
+        src={isOpen ? assets.icons.chevronDownActive : assets.icons.chevronDown}
+        alt="정렬 드롭 다운"
+        fill
+      />
     </div>
   );
 
@@ -463,7 +375,7 @@ export default function Dropdown({
       <div className={dropdownClass} onClick={toggleDropdown}>
         {dropdownContent[type]}
       </div>
-      {isOpen && !disabled && <DropdownList type={type} />}
+      {isOpen && !disabled && <DropdownList type={type} onClose={setIsOpen} />}
     </div>
   );
 }

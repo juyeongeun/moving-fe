@@ -7,6 +7,7 @@ const assets = {
     checkboxActive: "/assets/icons/ic_checkbox_active.svg",
     checkboxInactive: "/assets/icons/ic_checkbox_inactive.svg",
     chevronDown: "/assets/icons/ic_chevron_down.svg",
+    chevronDownActive: "/assets/icons/ic_chevron_down_active.svg",
     chevronLeft: "/assets/icons/ic_chevron_left.svg",
     chevronRight: "/assets/icons/ic_chevron_right.svg",
     chevronUp: "/assets/icons/ic_chevron_up.svg",
