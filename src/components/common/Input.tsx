@@ -1,101 +1,95 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { forwardRef } from "react";
 import assets from "@/variables/images";
 
-// Error Messages 출력은 추후 수정해야함
-
-interface InputProps {
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   name: string;
   placeholder?: string;
   type?: string;
   className?: string;
   isAuth?: boolean;
-  value?: string;
   error?: string;
-  onChange?: (value: string) => void;
 }
 
-export default function Input({
-  name,
-  placeholder = "",
-  type = "text",
-  className = "",
-  isAuth = false,
-  value = "",
-  error = "",
-  onChange,
-}: InputProps): JSX.Element {
-  const styles = {
-    container: `relative flex flex-col w-full`,
-    inputContainer: "relative flex items-center",
-    input: `
-      w-full text-lg p-[12px] border-[0.5px]
-      pc:text-xl
-      pc:px-[14px] pc:py-[16px]
-      pc:border-[1px]
-      
-      input placeholder:text-grayscale-400  
-      border-line-200 
-      rounded-[16px] 
-      pr-10
-      ${error ? "border-pr-red-200" : "border-transparent"}
-      focus:border-[1px] 
-      focus:${error ? "border-pr-red-200" : "border-pr-blue-300"} 
-      focus:outline-none 
-      text-black-400 
-      font-regular
-    `
-      .replace(/\s+/g, " ")
-      .trim(),
-    authInput: "bg-white",
-    defaultInput: "bg-bg-200",
-    passwordIcon: "absolute cursor-pointer right-[14px]",
-    errorMessage:
-      "text-pr-red-200 text-lg font-medium text-right mt-[4px] mr-[8px]",
-  };
+const Input = forwardRef<HTMLInputElement, InputProps>(
+  (
+    {
+      name,
+      placeholder = "",
+      type = "text",
+      className = "",
+      isAuth = false,
+      error = "",
+      ...props
+    },
+    ref
+  ) => {
+    const styles = {
+      container: `relative flex flex-col w-full`,
+      inputContainer: "relative flex items-center",
+      input: `input
+        w-full text-lg p-[12px] border-[0.5px]
+        placeholder:text-grayscale-400  
+        ${error ? "border-pr-red-200" : "border-line-200"}
+        rounded-[16px] 
+        pr-10
+        focus:outline-none 
+        focus:border-[1px] 
+        ${error ? "focus:border-pr-red-200" : "focus:border-pr-blue-300"}
+        text-black-400 
+        font-regular
+        pc:text-xl
+        pc:px-[14px] pc:py-[16px]
+        pc:border-[1px]
+      `
+        .replace(/\s+/g, " ")
+        .trim(),
+      authInput: "bg-white",
+      defaultInput: "bg-bg-200",
+      passwordIcon: "absolute cursor-pointer right-[14px]",
+      errorMessage: `text-pr-red-200 text-sm font-medium text-right mt-[4px] mr-[8px]
+      pc:text-lg`,
+    };
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [inputValue, setInputValue] = useState<string>(value);
+    const [showPassword, setShowPassword] = React.useState(false);
 
-  const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
+    const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
-    setInputValue(newValue);
-    onChange && onChange(newValue);
-  };
-
-  return (
-    <div className={styles.container}>
-      <div className={styles.inputContainer}>
-        <input
-          id={name}
-          placeholder={placeholder}
-          type={type === "password" && showPassword ? "text" : type}
-          className={`${styles.input} ${className} ${
-            isAuth ? styles.authInput : styles.defaultInput
-          }`}
-          value={inputValue}
-          onChange={handleInputChange}
-        />
-        {type === "password" && (
-          <Image
-            src={
-              showPassword
-                ? assets.icons.visibilityOn
-                : assets.icons.visibilityOff
-            }
-            width={24}
-            height={24}
-            alt={showPassword ? "Hide password" : "Show password"}
-            onClick={togglePasswordVisibility}
-            className={styles.passwordIcon}
+    return (
+      <div className={styles.container}>
+        <div className={styles.inputContainer}>
+          <input
+            id={name}
+            name={name}
+            ref={ref}
+            placeholder={placeholder}
+            type={type === "password" && showPassword ? "text" : type}
+            className={`${styles.input} ${className} ${
+              isAuth ? styles.authInput : styles.defaultInput
+            }`}
+            {...props}
           />
-        )}
+          {type === "password" && (
+            <Image
+              src={
+                showPassword
+                  ? assets.icons.visibilityOn
+                  : assets.icons.visibilityOff
+              }
+              width={24}
+              height={24}
+              alt={showPassword ? "Hide password" : "Show password"}
+              onClick={togglePasswordVisibility}
+              className={styles.passwordIcon}
+            />
+          )}
+        </div>
+        {error && <p className={styles.errorMessage}>{error}</p>}
       </div>
-      {error && <p className={styles.errorMessage}>{error}</p>}
-    </div>
-  );
-}
+    );
+  }
+);
+
+export default Input;
