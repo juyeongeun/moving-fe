@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 
 import CheckboxCircle from "../common/checkboxs/CheckboxCircle";
@@ -35,6 +35,12 @@ export default function CheckboxField({
   const handleCheckboxFieldClick = () => {
     setCheckState(!checkState);
   };
+
+  useEffect(() => {
+    if (onStateChange) {
+      onStateChange(checkState);
+    }
+  }, [checkState, onStateChange]);
 
   return (
     <button

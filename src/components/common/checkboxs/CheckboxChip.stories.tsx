@@ -21,7 +21,7 @@ export default meta;
 type Story = StoryObj<typeof CheckboxChip>;
 
 function printCheckboxChipState(state: boolean): void {
-  console.log("체크 박스 상태 변경", state);
+  console.log("체크 박스(칩) 상태 변경", state);
 }
 
 export const textProps: Story = {
