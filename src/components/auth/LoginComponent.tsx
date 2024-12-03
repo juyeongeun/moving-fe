@@ -3,11 +3,13 @@
 import Input from "@/components/common/Input";
 import Button from "@/components/common/Button";
 import SnsComponent from "@/components/auth/SnsComponent";
-import { useState } from "react";
-import { validateEmail, validatePassword } from "@/utils/authValidation";
 import FormHeader from "@/components/auth/FormHeader";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema, AuthFormData } from "@/utils/authValidation";
+import React from "react";
 
-interface LoginComponentProps {
+interface SignUpComponentProps {
   isUser: boolean;
 }
 
@@ -24,56 +26,48 @@ const styles = {
   snsContainer: `flex flex-col items-center gap-[24px] mt-[40px]`,
 };
 
-export default function LoginComponent({ isUser }: LoginComponentProps) {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+export default function SignUpComponent({ isUser }: SignUpComponentProps) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting, isValid },
+    reset,
+  } = useForm<AuthFormData>({
+    resolver: zodResolver(loginSchema),
+    mode: "onChange",
   });
-  const [errors, setErrors] = useState({
-    email: "",
-    password: "",
-  });
 
-  const handleInputChange = (name: string, value: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+  const onSubmit = async (data: AuthFormData) => {
+    try {
+      const validationResult = loginSchema.safeParse(data);
+      if (!validationResult.success) {
+        throw new Error("유효성 검사 실패");
+      }
 
-    const validationResult =
-      name === "email" ? validateEmail(value) : validatePassword(value);
+      // API 호출 로직
+      console.log("폼 제출:", data);
 
-    setErrors((prev) => ({
-      ...prev,
-      [name]: validationResult.error,
-    }));
-  };
-
-  const isFormValid = () => {
-    return (
-      formData.email !== "" &&
-      formData.password !== "" &&
-      !errors.email &&
-      !errors.password
-    );
+      // 성공 시 폼 초기화
+      reset();
+    } catch (error) {
+      console.error("로그인 실패:", error);
+    }
   };
 
   return (
     <div className={styles.container}>
-      <FormHeader isUser={isUser} />
+      <FormHeader isUser={isUser} signUp={true} />
       <form className={styles.form}>
         <div className={styles.formItem}>
           <label htmlFor="email" className={styles.formLabel}>
             이메일
           </label>
           <Input
-            name="email"
+            {...register("email")}
             type="email"
             placeholder="이메일을 입력해주세요."
             isAuth={true}
-            error={errors.email}
-            value={formData.email}
-            onChange={(value) => handleInputChange("email", value)}
+            error={errors.email?.message}
           />
         </div>
         <div className={styles.formItem}>
@@ -81,24 +75,24 @@ export default function LoginComponent({ isUser }: LoginComponentProps) {
             비밀번호
           </label>
           <Input
-            name="password"
+            {...register("password")}
             type="password"
             placeholder="비밀번호를 입력해주세요."
             isAuth={true}
-            error={errors.password}
-            value={formData.password}
-            onChange={(value) => handleInputChange("password", value)}
+            error={errors.password?.message}
           />
         </div>
         <Button
-          children="로그인"
           type="submit"
-          onClick={() => {}}
           variant="primary"
           className={styles.button}
-          disabled={!isFormValid()}
-        />
+          disabled={!isValid || isSubmitting}
+          onClick={handleSubmit(onSubmit)}
+        >
+          회원가입
+        </Button>
       </form>
+
       <p className={styles.linkDescription}>
         아직 무빙 회원이 아니신가요?{" "}
         {isUser ? (

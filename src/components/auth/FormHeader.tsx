@@ -24,6 +24,7 @@ export default function FormHeader({
         width={112}
         height={64}
         className={styles.logo}
+        priority
       />
       {isUser ? (
         <p className={styles.linkDescription}>

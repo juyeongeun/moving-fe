@@ -3,15 +3,11 @@
 import Input from "@/components/common/Input";
 import Button from "@/components/common/Button";
 import SnsComponent from "@/components/auth/SnsComponent";
-import { useState } from "react";
-import {
-  validateEmail,
-  validateName,
-  validatePassword,
-  validatePasswordConfirm,
-  validatePhoneNumber,
-} from "@/utils/authValidation";
 import FormHeader from "@/components/auth/FormHeader";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import React from "react";
+import { signUpSchema, AuthFormData } from "@/utils/authValidation";
 
 interface SignUpComponentProps {
   isUser: boolean;
@@ -31,57 +27,43 @@ const styles = {
 };
 
 export default function SignUpComponent({ isUser }: SignUpComponentProps) {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phoneNumber: "",
-    password: "",
-    passwordConfirm: "",
+  const [isConfirmTouched, setIsConfirmTouched] = React.useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    trigger,
+    formState: { errors, isSubmitting, isValid },
+    reset,
+  } = useForm<AuthFormData>({
+    resolver: zodResolver(signUpSchema),
+    mode: "onChange",
   });
-  const [errors, setErrors] = useState({
-    name: "",
-    email: "",
-    phoneNumber: "",
-    password: "",
-    passwordConfirm: "",
-  });
 
-  const handleInputChange = (name: string, value: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+  const password = watch("password");
 
-    const validationResult =
-      name === "name"
-        ? validateName(value)
-        : name === "email"
-        ? validateEmail(value)
-        : name === "phoneNumber"
-        ? validatePhoneNumber(value)
-        : name === "passwordConfirm"
-        ? validatePasswordConfirm(formData.password, value)
-        : validatePassword(value);
+  React.useEffect(() => {
+    if (password && isConfirmTouched) {
+      trigger("passwordConfirm");
+    }
+  }, [password, trigger, isConfirmTouched]);
 
-    setErrors((prev) => ({
-      ...prev,
-      [name]: validationResult.error,
-    }));
-  };
+  const onSubmit = async (data: AuthFormData) => {
+    try {
+      const validationResult = signUpSchema.safeParse(data);
+      if (!validationResult.success) {
+        throw new Error("유효성 검사 실패");
+      }
 
-  const isFormValid = () => {
-    return (
-      formData.name !== "" &&
-      formData.email !== "" &&
-      formData.phoneNumber !== "" &&
-      formData.password !== "" &&
-      formData.passwordConfirm !== "" &&
-      !errors.name &&
-      !errors.email &&
-      !errors.phoneNumber &&
-      !errors.password &&
-      !errors.passwordConfirm
-    );
+      // API 호출 로직
+      console.log("폼 제출:", data);
+
+      // 성공 시 폼 초기화
+      reset();
+    } catch (error) {
+      console.error("회원가입 실패:", error);
+    }
   };
 
   return (
@@ -93,80 +75,80 @@ export default function SignUpComponent({ isUser }: SignUpComponentProps) {
             이름
           </label>
           <Input
-            name="name"
+            {...register("name")}
             type="text"
             placeholder="성함을 입력해 주세요"
             isAuth={true}
-            error={errors.name}
-            value={formData.name}
-            onChange={(value) => handleInputChange("name", value)}
+            error={errors.name?.message}
           />
         </div>
+
         <div className={styles.formItem}>
           <label htmlFor="email" className={styles.formLabel}>
             이메일
           </label>
           <Input
-            name="email"
+            {...register("email")}
             type="email"
             placeholder="이메일을 입력해주세요."
             isAuth={true}
-            error={errors.email}
-            value={formData.email}
-            onChange={(value) => handleInputChange("email", value)}
+            error={errors.email?.message}
           />
         </div>
+
         <div className={styles.formItem}>
           <label htmlFor="phoneNumber" className={styles.formLabel}>
             전화번호
           </label>
           <Input
-            name="phoneNumber"
+            {...register("phoneNumber")}
             type="text"
             placeholder="휴대폰 번호를 입력해주세요."
             isAuth={true}
-            error={errors.phoneNumber}
-            value={formData.phoneNumber}
-            onChange={(value) => handleInputChange("phoneNumber", value)}
+            error={errors.phoneNumber?.message}
           />
         </div>
+
         <div className={styles.formItem}>
           <label htmlFor="password" className={styles.formLabel}>
             비밀번호
           </label>
           <Input
-            name="password"
+            {...register("password")}
             type="password"
             placeholder="비밀번호를 입력해주세요."
             isAuth={true}
-            error={errors.password}
-            value={formData.password}
-            onChange={(value) => handleInputChange("password", value)}
+            error={errors.password?.message}
           />
         </div>
+
         <div className={styles.formItem}>
-          <label htmlFor="password" className={styles.formLabel}>
+          <label htmlFor="passwordConfirm" className={styles.formLabel}>
             비밀번호 확인
           </label>
           <Input
-            name="password"
+            {...register("passwordConfirm")}
             type="password"
             placeholder="비밀번호를 다시 한번 입력해주세요."
             isAuth={true}
-            error={errors.passwordConfirm}
-            value={formData.passwordConfirm}
-            onChange={(value) => handleInputChange("passwordConfirm", value)}
+            error={
+              isConfirmTouched ? errors.passwordConfirm?.message : undefined
+            }
+            onFocus={() => setIsConfirmTouched(true)}
           />
         </div>
+
         <Button
-          children="로그인"
           type="submit"
-          onClick={() => {}}
           variant="primary"
           className={styles.button}
-          disabled={!isFormValid()}
-        />
+          disabled={!isValid || isSubmitting}
+          onClick={handleSubmit(onSubmit)}
+        >
+          회원가입
+        </Button>
       </form>
+
       <p className={styles.linkDescription}>
         이미 무빙 회원이신가요?{" "}
         {isUser ? (
