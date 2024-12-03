@@ -1,17 +1,22 @@
 "use client";
 import { useState } from "react";
 
+interface Tab {
+  id: number;
+  label: string;
+}
+
 interface QuoteGNBProps {
   initialTab?: number;
   onTabChange?: (tabId: number) => void;
+  tabs: Tab[];
 }
 
-const TABS = [
-  { id: 0, label: "대기중인 견적" },
-  { id: 1, label: "받았던 견적" },
-] as const;
-
-export const QuoteGNB = ({ initialTab = 0, onTabChange }: QuoteGNBProps) => {
+export const QuoteGNB = ({
+  initialTab = 0,
+  onTabChange,
+  tabs,
+}: QuoteGNBProps) => {
   const [activeTab, setActiveTab] = useState(initialTab);
 
   const handleTabClick = (tabId: number) => {
@@ -26,7 +31,7 @@ export const QuoteGNB = ({ initialTab = 0, onTabChange }: QuoteGNBProps) => {
       className="w-full border-b border-gray-200"
     >
       <div className="max-w-[1400px] px-5 mx-auto flex gap-8">
-        {TABS.map((tab) => (
+        {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => handleTabClick(tab.id)}

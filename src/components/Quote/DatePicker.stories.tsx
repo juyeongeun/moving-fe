@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { within, userEvent } from "@storybook/testing-library";
 import DatePicker from "./DatePicker";
 
 const meta = {
@@ -46,19 +45,5 @@ export const WithInitialDate: Story = {
     onChange: (isoString) => {
       console.log("Selected DateTime:", isoString);
     },
-  },
-};
-
-export const TimeSelection: Story = {
-  args: {
-    onChange: (isoString) => {
-      console.log("Selected DateTime:", isoString);
-    },
-  },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    // Simulate date selection to show time picker
-    const today = new Date().getDate();
-    await userEvent.click(canvas.getByText(today.toString()));
   },
 };
