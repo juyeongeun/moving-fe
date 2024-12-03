@@ -1,6 +1,7 @@
 import { SERVICE_TYPES } from "@/variables/var";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
+import { SERVICE_TEXTS } from "@/variables/service";
 
 export const formatCount = (count: number) => {
   if (count > 9999) return "9,999+";
@@ -16,4 +17,8 @@ export const mapServiceType = (services: number[]) => {
 export const formatDateWithDay = (date: string | Date): string => {
   const dateObj = typeof date === "string" ? new Date(date) : date;
   return format(dateObj, "yyyy. MM. dd(E)", { locale: ko });
+};
+
+export const getServiceText = (code: number): string => {
+  return SERVICE_TEXTS[code as keyof typeof SERVICE_TEXTS] || "서비스 미정";
 };
