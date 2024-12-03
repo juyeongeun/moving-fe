@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import ProgressBarMovingRequest from "./ProgressBarMovingRequest";
 
 const meta: Meta<typeof ProgressBarMovingRequest> = {
-  title: "Components/ProgressBarMovingRequest",
+  title: "Components/progressbar/ProgressBarMovingRequest",
   component: ProgressBarMovingRequest,
   parameters: {
     layout: "centered",

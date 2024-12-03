@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import MovingRequestProgressInfo from "./MovingRequestProgressInfo";
 
 const meta: Meta<typeof MovingRequestProgressInfo> = {
-  title: "Components/MovingRequestProgressInfo",
+  title: "Components/progressbar/MovingRequestProgressInfo",
   component: MovingRequestProgressInfo,
   parameters: {
     layout: "centered",

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import ProgressBarRating from "./ProgressBarRating";
 
 const meta: Meta<typeof ProgressBarRating> = {
-  title: "Components/ProgressBarRating",
+  title: "Components/progressbar/ProgressBarRating",
   component: ProgressBarRating,
   parameters: {
     layout: "centered",

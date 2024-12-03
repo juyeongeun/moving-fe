@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import RatingInfo from "./RatingInfo";
 
 const meta: Meta<typeof RatingInfo> = {
-  title: "Components/RatingInfo",
+  title: "Components/progressbar/RatingInfo",
   component: RatingInfo,
   parameters: {
     layout: "centered",
