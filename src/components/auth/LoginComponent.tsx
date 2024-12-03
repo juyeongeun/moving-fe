@@ -1,12 +1,11 @@
 "use client";
 
-import Image from "next/image";
-import assets from "@/variables/images";
 import Input from "@/components/common/Input";
 import Button from "@/components/common/Button";
-import SnsComponent from "@/components/common/SnsComponent";
+import SnsComponent from "@/components/auth/SnsComponent";
 import { useState } from "react";
-import { validateEmail, validatePassword } from "@/utils/validation";
+import { validateEmail, validatePassword } from "@/utils/authValidation";
+import FormHeader from "@/components/auth/FormHeader";
 
 interface LoginComponentProps {
   isUser: boolean;
@@ -61,28 +60,7 @@ export default function LoginComponent({ isUser }: LoginComponentProps) {
 
   return (
     <div className={styles.container}>
-      <Image
-        src={assets.images.logoWordmark}
-        alt="logo"
-        width={112}
-        height={64}
-        className={styles.logo}
-      />
-      {isUser ? (
-        <p className={styles.linkDescription}>
-          기사님이신가요?{" "}
-          <a href="/mover/auth/login" className={styles.link}>
-            기사님 전용 페이지
-          </a>
-        </p>
-      ) : (
-        <p className={styles.linkDescription}>
-          일반 유저라면?{" "}
-          <a href="/auth/login" className={styles.link}>
-            일반 유저 전용 페이지
-          </a>
-        </p>
-      )}
+      <FormHeader isUser={isUser} />
       <form className={styles.form}>
         <div className={styles.formItem}>
           <label htmlFor="email" className={styles.formLabel}>
@@ -123,9 +101,15 @@ export default function LoginComponent({ isUser }: LoginComponentProps) {
       </form>
       <p className={styles.linkDescription}>
         아직 무빙 회원이 아니신가요?{" "}
-        <a href="/user/auth/signup" className={styles.link}>
-          이메일로 회원가입하기
-        </a>
+        {isUser ? (
+          <a href="/auth/register" className={styles.link}>
+            이메일로 회원가입하기
+          </a>
+        ) : (
+          <a href="/mover/auth/register" className={styles.link}>
+            이메일로 회원가입하기
+          </a>
+        )}
       </p>
       <div className={styles.snsContainer}>
         <SnsComponent />

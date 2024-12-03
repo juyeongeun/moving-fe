@@ -4,8 +4,6 @@ import Image from "next/image";
 import React, { useState } from "react";
 import assets from "@/variables/images";
 
-// Error Messages 출력은 추후 수정해야함
-
 interface InputProps {
   name: string;
   placeholder?: string;
@@ -33,27 +31,31 @@ export default function Input({
     input: `input
       w-full text-lg p-[12px] border-[0.5px]
       placeholder:text-grayscale-400  
-      border-line-200 
+      ${
+        error
+          ? "border-pr-red-200"
+          : value
+          ? "border-pr-blue-300"
+          : "border-line-200"
+      }
       rounded-[16px] 
       pr-10
-
+      focus:outline-none 
+      focus:border-[1px] 
+      ${error ? "focus:border-pr-red-200" : "focus:border-pr-blue-300"}
+      text-black-400 
+      font-regular
       pc:text-xl
       pc:px-[14px] pc:py-[16px]
       pc:border-[1px]
-      ${error ? "border-pr-red-200" : "border-line-200"}
-      focus:border-[1px] 
-      focus:${error ? "border-pr-red-200" : "border-pr-blue-300"} 
-      focus:outline-none 
-      text-black-400 
-      font-regular
     `
       .replace(/\s+/g, " ")
       .trim(),
     authInput: "bg-white",
     defaultInput: "bg-bg-200",
     passwordIcon: "absolute cursor-pointer right-[14px]",
-    errorMessage:
-      "text-pr-red-200 text-lg font-medium text-right mt-[4px] mr-[8px]",
+    errorMessage: `text-pr-red-200 text-sm font-medium text-right mt-[4px] mr-[8px]
+    pc:text-lg`,
   };
 
   const [showPassword, setShowPassword] = useState(false);
