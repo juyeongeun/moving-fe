@@ -7,7 +7,7 @@ import { type ProfileData, type FullMoverData } from "@/types/mover";
 import { cva } from "class-variance-authority";
 import Button from "../common/Button";
 import cn from "@/config/clsx";
-import { getRegionText } from "@/utils/utilFunctions";
+import { getRegionText, getServiceText } from "@/utils/utilFunctions";
 
 interface MoverProfileCardProps {
   data: FullMoverData & ProfileData;
@@ -51,9 +51,9 @@ const MoverProfileCard = ({ data, className }: MoverProfileCardProps) => {
               <div className="flex items-center gap-1">
                 <GrayLabel>제공 서비스</GrayLabel>
                 <div className={styles.text}>
-                  {data.services.map((service) => (
-                    <p key={service}>{service}</p>
-                  ))}
+                  {data.services
+                    .map((service) => getServiceText(service))
+                    .join(", ")}
                 </div>
               </div>
               <div className={styles.info}>
