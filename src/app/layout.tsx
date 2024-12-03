@@ -30,7 +30,10 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body
-        className={`${pretendard.variable} font-pretendard antialiased bg-bg-400`}
+        className={cn(
+          `${pretendard.variable} font-pretendard antialiased`,
+          globalStyles
+        )}
       >
         <GNB />
         <div className="max-w-[1400px] px-5 mx-auto">{children}</div>
