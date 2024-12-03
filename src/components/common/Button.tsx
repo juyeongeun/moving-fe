@@ -3,6 +3,7 @@ import Image from "next/image";
 import assets from "@/variables/images";
 import { cva, type VariantProps } from "class-variance-authority";
 import cn from "@/config/clsx";
+import Link from "next/link";
 
 // 버튼 스타일 정의
 const buttonVariants = cva(
@@ -53,6 +54,7 @@ interface ButtonProps
   width?: string | number;
   height?: string | number;
   radius?: string | number;
+  href?: string;
 }
 
 /**
@@ -102,6 +104,7 @@ const Button = ({
   variant = "primary",
   type = "button",
   withIcon = false,
+  href,
   ...rest
 }: ButtonProps): JSX.Element => {
   const formatDimension = (value: string | number) => {
@@ -146,7 +149,14 @@ const Button = ({
       <Link href={href}>
         <div
           style={getStyles()}
-          className={getClassNames()}
+          className={cn(
+            buttonVariants({
+              variant,
+              disabled,
+              withIcon,
+            }),
+            className
+          )}
           aria-disabled={disabled}
         >
           {children}
