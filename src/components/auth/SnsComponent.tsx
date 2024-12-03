@@ -4,6 +4,7 @@ import Image from "next/image";
 const styles = {
   linkDescription: `text-xs text-black-100 pc:text-xl pc:text-black-200`,
   snsContainer: `flex flex-row items-center gap-[24px]`,
+  sns: `cursor-pointer`,
 };
 
 export default function SnsComponent() {
@@ -16,18 +17,30 @@ export default function SnsComponent() {
           alt="google"
           width={54}
           height={54}
+          className={styles.sns}
+          onClick={() => {
+            console.log("google");
+          }}
         />
         <Image
           src={assets.images.logoKakao}
           alt="kakao"
           width={54}
           height={54}
+          className={styles.sns}
+          onClick={() => {
+            console.log("kakao");
+          }}
         />
         <Image
           src={assets.images.logoNaver}
           alt="naver"
           width={54}
           height={54}
+          className={styles.sns}
+          onClick={() => {
+            console.log("naver");
+          }}
         />
       </div>
     </>

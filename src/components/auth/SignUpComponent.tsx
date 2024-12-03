@@ -139,14 +139,13 @@ export default function SignUpComponent({ isUser }: SignUpComponentProps) {
         </div>
 
         <Button
+          children="시작하기"
           type="submit"
           variant="primary"
           className={styles.button}
           disabled={!isValid || isSubmitting}
           onClick={handleSubmit(onSubmit)}
-        >
-          회원가입
-        </Button>
+        />
       </form>
 
       <p className={styles.linkDescription}>
