@@ -10,6 +10,9 @@ interface AddressInputProps {
   text: string;
   className?: string;
   onClose?: () => void;
+  roadAddress?: string;
+  streetAddress?: string;
+  zipCode?: string;
 }
 
 /**
@@ -26,6 +29,9 @@ export default function AddressInput({
   text,
   className,
   onClose,
+  roadAddress = "서울특별시 강남구 테헤란로 14길 6 남도빌딩",
+  streetAddress = "서울특별시 강남구 테헤란로 14길 6 남도빌딩",
+  zipCode = "12345",
 }: AddressInputProps) {
   const handleClick = () => console.log("주소 선택 완료");
   const [selectedAddress, setSelectedAddress] = useState<string | null>(null);
@@ -64,11 +70,11 @@ export default function AddressInput({
         </div>
         <SearchInput name="address" placeholder="텍스트를 입력해주세요." />
         <AddressField
-          onClick={() => handleAddressSelect("12345")}
-          zipCode="12345"
-          roadAddress="서울특별시 강남구 테헤란로 14길 6 남도빌딩"
-          streetAddress="서울특별시 강남구 테헤란로 14길 6 남도빌딩"
-          selected={selectedAddress === "12345"}
+          onClick={() => handleAddressSelect(zipCode)}
+          zipCode={zipCode}
+          roadAddress={roadAddress}
+          streetAddress={streetAddress}
+          selected={selectedAddress === zipCode}
           className="mt-[16px] pc:mt-[24px]"
         />
         <Button

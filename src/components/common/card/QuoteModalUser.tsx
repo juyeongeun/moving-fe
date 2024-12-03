@@ -13,10 +13,10 @@ const styles = {
   moveContainer: `flex flex-row gap-[8px] items-center
   pc:gap-[12px]`,
   chips: `bg-bg-400 py-[2px] px-[4px] rounded-[4px] w-fit h-fit text-md font-medium text-grayscale-400 
-    pc:font-regular pc:text-2lg`,
+    pc:font-regular pc:text-2lg whitespace-nowrap`,
   textFont: `text-md font-medium text-black-300
-  pc:text-2lg`,
-  locationContainer: `flex flex-row gap-[14px] items-center
+  pc:text-2lg overflow-hidden whitespace-nowrap text-ellipsis`,
+  locationContainer: `flex flex-col gap-[8px]
   pc:gap-[16px]`,
   locationWrapper: `flex flex-row gap-[8px] items-center
   pc:gap-[12px]`,
@@ -42,7 +42,6 @@ export default function QuoteModalMover({
           <p className={styles.chips}>출발</p>
           <p className={styles.textFont}>{startAddress}</p>
         </div>
-        <p className={styles.divider}>|</p>
         <div className={styles.locationWrapper}>
           <p className={styles.chips}>도착</p>
           <p className={styles.textFont}>{endAddress}</p>
