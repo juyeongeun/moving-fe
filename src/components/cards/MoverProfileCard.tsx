@@ -7,6 +7,7 @@ import { type ProfileData, type FullMoverData } from "@/types/mover";
 import { cva } from "class-variance-authority";
 import Button from "../common/Button";
 import cn from "@/config/clsx";
+import { getRegionText } from "@/utils/utilFunctions";
 
 interface MoverProfileCardProps {
   data: FullMoverData & ProfileData;
@@ -58,9 +59,7 @@ const MoverProfileCard = ({ data, className }: MoverProfileCardProps) => {
               <div className={styles.info}>
                 <GrayLabel>지역</GrayLabel>
                 <div className={styles.text}>
-                  {data.regions.map((region) => (
-                    <p key={region}>{region}</p>
-                  ))}
+                  {data.regions.map((code) => getRegionText(code)).join(", ")}
                 </div>
               </div>
             </div>

@@ -65,10 +65,13 @@ interface ButtonProps
  * // variant 설정
  * <Button variant="primary">Primary Button</Button>
  * <Button variant="outlined">Outlined Button</Button>
+ * <Button variant="gray">Outlined Gray Button</Button>;
+ *
  *
  * // 아이콘이 있는 버튼
  * <Button variant="primary" withIcon>Write Post</Button>
  * <Button variant="outlined" withIcon>New Draft</Button>
+ * <Button variant="gray" withIcon> 기본 정보 수정</Button>
  *
  * // 크기 커스터마이징
  * <Button width="200px" height="50px">Custom Size</Button>
