@@ -91,7 +91,9 @@ export default function QuoteModal({
             name="quote"
             placeholder="견적가 입력"
             value={quote}
-            onChange={(value: string) => setQuote(value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setQuote(e.target.value)
+            }
           />
         </div>
       )}
