@@ -47,3 +47,16 @@ export interface RequestDetails {
   requestDate: string;
   cost: number;
 }
+
+export interface QuoteDetailsData {
+  id: number;
+  requestDate: string;
+  service: number;
+  isDesignated: boolean;
+  name: string;
+  movingDate: string;
+  pickupAddress: string;
+  dropOffAddress: string;
+  isCompleted: boolean;
+  isRejected: boolean;
+}

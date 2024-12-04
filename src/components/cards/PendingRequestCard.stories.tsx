@@ -58,16 +58,6 @@ export const Default: Story = {
   },
 };
 
-export const WithCustomClassName: Story = {
-  args: {
-    data: mockData,
-    size: "responsive",
-    className: "max-w-[800px]",
-    onPrimaryClick: () => alert("견적 확정하기 클릭"),
-    onOutlinedClick: () => alert("상세보기 클릭"),
-  },
-};
-
 export const NonDesignated: Story = {
   args: {
     data: { ...mockData, isDesignated: false },
