@@ -1,5 +1,15 @@
-export const PROFILE_CUSTOMER = ["프로필 수정", "찜한 기사님", "이사 리뷰"];
-export const PROFILE_MOVER = ["마이페이지", "받은 견적"];
+export const DROPDOWN_REGION_TEXT = "지역";
+export const DROPDOWN_SERVICE_TEXT = "서비스";
+
+export const PROFILE_CUSTOMER = [
+  { text: "프로필 수정", link: "/profile-edit" },
+  { text: "찜한 기사님", link: "/미정" },
+  { text: "이사 리뷰", link: "/review" },
+];
+export const PROFILE_MOVER = [
+  { text: "마이페이지", link: "/mover/mypage" },
+  { text: "받은 견적", link: "/mover/request" },
+];
 export const SORT_MOVER = [
   "리뷰 많은순",
   "평점 높은순",
@@ -9,8 +19,6 @@ export const SORT_MOVER = [
 export const SORT_MOVING_REQUEST = ["이사 빠른순", "요청일 빠른순"];
 
 export enum DropdownType {
-  REGION,
-  SERVICE,
   PROFILE_CUSTOMER,
   PROFILE_MOVER,
   NOTIFICATION,
@@ -19,22 +27,6 @@ export enum DropdownType {
 }
 
 export const DROPDOWN_ITEM_CLASSES: Record<DropdownType, string> = {
-  [DropdownType.REGION]:
-    "box-border flex flex-row items-center \
-    px-3.5 \
-    w-full h-9 \
-    text-md font-medium \
-    hover:bg-pr-blue-50 \
-    cursor-pointer \
-    pc:px-6 pc:h-[64px] pc:text-2lg",
-  [DropdownType.SERVICE]:
-    "box-border flex flex-row items-center \
-    px-3.5 \
-    w-full h-9 \
-    text-md font-medium text-nowrap \
-    hover:bg-pr-blue-50 \
-    cursor-pointer \
-    pc:px-6 pc:h-[64px] pc:text-2lg",
   [DropdownType.PROFILE_CUSTOMER]:
     "box-border flex flex-col items-left \
     px-3 py-2 \
@@ -76,19 +68,6 @@ export const DROPDOWN_ITEM_CLASSES: Record<DropdownType, string> = {
 };
 
 export const DROPDOWN_LIST_CLASSES: Record<DropdownType, string> = {
-  [DropdownType.REGION]:
-    "grid grid-cols-2 overflow-y-scroll \
-    h-full \
-    scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar \
-    scrollbar-thumb-grayscale-200 scrollbar-w-1 \
-    pc:scrollbar-w-1.5",
-  [DropdownType.SERVICE]:
-    "absolute flex flex-col items-center \
-    top-[42px] w-[89px] h-[144px] \
-    border-solid border-[1px] border-line-100 rounded-2xl \
-    bg-white \
-    tablet:top-11 \
-    pc:top-20 pc:w-[328px] pc:h-[256px]",
   [DropdownType.PROFILE_CUSTOMER]:
     "absolute flex flex-col items-center \
     p-1.5 pt-2.5 top-[37px] right-0 w-[152px] \
@@ -131,30 +110,6 @@ export const DROPDOWN_CLASSES: Record<
     disabled: string;
   }
 > = {
-  [DropdownType.REGION]: {
-    base: "relative box-border flex flex-row justify-between items-center \
-        pl-3.5 pr-2.5 w-[75px] h-9 \
-        border-solid border-[1px] border-grayscale-100 rounded-lg \
-        bg-transparent shadow-[4px_4px_10px_rgba(238,238,238,0.1)] \
-        text-black-400 \
-        cursor-pointer \
-        pc:w-[328px] pc:h-16 pc:px-6 pc:rounded-2xl",
-    able: "shadow-md hover:bg-pr-blue-50",
-    open: "border-pr-blue-300 text-pr-blue-300",
-    disabled: "cursor-not-allowed",
-  },
-  [DropdownType.SERVICE]: {
-    base: "relative box-border flex flex-row justify-between items-center \
-        pl-3.5 pr-2.5 w-[87px] h-9 \
-        border-solid border-[1px] border-grayscale-100 rounded-lg \
-        bg-transparent shadow-[4px_4px_10px_rgba(238,238,238,0.1)] \
-        text-black-400 \
-        cursor-pointer \
-        pc:w-[328px] pc:h-16 pc:px-6 pc:rounded-2xl",
-    able: "shadow-md hover:bg-pr-blue-50",
-    open: "border-pr-blue-300 text-pr-blue-300",
-    disabled: "cursor-not-allowed",
-  },
   [DropdownType.PROFILE_CUSTOMER]: {
     base: "relative flex flex-row gap-4 items-center justify-between rounded-full cursor-pointer",
     able: "",

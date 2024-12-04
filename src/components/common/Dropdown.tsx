@@ -1,8 +1,13 @@
 "use client";
 
+import Image from "next/image";
+import React, { useState } from "react";
+import clsx from "clsx";
+
+import assets from "../../variables/images.js";
+import { boolean } from "zod";
+
 // import { useState, ReactNode } from "react";
-// import Image from "next/image";
-// import clsx from "clsx";
 
 // import { REGION_CODES } from "../../variables/regions";
 // import { SERVICES } from "../../variables/services";
@@ -16,7 +21,7 @@
 //   DROPDOWN_LIST_CLASSES,
 //   DROPDOWN_CLASSES,
 // } from "../../variables/dropdown";
-// import assets from "../../variables/images.js";
+//
 
 // interface DropdownItemProps {
 //   type: DropdownType;
@@ -390,20 +395,118 @@
 //   );
 // }
 
-type DropdownItemProps = {
-  dropdownItemClass: string;
+type DropdownFilterProps = {
+  children: React.ReactNode | string;
 };
 
-function DropdownItem({ dropdownItemClass }: DropdownItemProps) {}
+export function DropdownFilter({ children }: DropdownFilterProps) {
+  const dropdownFilterClass = clsx(
+    "text-nowrap text-md pc:text-2lg font-medium"
+  );
+
+  return <div className={dropdownFilterClass}>{children}</div>;
+}
+
+type DropdownImageProps = {
+  isOpen: boolean;
+};
+
+export function DropdownImage({ isOpen }: DropdownImageProps) {
+  return (
+    <div className="relative w-5 h-5 pc:w-9 pc:h-9">
+      <Image
+        src={isOpen ? assets.icons.chevronDownActive : assets.icons.chevronDown}
+        alt="드롭 다운"
+        fill
+      />
+    </div>
+  );
+}
+
+type ProfileImageProps = {
+  imageUrl?: string;
+};
+
+export function ProfileImage({
+  imageUrl = assets.icons.userProfile,
+}: ProfileImageProps) {
+  const commonImageFrameClass = clsx(
+    "relative w-6 h-6 rounded-full overflow-hidden pc:w-9 pc:h-9"
+  );
+
+  return (
+    <div className={commonImageFrameClass}>
+      <Image src={imageUrl} alt="프로필 드롭 다운" fill />
+    </div>
+  );
+}
+
+type DropdownUserNameProps = {
+  name?: string;
+};
+
+export function DropdownUserName({ name = "사용자명" }: DropdownUserNameProps) {
+  const dropdownUserNameClass = clsx(
+    "hidden pc:block text-md text-nowrap pc:text-2lg font-medium"
+  );
+
+  return <div className={dropdownUserNameClass}>{name}</div>;
+}
+
+type DropdownItemProps = {
+  children: React.ReactNode;
+  onClick?: () => void;
+  className?: string;
+  as?: keyof JSX.IntrinsicElements;
+};
+
+export function DropdownItem({
+  children,
+  onClick,
+  className,
+  as: Component = "div",
+}: DropdownItemProps) {
+  return (
+    <Component className={clsx(className)} onClick={onClick}>
+      {children}
+    </Component>
+  );
+}
 
 type DropdownListProps = {
-  dropdownListClass: string;
+  items: React.ReactNode[];
+  className?: string;
 };
 
-function DropdownList({ dropdownListClass }: DropdownListProps) {}
+export function DropdownList({ items, className }: DropdownListProps) {
+  return (
+    <div className={clsx(className)}>
+      {items.map((item, index) => (
+        <>{item}</>
+      ))}
+    </div>
+  );
+}
 
 type DropdownProps = {
-  dropdownClass: string;
+  trigger: React.ReactNode;
+  children: React.ReactNode;
+  isOpen: boolean;
+  onToggle: () => void;
+  className?: string;
 };
 
-function Dropdown({ dropdownClass }: DropdownProps) {}
+export function Dropdown({
+  trigger,
+  children,
+  isOpen,
+  onToggle,
+  className,
+}: DropdownProps) {
+  return (
+    <div className={clsx("relative", className)}>
+      <div onClick={onToggle}>{trigger}</div>
+      {isOpen && <>{children}</>}
+    </div>
+  );
+}
