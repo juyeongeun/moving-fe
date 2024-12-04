@@ -11,9 +11,9 @@ import {
   type FavoriteFields,
   Address,
 } from "@/types/mover";
-import GrayLabel from "../common/card/GrayLabel";
 import Button from "../common/Button";
 import { formatDateWithDay } from "@/utils/utilFunctions";
+import TextWithGrayLabel from "../common/card/TextWithGrayLabel";
 
 interface PendingRequestData
   extends FullMoverData,
@@ -25,26 +25,40 @@ interface PendingRequestData
 
 type PendingRequestCardProps = CardProps & {
   data: PendingRequestData;
+  onPrimaryClick: () => void;
+  onOutlinedClick: () => void;
+};
+
+export const QuoteAmount = ({ amount }: { amount: number }) => {
+  return (
+    <span className="flex gap-2 items-center justify-end">
+      <p className="text-md font-medium pc:text-2lg">견적금액</p>
+      <p className="text-2lg font-bold pc:text-2xl">
+        {amount.toLocaleString()}원
+      </p>
+    </span>
+  );
+};
+
+const styles = {
+  chipContainer: "flex gap-2",
+  labelsContainer:
+    "flex gap-2 flex-col text-md font-medium pc:text-2lg pc:gap-4",
+  buttonContainer: "flex flex-col gap-2 tablet:flex-row",
 };
 
 const PendingRequestCard = ({
   data,
   size,
   className,
+  onPrimaryClick,
+  onOutlinedClick,
 }: PendingRequestCardProps) => {
   const serviceType = mapServiceType([data.service])[0];
 
-  const handleConfirmClick = () => {
-    console.log("견적 확정하기 api 호출");
-  };
-
-  const handleDetailClick = (quoteId: number) => {
-    console.log("상세보기 페이지로 이동");
-  };
-
   return (
     <CardContainer className="max-w-[688px]" size={size} gap="gap-3.5 pc:gap-6">
-      <div className="flex gap-2">
+      <div className={styles.chipContainer}>
         <ServiceChip variant="pendingConfirm" />
         <ServiceChip variant={serviceType as ChipType} />
         {data.isDesignated && <ServiceChip variant="designatedQuote" />}
@@ -52,37 +66,23 @@ const PendingRequestCard = ({
 
       <MoverInfo data={data} />
 
-      <div className="flex gap-2 flex-col text-md font-medium pc:text-2lg pc:gap-4">
-        <div className="flex items-center gap-1">
-          <GrayLabel>이사일</GrayLabel>
-          <span className="truncate overflow-hidden whitespace-nowrap">
-            {formatDateWithDay(data.movingDate)}
-          </span>
-        </div>
-        <div className="flex items-center gap-1">
-          <GrayLabel>출발</GrayLabel>
-          <span className="truncate overflow-hidden whitespace-nowrap">
-            {data.pickupAddress}
-          </span>
-        </div>
-        <div className="flex items-center gap-1">
-          <GrayLabel>도착</GrayLabel>
-          <span className="truncate overflow-hidden whitespace-nowrap">
-            {data.dropOffAddress}
-          </span>
-        </div>
+      <div className={styles.labelsContainer}>
+        <TextWithGrayLabel
+          label="이사일"
+          text={formatDateWithDay(data.movingDate)}
+        />
+        <TextWithGrayLabel label="출발" text={data.pickupAddress} />
+        <TextWithGrayLabel label="도착" text={data.dropOffAddress} />
       </div>
-      <div className="flex gap-2 items-center justify-end">
-        <span className="text-md font-medium pc:text-2lg">견적금액</span>
-        <span className="text-2lg font-bold pc:text-2xl">
-          {data.cost.toLocaleString()}원
-        </span>
+      <QuoteAmount amount={data.cost} />
+      <div className={styles.buttonContainer}>
+        <Button onClick={onPrimaryClick} width="100%">
+          견적 확정하기
+        </Button>
+        <Button onClick={onOutlinedClick} variant="outlined" width="100%">
+          상세보기
+        </Button>
       </div>
-
-      <Button onClick={handleConfirmClick}>견적 확정하기</Button>
-      <Button onClick={() => handleDetailClick(data.id)} variant="outlined">
-        상세보기
-      </Button>
     </CardContainer>
   );
 };
