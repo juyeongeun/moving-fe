@@ -442,6 +442,18 @@ export function SortDropdownImage({ isOpen }: SortDropdownImageProps) {
   );
 }
 
+type DropdownSortTriggerProps = {
+  curretnSort: string;
+};
+
+export function DropdownSortTrigger({ curretnSort }: DropdownSortTriggerProps) {
+  const dropdownSortMoverClass = clsx(
+    "text-nowrap text-xs pc:text-md font-semibold"
+  );
+
+  return <div className={dropdownSortMoverClass}>{curretnSort}</div>;
+}
+
 type DropdownItemProps = {
   children: React.ReactNode;
   onClick?: () => void;

@@ -33,7 +33,10 @@ export const SORT_MOVING_REQUEST_CODES = {
   REQUEST: 1,
 } as const;
 
-export const SORT_MOVING_REQUEST_TEXTS = {
+export const SORT_MOVING_REQUEST_TEXTS: Record<
+  (typeof SORT_MOVING_REQUEST_CODES)[keyof typeof SORT_MOVING_REQUEST_CODES],
+  string
+> = {
   [SORT_MOVING_REQUEST_CODES.DATE]: "이사 빠른순",
   [SORT_MOVING_REQUEST_CODES.REQUEST]: "요청일 빠른순",
 } as const;
