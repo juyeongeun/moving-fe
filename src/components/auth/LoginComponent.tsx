@@ -6,7 +6,7 @@ import SnsComponent from "@/components/auth/SnsComponent";
 import FormHeader from "@/components/auth/FormHeader";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema, AuthFormData } from "@/utils/authValidation";
+import { loginSchema, LoginFormData } from "@/utils/authValidation";
 import React from "react";
 
 interface SignUpComponentProps {
@@ -32,12 +32,12 @@ export default function SignUpComponent({ isUser }: SignUpComponentProps) {
     handleSubmit,
     formState: { errors, isSubmitting, isValid },
     reset,
-  } = useForm<AuthFormData>({
+  } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     mode: "onChange",
   });
 
-  const onSubmit = async (data: AuthFormData) => {
+  const onSubmit = async (data: LoginFormData) => {
     try {
       const validationResult = loginSchema.safeParse(data);
       if (!validationResult.success) {
@@ -56,7 +56,7 @@ export default function SignUpComponent({ isUser }: SignUpComponentProps) {
 
   return (
     <div className={styles.container}>
-      <FormHeader isUser={isUser} signUp={true} />
+      <FormHeader isUser={isUser} signUp={false} />
       <form className={styles.form}>
         <div className={styles.formItem}>
           <label htmlFor="email" className={styles.formLabel}>

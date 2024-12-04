@@ -15,7 +15,7 @@ export default function InfoEditPage() {
   };
   return (
     <div className={styles.container}>
-      <InfoEdit isUser={false} userData={userData} />
+      <InfoEdit isUser={true} userData={userData} />
     </div>
   );
 }
