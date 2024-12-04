@@ -30,16 +30,20 @@ const TextWithGrayLabel = ({
   label,
   text,
   className,
+  variant = "solid",
   size = "responsive",
 }: {
   label: string;
   text: string;
   className?: string;
+  variant?: "solid" | "border";
   size?: "responsive" | "fixed";
 }) => {
   return (
     <span className={cn(textWithGrayLabelVariants({ size }), className)}>
-      <GrayLabel size={size}>{label}</GrayLabel>
+      <GrayLabel variant={variant} size={size}>
+        {label}
+      </GrayLabel>
       <p className={cn(textVariants({ size }))}>{text}</p>
     </span>
   );
