@@ -24,7 +24,6 @@ const mockData = {
   pickupAddress: "서울특별시 강남구 역삼동 123-456",
   dropOffAddress: "서울특별시 서초구 서초동 789-012",
   isCompleted: false,
-  isRejected: false,
 };
 
 // 스토리북 액션 생성

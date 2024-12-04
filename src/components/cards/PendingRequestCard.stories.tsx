@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import PendingRequestCard from "./PendingRequestCard";
 
-const meta = {
+const meta: Meta<typeof PendingRequestCard> = {
   title: "Components/Cards/PendingRequestCard",
   component: PendingRequestCard,
   parameters: {
@@ -15,7 +15,7 @@ const meta = {
     ),
   ],
   tags: ["autodocs"],
-} satisfies Meta<typeof PendingRequestCard>;
+};
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -39,7 +39,7 @@ const mockData = {
   confirmCount: 12,
   favoriteCount: 22,
   isFavorite: false,
-  introduction: "성실 정확 한 줄 평가",
+  introduction: "성실 정�� 한 줄 평가",
   services: [0, 1],
   regions: [82031, 8202],
   movingDate: "2024-11-30T10:00:00.000Z",
