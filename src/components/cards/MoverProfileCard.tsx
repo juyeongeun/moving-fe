@@ -2,12 +2,12 @@
 
 import MoverExperience from "../common/card/MoverExperience";
 import ProfileImage from "../common/card/ProfileImage";
-import GrayLabel from "../common/card/GrayLabel";
 import { type ProfileData, type FullMoverData } from "@/types/mover";
 import { cva } from "class-variance-authority";
 import Button from "../common/Button";
 import cn from "@/config/clsx";
 import { getRegionText, getServiceText } from "@/utils/utilFunctions";
+import TextWithGrayLabel from "../common/card/TextWithGrayLabel";
 
 interface MoverProfileCardProps {
   data: FullMoverData & ProfileData;
@@ -22,12 +22,16 @@ const styles = {
     "flex flex-col border-solid border-line-100 border-[1px] shadow-border rounded-[16px] gap-3.5 p-2.5 pc:flex-row pc:items-center pc:py-[26px] pc:px-[18px]"
   ),
   info: "flex items-center gap-1",
-  text: "flex gap-1 text-md font-medium pc:text-2lg",
   button: "w-full tablet:w-[298px]",
   buttonContainer: "flex flex-wrap gap-2 pc:absolute pc:top-6 pc:right-6",
 };
 
 const MoverProfileCard = ({ data, className }: MoverProfileCardProps) => {
+  const serviceText = data.services
+    .map((service) => getServiceText(service))
+    .join(", ");
+  const regionText = data.regions.map((code) => getRegionText(code)).join(", ");
+
   return (
     <section className={cn("flex flex-col gap-4 relative", className)}>
       <section className={styles.container()}>
@@ -45,21 +49,18 @@ const MoverProfileCard = ({ data, className }: MoverProfileCardProps) => {
           <ProfileImage imgUrl={data.imageUrl} className="hidden pc:block" />
           <div className="flex flex-col gap-3.5 pc:gap-4">
             <MoverExperience data={data} />
+
             <div className="flex flex-col gap-1 pc:gap-2 pc:flex-row">
-              <div className="flex items-center gap-1">
-                <GrayLabel>제공 서비스</GrayLabel>
-                <div className={styles.text}>
-                  {data.services
-                    .map((service) => getServiceText(service))
-                    .join(", ")}
-                </div>
-              </div>
-              <div className={styles.info}>
-                <GrayLabel>지역</GrayLabel>
-                <div className={styles.text}>
-                  {data.regions.map((code) => getRegionText(code)).join(", ")}
-                </div>
-              </div>
+              <TextWithGrayLabel
+                variant="border"
+                label="제공 서비스"
+                text={serviceText}
+              />
+              <TextWithGrayLabel
+                variant="border"
+                label="지역"
+                text={regionText}
+              />
             </div>
           </div>
         </div>
