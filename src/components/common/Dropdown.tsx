@@ -340,8 +340,7 @@ import { boolean } from "zod";
 //     </>,
 //     <>{notificationImage}</>,
 //     <>
-//       {dropdownSortMover}
-//       {sortDropdownImage}
+
 //     </>,
 //     <>
 //       {dropdownSortMovingRequest}
@@ -423,6 +422,36 @@ export function DropdownNotification() {
   return (
     <div className={commonImageFrameClass}>
       <Image src={assets.icons.alarm} alt="알림 드롭 다운" fill />
+    </div>
+  );
+}
+
+type DropdownSortMoverProps = {
+  curretnSortMover: string;
+};
+
+export function DropdownSortMover({
+  curretnSortMover,
+}: DropdownSortMoverProps) {
+  const dropdownSortMoverClass = clsx(
+    "text-nowrap text-xs pc:text-md font-semibold"
+  );
+
+  return <div className={dropdownSortMoverClass}>{curretnSortMover}</div>;
+}
+
+type SortDropdownImageProps = {
+  isOpen: boolean;
+};
+
+export function SortDropdownImage({ isOpen }: SortDropdownImageProps) {
+  return (
+    <div className="relative w-5 h-5">
+      <Image
+        src={isOpen ? assets.icons.chevronDownActive : assets.icons.chevronDown}
+        alt="정렬 드롭 다운"
+        fill
+      />
     </div>
   );
 }

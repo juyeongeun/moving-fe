@@ -10,13 +10,30 @@ export const PROFILE_MOVER = [
   { text: "마이페이지", link: "/mover/mypage" },
   { text: "받은 견적", link: "/mover/request" },
 ];
-export const SORT_MOVER = [
-  "리뷰 많은순",
-  "평점 높은순",
-  "경력 높은순",
-  "확정 많은순",
-];
-export const SORT_MOVING_REQUEST = ["이사 빠른순", "요청일 빠른순"];
+
+export const SORT_MOVER_CODES = {
+  REVIEW: 0,
+  RATING: 1,
+  CAREER: 2,
+  CONFIRM: 3,
+} as const;
+
+export const SORT_MOVER_TEXTS = {
+  [SORT_MOVER_CODES.REVIEW]: "리뷰 많은순",
+  [SORT_MOVER_CODES.RATING]: "평점 높은순",
+  [SORT_MOVER_CODES.CAREER]: "경력 높은순",
+  [SORT_MOVER_CODES.CONFIRM]: "확정 많은순",
+} as const;
+
+export const SORT_MOVING_REQUEST_CODES = {
+  DATE: 0,
+  REQUEST: 1,
+} as const;
+
+export const SORT_MOVING_REQUEST_TEXTS = {
+  [SORT_MOVING_REQUEST_CODES.DATE]: "이사 빠른순",
+  [SORT_MOVING_REQUEST_CODES.REQUEST]: "요청일 빠른순",
+} as const;
 
 export enum DropdownType {
   PROFILE_CUSTOMER,
