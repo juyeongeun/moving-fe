@@ -12,6 +12,8 @@ import TextWithGrayLabel from "../common/card/TextWithGrayLabel";
 interface MoverProfileCardProps {
   data: FullMoverData & ProfileData;
   className?: string;
+  onPrimaryClick?: () => void;
+  onOutlinedClick?: () => void;
 }
 
 const styles = {
@@ -24,9 +26,21 @@ const styles = {
   info: "flex items-center gap-1",
   button: "w-full tablet:w-[298px]",
   buttonContainer: "flex flex-wrap gap-2 pc:absolute pc:top-6 pc:right-6",
+  topContainer: "flex items-center gap-4",
+  nameContainer: "flex gap-2",
+  nickname: "text-md font-medium text-grayscale-500 pc:text-lg",
+  name: "text-lg font-semibold pc:text-2lg",
+  topLeftContainer: "flex flex-col gap-1 pc:gap-2",
+  introduction: "text-md font-regular text-grayscale-400 pc:text-lg",
+  labelContainer: "flex flex-col gap-1 pc:gap-2 pc:flex-row",
 };
 
-const MoverProfileCard = ({ data, className }: MoverProfileCardProps) => {
+const MoverProfileCard = ({
+  data,
+  className,
+  onPrimaryClick,
+  onOutlinedClick,
+}: MoverProfileCardProps) => {
   const serviceText = data.services
     .map((service) => getServiceText(service))
     .join(", ");
@@ -35,13 +49,15 @@ const MoverProfileCard = ({ data, className }: MoverProfileCardProps) => {
   return (
     <section className={cn("flex flex-col gap-4 relative", className)}>
       <section className={styles.container()}>
-        <div className="flex items-center gap-4">
+        <div className={styles.topContainer}>
           <ProfileImage imgUrl={data.imageUrl} className="pc:hidden" />
-          <div className="flex flex-col gap-1 pc:gap-2">
-            <p className="text-lg font-semibold pc:text-2lg">{data.name}</p>
-            <p className="text-md font-regular pc:text-lg text-grayscale-400 truncate">
-              {data.introduction}
-            </p>
+          <div className={styles.topLeftContainer}>
+            <span className={styles.nameContainer}>
+              <p className={styles.name}>{data.name}</p>
+              <p className={styles.nickname}>{data.nickname}</p>
+            </span>
+
+            <p className={styles.introduction}>{data.introduction}</p>
           </div>
         </div>
 
@@ -50,7 +66,7 @@ const MoverProfileCard = ({ data, className }: MoverProfileCardProps) => {
           <div className="flex flex-col gap-3.5 pc:gap-4">
             <MoverExperience data={data} />
 
-            <div className="flex flex-col gap-1 pc:gap-2 pc:flex-row">
+            <div className={styles.labelContainer}>
               <TextWithGrayLabel
                 variant="border"
                 label="제공 서비스"
@@ -67,11 +83,21 @@ const MoverProfileCard = ({ data, className }: MoverProfileCardProps) => {
       </section>
 
       <div className={styles.buttonContainer}>
-        <Button variant="primary" withIcon className={styles.button}>
+        <Button
+          variant="primary"
+          withIcon
+          className={styles.button}
+          onClick={onPrimaryClick}
+        >
           내 프로필 수정
         </Button>
 
-        <Button variant="gray" withIcon className={styles.button}>
+        <Button
+          variant="gray"
+          withIcon
+          className={styles.button}
+          onClick={onOutlinedClick}
+        >
           기본 정보 수정
         </Button>
       </div>
