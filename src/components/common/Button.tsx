@@ -1,8 +1,9 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 interface ButtonProps {
-  onClick: () => void;
+  onClick?: () => void;
   width?: string | number;
   height?: string | number;
   radius?: string | number;
@@ -12,6 +13,7 @@ interface ButtonProps {
   type?: "button" | "submit" | "reset";
   className?: string;
   withIcon?: boolean;
+  href?: string;
 }
 
 /**
@@ -46,7 +48,6 @@ interface ButtonProps {
  * @param {string} [className] - 추가 스타일링을 위한 클래스명
  * @param {boolean} [withIcon] - 우측에 아이콘 표시 여부
  */
-
 const Button = ({ ...props }: ButtonProps): JSX.Element => {
   const {
     onClick,
@@ -59,6 +60,7 @@ const Button = ({ ...props }: ButtonProps): JSX.Element => {
     type = "button",
     className = "",
     withIcon = false,
+    href,
   } = props;
 
   const formatDimension = (value: string | number) => {
@@ -74,9 +76,9 @@ const Button = ({ ...props }: ButtonProps): JSX.Element => {
     },
     outlined: {
       default:
-        "bg-transparent text-pr-blue-300 text-left border-[1px] border-pr-blue-300 hover:bg-pr-blue-50",
+        "bg-transparent text-pr-blue-300 text-left border border-solid border-pr-blue-300 hover:bg-pr-blue-50",
       disabled:
-        "bg-transparent text-left text-gray-100 border-[1px] border-gray-100 cursor-not-allowed",
+        "bg-transparent text-left text-gray-100 border border-solid border-gray-100 cursor-not-allowed",
     },
   };
 
@@ -110,6 +112,21 @@ const Button = ({ ...props }: ButtonProps): JSX.Element => {
       />
     );
   };
+
+  if (href) {
+    return (
+      <Link href={href}>
+        <div
+          style={getStyles()}
+          className={getClassNames()}
+          aria-disabled={disabled}
+        >
+          {children}
+          {renderIcon()}
+        </div>
+      </Link>
+    );
+  }
 
   return (
     <button

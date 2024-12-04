@@ -1,7 +1,5 @@
 const assets = {
   icons: {
-    x: "/assets/icons/ic_X.svg",
-    xCircle: "/assets/icons/ic_X_circle.svg",
     alarm: "/assets/icons/ic_alarm.svg",
     box: "/assets/icons/ic_box.svg",
     checkboxActive: "/assets/icons/ic_checkbox_active.svg",
@@ -30,6 +28,8 @@ const assets = {
     visibilityOff: "/assets/icons/ic_visibility_off.svg",
     visibilityOn: "/assets/icons/ic_visibility_on.svg",
     writing: "/assets/icons/ic_writing.svg",
+    x: "/assets/icons/ic_X.svg",
+    xCircle: "/assets/icons/ic_X_circle.svg",
   },
   images: {
     avatarRed: "/assets/images/img_avatar_red.svg",
@@ -43,6 +43,7 @@ const assets = {
     logo: "/assets/images/img_logo.svg",
     logoGoogle: "/assets/images/img_logo_google.svg",
     logoKakao: "/assets/images/img_logo_kakao.svg",
+    logoMarkonly: "/assets/images/img_logo_markonly.svg",
     logoNaver: "/assets/images/img_logo_naver.svg",
     logoWordmark: "/assets/images/img_logo_wordmark.svg",
   },

@@ -1,0 +1,286 @@
+import React from "react";
+import { ChevronLeft, ChevronRight, Clock, ArrowLeft } from "lucide-react";
+
+const WEEKDAYS = ["일", "월", "화", "수", "목", "금", "토"] as const;
+const DATE_STEP = "date" as const;
+const TIME_STEP = "time" as const;
+type Step = typeof DATE_STEP | typeof TIME_STEP;
+
+interface DayInfo {
+  date: number;
+  isCurrentMonth?: boolean;
+  isPrevMonth?: boolean;
+  isNextMonth?: boolean;
+}
+
+interface DatePickerProps {
+  onChange?: (isoString: string) => void;
+  initialDate?: Date;
+}
+
+/**
+ * `DatePicker` 컴포넌트는 날짜와 시간을 선택할 수 있는 UI를 제공합니다.
+ * 날짜를 선택하고, 시간도 함께 선택할 수 있으며, 최종적으로 선택된 날짜와 시간이 ISO 8601 형식으로 반환됩니다.
+ *
+ * @component
+ * @example
+ * // 기본 사용 예시
+ * <DatePicker onChange={(isoString) => console.log(isoString)} />
+ *
+ * @param {Object} props
+ * @param {Function} [props.onChange] - 선택된 날짜와 시간이 ISO 8601 형식으로 반환됩니다
+ * @param {Date} [props.initialDate] - 초기 선택 날짜. 기본값은 현재 날짜
+ *
+ * @returns {JSX.Element} 선택할 수 있는 날짜와 시간이 포함된 UI
+ */
+const DatePicker: React.FC<DatePickerProps> = ({
+  onChange,
+  initialDate = new Date(),
+}) => {
+  const [currentDate, setCurrentDate] = React.useState(
+    () => new Date(initialDate)
+  );
+  const [selectedDate, setSelectedDate] = React.useState(
+    () => new Date(initialDate)
+  );
+  const [step, setStep] = React.useState<Step>(DATE_STEP);
+  const [selectedTime, setSelectedTime] = React.useState({
+    hours: initialDate.getHours(),
+    minutes: initialDate.getMinutes(),
+  });
+
+  const getDaysInMonth = React.useCallback((date: Date): DayInfo[] => {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const daysInMonth = lastDay.getDate();
+    const startingDay = firstDay.getDay();
+    const prevMonthLastDay = new Date(year, month, 0).getDate();
+
+    return [
+      ...Array.from({ length: startingDay }, (_, i) => ({
+        date: prevMonthLastDay - (startingDay - 1) + i,
+        isPrevMonth: true,
+      })),
+      ...Array.from({ length: daysInMonth }, (_, i) => ({
+        date: i + 1,
+        isCurrentMonth: true,
+      })),
+      ...Array.from({ length: 42 - (startingDay + daysInMonth) }, (_, i) => ({
+        date: i + 1,
+        isNextMonth: true,
+      })),
+    ];
+  }, []);
+
+  const formatDate = React.useCallback((date: Date): string => {
+    return date
+      .toLocaleDateString("ko-KR", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      })
+      .replace(/\./g, ". ")
+      .trim();
+  }, []);
+
+  const formatYearMonth = React.useCallback((date: Date): string => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    return `${year}. ${month}`;
+  }, []);
+
+  const isSelectedDate = React.useCallback(
+    (day: DayInfo): boolean => {
+      return Boolean(
+        day.isCurrentMonth &&
+          selectedDate.getDate() === day.date &&
+          selectedDate.getMonth() === currentDate.getMonth() &&
+          selectedDate.getFullYear() === currentDate.getFullYear()
+      );
+    },
+    [selectedDate, currentDate]
+  );
+
+  const handleDateSelection = (day: DayInfo) => {
+    if (day.isCurrentMonth) {
+      const newDate = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth(),
+        day.date,
+        selectedTime.hours,
+        selectedTime.minutes
+      );
+      setSelectedDate(newDate);
+      onChange?.(newDate.toISOString());
+    }
+  };
+
+  const handleTimeSelection = () => {
+    const newDate = new Date(selectedDate);
+    newDate.setHours(selectedTime.hours);
+    newDate.setMinutes(selectedTime.minutes);
+    setSelectedDate(newDate);
+    onChange?.(newDate.toISOString());
+  };
+
+  const navigateMonth = (direction: number) => {
+    setCurrentDate((prev) => {
+      const newDate = new Date(prev);
+      newDate.setMonth(prev.getMonth() + direction);
+      return newDate;
+    });
+  };
+
+  const DatePickerHeader = () => (
+    <div className="flex items-center justify-between mb-6">
+      <button
+        className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+        onClick={() => navigateMonth(-1)}
+        aria-label="Previous month"
+      >
+        <ChevronLeft className="h-6 w-6 text-gray-600" />
+      </button>
+      <h2 className="text-xl font-semibold">{formatYearMonth(currentDate)}</h2>
+      <button
+        className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+        onClick={() => navigateMonth(1)}
+        aria-label="Next month"
+      >
+        <ChevronRight className="h-6 w-6 text-gray-600" />
+      </button>
+    </div>
+  );
+
+  const TimePickerHeader = () => (
+    <div className="flex items-center mb-6">
+      <button
+        className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+        onClick={() => setStep(DATE_STEP)}
+        aria-label="Back to date selection"
+      >
+        <ArrowLeft className="h-6 w-6 text-gray-600" />
+      </button>
+      <h2 className="text-xl font-medium flex items-center ml-2">
+        <Clock className="w-6 h-6 mr-2" />
+        {formatDate(selectedDate)}
+      </h2>
+    </div>
+  );
+
+  const DateGrid = () => (
+    <>
+      <div className="grid grid-cols-7 gap-5 mb-4">
+        {WEEKDAYS.map((day) => (
+          <div
+            key={day}
+            className="text-center text-xl font-medium text-gray-500"
+          >
+            {day}
+          </div>
+        ))}
+      </div>
+      <div className="grid grid-cols-7 gap-5">
+        {getDaysInMonth(currentDate).map((day, index) => (
+          <div className="px-4 py-2 flex items-center justify-center">
+            <button
+              key={index}
+              className={`
+          h-10 w-10 text-xl font-medium rounded-full flex items-center justify-center transition-colors
+          ${
+            day.isCurrentMonth
+              ? isSelectedDate(day)
+                ? "text-gray-50"
+                : "text-gray-900"
+              : "text-gray-300"
+          }
+          ${
+            isSelectedDate(day)
+              ? "bg-pr-blue-300 hover:bg-pr-blue-200"
+              : "hover:bg-gray-100"
+          }
+        `}
+              onClick={() => handleDateSelection(day)}
+            >
+              {day.date}
+            </button>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+
+  const TimePicker = () => (
+    <div className="flex justify-center gap-8 mb-8">
+      {[
+        {
+          label: "시",
+          value: selectedTime.hours,
+          max: 24,
+          setter: (v: number) =>
+            setSelectedTime((prev) => ({ ...prev, hours: v })),
+        },
+        {
+          label: "분",
+          value: selectedTime.minutes,
+          max: 60,
+          setter: (v: number) =>
+            setSelectedTime((prev) => ({ ...prev, minutes: v })),
+        },
+      ].map(({ label, value, max, setter }) => (
+        <div key={label} className="w-24">
+          <label className="block text-gray-500 text-center mb-2">
+            {label}
+          </label>
+          <select
+            value={value}
+            onChange={(e) => setter(parseInt(e.target.value))}
+            className="w-full p-2 rounded-lg border border-gray-200 text-center appearance-none bg-white hover:border-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          >
+            {Array.from({ length: max }, (_, i) => (
+              <option key={i} value={i}>
+                {String(i).padStart(2, "0")}
+              </option>
+            ))}
+          </select>
+        </div>
+      ))}
+    </div>
+  );
+
+  return (
+    <div className="w-full mx-auto bg-white rounded-[32px] shadow-lg">
+      <div className="px-8 py-6">
+        <div className="transition-all duration-300 ease-in-out">
+          {step === DATE_STEP ? (
+            <>
+              <DatePickerHeader />
+              <DateGrid />
+            </>
+          ) : (
+            <>
+              <TimePickerHeader />
+              <TimePicker />
+            </>
+          )}
+        </div>
+
+        <button
+          className="w-full mt-6 py-4 px-6 bg-pr-blue-300 text-white rounded-[16px] text-xl font-semibold hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          onClick={() => {
+            if (step === DATE_STEP) {
+              setStep(TIME_STEP);
+            } else {
+              handleTimeSelection();
+            }
+          }}
+        >
+          {step === DATE_STEP ? "시간 선택" : "선택완료"}
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default DatePicker;
