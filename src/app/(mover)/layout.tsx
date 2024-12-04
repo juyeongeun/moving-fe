@@ -1,7 +1,11 @@
 import React from "react";
 import GNB from "@/components/layout/GNB";
 
-const Layout: React.FC = ({ children }) => {
+interface LayoutProps {
+  children: React.ReactNode;
+}
+
+const Layout = ({ children }: LayoutProps) => {
   return (
     <div>
       <GNB />

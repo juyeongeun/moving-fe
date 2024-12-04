@@ -56,7 +56,7 @@ export default function SignUpComponent({ isUser }: SignUpComponentProps) {
 
   return (
     <div className={styles.container}>
-      <FormHeader isUser={isUser} signUp={true} />
+      <FormHeader isUser={isUser} signUp={false} />
       <form className={styles.form}>
         <div className={styles.formItem}>
           <label htmlFor="email" className={styles.formLabel}>
