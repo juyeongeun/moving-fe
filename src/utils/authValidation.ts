@@ -94,8 +94,10 @@ export const profileSchema = (isUser: boolean) =>
     description: isUser
       ? z.string().optional()
       : z.string().min(10, "10자 이상 입력해주세요."),
-    services: z.array(z.number()),
-    regions: z.array(z.number()),
+    services: z
+      .array(z.number())
+      .min(1, "서비스를 최소 하나 이상 선택해주세요."),
+    regions: z.array(z.number()).min(1, "지역을 최소 하나 이상 선택해주세요."),
     profileImage: z.string().optional(),
   });
 
