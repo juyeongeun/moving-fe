@@ -6,14 +6,6 @@ import Image from "next/image";
 export function NotFound404() {
   return (
     <main className="min-h-[93vh] w-full flex items-center justify-center relative overflow-hidden">
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage: `radial-gradient(#4A90E2 0.5px, transparent 0.5px)`,
-          backgroundSize: "24px 24px",
-        }}
-      />
-
       <div className="relative z-10 text-center px-4 py-16 max-w-2xl mx-auto">
         <div className="w-64 h-64 mx-auto mb-3 motion-safe:animate-bounce">
           <Image
