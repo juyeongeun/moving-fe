@@ -426,20 +426,6 @@ export function DropdownNotification() {
   );
 }
 
-type DropdownSortMoverProps = {
-  curretnSortMover: string;
-};
-
-export function DropdownSortMover({
-  curretnSortMover,
-}: DropdownSortMoverProps) {
-  const dropdownSortMoverClass = clsx(
-    "text-nowrap text-xs pc:text-md font-semibold"
-  );
-
-  return <div className={dropdownSortMoverClass}>{curretnSortMover}</div>;
-}
-
 type SortDropdownImageProps = {
   isOpen: boolean;
 };

@@ -18,7 +18,10 @@ export const SORT_MOVER_CODES = {
   CONFIRM: 3,
 } as const;
 
-export const SORT_MOVER_TEXTS = {
+export const SORT_MOVER_TEXTS: Record<
+  (typeof SORT_MOVER_CODES)[keyof typeof SORT_MOVER_CODES],
+  string
+> = {
   [SORT_MOVER_CODES.REVIEW]: "리뷰 많은순",
   [SORT_MOVER_CODES.RATING]: "평점 높은순",
   [SORT_MOVER_CODES.CAREER]: "경력 높은순",

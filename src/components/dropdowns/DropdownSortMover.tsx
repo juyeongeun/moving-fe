@@ -7,26 +7,38 @@ import {
   Dropdown,
   DropdownList,
   DropdownItem,
-  DropdownSortMover,
   SortDropdownImage,
 } from "../common/Dropdown";
-import { getServiceText } from "@/utils/utilFunctions";
 
 import { SORT_MOVER_CODES, SORT_MOVER_TEXTS } from "@/variables/dropdown";
 
-type DropdownRegionProps = {
+type DropdownSortMoverTriggerProps = {
+  curretnSortMover: string;
+};
+
+export function DropdownSortMoverTrigger({
+  curretnSortMover,
+}: DropdownSortMoverTriggerProps) {
+  const dropdownSortMoverClass = clsx(
+    "text-nowrap text-xs pc:text-md font-semibold"
+  );
+
+  return <div className={dropdownSortMoverClass}>{curretnSortMover}</div>;
+}
+
+type DropdownSortMoverProps = {
   onSelect: (regionCode: number) => void;
   disabled: boolean;
 };
 
-export default function DropdownRegion({
+export default function DropdownSortMover({
   onSelect,
   disabled,
-}: DropdownRegionProps) {
+}: DropdownSortMoverProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [curretnSortMover, setCurretnSortMover] = useState(
-    SORT_MOVER_TEXTS[SORT_MOVER_CODES.REVIEW]
-  );
+  const [currentSortMover, setCurrentSortMover] = useState<
+    (typeof SORT_MOVER_TEXTS)[keyof typeof SORT_MOVER_TEXTS]
+  >(SORT_MOVER_TEXTS[SORT_MOVER_CODES.REVIEW]);
 
   const dropdownStyles = {
     base: "relative flex flex-row justify-between items-center \
@@ -63,14 +75,20 @@ export default function DropdownRegion({
     pc:px-2.5 pc:h-10 pc:text-md"
   );
 
-  const keys = Object.keys(SORT_MOVER_CODES);
+  const handleSortChange = (code: keyof typeof SORT_MOVER_CODES) => {
+    setCurrentSortMover(SORT_MOVER_TEXTS[SORT_MOVER_CODES[code]]);
+    onSelect(SORT_MOVER_CODES[code]);
+    setIsOpen(false);
+  };
+
+  const keys = Object.keys(SORT_MOVER_CODES) as Array<
+    keyof typeof SORT_MOVER_CODES
+  >;
   const items = keys.map((key) => {
+    const code = SORT_MOVER_CODES[key];
     return {
-      label: getServiceText(
-        SORT_MOVER_CODES[key as keyof typeof SORT_MOVER_CODES]
-      ),
-      onClick: () =>
-        onSelect(SORT_MOVER_CODES[key as keyof typeof SORT_MOVER_CODES]),
+      label: SORT_MOVER_TEXTS[code],
+      onClick: () => handleSortChange(key as keyof typeof SORT_MOVER_CODES),
     };
   });
 
@@ -78,7 +96,7 @@ export default function DropdownRegion({
     <Dropdown
       trigger={
         <div className={dropdownTriggerClass}>
-          <DropdownSortMover curretnSortMover={curretnSortMover} />
+          <DropdownSortMoverTrigger curretnSortMover={currentSortMover} />
           <SortDropdownImage isOpen={isOpen} />
         </div>
       }
