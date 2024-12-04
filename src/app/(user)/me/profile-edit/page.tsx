@@ -7,17 +7,13 @@ const styles = {
 
 export default function ProfileEditPage() {
   const data = {
-    nickName: "테스트",
-    career: "1",
-    introduction: "테스트",
-    description: "테스트",
     services: [1, 2],
     regions: [82055, 8202],
     profileImage: "http://test.com",
   };
   return (
     <div className={styles.container}>
-      <Profile isUser={false} isEdit={true} userData={data} />
+      <Profile isUser={true} isEdit={true} userData={data} />
     </div>
   );
 }

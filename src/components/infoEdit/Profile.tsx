@@ -18,13 +18,13 @@ interface ProfileProps {
   isUser: boolean;
   isEdit: boolean;
   userData?: {
-    nickName: string;
-    career: string;
-    introduction: string;
-    description: string;
-    services: number[];
-    regions: number[];
-    profileImage: string;
+    nickName?: string;
+    career?: string;
+    introduction?: string;
+    description?: string;
+    services?: number[];
+    regions?: number[];
+    profileImage?: string;
   };
 }
 
@@ -150,21 +150,26 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
     try {
       const formData = new FormData();
 
-      // 텍스트 데이터 추가
-      data.nickName && formData.append("nickName", data.nickName);
-      data.career && formData.append("career", data.career);
-      data.introduction && formData.append("introduction", data.introduction);
-      data.description && formData.append("description", data.description);
+      // 텍스트 데이터 추가 시 인코딩 처리 방지
+      Object.entries(data).forEach(([key, value]) => {
+        if (key === "services" || key === "regions") {
+          // 배열은 JSON 문자열로 변환
+          formData.append(key, JSON.stringify(value));
+        } else if (value && typeof value === "string") {
+          // 문자열은 그대로 추가
+          formData.append(key, value);
+        }
+      });
 
-      // 배열 데이터를 JSON 문자열로 변환하여 추가
-      data.services &&
-        formData.append("services", JSON.stringify(data.services));
-      data.regions && formData.append("regions", JSON.stringify(data.regions));
-
-      // 프로필 이미지가 있는 경우 추가
+      // 프로필 이미지 처리
       if (fileInputRef.current?.files?.[0]) {
         formData.append("profileImage", fileInputRef.current.files[0]);
       }
+
+      // FormData 내용 확인 (디버깅용)
+      formData.forEach((value, key) => {
+        console.log(`${key}:`, value);
+      });
 
       if (isEdit) {
         console.log(`${isUser ? "사용자" : "기사"} 폼 수정 제출`);
@@ -187,13 +192,11 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      // 파일이 이미지인지 확인
       if (!file.type.startsWith("image/")) {
         alert("이미지 파일만 선택할 수 있습니다.");
         return;
       }
 
-      // 이미지 미리보기 생성
       const reader = new FileReader();
       reader.onloadend = () => {
         setPreviewImage(reader.result as string);
