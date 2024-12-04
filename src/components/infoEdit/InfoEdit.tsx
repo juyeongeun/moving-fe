@@ -8,13 +8,14 @@ import React, { useState } from "react";
 import { infoEditSchema, InfoEditFormData } from "@/utils/authValidation";
 import { useRouter } from "next/navigation";
 import ConfirmModal from "@/components/common/ConfirmModal";
+
 interface InfoEditProps {
   isUser: boolean;
   userData: {
     name: string;
     email: string;
     phoneNumber: string;
-    currentPassword: string;
+    password: string;
   };
 }
 
@@ -102,10 +103,7 @@ export default function InfoEdit({ isUser, userData }: InfoEditProps) {
       const hasPasswordChange = data.currentPassword && data.newPassword;
       const userType = isUser ? "유저" : "기사";
 
-      if (
-        data.currentPassword &&
-        userData.currentPassword !== data.currentPassword
-      ) {
+      if (data.currentPassword && userData.password !== data.currentPassword) {
         setShowModal(true);
         return;
       }

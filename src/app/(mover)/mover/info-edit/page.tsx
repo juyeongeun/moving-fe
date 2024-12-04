@@ -11,7 +11,7 @@ export default function InfoEditPage() {
     name: "홍길동",
     email: "test@test.com",
     phoneNumber: "01012345678",
-    currentPassword: "test1234",
+    password: "test1234",
   };
   return (
     <div className={styles.container}>
