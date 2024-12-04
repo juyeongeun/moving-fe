@@ -53,10 +53,9 @@ export interface QuoteDetailsData {
   requestDate: string;
   service: number;
   isDesignated: boolean;
+  isConfirmed?: boolean;
   name: string;
   movingDate: string;
   pickupAddress: string;
   dropOffAddress: string;
-  isCompleted: boolean;
-  isRejected: boolean;
 }

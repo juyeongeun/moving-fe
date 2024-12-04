@@ -30,6 +30,7 @@ const QuoteDetails = ({ data }: { data: QuoteDetailsData }) => {
     <>
       <div className={styles.topContainer}>
         <div className={styles.chipContainer}>
+          {data.isConfirmed && <ServiceChip variant="confirmed" />}
           <ServiceChip variant={serviceType as ChipType} />
           {data.isDesignated && <ServiceChip variant="designatedQuote" />}
         </div>

@@ -14,6 +14,7 @@ const chipVariants = cva(
         officeMove: "bg-pr-blue-100 text-pr-blue-300 pl-[3px] pr-1.5",
         designatedQuote: "bg-pr-red-100 text-pr-red-200 pl-[3px] pr-1.5",
         pendingConfirm: "bg-[rgba(242,243,248,1)] text-pr-blue-400 px-1.5",
+        confirmed: "bg-[rgba(242,243,248,1)] text-pr-blue-400 px-1.5",
       },
       size: {
         fixed: "",
@@ -32,7 +33,9 @@ type ChipWithIconType =
   | "homeMove"
   | "officeMove"
   | "designatedQuote";
-type ChipWithoutIconType = "pendingConfirm";
+
+type ChipWithoutIconType = "pendingConfirm" | "confirmed";
+
 export type ChipType = ChipWithIconType | ChipWithoutIconType;
 
 const icons: Record<ChipWithIconType, string> = {
@@ -48,6 +51,7 @@ const labels: Record<ChipType, string> = {
   officeMove: "사무실이사",
   designatedQuote: "지정 견적 이사",
   pendingConfirm: "견적 대기",
+  confirmed: "견적 확정",
 } as const;
 
 interface ChipProps extends VariantProps<typeof chipVariants> {

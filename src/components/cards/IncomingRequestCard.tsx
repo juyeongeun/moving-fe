@@ -8,7 +8,6 @@ import QuoteDetails from "../common/card/QuoteDetails";
 interface RequestQuoteData extends QuoteDetailsData {
   id: number;
   isCompleted: boolean;
-  isRejected: boolean;
 }
 
 interface IncomingRequestCardProps {
