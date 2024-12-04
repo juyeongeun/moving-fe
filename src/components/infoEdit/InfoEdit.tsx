@@ -103,7 +103,7 @@ export default function InfoEdit({ isUser, userData }: InfoEditProps) {
       const hasPasswordChange = data.currentPassword && data.newPassword;
       const userType = isUser ? "유저" : "기사";
 
-      if (userData.password !== data.currentPassword) {
+      if (data.currentPassword && userData.password !== data.currentPassword) {
         setShowModal(true);
         return;
       }
