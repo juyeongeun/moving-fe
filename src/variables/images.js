@@ -48,6 +48,7 @@ const assets = {
     logoMarkonly: "/assets/images/img_logo_markonly.svg",
     logoNaver: "/assets/images/img_logo_naver.svg",
     logoWordmark: "/assets/images/img_logo_wordmark.svg",
+    movingTruck: "/assets/images/img_moving_truck.svg",
   },
 };
 export default assets;
