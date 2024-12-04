@@ -28,9 +28,9 @@ const assets = {
     visibilityOff: "/assets/icons/ic_visibility_off.svg",
     visibilityOn: "/assets/icons/ic_visibility_on.svg",
     writing: "/assets/icons/ic_writing.svg",
+    writingGray: "/assets/icons/ic_writing_gray.svg",
     x: "/assets/icons/ic_X.svg",
     xCircle: "/assets/icons/ic_X_circle.svg",
-    writingGray: "/assets/icons/ic_writing_gray.svg",
   },
   images: {
     avatarRed: "/assets/images/img_avatar_red.svg",
@@ -47,6 +47,8 @@ const assets = {
     logoMarkonly: "/assets/images/img_logo_markonly.svg",
     logoNaver: "/assets/images/img_logo_naver.svg",
     logoWordmark: "/assets/images/img_logo_wordmark.svg",
+    movingTruck: "/assets/images/img_moving_truck.svg",
   },
 };
+
 export default assets;
