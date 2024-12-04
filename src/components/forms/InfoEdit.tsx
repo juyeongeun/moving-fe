@@ -138,6 +138,7 @@ export default function InfoEdit({ isUser, userData }: InfoEditProps) {
 
   return (
     <div className={styles.container}>
+      {/* 비밀번호 확인은 백엔드에서 제공 -> 수정해야함 */}
       {showModal && (
         <>
           <div className={styles.overlay} />
