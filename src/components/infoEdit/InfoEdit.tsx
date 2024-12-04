@@ -20,13 +20,13 @@ interface InfoEditProps {
 }
 
 const styles = {
-  container: `relative flex flex-col items-center w-full px-[24px] 
-    tablet:px-0`,
+  container: `relative flex flex-col items-center w-full px-[24px]`,
   pcContainer: `pc:flex pc:flex-col pc:items-center pc:w-full`,
   pcForm: `pc:flex pc:flex-row pc:gap-[72px]`,
   form: `flex flex-col gap-[16px] w-full mt-[16px] mb-[32px] pt-[20px] border-t-[1px] border-solid border-line-200`,
-  formItem: `flex flex-col gap-[8px] border-b-[1px] border-solid border-line-100 pb-[20px] w-full`,
-  formLabel: `text-md text-black-400 pc:text-xl`,
+  formItem: `flex flex-col gap-[8px] border-b-[1px] border-solid border-line-100 pb-[20px] w-full mb-[20px]
+  pc:mb-[32px] pc:pb-[32px]`,
+  formLabel: `text-lg text-black-400 font-semibold pc:text-xl`,
   buttonContainer: `flex flex-col gap-[8px] mt-[24px] pc:flex-row-reverse pc:gap-[32px] w-full`,
   button: `flex-1 text-center`,
   title: `w-full text-2lg font-bold text-black-400`,
@@ -34,7 +34,6 @@ const styles = {
   modalWrapper: `absolute top-0 left-0 w-full h-full flex items-center justify-center z-50`,
 };
 
-// FormField 컴포넌트로 반복되는 구조 추출
 const FormField = ({
   label,
   name,
@@ -115,7 +114,6 @@ export default function InfoEdit({ isUser, userData }: InfoEditProps) {
         hasPasswordChange && data.newPassword
       );
 
-      // 성공 시 폼 초기화
       reset();
     } catch (error) {
       console.error("수정 실패:", error);
@@ -126,6 +124,7 @@ export default function InfoEdit({ isUser, userData }: InfoEditProps) {
 
   return (
     <div className={styles.container}>
+      {/* 비밀번호 확인은 백엔드에서 제공 -> 수정해야함 */}
       {showModal && (
         <>
           <div className={styles.overlay} />

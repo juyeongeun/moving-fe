@@ -74,19 +74,32 @@ export const infoEditSchema = z
     }
   );
 
-export const profileSchema = z.object({
-  nickName: z
-    .string()
-    .min(2, "이름은 2자 이상이어야 합니다.")
-    .regex(/^[가-힣a-zA-Z\s]+$/, "이름은 한글 또는 영어만 입력해주세요."),
-  career: z.string().min(1, "경력을 입력해주세요."),
-  introduction: z.string().min(1, "소개를 입력해주세요."),
-  description: z.string().min(1, "설명을 입력해주세요."),
-  services: z.array(z.string()).min(1, "서비스를 최소 하나 이상 선택해주세요."),
-  regions: z.array(z.string()).min(1, "지역을 최소 하나 이상 선택해주세요."),
-});
+export const profileSchema = (isUser: boolean) =>
+  z.object({
+    nickName: isUser
+      ? z.string().optional()
+      : z
+          .string()
+          .min(2, "이름은 2자 이상이어야 합니다.")
+          .regex(/^[가-힣a-zA-Z\s]+$/, "성함을 입력해주세요."),
+    career: isUser
+      ? z.string().optional()
+      : z
+          .string()
+          .regex(/^[0-9]+$/, "숫자만 입력해주세요.")
+          .optional(),
+    introduction: isUser
+      ? z.string().optional()
+      : z.string().min(8, "8자 이상 입력해주세요."),
+    description: isUser
+      ? z.string().optional()
+      : z.string().min(10, "10자 이상 입력해주세요."),
+    services: z.array(z.number()),
+    regions: z.array(z.number()),
+    profileImage: z.string().optional(),
+  });
 
 export type LoginFormData = z.infer<typeof loginSchema>;
 export type SignUpFormData = z.infer<typeof signUpSchema>;
 export type InfoEditFormData = z.infer<typeof infoEditSchema>;
-export type ProfileFormData = z.infer<typeof profileSchema>;
+export type ProfileFormData = z.infer<ReturnType<typeof profileSchema>>;
