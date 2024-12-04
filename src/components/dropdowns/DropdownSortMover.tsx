@@ -8,23 +8,10 @@ import {
   DropdownList,
   DropdownItem,
   SortDropdownImage,
+  DropdownSortTrigger,
 } from "../common/Dropdown";
 
 import { SORT_MOVER_CODES, SORT_MOVER_TEXTS } from "@/variables/dropdown";
-
-type DropdownSortMoverTriggerProps = {
-  curretnSortMover: string;
-};
-
-export function DropdownSortMoverTrigger({
-  curretnSortMover,
-}: DropdownSortMoverTriggerProps) {
-  const dropdownSortMoverClass = clsx(
-    "text-nowrap text-xs pc:text-md font-semibold"
-  );
-
-  return <div className={dropdownSortMoverClass}>{curretnSortMover}</div>;
-}
 
 type DropdownSortMoverProps = {
   onSelect: (regionCode: number) => void;
@@ -61,7 +48,7 @@ export default function DropdownSortMover({
   const dropdownListClass = clsx(
     "absolute flex flex-col items-center overflow-hidden\
     top-10 right-0 w-[91px] \
-    border-solid border-[1px] border-line-100 rounded-2xl \
+    border-solid border-[1px] border-line-100 rounded-lg \
     bg-white \
     pc:top-12 pc:w-[114px]"
   );
@@ -96,7 +83,7 @@ export default function DropdownSortMover({
     <Dropdown
       trigger={
         <div className={dropdownTriggerClass}>
-          <DropdownSortMoverTrigger curretnSortMover={currentSortMover} />
+          <DropdownSortTrigger curretnSort={currentSortMover} />
           <SortDropdownImage isOpen={isOpen} />
         </div>
       }
