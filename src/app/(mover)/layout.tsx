@@ -5,7 +5,6 @@ const Layout: React.FC = ({ children }) => {
   return (
     <div>
       <GNB />
-
       <main>{children}</main>
     </div>
   );
