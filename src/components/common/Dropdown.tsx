@@ -178,49 +178,13 @@ import { boolean } from "zod";
 //     );
 //   }
 
-//   const alarmClass = clsx(
-//     "flex flex-row justify-between items-center",
-//     "pl-4 pr-[15px] w-full h-[54px]",
-//     "text-lg text-black-400 font-bold",
-//     "pc:pl-6 pc:text-2lg"
-//   );
 //   if (type === DropdownType.NOTIFICATION) {
-//     const items = [
-//       { text: "알림1", time: "1시간 전" },
-//       { text: "알림2", time: "2시간 전" },
-//     ].map((notificationInfo, index) => {
-//       return (
-//         <DropdownItem
-//           type={type}
-//           time={notificationInfo.time}
-//           key={`${index}-${notificationInfo.text}`}
-//         >
-//           {notificationInfo.text}
-//         </DropdownItem>
-//       );
-//     });
 
 //     const dropdownListClass = clsx(
 //       DROPDOWN_LIST_CLASSES[type],
 //       dropdownListBaseClass
 //     );
 
-//     return (
-//       <div className={dropdownListClass}>
-//         <div className={alarmClass}>
-//           <div>알림</div>
-//           <div onClick={handleCloseList}>
-//             <Image
-//               src={assets.icons.x}
-//               alt="알림 닫기"
-//               width={24}
-//               height={24}
-//             />
-//           </div>
-//         </div>
-//         {items}
-//       </div>
-//     );
 //   }
 
 //   if (type === DropdownType.SORT_MOVER) {
@@ -451,6 +415,16 @@ export function DropdownUserName({ name = "사용자명" }: DropdownUserNameProp
   );
 
   return <div className={dropdownUserNameClass}>{name}</div>;
+}
+
+export function DropdownNotification() {
+  const commonImageFrameClass = clsx("relative w-6 h-6 pc:w-9 pc:h-9");
+
+  return (
+    <div className={commonImageFrameClass}>
+      <Image src={assets.icons.alarm} alt="알림 드롭 다운" fill />
+    </div>
+  );
 }
 
 type DropdownItemProps = {
