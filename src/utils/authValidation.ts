@@ -33,22 +33,10 @@ export const infoEditSchema = z
     phoneNumber: z
       .string()
       .regex(/^01[0-9]\d{7,8}$/, "올바른 전화번호 형식이 아닙니다."),
-    currentPassword: z.string().optional().nullable(),
+    currentPassword: z.string().min(8, "비밀번호가 올바르지 않습니다."),
     newPassword: z.string().optional().nullable(),
     newPasswordConfirm: z.string().optional().nullable(),
   })
-  .refine(
-    (data) => {
-      if (data.currentPassword && data.currentPassword.length < 8) {
-        return false;
-      }
-      return true;
-    },
-    {
-      message: "비밀번호가 올바르지 않습니다.",
-      path: ["currentPassword"],
-    }
-  )
   .refine(
     (data) => {
       if (data.newPassword && data.newPassword.length < 8) {

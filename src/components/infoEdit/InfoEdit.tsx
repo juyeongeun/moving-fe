@@ -15,7 +15,6 @@ interface InfoEditProps {
     name: string;
     email: string;
     phoneNumber: string;
-    password: string;
   };
 }
 
@@ -102,10 +101,12 @@ export default function InfoEdit({ isUser, userData }: InfoEditProps) {
       const hasPasswordChange = data.currentPassword && data.newPassword;
       const userType = isUser ? "유저" : "기사";
 
-      if (data.currentPassword && userData.password !== data.currentPassword) {
-        setShowModal(true);
-        return;
-      }
+      // if (data.currentPassword && userData.password !== data.currentPassword) {
+      //   setShowModal(true);
+      //   return;
+      // }
+
+      // 현재 비밀번호 확인시 일치하지 않으면 모달 or 토스트메시지 띄우는 오류 로직 작성
 
       console.log(
         `${userType} 폼 제출:`,
@@ -122,9 +123,21 @@ export default function InfoEdit({ isUser, userData }: InfoEditProps) {
 
   const hasErrors = Object.keys(errors).length > 0;
 
+  // 버튼 활성화 조건을 확인하는 함수 추가
+  const isSubmitDisabled = () => {
+    const hasCurrentPassword = !values.currentPassword;
+    const isPasswordChangeValid =
+      values.newPassword || values.newPasswordConfirm
+        ? values.newPassword && values.newPasswordConfirm
+        : true;
+
+    return (
+      hasCurrentPassword || !isPasswordChangeValid || (hasErrors && isDirty)
+    );
+  };
+
   return (
     <div className={styles.container}>
-      {/* 비밀번호 확인은 백엔드에서 제공 -> 수정해야함 */}
       {showModal && (
         <>
           <div className={styles.overlay} />
@@ -200,7 +213,7 @@ export default function InfoEdit({ isUser, userData }: InfoEditProps) {
             type="submit"
             variant="primary"
             className={styles.button}
-            disabled={hasErrors && isDirty}
+            disabled={isSubmitDisabled()}
           />
           <Button
             children="취소"
