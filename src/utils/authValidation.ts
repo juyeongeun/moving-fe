@@ -109,7 +109,7 @@ export const infoEditSchema = z
 
 export const profileSchema = (isUser: boolean) =>
   z.object({
-    nickName: isUser
+    nickname: isUser
       ? z.string().optional()
       : z.string().regex(REGEX.nickname, ERROR_MESSAGES.nickname),
     career: isUser

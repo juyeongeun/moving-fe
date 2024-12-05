@@ -8,7 +8,7 @@ const styles = {
 export default function ProfileEditPage() {
   const data = {
     services: [1, 2],
-    regions: [82055, 8202],
+    regions: [8202, 82031, 82032],
     imageUrl: "https://test.com",
   };
   return (

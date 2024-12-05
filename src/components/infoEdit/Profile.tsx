@@ -18,7 +18,7 @@ interface ProfileProps {
   isUser: boolean;
   isEdit: boolean;
   userData?: {
-    nickName?: string;
+    nickname?: string;
     career?: string;
     introduction?: string;
     description?: string;
@@ -101,7 +101,7 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
     resolver: zodResolver(profileSchema(isUser)),
     mode: "onChange",
     defaultValues: {
-      nickName: userData?.nickName ?? "",
+      nickname: userData?.nickname ?? "",
       career: userData?.career ?? undefined,
       introduction: userData?.introduction ?? "",
       description: userData?.description ?? "",
@@ -160,10 +160,9 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
 
       if (fileInputRef.current?.files?.[0]) {
         formData.append("imageUrl", fileInputRef.current.files[0]);
-      } else if (data.imageUrl) {
-        formData.append("imageUrl", data.imageUrl);
       }
 
+      //테스트 확인 코드
       formData.forEach((value, key) => {
         console.log(`${key}:`, value);
       });
@@ -222,10 +221,10 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
             {!isUser && (
               <FormField
                 label="별명"
-                name="nickName"
+                name="nickname"
                 placeholder="사이트에 노출될 이름을 입력해 주세요"
                 register={register}
-                error={getErrorMessage("nickName")}
+                error={getErrorMessage("nickname")}
               />
             )}
             <div className={styles.formItem}>
@@ -345,9 +344,21 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
                     text={REGION_TEXTS[code]}
                     state={values.regions.includes(code)}
                     onStateChange={(checked: boolean) => {
-                      const newRegions = checked
-                        ? [...values.regions, code]
-                        : values.regions.filter((region) => region !== code);
+                      let newRegions: number[];
+                      if (code === 82) {
+                        // 전체 지역 코드
+                        if (checked) {
+                          // 전체가 선택되면 모든 지역 코드 선택
+                          newRegions = Object.values(REGION_CODES);
+                        } else {
+                          // 전체가 해제되면 모든 지역 해제
+                          newRegions = [];
+                        }
+                      } else {
+                        newRegions = checked
+                          ? [...values.regions, code]
+                          : values.regions.filter((region) => region !== code);
+                      }
                       setValue("regions", newRegions, {
                         shouldValidate: true,
                       });
