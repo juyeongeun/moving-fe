@@ -1,5 +1,4 @@
 import React from "react";
-import GNB from "@/components/layout/GNB";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -8,7 +7,6 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   return (
     <div>
-      <GNB />
       <main>{children}</main>
     </div>
   );
