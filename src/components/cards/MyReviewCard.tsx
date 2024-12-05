@@ -1,15 +1,13 @@
 import CardContainer from "../common/card/CardContainer";
-import ServiceChip from "../common/card/ServiceChip";
-import { formatDate, mapServiceType } from "@/utils/utilFunctions";
-import { ChipType } from "../common/card/ServiceChip";
+import ServiceChip, { type ChipType } from "../common/card/ServiceChip";
 import ProfileImage from "../common/card/ProfileImage";
 import NameText from "../common/card/NameText";
 import TextWithGrayLabel from "../common/card/TextWithGrayLabel";
 import LineSeparator from "../common/LineSeparator";
-import Button from "../common/Button";
+import { mapServiceType, formatDate } from "@/utils/utilFunctions";
 import cn from "@/config/cn";
 
-interface CreateReviewData {
+interface MyReviewCardData {
   id: number;
   service: number;
   isDesignated: boolean;
@@ -17,25 +15,26 @@ interface CreateReviewData {
   nickname: string;
   movingDate: string;
   cost: number;
+  rating: number;
+  content: string;
+  createdAt: string;
 }
 
-interface CreateReviewCardProps {
-  data: CreateReviewData;
+interface MyReviewCardProps {
+  data: MyReviewCardData;
   className?: string;
-  onPrimaryClick: () => void;
 }
 
-const CreateReviewCard = ({
-  data,
-  className,
-  onPrimaryClick,
-}: CreateReviewCardProps) => {
+const MyReviewCard = ({ data, className }: MyReviewCardProps) => {
   const serviceType = mapServiceType([data.service])[0];
   const moveInDate = formatDate(data.movingDate);
   const quotePrice = `${data.cost.toLocaleString()}원`;
+  const createdDate = formatDate(data.createdAt);
 
   return (
-    <CardContainer className={cn("max-w-[688px]", "pc:py-[32px]", className)}>
+    <CardContainer
+      className={cn("pc:relative pc:py-8 pc:px-6 pc:max-w-[688px]", className)}
+    >
       <div className="flex gap-2">
         <ServiceChip variant={serviceType as ChipType} />
         {data.isDesignated && <ServiceChip variant="designatedQuote" />}
@@ -45,17 +44,22 @@ const CreateReviewCard = ({
         <ProfileImage imgUrl={data.imageUrl} />
         <div className="flex flex-col gap-1 pc:gap-2">
           <NameText text={data.nickname} type="mover" />
-          <div className="flex gap-2 items-center gap-[12.5px]">
+          <div className="flex items-center gap-[12.5px]">
             <TextWithGrayLabel label="이사일" text={moveInDate} />
             <LineSeparator />
             <TextWithGrayLabel label="견적가" text={quotePrice} />
           </div>
         </div>
       </div>
-
-      <Button onClick={onPrimaryClick}>리뷰 작성하기</Button>
+      <LineSeparator direction="horizontal" />
+      <p className="text-md font-regular text-grayscale-500 line-clamp-2 whitespace-pre-wrap pc:text-lg">
+        {data.content}
+      </p>
+      <time className="flex text-grayscale-300 text-xs font-regular justify-end pc:text-2lg pc:absolute pc:top-6 pc:right-6 ">
+        작성일 {createdDate}
+      </time>
     </CardContainer>
   );
 };
 
-export default CreateReviewCard;
+export default MyReviewCard;
