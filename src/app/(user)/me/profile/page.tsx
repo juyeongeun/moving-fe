@@ -8,7 +8,7 @@ const styles = {
 export default function ProfilePage() {
   return (
     <div className={styles.container}>
-      <Profile isUser={false} isEdit={false} />
+      <Profile isUser={true} isEdit={false} />
     </div>
   );
 }

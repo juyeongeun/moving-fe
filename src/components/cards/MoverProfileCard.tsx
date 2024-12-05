@@ -5,7 +5,7 @@ import ProfileImage from "../common/card/ProfileImage";
 import { type ProfileData, type FullMoverData } from "@/types/mover";
 import { cva } from "class-variance-authority";
 import Button from "../common/Button";
-import cn from "@/config/clsx";
+import cn from "@/config/cn";
 import { getRegionText, getServiceText } from "@/utils/utilFunctions";
 import TextWithGrayLabel from "../common/card/TextWithGrayLabel";
 

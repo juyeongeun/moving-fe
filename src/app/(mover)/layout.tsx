@@ -1,5 +1,4 @@
 import React from "react";
-import GNB from "@/components/layout/GNB";
 
 interface LayoutProps {
   children: React.ReactNode;

@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import assets from "@/variables/images";
 import { cva, type VariantProps } from "class-variance-authority";
-import cn from "@/config/clsx";
+import cn from "@/config/cn";
 import Link from "next/link";
 
 // 버튼 스타일 정의
