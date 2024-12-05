@@ -2,77 +2,102 @@
 
 import MoverExperience from "../common/card/MoverExperience";
 import ProfileImage from "../common/card/ProfileImage";
-import GrayLabel from "../common/card/GrayLabel";
 import { type ProfileData, type FullMoverData } from "@/types/mover";
 import { cva } from "class-variance-authority";
 import Button from "../common/Button";
 import cn from "@/config/clsx";
-import { getRegionText } from "@/utils/utilFunctions";
+import { getRegionText, getServiceText } from "@/utils/utilFunctions";
+import TextWithGrayLabel from "../common/card/TextWithGrayLabel";
 
 interface MoverProfileCardProps {
   data: FullMoverData & ProfileData;
   className?: string;
+  onPrimaryClick?: () => void;
+  onOutlinedClick?: () => void;
 }
 
-const moverProfileCardStyles = cva(
-  "flex flex-col border-solid border-[0.5px] gap-4 border-grayscale-100 bg-bg-100 rounded-[16px] py-4 px-3.5 min-w-[327px] pc:p-6 gap-6"
-);
-
-const innerContainerStyles = cva(
-  "flex flex-col border-solid border-line-100 border-[1px] shadow-border rounded-[16px] gap-3.5 p-2.5 pc:flex-row pc:items-center pc:py-[26px] pc:px-[18px]"
-);
-
 const styles = {
+  container: cva(
+    "flex flex-col border-solid border-[0.5px] gap-4 border-grayscale-100 bg-bg-100 rounded-[16px] py-4 px-3.5 min-w-[327px] pc:p-6 gap-6"
+  ),
+  innerContainer: cva(
+    "flex flex-col border-solid border-line-100 border-[1px] shadow-border rounded-[16px] gap-3.5 p-2.5 pc:flex-row pc:items-center pc:py-[26px] pc:px-[18px]"
+  ),
   info: "flex items-center gap-1",
-  text: "flex gap-1 text-md font-medium pc:text-2lg",
   button: "w-full tablet:w-[298px]",
   buttonContainer: "flex flex-wrap gap-2 pc:absolute pc:top-6 pc:right-6",
+  topContainer: "flex items-center gap-4",
+  nameContainer: "flex gap-2",
+  nickname: "text-md font-medium text-grayscale-500 pc:text-lg",
+  name: "text-lg font-semibold pc:text-2lg",
+  topLeftContainer: "flex flex-col gap-1 pc:gap-2",
+  introduction: "text-md font-regular text-grayscale-400 pc:text-lg",
+  labelContainer: "flex flex-col gap-1 pc:gap-2 pc:flex-row",
 };
 
-const MoverProfileCard = ({ data, className }: MoverProfileCardProps) => {
+const MoverProfileCard = ({
+  data,
+  className,
+  onPrimaryClick,
+  onOutlinedClick,
+}: MoverProfileCardProps) => {
+  const serviceText = data.services
+    .map((service) => getServiceText(service))
+    .join(", ");
+  const regionText = data.regions.map((code) => getRegionText(code)).join(", ");
+
   return (
     <section className={cn("flex flex-col gap-4 relative", className)}>
-      <section className={moverProfileCardStyles()}>
-        <div className="flex items-center gap-4">
+      <section className={styles.container()}>
+        <div className={styles.topContainer}>
           <ProfileImage imgUrl={data.imageUrl} className="pc:hidden" />
-          <div className="flex flex-col gap-1 pc:gap-2">
-            <p className="text-lg font-semibold pc:text-2lg">{data.name}</p>
-            <p className="text-md font-regular pc:text-lg text-grayscale-400 truncate">
-              {data.introduction}
-            </p>
+          <div className={styles.topLeftContainer}>
+            <span className={styles.nameContainer}>
+              <p className={styles.name}>{data.name}</p>
+              <p className={styles.nickname}>{data.nickname}</p>
+            </span>
+
+            <p className={styles.introduction}>{data.introduction}</p>
           </div>
         </div>
 
-        <div className={cn(innerContainerStyles(), "pc:relative")}>
+        <div className={cn(styles.innerContainer(), "pc:relative")}>
           <ProfileImage imgUrl={data.imageUrl} className="hidden pc:block" />
           <div className="flex flex-col gap-3.5 pc:gap-4">
             <MoverExperience data={data} />
-            <div className="flex flex-col gap-1 pc:gap-2 pc:flex-row">
-              <div className="flex items-center gap-1">
-                <GrayLabel>제공 서비스</GrayLabel>
-                <div className={styles.text}>
-                  {data.services.map((service) => (
-                    <p key={service}>{service}</p>
-                  ))}
-                </div>
-              </div>
-              <div className={styles.info}>
-                <GrayLabel>지역</GrayLabel>
-                <div className={styles.text}>
-                  {data.regions.map((code) => getRegionText(code)).join(", ")}
-                </div>
-              </div>
+
+            <div className={styles.labelContainer}>
+              <TextWithGrayLabel
+                variant="border"
+                label="제공 서비스"
+                text={serviceText}
+              />
+              <TextWithGrayLabel
+                variant="border"
+                label="지역"
+                text={regionText}
+              />
             </div>
           </div>
         </div>
       </section>
 
       <div className={styles.buttonContainer}>
-        <Button variant="primary" withIcon className={styles.button}>
+        <Button
+          variant="primary"
+          withIcon
+          className={styles.button}
+          onClick={onPrimaryClick}
+        >
           내 프로필 수정
         </Button>
 
-        <Button variant="gray" withIcon className={styles.button}>
+        <Button
+          variant="gray"
+          withIcon
+          className={styles.button}
+          onClick={onOutlinedClick}
+        >
           기본 정보 수정
         </Button>
       </div>

@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { format, formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
 import { SERVICE_CODES } from "@/variables/services";
 import { SERVICE_TEXTS } from "@/variables/service";
@@ -9,6 +9,7 @@ export const formatCount = (count: number) => {
   return count.toLocaleString();
 };
 
+//ServiceChip 용
 export const mapServiceType = (services: number[]) => {
   return services.map(
     (service) => SERVICE_CODES[service as keyof typeof SERVICE_CODES]
@@ -26,4 +27,22 @@ export const getRegionText = (code: number): string => {
 
 export const getServiceText = (code: number): string => {
   return SERVICE_TEXTS[code as keyof typeof SERVICE_TEXTS] || "서비스 미정";
+};
+
+export const formatTimeAgo = (dateString: string) => {
+  try {
+    const date = new Date(dateString);
+
+    if (isNaN(date.getTime())) {
+      throw new Error("Invalid date");
+    }
+
+    return formatDistanceToNow(date, {
+      addSuffix: true,
+      locale: ko,
+    });
+  } catch (error) {
+    console.error("Date formatting error:", error);
+    return "날짜 없음";
+  }
 };
