@@ -1,7 +1,7 @@
 import Image from "next/image";
 import clsx from "clsx";
 
-import ProgressBarRating from "../common/progress-bar/ProgressBarRating";
+import ProgressBarRating from "./common/progress-bar/ProgressBarRating";
 
 import assets from "@/variables/images";
 
@@ -110,42 +110,26 @@ export default function RatingInfo({ ratings }: RatingInfoProps) {
     "pc:w-[510px] pc:h-[216px]",
     "pc:bg-transparent pc:rounded-0"
   );
+  const ratingScores = [5, 4, 3, 2, 1];
 
   return (
     <div className={ratingInfoClass}>
       <div className={averageInfoClass}>
         <div className="flex flex-row items-center">
           <div className={averageClass}>{ratings.average}</div>
-          <div className={maxRatingClass}>/5</div>
+          <div className={maxRatingClass}>/{MAX_STAR_COUNT}</div>
         </div>
         <StarRating average={ratings.average} />
       </div>
       <div className={RatingDetailListClass}>
-        <RatingDetail
-          label={"5점"}
-          maxValue={ratings.totalCount}
-          currentValue={ratings[5]}
-        />
-        <RatingDetail
-          label={"4점"}
-          maxValue={ratings.totalCount}
-          currentValue={ratings[4]}
-        />
-        <RatingDetail
-          label={"3점"}
-          maxValue={ratings.totalCount}
-          currentValue={ratings[3]}
-        />
-        <RatingDetail
-          label={"2점"}
-          maxValue={ratings.totalCount}
-          currentValue={ratings[2]}
-        />
-        <RatingDetail
-          label={"1점"}
-          maxValue={ratings.totalCount}
-          currentValue={ratings[1]}
-        />
+        {ratingScores.map((score) => (
+          <RatingDetail
+            key={score}
+            label={`${score}점`}
+            maxValue={ratings.totalCount}
+            currentValue={ratings[score.toString() as keyof Ratings]}
+          />
+        ))}
       </div>
     </div>
   );
