@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import PendingRequestCard from "./PendingRequestCard";
 
-const meta = {
+const meta: Meta<typeof PendingRequestCard> = {
   title: "Components/Cards/PendingRequestCard",
   component: PendingRequestCard,
   parameters: {
@@ -15,7 +15,7 @@ const meta = {
     ),
   ],
   tags: ["autodocs"],
-} satisfies Meta<typeof PendingRequestCard>;
+};
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -39,7 +39,7 @@ const mockData = {
   confirmCount: 12,
   favoriteCount: 22,
   isFavorite: false,
-  introduction: "성실 정확 한 줄 평가",
+  introduction: "성실 정�� 한 줄 평가",
   services: [0, 1],
   regions: [82031, 8202],
   movingDate: "2024-11-30T10:00:00.000Z",
@@ -53,13 +53,16 @@ export const Default: Story = {
   args: {
     data: mockData,
     size: "responsive",
+    onPrimaryClick: () => alert("견적 확정하기 클릭"),
+    onOutlinedClick: () => alert("상세보기 클릭"),
   },
 };
 
-export const WithCustomClassName: Story = {
+export const NonDesignated: Story = {
   args: {
-    data: mockData,
+    data: { ...mockData, isDesignated: false },
     size: "responsive",
-    className: "max-w-[800px]",
+    onPrimaryClick: () => alert("견적 확정하기 클릭"),
+    onOutlinedClick: () => alert("상세보기 클릭"),
   },
 };

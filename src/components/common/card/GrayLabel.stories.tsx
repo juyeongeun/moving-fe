@@ -22,14 +22,14 @@ export const Default: Story = {
 export const Border: Story = {
   args: {
     children: "라벨 텍스트",
-    type: "border",
+    variant: "border",
   },
 };
 
 export const Solid: Story = {
   args: {
     children: "라벨 텍스트",
-    type: "solid",
+    variant: "solid",
   },
 };
 
@@ -52,18 +52,18 @@ export const AllVariants: Story = {
   render: () => (
     <div className="flex flex-col gap-4">
       <div className="flex gap-2">
-        <GrayLabel type="border" size="fixed">
+        <GrayLabel variant="border" size="fixed">
           Border Fixed
         </GrayLabel>
-        <GrayLabel type="border" size="responsive">
+        <GrayLabel variant="border" size="responsive">
           Border Responsive
         </GrayLabel>
       </div>
       <div className="flex gap-2">
-        <GrayLabel type="solid" size="fixed">
+        <GrayLabel variant="solid" size="fixed">
           Solid Fixed
         </GrayLabel>
-        <GrayLabel type="solid" size="responsive">
+        <GrayLabel variant="solid" size="responsive">
           Solid Responsive
         </GrayLabel>
       </div>
