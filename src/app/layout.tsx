@@ -3,7 +3,7 @@ import GNB from "@/components/layout/GNB";
 import localFont from "next/font/local";
 import "./globals.css";
 import QuoteGNB from "@/components/layout/QuoteGNB";
-import cn from "@/config/clsx";
+import cn from "@/config/cn";
 
 const pretendard = localFont({
   src: "./fonts/PretendardVariable.woff2",
