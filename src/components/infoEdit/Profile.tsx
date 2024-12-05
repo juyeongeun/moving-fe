@@ -24,7 +24,7 @@ interface ProfileProps {
     description?: string;
     services?: number[];
     regions?: number[];
-    profileImage?: string;
+    imageUrl?: string;
   };
 }
 
@@ -40,7 +40,7 @@ const styles = {
   formLabel: `text-lg text-black-400 font-semibold pc:text-xl`,
   buttonContainer: `flex flex-col gap-[8px] mt-[24px] pc:flex-row-reverse pc:gap-[32px] w-full`,
   button: `flex-1 text-center`,
-  title: `w-full text-2lg font-bold text-black-400`,
+  title: `w-full text-2lg font-bold text-black-400 pc:text-3xl pc:font-semibold`,
   overlay: `fixed inset-0 bg-black-100 bg-opacity-50 z-40`,
   modalWrapper: `absolute top-0 left-0 w-full h-full flex items-center justify-center z-50`,
   checkboxChipContainer: `flex flex-row flex-wrap gap-[6px]`,
@@ -107,15 +107,15 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
       description: userData?.description ?? "",
       services: userData?.services ?? [],
       regions: userData?.regions ?? [],
-      profileImage: userData?.profileImage ?? "",
+      imageUrl: userData?.imageUrl ?? "",
     },
   });
 
   const values = watch();
 
-  // 이미지 미리보기 상태 추가
+  // 이미지 미리보기 상태 수정
   const [previewImage, setPreviewImage] = React.useState<string>(
-    assets.images.imagePlaceholder
+    userData?.imageUrl || assets.images.imagePlaceholder
   );
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
@@ -150,23 +150,20 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
     try {
       const formData = new FormData();
 
-      // 텍스트 데이터 추가 시 인코딩 처리 방지
       Object.entries(data).forEach(([key, value]) => {
         if (key === "services" || key === "regions") {
-          // 배열은 JSON 문자열로 변환
           formData.append(key, JSON.stringify(value));
-        } else if (value && typeof value === "string") {
-          // 문자열은 그대로 추가
+        } else if (value && typeof value === "string" && key !== "imageUrl") {
           formData.append(key, value);
         }
       });
 
-      // 프로필 이미지 처리
       if (fileInputRef.current?.files?.[0]) {
-        formData.append("profileImage", fileInputRef.current.files[0]);
+        formData.append("imageUrl", fileInputRef.current.files[0]);
+      } else if (data.imageUrl) {
+        formData.append("imageUrl", data.imageUrl);
       }
 
-      // FormData 내용 확인 (디버깅용)
       formData.forEach((value, key) => {
         console.log(`${key}:`, value);
       });
