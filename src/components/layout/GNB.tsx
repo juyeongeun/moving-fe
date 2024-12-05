@@ -1,9 +1,32 @@
 "use client";
 
-import { useState } from "react";
+import { useState, ReactNode } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import cn from "@/config/clsx";
+import DropdownProfile from "../dropdowns/DropdownProfile";
 import assets from "@/variables/images";
+
+interface NavItemProps {
+  href: string;
+  children: ReactNode;
+}
+
+function NavItem({ href, children }: NavItemProps) {
+  const pathname = usePathname();
+
+  let linkStyle = cn(
+    "text-2lg font-bold",
+    pathname.includes(href) ? "text-black-400" : "text-gray-400"
+  );
+
+  return (
+    <Link href="/requests" className={linkStyle}>
+      {children}
+    </Link>
+  );
+}
 
 type UserType = "MOVER" | "USER" | null;
 
@@ -19,40 +42,24 @@ const GNB = ({ userType = null }: GNBProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const renderTabs = () => {
-    const linkStyle = "font-bold text-pr-blue-400 text-2lg";
-
     switch (userType) {
       case "MOVER":
         return (
           <>
-            <Link href="/requests" className={linkStyle}>
-              받은 요청
-            </Link>
-            <Link href="/my-quotes" className={linkStyle}>
-              내 견적 관리
-            </Link>
+            <NavItem href="/requests">받은 요청</NavItem>
+            <NavItem href="/my-quotes">내 견적 관리</NavItem>
           </>
         );
       case "USER":
         return (
           <>
-            <Link href="/request-quote" className={linkStyle}>
-              견적 요청
-            </Link>
-            <Link href="/find-mover" className={linkStyle}>
-              기사님 찾기
-            </Link>
-            <Link href="/my-quotes" className={linkStyle}>
-              내 견적 관리
-            </Link>
+            <NavItem href="/request-quote">견적 요청</NavItem>
+            <NavItem href="/find-mover">기사님 찾기</NavItem>
+            <NavItem href="/my-quotes">내 견적 관리</NavItem>
           </>
         );
       default:
-        return (
-          <Link href="/find-mover" className={linkStyle}>
-            기사님 찾기
-          </Link>
-        );
+        return <NavItem href="/find-mover">기사님 찾기</NavItem>;
     }
   };
 
