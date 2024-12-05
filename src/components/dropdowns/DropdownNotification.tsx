@@ -1,6 +1,5 @@
 "use client";
 
-import { useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { useState } from "react";
 import clsx from "clsx";

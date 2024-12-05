@@ -7,23 +7,31 @@ import Image from "next/image";
 import cn from "@/config/clsx";
 import DropdownProfile from "../dropdowns/DropdownProfile";
 import DropdownNotification from "../dropdowns/DropdownNotification";
+import useResize from "../hooks/useResize";
 import assets from "@/variables/images";
+
+import { PC_WIDTH } from "@/variables/screen";
 
 interface NavItemProps {
   href: string;
+  isIncludedPath?: boolean;
   children: ReactNode;
 }
 
-function NavItem({ href, children }: NavItemProps) {
+function NavItem({ href, isIncludedPath = false, children }: NavItemProps) {
   const pathname = usePathname();
+
+  const isActive = isIncludedPath
+    ? pathname === href
+    : pathname.startsWith(href);
 
   let linkStyle = cn(
     "text-2lg font-bold",
-    pathname.includes(href) ? "text-black-400" : "text-gray-400"
+    isActive ? "text-black-400" : "text-gray-400"
   );
 
   return (
-    <Link href="/requests" className={linkStyle}>
+    <Link href={href} className={linkStyle}>
       {children}
     </Link>
   );
@@ -42,13 +50,22 @@ interface GNBProps {
 const GNB = ({ userType = null }: GNBProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  useResize((width) => {
+    if (width >= PC_WIDTH) {
+      setIsMenuOpen(false);
+    }
+  });
+
+  // 임시
+  const userName = "테스터";
+
   const renderTabs = () => {
     switch (userType) {
       case "MOVER":
         return (
           <>
-            <NavItem href="/requests">받은 요청</NavItem>
-            <NavItem href="/my-quotes">내 견적 관리</NavItem>
+            <NavItem href="/mover/request">받은 요청</NavItem>
+            <NavItem href="/mover/my-quote">내 견적 관리</NavItem>
           </>
         );
       case "USER":
@@ -65,7 +82,7 @@ const GNB = ({ userType = null }: GNBProps) => {
   };
 
   return (
-    <nav className="w-full py-[10px] px-6 border-b border-line-100 bg-white">
+    <nav className="w-full h-[88px] py-[10px] px-6 border-b border-line-100 bg-white">
       <div className="max-w-[1400px] h-full px-5 mx-auto flex justify-between items-center">
         <div className="flex items-center gap-20">
           <Link href="/">
@@ -73,8 +90,8 @@ const GNB = ({ userType = null }: GNBProps) => {
               <Image
                 src={assets.images.logo}
                 alt="logo"
-                width={100}
-                height={100}
+                width={116}
+                height={44}
                 className="hidden tablet:block"
               />
               <Image
@@ -96,7 +113,7 @@ const GNB = ({ userType = null }: GNBProps) => {
               console.log(id); // 임시. 테스트용
             }}
           />
-          <DropdownProfile name={"테스터"} />
+          <DropdownProfile name={userName} />
           <button
             className="block pc:hidden"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -132,7 +149,9 @@ const GNB = ({ userType = null }: GNBProps) => {
               width={36}
               height={36}
             />
-            <span className="text-2lg font-medium text-black-400">김가나</span>
+            <span className="text-2lg font-medium text-black-400">
+              {userName}
+            </span>
           </div>
           <div className="flex flex-col gap-6">{renderTabs()}</div>
         </div>
