@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-import ProgressBarMovingRequest from "../common/progress-bar/ProgressBarMovingRequest";
+import ProgressBarMovingRequest from "./common/progress-bar/ProgressBarMovingRequest";
 
 interface MovingRequestProgressInfoProps {
   maxValue: number;

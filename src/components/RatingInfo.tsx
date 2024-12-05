@@ -1,7 +1,7 @@
 import Image from "next/image";
 import clsx from "clsx";
 
-import ProgressBarRating from "../common/progress-bar/ProgressBarRating";
+import ProgressBarRating from "./common/progress-bar/ProgressBarRating";
 
 import assets from "@/variables/images";
 
