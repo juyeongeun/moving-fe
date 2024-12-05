@@ -4,7 +4,7 @@ import { useState, ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import cn from "@/config/clsx";
+import cn from "@/config/cn";
 import DropdownProfile from "../dropdowns/DropdownProfile";
 import DropdownNotification from "../dropdowns/DropdownNotification";
 import useResize from "../hooks/useResize";

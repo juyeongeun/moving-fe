@@ -42,7 +42,7 @@ export const PasswordInput: Story = {
   args: {
     name: "password-input",
     placeholder: "Enter your password",
-    type: "",
+    type: "password",
     className: "",
     isAuth: true,
   },
