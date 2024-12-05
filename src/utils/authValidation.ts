@@ -84,13 +84,25 @@ export const infoEditSchema = z
   })
   .refine(
     (data) => {
-      if (data.newPassword) {
-        return REGEX.password.test(data.newPassword);
+      if (data.currentPassword && data.currentPassword.length < 8) {
+        return false;
       }
       return true;
     },
     {
-      message: ERROR_MESSAGES.password,
+      message: "비밀번호가 올바르지 않습니다.",
+      path: ["currentPassword"],
+    }
+  )
+  .refine(
+    (data) => {
+      if (data.newPassword && data.newPassword.length < 8) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: "비밀번호가 올바르지 않습니다.",
       path: ["newPassword"],
     }
   )
