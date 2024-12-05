@@ -21,7 +21,13 @@ const styles = {
     "flex flex-col gap-2 tablet:flex-row tablet:items-center tablet:gap-3",
 };
 
-const QuoteDetails = ({ data }: { data: QuoteDetailsData }) => {
+const QuoteDetails = ({
+  data,
+  showRequestDate = true,
+}: {
+  data: QuoteDetailsData;
+  showRequestDate?: boolean;
+}) => {
   const serviceType = mapServiceType([data.service])[0];
   const timeAgo = formatTimeAgo(data.requestDate);
   const movingDate = formatDateWithDay(data.movingDate);
@@ -34,7 +40,9 @@ const QuoteDetails = ({ data }: { data: QuoteDetailsData }) => {
           <ServiceChip variant={serviceType as ChipType} />
           {data.isDesignated && <ServiceChip variant="designatedQuote" />}
         </div>
-        <time className={styles.requestDate}>{timeAgo}</time>
+        {showRequestDate && (
+          <time className={styles.requestDate}>{timeAgo}</time>
+        )}
       </div>
       <div className={styles.requestInfoContainer}>
         <NameText text={data.name} type="customer" className={styles.name} />
