@@ -6,6 +6,7 @@ import TextWithGrayLabel from "../common/card/TextWithGrayLabel";
 import LineSeparator from "../common/LineSeparator";
 import { mapServiceType, formatDate } from "@/utils/utilFunctions";
 import cn from "@/config/cn";
+import StarRatingDisplay from "../StarRatingDisplay";
 
 interface MyReviewCardData {
   id: number;
@@ -49,6 +50,12 @@ const MyReviewCard = ({ data, className }: MyReviewCardProps) => {
             <LineSeparator />
             <TextWithGrayLabel label="견적가" text={quotePrice} />
           </div>
+
+          <StarRatingDisplay
+            average={data.rating}
+            size="fixed"
+            className="hidden w-6 h-6 pc:flex"
+          />
         </div>
       </div>
       <LineSeparator direction="horizontal" />

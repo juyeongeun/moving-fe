@@ -28,7 +28,7 @@ function StarRating({ average }: StarRatingProps) {
   return (
     <div className={StarRatingClass}>
       {stars.map((star, index) => (
-        <div className={starFrameClass}>
+        <div className={starFrameClass} key={index}>
           <Image key={index} src={star} alt={"별점"} fill />
         </div>
       ))}
