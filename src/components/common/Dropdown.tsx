@@ -64,7 +64,7 @@ export function DropdownUserName({ name = "사용자명" }: DropdownUserNameProp
   return <div className={dropdownUserNameClass}>{name}</div>;
 }
 
-export function DropdownNotification() {
+export function DropdownBell() {
   const commonImageFrameClass = clsx("relative w-6 h-6 pc:w-9 pc:h-9");
 
   return (

@@ -8,20 +8,20 @@ import {
   Dropdown,
   DropdownList,
   DropdownItem,
-  DropdownNotification,
+  DropdownBell,
 } from "../common/Dropdown";
 
 import assets from "@/variables/images";
 
-type DropdownProfileProps = {
+type DropdownNotificationProps = {
   onSelect: (id: number) => void;
   disabled?: boolean;
 };
 
-export default function DropdownProfile({
+export default function DropdownNotification({
   onSelect,
   disabled = false,
-}: DropdownProfileProps) {
+}: DropdownNotificationProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const dropdownStyles = {
@@ -108,7 +108,7 @@ export default function DropdownProfile({
     <Dropdown
       trigger={
         <div className={dropdownTriggerClass}>
-          <DropdownNotification />
+          <DropdownBell />
         </div>
       }
       isOpen={isOpen}
