@@ -29,7 +29,7 @@ interface ProfileProps {
 }
 
 const styles = {
-  container: `relative flex flex-col items-center w-full px-[24px]`,
+  container: `relative flex flex-col items-center w-full`,
   pcContainer: `pc:flex pc:flex-col pc:items-center pc:w-full pc:relative`,
   pcLeftContainer: ` pc:flex pc:flex-col pc:w-full`,
   pcRightContainer: ` pc:flex pc:flex-col pc:w-full`,

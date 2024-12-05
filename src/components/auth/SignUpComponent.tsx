@@ -14,8 +14,7 @@ interface SignUpComponentProps {
 }
 
 const styles = {
-  container: `flex flex-col items-center w-full px-[24px]
-  tablet:px-0`,
+  container: `flex flex-col items-center w-full tablet:px-0`,
   logo: `pc:w-[140px] pc:h-[80px] mb-[10px]`,
   linkDescription: `text-xs text-black-100 pc:text-xl pc:text-black-200`,
   link: `text-pr-blue-300 underline font-semibold`,

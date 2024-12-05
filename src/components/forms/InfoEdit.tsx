@@ -19,7 +19,7 @@ interface InfoEditProps {
 }
 
 const styles = {
-  container: `relative flex flex-col items-center w-full px-[24px]`,
+  container: `relative flex flex-col items-center w-full`,
   pcContainer: `pc:flex pc:flex-col pc:items-center pc:w-full`,
   pcForm: `pc:flex pc:flex-row pc:gap-[72px]`,
   form: `flex flex-col gap-[16px] w-full mt-[16px] mb-[32px] pt-[20px] border-t-[1px] border-solid border-line-200`,
