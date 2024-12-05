@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { useState } from "react";
 import clsx from "clsx";
@@ -106,11 +107,7 @@ export default function DropdownNotification({
 
   return (
     <Dropdown
-      trigger={
-        <div className={dropdownTriggerClass}>
-          <DropdownBell />
-        </div>
-      }
+      trigger={<DropdownBell className={dropdownTriggerClass} />}
       isOpen={isOpen}
       onToggle={() => setIsOpen((prev) => !prev)}
     >

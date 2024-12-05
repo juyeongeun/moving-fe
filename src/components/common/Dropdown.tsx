@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React from "react";
+import React, { useRef, useEffect, useCallback } from "react";
 import clsx from "clsx";
 
 import assets from "../../variables/images.js";
@@ -64,8 +64,15 @@ export function DropdownUserName({ name = "사용자명" }: DropdownUserNameProp
   return <div className={dropdownUserNameClass}>{name}</div>;
 }
 
-export function DropdownBell() {
-  const commonImageFrameClass = clsx("relative w-6 h-6 pc:w-9 pc:h-9");
+type DropdownBellProps = {
+  className?: string;
+};
+
+export function DropdownBell({ className }: DropdownBellProps) {
+  const commonImageFrameClass = clsx(
+    "relative w-6 h-6 pc:w-9 pc:h-9",
+    className
+  );
 
   return (
     <div className={commonImageFrameClass}>
@@ -131,7 +138,9 @@ export function DropdownList({ items, className }: DropdownListProps) {
   return (
     <div className={clsx(className)}>
       {items.map((item, index) => (
-        <>{item}</>
+        <div key={index} className="w-full">
+          {item}
+        </div>
       ))}
     </div>
   );
@@ -152,8 +161,32 @@ export function Dropdown({
   onToggle,
   className,
 }: DropdownProps) {
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+  const handleClickOutside = useCallback(
+    (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        onToggle();
+      }
+    },
+    [onToggle]
+  );
+
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen, handleClickOutside]);
+
   return (
-    <div className={clsx("relative", className)}>
+    <div ref={dropdownRef} className={clsx("relative", className)}>
       <div onClick={onToggle}>{trigger}</div>
       {isOpen && <>{children}</>}
     </div>

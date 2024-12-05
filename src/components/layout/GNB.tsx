@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import cn from "@/config/clsx";
 import DropdownProfile from "../dropdowns/DropdownProfile";
+import DropdownNotification from "../dropdowns/DropdownNotification";
 import assets from "@/variables/images";
 
 interface NavItemProps {
@@ -89,28 +90,13 @@ const GNB = ({ userType = null }: GNBProps) => {
           <div className="hidden pc:flex gap-10">{renderTabs()}</div>
         </div>
 
-        <div className="flex items-center gap-6">
-          <button className="text-gray-500 hover:text-gray-700">
-            <Image
-              src={assets.icons.alarm}
-              alt="alarm"
-              width={24}
-              height={24}
-              className="pc:w-8 pc:h-8"
-            />
-          </button>
-          <div className="flex items-center">
-            <Image
-              src={assets.icons.userProfile}
-              alt="user"
-              width={24}
-              height={24}
-              className="pc:w-8 pc:h-8"
-            />
-            <span className="hidden pc:block text-2lg font-medium text-black-400 ml-2">
-              김가나
-            </span>
-          </div>
+        <div className="flex flex-row items-center gap-6">
+          <DropdownNotification
+            onSelect={(id: number) => {
+              console.log(id); // 임시. 테스트용
+            }}
+          />
+          <DropdownProfile name={"테스터"} />
           <button
             className="block pc:hidden"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
