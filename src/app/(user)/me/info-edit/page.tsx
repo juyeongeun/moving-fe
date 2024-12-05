@@ -1,4 +1,4 @@
-import InfoEdit from "@/components/infoEdit/InfoEdit";
+import InfoEdit from "@/components/forms/InfoEdit";
 
 const styles = {
   container: `flex flex-col items-center w-full mt-[57px]

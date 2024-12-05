@@ -8,6 +8,7 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   return (
     <div>
+      <GNB />
       <main>{children}</main>
     </div>
   );
