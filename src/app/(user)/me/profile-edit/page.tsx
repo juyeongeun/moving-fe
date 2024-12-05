@@ -9,7 +9,7 @@ export default function ProfileEditPage() {
   const data = {
     services: [1, 2],
     regions: [82055, 8202],
-    profileImage: "http://test.com",
+    imageUrl: "https://test.com",
   };
   return (
     <div className={styles.container}>

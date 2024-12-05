@@ -13,7 +13,7 @@ export default function ProfileEditPage() {
     description: "테스트",
     services: [1, 2],
     regions: [82055, 8202],
-    profileImage: "http://test.com",
+    imageUrl: "http://test.com",
   };
   return (
     <div className={styles.container}>

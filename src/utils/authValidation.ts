@@ -98,7 +98,7 @@ export const profileSchema = (isUser: boolean) =>
       .array(z.number())
       .min(1, "서비스를 최소 하나 이상 선택해주세요."),
     regions: z.array(z.number()).min(1, "지역을 최소 하나 이상 선택해주세요."),
-    profileImage: z.string().optional(),
+    imageUrl: z.string().optional(),
   });
 
 export type LoginFormData = z.infer<typeof loginSchema>;
