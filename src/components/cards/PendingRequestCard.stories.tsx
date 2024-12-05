@@ -39,7 +39,7 @@ const mockData = {
   confirmCount: 12,
   favoriteCount: 22,
   isFavorite: false,
-  introduction: "성실 정�� 한 줄 평가",
+  introduction: "성실한 이사 도우미 김코드 입니다",
   services: [0, 1],
   regions: [82031, 8202],
   movingDate: "2024-11-30T10:00:00.000Z",

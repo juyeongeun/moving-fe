@@ -1,4 +1,4 @@
-import cn from "@/config/clsx";
+import cn from "@/config/cn";
 import { cva } from "class-variance-authority";
 
 const nameVariants = cva("text-md font-semibold", {

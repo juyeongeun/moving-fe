@@ -2,7 +2,7 @@ import { type QuoteDetailsData } from "@/types/mover";
 import CardContainer from "../common/card/CardContainer";
 import QuoteDetails from "../common/card/QuoteDetails";
 import { QuoteAmount } from "./PendingRequestCard";
-import cn from "@/config/clsx";
+import cn from "@/config/cn";
 
 interface MoverQuoteData extends QuoteDetailsData {
   isCompleted: boolean;
