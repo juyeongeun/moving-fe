@@ -6,7 +6,7 @@ import TextWithGrayLabel from "../common/card/TextWithGrayLabel";
 import LineSeparator from "../common/LineSeparator";
 import { mapServiceType, formatDate } from "@/utils/utilFunctions";
 import cn from "@/config/cn";
-import StarRatingDisplay from "../StarRatingDisplay";
+import StarRatingDisplay from "../common/StarRatingDisplay";
 
 interface MyReviewCardData {
   id: number;
