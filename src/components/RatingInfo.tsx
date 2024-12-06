@@ -28,8 +28,8 @@ function StarRating({ average }: StarRatingProps) {
   return (
     <div className={StarRatingClass}>
       {stars.map((star, index) => (
-        <div className={starFrameClass} key={index}>
-          <Image key={index} src={star} alt={"별점"} fill />
+        <div key={index} className={starFrameClass}>
+          <Image src={star} alt={"별점"} fill />
         </div>
       ))}
     </div>
@@ -81,11 +81,11 @@ type RatingInfoProps = { ratings: Ratings };
 
 export default function RatingInfo({ ratings }: RatingInfoProps) {
   const ratingInfoClass = clsx(
-    "box-border flex flex-col justify-between items-center",
+    "box-border flex flex-col gap-[40px] items-center justify-center",
     "px-0",
-    "w-[327px] h-[303px]",
-    "tablet:flex-row tablet:px-[48.5px] tablet:w-[600px] tablet:h-[176px]",
-    "pc:flex-row pc:px-[59px] pc:w-[955px] pc:h-[296px] pc:bg-bg-200 rounded-[32px]"
+    "w-full h-[303px]",
+    "tablet:flex-row tablet:px-[48.5px] tablet:h-[176px] tablet:gap-[56px]",
+    "pc:flex-row pc:px-[59px] pc:h-[296px] pc:bg-bg-200 pc:rounded-[32px] pc:gap-[83px]"
   );
   const averageInfoClass = clsx(
     "flex flex-col justify-between items-center",
