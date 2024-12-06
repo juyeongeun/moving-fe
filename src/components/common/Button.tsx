@@ -8,7 +8,7 @@ import Link from "next/link";
 // 버튼 스타일 정의
 const buttonVariants = cva(
   // 기본 클래스
-  "button text-lg font-semibold px-6 py-4",
+  "button text-lg font-semibold px-6 py-4 pc:text-xl",
   {
     variants: {
       variant: {

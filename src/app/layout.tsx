@@ -35,8 +35,8 @@ export default function RootLayout({
           globalStyles
         )}
       >
-        <GNB />
-        <div className="max-w-[1400px] px-5 mx-auto">{children}</div>
+        <GNB userType={"MOVER"} />
+        <div className="max-w-[1400px] mx-auto">{children}</div>
       </body>
     </html>
   );

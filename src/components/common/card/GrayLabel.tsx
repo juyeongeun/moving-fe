@@ -7,7 +7,7 @@ type GrayLabelProps = {
 };
 
 const grayLabelVariants = cva(
-  "flex-shrink-0 w-fit text-md font-medium rounded-[4px]",
+  "box-border flex items-center flex-shrink-0 w-fit text-md font-medium rounded-[4px]",
   {
     variants: {
       variant: {
@@ -19,14 +19,19 @@ const grayLabelVariants = cva(
       },
       size: {
         fixed: "",
-        responsive: "pc:text-2lg",
+        responsive: "pc:text-2lg pc:h-[34px]",
       },
     },
     compoundVariants: [
       {
         variant: ["border", "solid"],
         size: "responsive",
-        className: "pc:px-2.5 pc:py-1",
+        className: "h-[28px] pc:h-[34px]",
+      },
+      {
+        variant: "none",
+        size: "responsive",
+        className: "h-[22px] pc:h-[32px]",
       },
     ],
     defaultVariants: {
