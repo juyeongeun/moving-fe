@@ -4,6 +4,7 @@ import FavoriteUi from "./FavoriteUi";
 import ProfileImage from "./ProfileImage";
 import MoverExperience from "./MoverExperience";
 import { FavoriteFields, type BaseMoverData } from "@/types/mover";
+import NameText from "./NameText";
 
 const moverInfoVariants = cva(
   "flex gap-3 items-center text-black-300 border-solid rounded-md border-line-100 shadow-border border-[1px] p-2.5",
@@ -40,9 +41,7 @@ const MoverInfo = ({ data, className, size }: MoverInfoProps) => {
         })}
       >
         <div className="flex items-center justify-between">
-          <span className="text-lg font-semibold pc:text-2lg">
-            {data.nickname} 기사님
-          </span>
+          <NameText text={data.nickname} type="mover" />
           <FavoriteUi
             isFavorite={data.isFavorite}
             favoriteCount={data.favoriteCount}
