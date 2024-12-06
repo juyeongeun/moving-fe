@@ -53,13 +53,22 @@ const QuoteDetails = ({
         />
         <LineSeparator direction="horizontal" />
         <div className={styles.addressContainer}>
-          <TextWithGrayLabel label="출발" text={data.pickupAddress} />
+          <TextWithGrayLabel
+            label="출발"
+            variant="solid"
+            text={data.pickupAddress}
+          />
           <LineSeparator className="hidden tablet:block" />
-          <TextWithGrayLabel label="도착" text={data.dropOffAddress} />
+          <TextWithGrayLabel
+            label="도착"
+            variant="solid"
+            text={data.dropOffAddress}
+          />
           <LineSeparator className="hidden tablet:block" />
           <TextWithGrayLabel
             label="이사일"
             text={movingDate}
+            variant="solid"
             className="hidden tablet:flex"
           />
         </div>
