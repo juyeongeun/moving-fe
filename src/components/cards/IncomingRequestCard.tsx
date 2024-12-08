@@ -18,8 +18,7 @@ interface IncomingRequestCardProps {
 }
 
 const styles = {
-  buttonContainer:
-    "flex flex-col gap-2 w-full h-[104px] tablet:h-[48px] pc:h-[64px] tablet:flex-row pc:gap-[11px]",
+  buttonContainer: "flex flex-col gap-2 tablet:flex-row w-full",
 };
 
 const IncomingRequestCard = ({
@@ -29,7 +28,7 @@ const IncomingRequestCard = ({
   onOutlinedClick,
 }: IncomingRequestCardProps) => {
   return (
-    <CardContainer className="pc:pb-[12px] gap-4 ">
+    <CardContainer>
       <QuoteDetails data={data} />
       <div className={styles.buttonContainer}>
         <Button withIcon width="100%" onClick={onPrimaryClick}>
