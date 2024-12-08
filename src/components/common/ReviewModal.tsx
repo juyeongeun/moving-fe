@@ -9,6 +9,7 @@ import StarRating from "./StartRating";
 import ServiceChip from "./card/ServiceChip";
 import LineSeparator from "./LineSeparator";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 interface ReviewModalProps {
   onClose: () => void;
@@ -50,13 +51,13 @@ export default function ReviewModal({
     title: `text-lg font-semibold text-black-300 mb-[16px]
     pc:text-xl`,
     reviewContainer: `mb-[26px] pc:mb-[40px]`,
-    imageContainer: "relative",
-    reviewImage: "rounded-[8px] object-cover",
+    imageContainer: "relative w-[100px] h-[100px]",
+    reviewImage: "rounded-[8px] object-cover w-full h-full",
     removeButton:
-      "absolute top-[4px] right-[4px] bg-black-400 rounded-full p-[4px]",
+      "absolute top-[4px] right-[4px] bg-black-400 rounded-full p-[4px] cursor-pointer",
     addImageButton:
-      "w-[100px] h-[100px] border-[1px] border-gray-200 rounded-[8px] flex items-center justify-center border-[1px] border-gray-200 border-solid",
-    imagesWrapper: "flex gap-[8px] mb-[20px]",
+      "w-[100px] h-[100px] border-[1px] border-gray-200 rounded-[8px] flex items-center justify-center border-[1px] border-gray-200 border-solid cursor-pointer",
+    imagesWrapper: "flex gap-[16px] mb-[20px]",
     lineSeparator: "mb-[20px]",
   };
 
@@ -78,7 +79,7 @@ export default function ReviewModal({
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
     if (images.length + files.length > 3) {
-      alert("이미지는 최대 3장까지 업로드할 수 있습니다.");
+      toast.error("이미지는 최대 3장까지 업로드할 수 있습니다.");
       return;
     }
 
@@ -163,6 +164,7 @@ export default function ReviewModal({
           </label>
         )}
       </div>
+      <LineSeparator direction="horizontal" className={styles.lineSeparator} />
       <div className={styles.reviewContainer}>
         <p className={styles.title}>상세 후기를 작성해 주세요</p>
         <Textarea
