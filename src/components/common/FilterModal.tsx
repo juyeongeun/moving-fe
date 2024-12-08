@@ -61,6 +61,7 @@ export default function FilterModal({
     px-[10px] py-[13px]
     tablet:px-[16px] tablet:py-[21px]`,
     filterFont: "text-2lg font-semibold cursor-pointer",
+    closeButton: "cursor-pointer",
   };
 
   const moveTypes = () => {
@@ -101,7 +102,13 @@ export default function FilterModal({
             필터
           </p>
         </div>
-        <Image src={assets.icons.x} alt="close" width={24} height={24} />
+        <Image
+          src={assets.icons.x}
+          alt="close"
+          width={24}
+          height={24}
+          className={styles.closeButton}
+        />
       </div>
 
       <div>
