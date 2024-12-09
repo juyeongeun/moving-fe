@@ -2,14 +2,17 @@
 
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
+import Modal from "react-modal";
 
 import IncomingRequestCard from "@/components/cards/IncomingRequestCard";
 import Input from "@/components/common/Input";
-import DropdownSortMovingRequest from "../dropdowns/DropdownSortMovingRequest";
-import Checkbox from "../common/checkboxs/Checkbox";
+import DropdownSortMovingRequest from "../../../../components/dropdowns/DropdownSortMovingRequest";
+import Checkbox from "../../../../components/common/checkboxs/Checkbox";
+import QuoteModal from "../../../../components/common/QuoteModal";
+import FilterModal from "@/components/common/FilterModal";
 import cn from "@/config/cn";
 import { getServiceText } from "@/utils/utilFunctions";
+
 import { SERVICE_CODES } from "@/variables/service";
 import assets from "@/variables/images";
 import { type QuoteDetailsData } from "@/types/mover";
@@ -24,6 +27,7 @@ const filterAllSelectClass = cn(
 );
 
 const allTrue = (arr: boolean[]): boolean => arr.every((item) => item);
+const isAllTrue = (arr: boolean[]) => arr.every(Boolean);
 
 interface ServiceFilterProps {
   serviceCounts: number[];
@@ -36,7 +40,6 @@ function ServiceFilter({ serviceCounts, onChange }: ServiceFilterProps) {
   );
   const [allChecked, setAllChecked] = useState(allTrue(serviceStates));
 
-  // 필터 상태 변경 시 전체 선택 상태 업데이트
   useEffect(() => {
     setAllChecked(allTrue(serviceStates));
   }, [serviceStates]);
@@ -108,7 +111,6 @@ function Filter({ designateCounts, onChange }: FilterProps) {
   );
   const [allChecked, setAllChecked] = useState(allTrue(filterStates));
 
-  // 필터 상태 변경 시 전체 선택 상태 업데이트
   useEffect(() => {
     setAllChecked(allTrue(filterStates));
   }, [filterStates]);
@@ -282,9 +284,35 @@ export default function RequestForm({ initialData }: RequestFormProps) {
     currentDesignateFilter: [true, true],
     currentSort: "recent",
   });
+  const [debouncedKeyword, setDebouncedKeyword] = useState(formState.keyword);
   const [isFetching, setIsFetching] = useState(false);
 
-  const [debouncedKeyword, setDebouncedKeyword] = useState(formState.keyword);
+  const [quoteModalData, setQuoteModalData] = useState({
+    id: 0,
+    serviceType: 0,
+    isDesignatedQuote: false,
+    isRejected: false,
+    startAddress: "recent",
+    endAddress: "",
+    moveDate: "",
+    customerName: "",
+  });
+
+  const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+
+  // const quoteModalBaseClass = cn(
+  //   "flex flex-col items-center justify-center mx-auto rounded-[32px] bg-white overflow-hidden w-[375px] pc:w-[656px] pc:pt-8 pc:py-10"
+  // );
+  const quoteModalBaseClass = cn(
+    "flex flex-col items-center justify-center mx-auto bg-transparent w-full tablet:w-[375px] pc:w-[608px]"
+  );
+
+  const filterIconClass = cn("relative w-8 h-8 pc:hidden");
+
+  useEffect(() => {
+    Modal.setAppElement("body");
+  }, []);
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -307,7 +335,7 @@ export default function RequestForm({ initialData }: RequestFormProps) {
       const filertQuery = `unsigned=${formState.currentDesignateFilter[0]}&isDesignated=${formState.currentDesignateFilter[1]}`;
       const sortQuery = `sort=${formState.currentSort}`;
 
-      console.log("Fetching API with:", {
+      console.log("used query:", {
         debouncedKeyword,
         serviceQuery,
         filertQuery,
@@ -327,10 +355,62 @@ export default function RequestForm({ initialData }: RequestFormProps) {
     formState.currentSort,
   ]);
 
-  const handleAcceptRequest = () => {
+  const handleAcceptRequest = (data: RequestQuoteData) => {
+    setQuoteModalData({
+      id: data.id,
+      serviceType: data.service,
+      isDesignatedQuote: data.isDesignated,
+      isRejected: false,
+      startAddress: data.pickupAddress,
+      endAddress: data.dropOffAddress,
+      moveDate: data.movingDate,
+      customerName: data.name,
+    });
+    setIsQuoteModalOpen(true);
     console.log("수락");
   };
-  const handleRejectRequest = () => {
+
+  const submitQuote = (quoteDate: { cost?: number; comment: string }) => {
+    setIsQuoteModalOpen(false);
+
+    // 임시
+    if (quoteModalData.isRejected) {
+      // 이사 요청 반려
+      console.log(
+        "이사 요청 반려 API 호출 > id : ",
+        quoteModalData.id,
+        " comment : ",
+        quoteDate.comment
+      );
+      return;
+    }
+
+    // 견적서 보내기
+    console.log(
+      "견적서 보내기 API 호출 > id : ",
+      quoteModalData.id,
+      " cost : ",
+      quoteDate.cost,
+      " comment : ",
+      quoteDate.comment
+    );
+    return;
+
+    // 이사 요청 반려 / 견적서 보내기가 완료된 이사 요청에 대한 구별 또는 이사 요청 목록 조회에서 배제 필요
+  };
+
+  const handleRejectRequest = (data: RequestQuoteData) => {
+    setQuoteModalData({
+      id: data.id,
+      serviceType: data.service,
+      isDesignatedQuote: data.isDesignated,
+      isRejected: true,
+      startAddress: data.pickupAddress,
+      endAddress: data.dropOffAddress,
+      moveDate: data.movingDate,
+      customerName: data.name,
+    });
+    setIsQuoteModalOpen(true);
     console.log("거절");
   };
 
@@ -375,15 +455,26 @@ export default function RequestForm({ initialData }: RequestFormProps) {
     }));
   };
 
+  const handleFindMovingRequestList = (data: {
+    newServiceStates: boolean[];
+    newDesignateStates: boolean[];
+  }) => {
+    setFormState((prev) => ({
+      ...prev,
+      currentServiceFilter: data.newServiceStates,
+      currentDesignateFilter: data.newDesignateStates,
+    }));
+  };
+
   return (
-    <>
-      <div className="flex flex-row gap-2.5 items-center w-full h-[96px]">
-        <div className="flex flex-row items-center h-full text-2lg text-[#2b2b2b] font-semibold cursor-pointer pc:text-2xl">
+    <div className="flex flex-col items-center pc:w-full">
+      <div className="flex flex-row gap-2.5 items-center justify-center w-full h-[54px] pc:h-[96px]">
+        <div className="flex flex-row items-center w-[328px] tablet:w-[600px] pc:w-[1400px] h-full text-2lg text-[#2b2b2b] font-semibold cursor-pointer pc:text-2xl">
           받은 요청
         </div>
       </div>
-      <div className="box-border flex flex-row gap-[117px] mt-4 tablet:mt-6 pc:mt-6 ">
-        <div className="box-border flex flex-col gap-6 w-[328px]">
+      <div className="box-border flex flex-row justify-center gap-[117px] mt-4 tablet:mt-6 pc:mt-6">
+        <div className="box-border gap-6 w-[328px] hidden tablet:hidden pc:flex pc:flex-col ">
           <ServiceFilter
             serviceCounts={data.serviceCounts}
             onChange={handleServiceFilterChange}
@@ -393,8 +484,8 @@ export default function RequestForm({ initialData }: RequestFormProps) {
             onChange={handleFilterChange}
           />
         </div>
-        <div className="box-border flex flex-col w-[955px] h-[2548px]">
-          <div className="relative flex items-center w-full h-[64px]">
+        <div className="box-border flex flex-col w-[328px] tablet:w-[600px] pc:w-[955px] h-[2548px]">
+          <div className="relative flex items-center p-0 w-full h-[64px] tablet:px-2.5 tablet:py-3 pc:p-0">
             <Input
               name="searchKeyword"
               placeholder="어떤 고객님을 찾고 계세요?"
@@ -408,16 +499,68 @@ export default function RequestForm({ initialData }: RequestFormProps) {
           </div>
           <div className="flex flex-row justify-between w-full h-10 pc:mt-6">
             <div className="flex flex-row items-center text-lg font-medium">{`전체 ${data.list.length}건`}</div>
-            <DropdownSortMovingRequest
-              onSelect={handleSortChange}
-              disabled={data.list.length === 0}
-            />
+            <div className="flex flex-row gap-1">
+              <DropdownSortMovingRequest
+                onSelect={handleSortChange}
+                disabled={data.list.length === 0}
+              />
+              <div
+                className={filterIconClass}
+                onClick={() => setIsFilterModalOpen(true)}
+              >
+                <Image
+                  src={
+                    isAllTrue(formState.currentServiceFilter) &&
+                    isAllTrue(formState.currentDesignateFilter)
+                      ? assets.icons.filterInactive
+                      : assets.icons.filterActive
+                  }
+                  alt="필터"
+                  fill
+                />
+              </div>
+            </div>
           </div>
           <div className="flex flex-col w-full pc:mt-[32px] pc:gap-[48px]">
             {isFetching ? <p>Loading...</p> : items}
           </div>
         </div>
       </div>
-    </>
+      <Modal
+        className={quoteModalBaseClass}
+        overlayClassName="bg-[#141414] bg-opacity-50 fixed inset-0 flex flex-col items-center justify-end tablet:justify-center pc:justify-center"
+        isOpen={isQuoteModalOpen}
+        onRequestClose={() => setIsQuoteModalOpen(false)}
+        contentLabel="견적서 모달"
+      >
+        <QuoteModal
+          isRejected={quoteModalData.isRejected}
+          customerName={quoteModalData.customerName}
+          serviceType={quoteModalData.serviceType}
+          isDesignatedQuote={quoteModalData.isDesignatedQuote}
+          startAddress={quoteModalData.startAddress}
+          endAddress={quoteModalData.endAddress}
+          moveDate={quoteModalData.moveDate}
+          onClose={() => setIsQuoteModalOpen(false)}
+          onSubmit={submitQuote}
+        />
+      </Modal>
+      <Modal
+        className={quoteModalBaseClass}
+        overlayClassName="bg-[#141414] bg-opacity-50 fixed inset-0 flex flex-col items-center justify-end tablet:justify-center pc:justify-center"
+        isOpen={isFilterModalOpen}
+        onRequestClose={() => setIsFilterModalOpen(false)}
+        contentLabel="필터 모달"
+      >
+        <FilterModal
+          serviceCounts={data.serviceCounts}
+          serviceFilters={formState.currentServiceFilter}
+          designateCounts={data.designateCounts}
+          designateFilters={formState.currentDesignateFilter}
+          onSubmit={handleFindMovingRequestList}
+          onClose={() => setIsFilterModalOpen(false)}
+        />
+      </Modal>
+    </div>
   );
 }

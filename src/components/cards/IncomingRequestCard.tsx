@@ -13,8 +13,8 @@ interface RequestQuoteData extends QuoteDetailsData {
 interface IncomingRequestCardProps {
   data: RequestQuoteData;
   className?: string;
-  onPrimaryClick: () => void;
-  onOutlinedClick: () => void;
+  onPrimaryClick: (data: RequestQuoteData) => void;
+  onOutlinedClick: (data: RequestQuoteData) => void;
 }
 
 const styles = {
@@ -28,14 +28,25 @@ const IncomingRequestCard = ({
   onPrimaryClick,
   onOutlinedClick,
 }: IncomingRequestCardProps) => {
+  const handleAcceptButtonClick = () => {
+    onPrimaryClick(data);
+  };
+  const handleRejectButtonClick = () => {
+    onOutlinedClick(data);
+  };
+
   return (
     <CardContainer className="pc:pb-[12px] gap-4 ">
       <QuoteDetails data={data} />
       <div className={styles.buttonContainer}>
-        <Button withIcon width="100%" onClick={onPrimaryClick}>
+        <Button withIcon width="100%" onClick={handleAcceptButtonClick}>
           견적 보내기
         </Button>
-        <Button variant="outlined" width="100%" onClick={onOutlinedClick}>
+        <Button
+          variant="outlined"
+          width="100%"
+          onClick={handleRejectButtonClick}
+        >
           반려
         </Button>
       </div>

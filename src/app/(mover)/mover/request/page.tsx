@@ -1,5 +1,4 @@
-import RequestForm from "@/components/forms/mover-request";
-import { number } from "zod";
+import RequestForm from "./mover-request";
 
 const DATA_COUNT = 20;
 

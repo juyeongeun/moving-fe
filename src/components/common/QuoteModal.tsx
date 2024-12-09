@@ -9,7 +9,7 @@ import { useState } from "react";
 
 interface QuoteModalProps {
   onClose?: () => void;
-  onSubmit?: () => void;
+  onSubmit?: (data: { cost: number; comment: string }) => void;
   serviceType: number;
   isDesignatedQuote: boolean;
   isRejected: boolean;
@@ -20,8 +20,9 @@ interface QuoteModalProps {
 }
 
 const styles = {
-  container: `flex flex-col bg-white px-[24px] pt-[32px] pb-[40px] rounded-t-[32px]
-  pc:px-[24px] pc:pt-[32px] pc:pb-[40px] pc:rounded-[32px] pc:w-[608px]`,
+  container: `flex flex-col bg-white px-[24px] pt-[32px] pb-[40px] rounded-t-[32px] w-full
+  tablet:rounded-[32px]
+  pc:px-[24px] pc:pt-[32px] pc:pb-[40px] pc:rounded-[32px]`,
   titleContainer: `flex flex-row justify-between items-center mb-[26px] text-2lg font-bold text-black-400
   pc:text-2xl pc:font-semibold pc:mb-[40px]`,
   closeIcon: `cursor-pointer pc:w-[32px] pc:h-[32px]`,
@@ -60,6 +61,10 @@ export default function QuoteModal({
       !isNaN(Number(quote)) &&
       comment.length >= 10 &&
       typeof comment === "string";
+
+  const handleCallApi = () => {
+    return onSubmit({ cost: Number(quote), comment });
+  };
 
   return (
     <div className={styles.container}>
@@ -109,7 +114,7 @@ export default function QuoteModal({
       <Button
         children={isRejected ? "반려하기" : "견적 보내기"}
         variant="primary"
-        onClick={onSubmit}
+        onClick={handleCallApi}
         disabled={!isValid}
       />
     </div>
