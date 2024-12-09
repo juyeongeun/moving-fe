@@ -11,13 +11,16 @@ interface CustomerReviewData {
   content: string;
   createdAt: string;
   name: string;
-  images: string[];
+  images: string[] | null;
 }
 const CustomerReview = ({ data }: { data: CustomerReviewData }) => {
   const createdDate = format(new Date(data.createdAt), "yyyy-MM-dd");
 
   return (
-    <li className="flex flex-col gap-4 tablet:gap-5">
+    <li
+      className="flex flex-col gap-4 py-[32px] tablet:gap-5 border-solid
+    border-b-[1px] border-line-100"
+    >
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2 text-md font-regular pc:text-2lg">
           <span className="text-black-400">{data.name}</span>
@@ -30,7 +33,9 @@ const CustomerReview = ({ data }: { data: CustomerReviewData }) => {
           className="w-5 h-5"
         />
       </div>
-      <ReviewImageSlider images={data.images} />
+      {data.images && data.images.length > 0 && (
+        <ReviewImageSlider images={data.images} />
+      )}
       <p>{data.content}</p>
     </li>
   );
