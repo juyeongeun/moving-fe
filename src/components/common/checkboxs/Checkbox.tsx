@@ -19,34 +19,29 @@ export default function Checkbox({
   className,
   disabled = false,
 }: CheckboxProps) {
-  const [checkState, setCheckState] = useState(state);
-
-  const checkboxClass = clsx("relative w-9 h-9", className);
+  const checkboxClass = clsx(
+    "relative w-9 h-9 cursor-pointer",
+    disabled && "cursor-not-allowed",
+    className
+  );
 
   const handleCheckboxClick = () => {
-    if (!disabled) {
-      setCheckState((prev) => !prev);
+    if (!disabled && onStateChange) {
+      onStateChange(!state);
     }
   };
-
-  useEffect(() => {
-    if (onStateChange) {
-      onStateChange(checkState);
-    }
-  }, [checkState, onStateChange]);
 
   return (
     <div
       onClick={handleCheckboxClick}
       role="checkbox"
-      aria-checked={checkState}
+      aria-checked={state}
+      aria-disabled={disabled}
       className={checkboxClass}
     >
       <Image
         src={
-          checkState
-            ? assets.icons.checkboxActive
-            : assets.icons.checkboxInactive
+          state ? assets.icons.checkboxActive : assets.icons.checkboxInactive
         }
         alt="체크 박스"
         fill
