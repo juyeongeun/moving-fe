@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import GNB from "@/components/layout/GNB";
 import localFont from "next/font/local";
 import "./globals.css";
-import QuoteGNB from "@/components/layout/QuoteGNB";
+import QuoteGNBWrapper from "@/components/layout/QuoteGNBWrapper";
 import cn from "@/config/cn";
 
 const pretendard = localFont({
@@ -36,7 +36,8 @@ export default function RootLayout({
         )}
       >
         <GNB userType={"MOVER"} />
-        <div className="max-w-[1400px] px-5 mx-auto">{children}</div>
+        <QuoteGNBWrapper />
+        <div className="px-6 bg-bg-100">{children}</div>
       </body>
     </html>
   );
