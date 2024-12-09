@@ -37,7 +37,7 @@ export default function RootLayout({
       >
         <GNB userType={"MOVER"} />
         <QuoteGNBWrapper />
-        <div className="px-6 bg-bg-100">{children}</div>
+        <div className="px-6">{children}</div>
       </body>
     </html>
   );
