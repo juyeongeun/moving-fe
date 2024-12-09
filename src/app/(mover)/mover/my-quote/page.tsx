@@ -113,34 +113,24 @@ export default function MyQuotePage() {
   const displayData = currentTab === 0 ? defaultData : rejectData;
 
   const styles = {
-    background: `flex justify-center w-full h-[100vh]`,
-    container: `flex flex-col gap-[24px] pt-6 h-fit tablet:gap-[32px] tablet:pt-8 
-    pc:flex-row pc:flex-wrap pc:gap-x-[24px] pc:gap-y-[48px] pc:pt-10
-    pc:max-w-[1400px]`,
+    container: `max-w-[1400px] mx-auto bg-bg-100 grid grid-cols-1 gap-[24px] pc:grid-cols-2  tablet:gap-[32px] pc:gap-x-[24px] pc:gap-y-[48px]`,
   };
 
   return (
     <>
-      <div className={styles.background}>
-        <div className={styles.container}>
-          {displayData.map((data) =>
-            currentTab === 0 ? (
-              <SentQuoteCard
-                data={data}
-                onButtonClick={() => handleButtonClick(data)}
-                key={data.id}
-                className={"pc:w-[660px] bg-white"}
-              />
-            ) : (
-              <RejectedRequestCard
-                data={data}
-                key={data.id}
-                className={"pc:w-[660px] bg-white"}
-              />
-            )
-          )}
-        </div>
-      </div>
+      <ul className={styles.container}>
+        {displayData.map((data) =>
+          currentTab === 0 ? (
+            <SentQuoteCard
+              data={data}
+              onButtonClick={() => handleButtonClick(data)}
+              key={data.id}
+            />
+          ) : (
+            <RejectedRequestCard data={data} key={data.id} />
+          )
+        )}
+      </ul>
     </>
   );
 }
