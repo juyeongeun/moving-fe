@@ -2,9 +2,9 @@ export const DROPDOWN_REGION_TEXT = "지역";
 export const DROPDOWN_SERVICE_TEXT = "서비스";
 
 export const PROFILE_CUSTOMER = [
-  { text: "프로필 수정", link: "/profile-edit" },
-  { text: "찜한 기사님", link: "/미정" },
-  { text: "이사 리뷰", link: "/review" },
+  { text: "프로필 수정", link: "/me/profile-edit" },
+  { text: "찜한 기사님", link: "/me/mover" },
+  { text: "이사 리뷰", link: "/me/review" },
 ];
 export const PROFILE_MOVER = [
   { text: "마이페이지", link: "/mover/mypage" },
