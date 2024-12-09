@@ -1,10 +1,12 @@
+"use client";
+
 import { FavoriteFields, type BaseMoverData } from "@/types/mover";
 import CardContainer from "../common/card/CardContainer";
 import MoverInfo from "../common/card/MoverInfo";
 import ServiceChip, { ChipType } from "../common/card/ServiceChip";
 import { mapServiceType } from "@/utils/utilFunctions";
 
-interface FavoriteMoverData extends BaseMoverData, FavoriteFields {
+export interface FavoriteMoverData extends BaseMoverData, FavoriteFields {
   services: number[];
 }
 
