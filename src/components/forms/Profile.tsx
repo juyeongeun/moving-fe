@@ -45,7 +45,7 @@ const styles = {
   modalWrapper: `absolute top-0 left-0 w-full h-full flex items-center justify-center z-50`,
   checkboxChipContainer: `flex flex-row flex-wrap gap-[6px]`,
   regionContainer: `flex flex-row flex-wrap gap-[8px] w-[277px] pc:w-[416px]`,
-  profileImage: `cursor-pointer`,
+  profileImage: `cursor-pointer w-[100px] h-[100px]`,
   errorMessage: `text-pr-red-200 text-sm font-regular mb-[16px]`,
 };
 
