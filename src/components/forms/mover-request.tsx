@@ -165,45 +165,100 @@ function Filter({ designateCounts, onChange }: FilterProps) {
   );
 }
 
+function getRandomString(length: number) {
+  return Array.from({ length }, () =>
+    String.fromCharCode(97 + Math.floor(Math.random() * 26))
+  ).join("");
+}
+
+function getRandomAddress() {
+  return `${Math.floor(Math.random() * 1000)} ${getRandomString(
+    5
+  )} Street, ${getRandomString(6)} City`;
+}
+
 const DATA_COUNT = 20;
 
 const mockRequestQuoteData = Array.from({ length: DATA_COUNT }, (_, index) => {
   const randomService = Math.floor(Math.random() * 3);
-  const baseDate = new Date(2024, 11, 1);
+  const baseDate = new Date(2025, 1, 1);
   const randomOffset = Math.floor(Math.random() * 30);
 
   return {
-    id: index + 1,
+    id: Math.floor(Math.random() * 1000),
     requestDate: new Date(
       baseDate.getTime() + randomOffset * 24 * 60 * 60 * 1000
     ).toISOString(),
     service: randomService,
     isDesignated: Math.random() > 0.5,
     isConfirmed: false,
-    name: `User ${index + 1}`,
+    name: `User ${getRandomString(3)}${index + 1}`,
     movingDate: new Date(
       baseDate.getTime() + (randomOffset + 5) * 24 * 60 * 60 * 1000
     ).toISOString(),
-    pickupAddress: `${index + 1} Test Street, City A`,
-    dropOffAddress: `${index + 10} Destination Ave, City B`,
+    pickupAddress: getRandomAddress(),
+    dropOffAddress: getRandomAddress(),
     isCompleted: false,
   };
 });
 
-const mockServiceFilter = [10, 2, 8];
+async function fetchData_(formState: {
+  keyword: string;
+  currentServiceFilter: boolean[];
+  currentDesignateFilter: boolean[];
+  currentSort: string;
+}) {
+  const filteredList = mockRequestQuoteData.filter((item) => {
+    if (!formState.currentServiceFilter[item.service]) return false;
 
-const mockFilter = [10, 10];
+    if (item.isDesignated && !formState.currentDesignateFilter[1]) return false;
 
-async function fetchData_() {
-  const result = {
-    list: mockRequestQuoteData,
-    serviceCounts: mockServiceFilter,
-    designateCounts: mockFilter,
+    if (!item.isDesignated && !formState.currentDesignateFilter[0])
+      return false;
+
+    if (
+      formState.keyword &&
+      !item.name.toLowerCase().includes(formState.keyword.toLowerCase())
+    )
+      return false;
+
+    return true;
+  });
+
+  const sortedList = filteredList.sort((a, b) => {
+    if (formState.currentSort === "recent") {
+      return (
+        new Date(b.requestDate).getTime() - new Date(a.requestDate).getTime()
+      );
+    } else if (formState.currentSort === "movingDate") {
+      return (
+        new Date(a.movingDate).getTime() - new Date(b.movingDate).getTime()
+      );
+    }
+    return 0;
+  });
+
+  const serviceCounts = [0, 0, 0];
+  sortedList.forEach((item) => {
+    serviceCounts[item.service]++;
+  });
+
+  const designateCounts = [0, 0];
+  sortedList.forEach((item) => {
+    if (item.isDesignated) {
+      designateCounts[1]++;
+    } else {
+      designateCounts[0]++;
+    }
+  });
+
+  console.log("fetchData_");
+
+  return {
+    list: sortedList,
+    serviceCounts,
+    designateCounts,
   };
-
-  console.log("CSR API 호출 : fetchData_");
-
-  return result;
 }
 
 interface RequestQuoteData extends QuoteDetailsData {
@@ -221,46 +276,55 @@ interface RequestFormProps {
 
 export default function RequestForm({ initialData }: RequestFormProps) {
   const [data, setData] = useState(initialData);
-  const [currentServiceFilter, setCurrentServiceFilter] = useState<boolean[]>([
-    true,
-    true,
-    true,
-  ]);
-  const [currentDesignateFilter, setCurrentDesignateFilter] = useState<
-    boolean[]
-  >([true, true]);
-  const [keyword, setKeyword] = useState("");
-  const [currentSort, setCurrentSort] = useState("recent");
+  const [formState, setFormState] = useState({
+    keyword: "",
+    currentServiceFilter: [true, true, true],
+    currentDesignateFilter: [true, true],
+    currentSort: "recent",
+  });
   const [isFetching, setIsFetching] = useState(false);
+
+  const [debouncedKeyword, setDebouncedKeyword] = useState(formState.keyword);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedKeyword(formState.keyword);
+    }, 300);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [formState.keyword]);
 
   useEffect(() => {
     const fetchData = async () => {
       setIsFetching(true);
 
       const query = new URLSearchParams();
-      query.append("keyword", keyword);
+      query.append("keyword", debouncedKeyword);
 
-      const serviceQuery = `smallMove=${currentServiceFilter[0]}&houseMove=${currentServiceFilter[1]}&officeMove=${currentServiceFilter[2]}`;
-      const filertQuery = `unsigned=${currentDesignateFilter[0]}&isDesignated=${currentDesignateFilter[1]}`;
-      const sortQuery = `sort=${currentSort}`;
+      const serviceQuery = `smallMove=${formState.currentServiceFilter[0]}&houseMove=${formState.currentServiceFilter[1]}&officeMove=${formState.currentServiceFilter[2]}`;
+      const filertQuery = `unsigned=${formState.currentDesignateFilter[0]}&isDesignated=${formState.currentDesignateFilter[1]}`;
+      const sortQuery = `sort=${formState.currentSort}`;
 
-      // const response = await fetch(
-      //   `/api/requests?${serviceQuery}&${filertQuery}&${query}&${sortQuery}`
-      // );
-      // const result = await response.json();
-      const result = await fetchData_();
+      console.log("Fetching API with:", {
+        debouncedKeyword,
+        serviceQuery,
+        filertQuery,
+        sortQuery,
+      });
 
+      const result = await fetchData_(formState);
       setData(result);
       setIsFetching(false);
     };
 
     fetchData();
   }, [
-    currentServiceFilter,
-    currentDesignateFilter,
-    keyword,
-    currentSort,
-    initialData,
+    debouncedKeyword,
+    formState.currentServiceFilter,
+    formState.currentDesignateFilter,
+    formState.currentSort,
   ]);
 
   const handleAcceptRequest = () => {
@@ -270,10 +334,10 @@ export default function RequestForm({ initialData }: RequestFormProps) {
     console.log("거절");
   };
 
-  const items = data.list.map((item) => {
+  const items = data.list.map((item, index) => {
     return (
       <IncomingRequestCard
-        key={item.id}
+        key={`${item.id}-${index}`}
         data={item}
         onPrimaryClick={handleAcceptRequest}
         onOutlinedClick={handleRejectRequest}
@@ -281,19 +345,34 @@ export default function RequestForm({ initialData }: RequestFormProps) {
     );
   });
 
-  const handleServiceCheck = (arr: boolean[]) => {
-    setCurrentServiceFilter(arr);
-  };
-  const handleFilterCheck = (arr: boolean[]) => {
-    setCurrentDesignateFilter(arr);
-  };
-  const handleSortSelect = (sortCode: number) => {
-    const sortValues = ["recent", "movingDate"];
-    setCurrentSort(sortValues[sortCode]);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setFormState((prev) => ({
+      ...prev,
+      keyword: value,
+    }));
   };
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setKeyword(e.target.value);
+  const handleServiceFilterChange = (newStates: boolean[]) => {
+    setFormState((prev) => ({
+      ...prev,
+      currentServiceFilter: newStates,
+    }));
+  };
+
+  const handleFilterChange = (newStates: boolean[]) => {
+    setFormState((prev) => ({
+      ...prev,
+      currentDesignateFilter: newStates,
+    }));
+  };
+
+  const handleSortChange = (sortIndex: number) => {
+    const sortOptions = ["recent", "movingDate"];
+    setFormState((prev) => ({
+      ...prev,
+      sort: sortOptions[sortIndex],
+    }));
   };
 
   return (
@@ -307,11 +386,11 @@ export default function RequestForm({ initialData }: RequestFormProps) {
         <div className="box-border flex flex-col gap-6 w-[328px]">
           <ServiceFilter
             serviceCounts={data.serviceCounts}
-            onChange={handleServiceCheck}
+            onChange={handleServiceFilterChange}
           />
           <Filter
             designateCounts={data.designateCounts}
-            onChange={handleFilterCheck}
+            onChange={handleFilterChange}
           />
         </div>
         <div className="box-border flex flex-col w-[955px] h-[2548px]">
@@ -320,8 +399,8 @@ export default function RequestForm({ initialData }: RequestFormProps) {
               name="searchKeyword"
               placeholder="어떤 고객님을 찾고 계세요?"
               className="w-full pl-[46px] pc:pl-[68px]"
-              value={keyword}
-              onChange={handleSearchChange}
+              value={formState.keyword}
+              onChange={handleInputChange}
             />
             <div className="absolute left-4 w-6 h-6 pc:left-6 pc:w-9 pc:h-9">
               <Image src={assets.icons.search} alt="검색" fill />
@@ -330,7 +409,7 @@ export default function RequestForm({ initialData }: RequestFormProps) {
           <div className="flex flex-row justify-between w-full h-10 pc:mt-6">
             <div className="flex flex-row items-center text-lg font-medium">{`전체 ${data.list.length}건`}</div>
             <DropdownSortMovingRequest
-              onSelect={handleSortSelect}
+              onSelect={handleSortChange}
               disabled={data.list.length === 0}
             />
           </div>
