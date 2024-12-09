@@ -13,6 +13,7 @@ interface MoverQuoteData extends QuoteDetailsData {
 interface SentQuoteCardProps {
   data: MoverQuoteData;
   className?: string;
+  classNameQuoteDetails?: string;
   onButtonClick: () => void;
 }
 
@@ -27,11 +28,16 @@ const styles = {
 const SentQuoteCard = ({
   data,
   className,
+  classNameQuoteDetails,
   onButtonClick,
 }: SentQuoteCardProps) => {
   return (
     <CardContainer className={cn("relative", className)}>
-      <QuoteDetails data={data} />
+      <QuoteDetails
+        data={data}
+        className={classNameQuoteDetails}
+        showRequestDate={false}
+      />
       <QuoteAmount amount={data.cost} />
 
       {data.isCompleted && (
