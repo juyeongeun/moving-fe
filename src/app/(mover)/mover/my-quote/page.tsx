@@ -125,9 +125,14 @@ export default function MyQuotePage() {
               data={data}
               onButtonClick={() => handleButtonClick(data)}
               key={data.id}
+              classNameQuoteDetails={"pc:flex-col pc:gap-2 pc:items-start"}
             />
           ) : (
-            <RejectedRequestCard data={data} key={data.id} />
+            <RejectedRequestCard
+              data={data}
+              key={data.id}
+              classNameQuoteDetails={"pc:flex-col pc:gap-2 pc:items-start"}
+            />
           )
         )}
       </ul>

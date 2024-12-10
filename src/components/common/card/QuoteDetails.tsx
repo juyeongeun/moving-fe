@@ -19,15 +19,17 @@ const styles = {
   requestInfoContainer:
     "box-border flex flex-col gap-2.5 tablet:gap-2 pc:gap-[17.5px]",
   addressContainer:
-    "box-border flex flex-col gap-2 tablet:flex-row tablet:items-center tablet:gap-3 pc:flex-col pc:gap-2 pc:items-start",
+    "box-border flex flex-col gap-2 tablet:flex-row tablet:items-center tablet:gap-3",
 };
 
 const QuoteDetails = ({
   data,
   showRequestDate = true,
+  className,
 }: {
   data: QuoteDetailsData;
   showRequestDate?: boolean;
+  className?: string;
 }) => {
   const serviceType = mapServiceType([data.service])[0];
   const timeAgo = formatTimeAgo(data.requestDate);
@@ -55,7 +57,7 @@ const QuoteDetails = ({
           className="tablet:hidden"
         />
         <LineSeparator direction="horizontal" />
-        <div className={styles.addressContainer}>
+        <div className={`${styles.addressContainer} ${className}`}>
           <TextWithGrayLabel
             label="이사일"
             text={movingDate}
