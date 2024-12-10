@@ -28,14 +28,6 @@ export default function DropdownService({
     (typeof SERVICE_TEXTS)[keyof typeof SERVICE_TEXTS] | string
   >("서비스");
 
-  const handleSelectService = (key: string) => {
-    onSelect(SERVICE_CODES[key as keyof typeof SERVICE_CODES]);
-    setCurrentSelectService(
-      getServiceText(SERVICE_CODES[key as keyof typeof SERVICE_CODES])
-    );
-    setIsOpen(false);
-  };
-
   const dropdownStyles = {
     base: "relative box-border flex flex-row justify-between items-center \
         pl-3.5 pr-2.5 w-[87px] h-9 \
@@ -73,6 +65,14 @@ export default function DropdownService({
     cursor-pointer \
     pc:px-6 pc:w-[328px] pc:h-[64px] pc:text-2lg"
   );
+
+  const handleSelectService = (key: string) => {
+    onSelect(SERVICE_CODES[key as keyof typeof SERVICE_CODES]);
+    setCurrentSelectService(
+      getServiceText(SERVICE_CODES[key as keyof typeof SERVICE_CODES])
+    );
+    setIsOpen(false);
+  };
 
   const keys = Object.keys(SERVICE_CODES);
   const items = keys.map((key) => {

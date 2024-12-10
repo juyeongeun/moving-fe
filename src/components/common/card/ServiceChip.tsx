@@ -5,7 +5,7 @@ import cn from "@/config/cn";
 import assets from "@/variables/images";
 
 const chipVariants = cva(
-  "inline-flex w-fit items-center justify-center gap-[1px] py-0.5 shadow-[4px_4px_8px_0px_rgba(217,217,217,0.1)] font-semibold rounded-[4px] text-sm",
+  "inline-flex w-fit items-center justify-center gap-[1px] py-0.5 shadow-[4px_4px_8px_0px_rgba(217,217,217,0.1)] font-semibold rounded-[4px] text-sm text-nowrap",
   {
     variants: {
       variant: {
@@ -61,11 +61,7 @@ interface ChipProps extends VariantProps<typeof chipVariants> {
   isResponsive?: boolean;
 }
 
-const ServiceChip = ({
-  variant,
-  className,
-  size = "responsive",
-}: ChipProps) => {
+const ServiceChip = ({ variant, className, size }: ChipProps) => {
   const isResponsive = size === "responsive";
 
   return (

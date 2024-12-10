@@ -28,6 +28,8 @@ export default function DropdownRegion({
     (typeof REGION_TEXTS)[keyof typeof REGION_TEXTS] | string
   >("지역");
 
+  const keys = Object.keys(REGION_CODES);
+
   const dropdownStyles = {
     base: "relative box-border flex flex-row justify-between items-center \
     pl-3.5 pr-2.5 w-[75px] h-9 \
@@ -91,7 +93,6 @@ export default function DropdownRegion({
     setIsOpen(false);
   };
 
-  const keys = Object.keys(REGION_CODES);
   const items = keys.map((key) => {
     return {
       label: getRegionText(REGION_CODES[key as keyof typeof REGION_CODES]),
