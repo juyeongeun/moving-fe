@@ -30,13 +30,13 @@ const TextWithGrayLabel = ({
   label,
   text,
   className,
-  variant = "solid",
+  variant = "none",
   size = "responsive",
 }: {
   label: string;
   text: string;
   className?: string;
-  variant?: "solid" | "border";
+  variant?: "solid" | "border" | "none";
   size?: "responsive" | "fixed";
 }) => {
   return (

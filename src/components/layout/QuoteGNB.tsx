@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import LineSeparator from "../common/LineSeparator";
 
 interface Tab {
   id: number;
@@ -7,28 +9,24 @@ interface Tab {
 }
 
 interface QuoteGNBProps {
-  initialTab?: number;
-  onTabChange?: (tabId: number) => void;
   tabs: Tab[];
+  currentTab?: number;
 }
 
-export const QuoteGNB = ({
-  initialTab = 0,
-  onTabChange,
-  tabs,
-}: QuoteGNBProps) => {
-  const [activeTab, setActiveTab] = useState(initialTab);
+export const QuoteGNB = ({ tabs, currentTab = 0 }: QuoteGNBProps) => {
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState(currentTab);
 
   const handleTabClick = (tabId: number) => {
     setActiveTab(tabId);
-    onTabChange?.(tabId);
+    router.push(`?tab=${tabId}`);
   };
 
   return (
     <nav
       role="navigation"
       aria-label="견적 내역 탭"
-      className="w-full border-b border-gray-200"
+      className="w-full border-b border-gray-200 bg-white"
     >
       <div className="max-w-[1400px] px-5 mx-auto flex gap-8">
         {tabs.map((tab) => (
@@ -36,9 +34,10 @@ export const QuoteGNB = ({
             key={tab.id}
             onClick={() => handleTabClick(tab.id)}
             className={`
-              py-4 text-xl font-semibold
+              py-4 text-lg font-bold
               transition-all duration-500
               border-b-2 min-w-[120px]
+              pc:text-xl pc:font-semibold
               ${
                 activeTab === tab.id
                   ? "text-black-400 border-black-400"
@@ -53,6 +52,7 @@ export const QuoteGNB = ({
           </button>
         ))}
       </div>
+      <LineSeparator direction="horizontal" />
     </nav>
   );
 };

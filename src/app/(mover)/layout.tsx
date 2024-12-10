@@ -1,16 +1,17 @@
+import Main from "@/components/layout/Main";
 import React from "react";
-import GNB from "@/components/layout/GNB";
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
+const GREY_BG_PATHS = ["/mover/my-quote"];
+
 const Layout = ({ children }: LayoutProps) => {
   return (
-    <div>
-      <GNB />
-      <main>{children}</main>
-    </div>
+    <>
+      <Main grayBgPaths={GREY_BG_PATHS}>{children}</Main>
+    </>
   );
 };
 

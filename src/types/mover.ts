@@ -1,6 +1,6 @@
 export interface BaseMoverData {
   id: number;
-  imageUrl: string;
+  imageUrl: string | null;
   nickname: string;
   career: number;
   ratings: {
@@ -16,9 +16,9 @@ export interface BaseMoverData {
 }
 
 export interface ProfileData {
-  name: string;
-  phoneNumber: string;
-  email: string;
+  name: string | null;
+  phoneNumber: string | null;
+  email: string | null;
 }
 
 export interface FavoriteFields {

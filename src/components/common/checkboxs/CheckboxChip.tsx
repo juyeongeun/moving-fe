@@ -18,10 +18,8 @@ export default function CheckboxChip({
   className,
   disabled = false,
 }: CheckboxChipProps) {
-  const [checkState, setCheckState] = useState(state);
-
   const checkboxChipBaseClass = clsx(
-    "box-border flex flex-row justify-center items-center",
+    "box-border flex flex-row justify-center items-center cursor-pointer",
     "px-3",
     "h-9",
     "border-solid border-[1px] rounded-full shadow-[4px_4px_10px_rgba(230,230,230,0.25)]",
@@ -41,25 +39,17 @@ export default function CheckboxChip({
   );
 
   const handleCheckboxClick = () => {
-    if (!disabled) {
-      setCheckState((prev) => !prev);
+    if (!disabled && onStateChange) {
+      onStateChange(!state);
     }
   };
-
-  useEffect(() => {
-    if (onStateChange) {
-      onStateChange(checkState);
-    }
-  }, [checkState, onStateChange]);
 
   return (
     <div
       onClick={handleCheckboxClick}
       role="checkbox"
-      aria-checked={checkState}
-      className={
-        checkState ? checkboxChipActiveClass : checkboxChipInactiveClass
-      }
+      aria-checked={state}
+      className={state ? checkboxChipActiveClass : checkboxChipInactiveClass}
     >
       {text}
     </div>

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 
-import CheckboxCircle from "../common/checkboxs/CheckboxCircle";
+import CheckboxCircle from "./common/checkboxs/CheckboxCircle";
 
 type CheckboxFieldProps = {
   state?: boolean;

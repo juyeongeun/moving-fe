@@ -69,10 +69,19 @@ const PendingRequestCard = ({
       <div className={styles.labelsContainer}>
         <TextWithGrayLabel
           label="이사일"
+          variant="solid"
           text={formatDateWithDay(data.movingDate)}
         />
-        <TextWithGrayLabel label="출발" text={data.pickupAddress} />
-        <TextWithGrayLabel label="도착" text={data.dropOffAddress} />
+        <TextWithGrayLabel
+          label="출발"
+          variant="solid"
+          text={data.pickupAddress}
+        />
+        <TextWithGrayLabel
+          label="도착"
+          variant="solid"
+          text={data.dropOffAddress}
+        />
       </div>
       <QuoteAmount amount={data.cost} />
       <div className={styles.buttonContainer}>

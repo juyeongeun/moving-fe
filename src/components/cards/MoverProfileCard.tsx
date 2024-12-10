@@ -10,7 +10,7 @@ import { getRegionText, getServiceText } from "@/utils/utilFunctions";
 import TextWithGrayLabel from "../common/card/TextWithGrayLabel";
 
 interface MoverProfileCardProps {
-  data: FullMoverData & ProfileData;
+  data: FullMoverData & Partial<ProfileData>;
   className?: string;
   onPrimaryClick?: () => void;
   onOutlinedClick?: () => void;
@@ -24,14 +24,16 @@ const styles = {
     "flex flex-col border-solid border-line-100 border-[1px] shadow-border rounded-[16px] gap-3.5 p-2.5 pc:flex-row pc:items-center pc:py-[26px] pc:px-[18px]"
   ),
   info: "flex items-center gap-1",
-  button: "w-full tablet:w-[298px]",
-  buttonContainer: "flex flex-wrap gap-2 pc:absolute pc:top-6 pc:right-6",
+  button: "w-full pc:w-[298px]",
+  buttonContainer:
+    "flex flex-col gap-2 tablet:flex-row pc:absolute pc:top-6 pc:right-6",
   topContainer: "flex items-center gap-4",
   nameContainer: "flex gap-2",
-  nickname: "text-md font-medium text-grayscale-500 pc:text-lg",
-  name: "text-lg font-semibold pc:text-2lg",
+  nickname: "text-lg font-semibold pc:text-2lg",
+  name: "text-md font-medium text-grayscale-500 pc:text-lg",
   topLeftContainer: "flex flex-col gap-1 pc:gap-2",
-  introduction: "text-md font-regular text-grayscale-400 pc:text-lg",
+  introduction:
+    "text-md font-regular text-grayscale-400 overflow-hidden line-clamp-1 text-ellipsis pc:text-lg",
   labelContainer: "flex flex-col gap-1 pc:gap-2 pc:flex-row",
 };
 
@@ -53,8 +55,8 @@ const MoverProfileCard = ({
           <ProfileImage imgUrl={data.imageUrl} className="pc:hidden" />
           <div className={styles.topLeftContainer}>
             <span className={styles.nameContainer}>
-              <p className={styles.name}>{data.name}</p>
               <p className={styles.nickname}>{data.nickname}</p>
+              <p className={styles.name}>{data.name}</p>
             </span>
 
             <p className={styles.introduction}>{data.introduction}</p>

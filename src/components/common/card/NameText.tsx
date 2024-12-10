@@ -4,20 +4,31 @@ import { cva } from "class-variance-authority";
 const nameVariants = cva("text-md font-semibold", {
   variants: {
     size: {
-      responsive: "pc:text-lg",
+      responsive: "",
       fixed: "",
     },
-    defaultVariants: {
-      size: "responsive",
-      type: "mover",
+    type: {
+      mover: "pc:text-2lg",
+      customer: "pc:text-xl",
     },
   },
+  defaultVariants: {
+    size: "responsive",
+    type: "mover",
+  },
+  compoundVariants: [
+    {
+      size: "fixed",
+      type: ["mover", "customer"],
+      class: "",
+    },
+  ],
 });
 
 const NameText = ({
   text,
   type,
-  size,
+  size = "responsive",
   className,
 }: {
   text: string;

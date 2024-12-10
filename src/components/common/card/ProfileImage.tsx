@@ -4,7 +4,7 @@ import assets from "@/variables/images";
 import Image from "next/image";
 
 const profileImageVariants = cva(
-  "relative bg-transparent z-1 border-2 border-solid border-pr-blue-400 rounded-full overflow-hidden shadow-card w-[46px] aspect-square",
+  "relative bg-transparent z-1 border-2 border-solid border-pr-blue-400 rounded-full overflow-hidden shadow-card min-w-[46px] aspect-square",
   {
     variants: {
       size: {

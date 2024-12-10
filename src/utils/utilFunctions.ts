@@ -1,4 +1,4 @@
-import { format, formatDistanceToNow } from "date-fns";
+import { format, parseISO, formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
 import { SERVICE_CODES } from "@/variables/services";
 import { SERVICE_TEXTS } from "@/variables/service";
@@ -16,6 +16,18 @@ export const mapServiceType = (services: number[]) => {
   );
 };
 
+//형식: 2024.07.01
+export const formatDate = (dateString: string): string => {
+  try {
+    const date = parseISO(dateString);
+    return format(date, "yyyy.MM.dd", { locale: ko });
+  } catch (error) {
+    console.error("Invalid date format:", error);
+    return "날짜 오류";
+  }
+};
+
+//형식: 2024.07.01(월)
 export const formatDateWithDay = (date: string | Date): string => {
   const dateObj = typeof date === "string" ? new Date(date) : date;
   return format(dateObj, "yyyy. MM. dd(E)", { locale: ko });

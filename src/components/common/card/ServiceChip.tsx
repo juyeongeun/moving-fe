@@ -9,16 +9,17 @@ const chipVariants = cva(
   {
     variants: {
       variant: {
-        smallMove: "bg-pr-blue-100 text-pr-blue-300 pl-[3px] pr-1.5",
-        homeMove: "bg-pr-blue-100 text-pr-blue-300 pl-[3px] pr-1.5",
-        officeMove: "bg-pr-blue-100 text-pr-blue-300 pl-[3px] pr-1.5",
-        designatedQuote: "bg-pr-red-100 text-pr-red-200 pl-[3px] pr-1.5",
+        smallMove: "bg-pr-blue-100 text-pr-blue-300 pl-[2px] pr-1.5 gap-[2px]",
+        homeMove: "bg-pr-blue-100 text-pr-blue-300 pl-[2px] pr-1.5 gap-[2px]",
+        officeMove: "bg-pr-blue-100 text-pr-blue-300 pl-[2px] pr-1.5 gap-[2px]",
+        designatedQuote: "bg-pr-red-100 text-pr-red-200 pl-[2px] pr-1.5",
         pendingConfirm: "bg-[rgba(242,243,248,1)] text-pr-blue-400 px-1.5",
         confirmed: "bg-[rgba(242,243,248,1)] text-pr-blue-400 px-1.5",
       },
       size: {
-        fixed: "",
-        responsive: "pc:text-lg pc:gap-1 pc: py-1",
+        fixed: "h-[26px]",
+        responsive:
+          "h-[26px] pc:h-[34px] pc:text-lg pc:gap-1 pc:pl-[3px] pc:pr-[5px]",
       },
     },
     defaultVariants: {
