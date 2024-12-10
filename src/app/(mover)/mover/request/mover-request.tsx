@@ -481,7 +481,7 @@ export default function RequestForm({ initialData }: RequestFormProps) {
             onChange={handleFilterChange}
           />
         </div>
-        <div className="box-border flex flex-col w-[328px] tablet:w-[600px] pc:w-[955px] h-[2548px]">
+        <div className="box-border flex flex-col w-[328px] tablet:w-[600px] pc:w-[955px]">
           <div className="relative flex items-center px-0 py-3 w-full h-[76px] tablet:px-2.5 tablet:py-3 pc:p-0 pc:h-[64px]">
             <Input
               name="searchKeyword"
