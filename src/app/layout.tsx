@@ -35,7 +35,7 @@ export default function RootLayout({
           globalStyles
         )}
       >
-        <GNB userType={"MOVER"} />
+        <GNB userType={"USER"} />
         <QuoteGNBWrapper />
         <div className="px-6">{children}</div>
       </body>

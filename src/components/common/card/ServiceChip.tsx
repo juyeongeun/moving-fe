@@ -50,7 +50,7 @@ const labels: Record<ChipType, string> = {
   smallMove: "소형이사",
   homeMove: "가정이사",
   officeMove: "사무실이사",
-  designatedQuote: "지정 견적 이사",
+  designatedQuote: "지정 견적 요청",
   pendingConfirm: "견적 대기",
   confirmed: "견적 확정",
 } as const;
@@ -61,21 +61,28 @@ interface ChipProps extends VariantProps<typeof chipVariants> {
   isResponsive?: boolean;
 }
 
-const ServiceChip = ({ variant, className, size }: ChipProps) => {
+const ServiceChip = ({
+  variant,
+  className,
+  size = "responsive",
+}: ChipProps) => {
   const isResponsive = size === "responsive";
 
   return (
     <div className={cn(chipVariants({ variant, size }), className)}>
       {variant in icons && (
-        <Image
-          src={icons[variant as ChipWithIconType]}
-          alt={`${variant} icon`}
-          width={20}
-          height={20}
+        <div
           className={cn(
+            "relative w-[20px] h-[20px]",
             isResponsive ? "pc:w-[24px] pc:h-[24px]" : "pc:w-[20px] pc:h-[20px]"
           )}
-        />
+        >
+          <Image
+            src={icons[variant as ChipWithIconType]}
+            alt={`${variant} icon`}
+            fill
+          />
+        </div>
       )}
       <span>{labels[variant]}</span>
     </div>

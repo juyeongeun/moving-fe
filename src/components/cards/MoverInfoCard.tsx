@@ -34,10 +34,13 @@ const MoverInfoCard = ({
 
   return (
     <CardContainer size={size} className={className}>
-      <div className="flex gap-2">
+      <div className="flex flex-row gap-2">
         {serviceTypes.map((serviceType) => (
           <ServiceChip variant={serviceType as ChipType} key={serviceType} />
         ))}
+        {data.isDesignated ? (
+          <ServiceChip variant="designatedQuote" />
+        ) : undefined}
       </div>
       <h4 className={titleVariants({ size })}>{data.introduction}</h4>
       <MoverInfo data={data} size={size} />
