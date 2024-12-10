@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import QuoteGNBWrapper from "@/components/layout/QuoteGNBWrapper";
 import cn from "@/config/cn";
+import { Toaster } from "react-hot-toast";
 
 const pretendard = localFont({
   src: "./fonts/PretendardVariable.woff2",
@@ -38,6 +39,7 @@ export default function RootLayout({
         <GNB userType={"MOVER"} />
         <QuoteGNBWrapper />
         <div className="px-6">{children}</div>
+        <Toaster />
       </body>
     </html>
   );
