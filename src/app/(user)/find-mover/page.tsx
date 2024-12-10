@@ -50,11 +50,13 @@ export const fetchData_ = ({
   service,
   region,
   keyword,
+  isFavorite = null,
 }: {
   listCount: number;
   service?: number | null;
   region?: number | null;
   keyword?: string;
+  isFavorite?: boolean | null;
 }): {
   nextCursor: number | null;
   hasNext: false;
@@ -71,7 +73,6 @@ export const fetchData_ = ({
       5: Math.floor(Math.random() * 50),
     };
 
-    // 평균 계산: (키 * 값의 합) / 값의 총합
     const totalRatings = Object.values(ratings).reduce(
       (sum, count) => sum + count,
       0
@@ -98,7 +99,7 @@ export const fetchData_ = ({
       ),
       introduction: "열심히 하겠습니다!",
       isDesignated: Math.random() > 0.5,
-      isFavorite: Math.random() > 0.5,
+      isFavorite: isFavorite === null ? Math.random() > 0.5 : isFavorite,
       reviewCount: Math.floor(Math.random() * 100),
       favoriteCount: Math.floor(Math.random() * 100),
       confirmCount: Math.floor(Math.random() * 100),
@@ -136,12 +137,19 @@ export const fetchData_ = ({
 };
 
 export default function FindMoverList() {
-  const initialData = fetchData_({
+  const initialList = fetchData_({
     listCount: 20,
-    service: null,
-    region: null,
-    keyword: "",
   });
 
-  return <MoverList initialData={initialData} />;
+  const initialFavoriteList = fetchData_({
+    listCount: 3,
+    isFavorite: true,
+  });
+
+  return (
+    <MoverList
+      initialList={initialList}
+      initialFavoriteList={initialFavoriteList.list}
+    />
+  );
 }
