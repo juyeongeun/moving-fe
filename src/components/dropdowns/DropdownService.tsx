@@ -12,19 +12,29 @@ import {
 } from "../common/Dropdown";
 import { getServiceText } from "@/utils/utilFunctions";
 
-import { SERVICE_CODES } from "@/variables/service";
-import { DROPDOWN_SERVICE_TEXT } from "@/variables/dropdown";
+import { SERVICE_CODES, SERVICE_TEXTS } from "@/variables/service";
 
-type DropdownRegionProps = {
+type DropdownServiceProps = {
   onSelect: (regionCode: number) => void;
   disabled: boolean;
 };
 
-export default function DropdownRegion({
+export default function DropdownService({
   onSelect,
   disabled,
-}: DropdownRegionProps) {
+}: DropdownServiceProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [currentSelectService, setCurrentSelectService] = useState<
+    (typeof SERVICE_TEXTS)[keyof typeof SERVICE_TEXTS] | string
+  >("서비스");
+
+  const handleSelectService = (key: string) => {
+    onSelect(SERVICE_CODES[key as keyof typeof SERVICE_CODES]);
+    setCurrentSelectService(
+      getServiceText(SERVICE_CODES[key as keyof typeof SERVICE_CODES])
+    );
+    setIsOpen(false);
+  };
 
   const dropdownStyles = {
     base: "relative box-border flex flex-row justify-between items-center \
@@ -68,7 +78,7 @@ export default function DropdownRegion({
   const items = keys.map((key) => {
     return {
       label: getServiceText(SERVICE_CODES[key as keyof typeof SERVICE_CODES]),
-      onClick: () => onSelect(SERVICE_CODES[key as keyof typeof SERVICE_CODES]),
+      onClick: () => handleSelectService(key),
     };
   });
 
@@ -76,7 +86,7 @@ export default function DropdownRegion({
     <Dropdown
       trigger={
         <div className={dropdownTriggerClass}>
-          <DropdownFilter>{DROPDOWN_SERVICE_TEXT}</DropdownFilter>
+          <DropdownFilter>{currentSelectService}</DropdownFilter>
           <DropdownImage isOpen={isOpen} />
         </div>
       }

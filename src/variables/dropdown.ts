@@ -1,6 +1,3 @@
-export const DROPDOWN_REGION_TEXT = "지역";
-export const DROPDOWN_SERVICE_TEXT = "서비스";
-
 export const PROFILE_CUSTOMER = [
   { text: "프로필 수정", link: "/me/profile-edit" },
   { text: "찜한 기사님", link: "/me/mover" },

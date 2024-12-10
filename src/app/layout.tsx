@@ -7,7 +7,6 @@ import cn from "@/config/cn";
 import { Toaster } from "react-hot-toast";
 import TanstackQueryClientProvider from "@/contexts/queryClientProvider";
 
-
 const pretendard = localFont({
   src: "./fonts/PretendardVariable.woff2",
   display: "swap",
