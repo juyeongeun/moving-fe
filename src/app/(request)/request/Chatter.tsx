@@ -82,7 +82,7 @@ const EstimateRequest: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       type: "bot",
-      text: "몇 가지 정보만 알려주시면 최대 5개의 견적을 받을 수 있어요 :)",
+      text: "몇 가지 정보만 알려주시면 최대 5개의 견적을 받을 수 있어요 😊",
     },
     { type: "bot", text: "이사 종류를 선택해 주세요." },
   ]);
@@ -186,7 +186,7 @@ const EstimateRequest: React.FC = () => {
   return (
     <div className="w-full py-10">
       <div className="my-4 space-y-4">
-        {/* Messages */}
+        {/* 채팅 */}
         <AnimatePresence>
           {messages.map((message, index) => (
             <motion.div
@@ -215,7 +215,7 @@ const EstimateRequest: React.FC = () => {
                     radius="24px"
                   />
                 </div>
-                {/* Add edit button for specific messages */}
+                {/* 수정버튼 */}
                 {message.type === "user" && (
                   <div className="flex justify-end">
                     {message.text === type && (
@@ -234,7 +234,7 @@ const EstimateRequest: React.FC = () => {
           ))}
         </AnimatePresence>
 
-        {/* Step Components */}
+        {/* 스텝 컴포넌트 */}
         <AnimatePresence mode="wait">
           {messages[messages.length - 1]?.type === "bot" && !isLoading && (
             <motion.div
