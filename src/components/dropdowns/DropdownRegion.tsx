@@ -32,7 +32,7 @@ export default function DropdownRegion({
 
   const dropdownStyles = {
     base: "relative box-border flex flex-row justify-between items-center \
-    pl-3.5 pr-2.5 w-[75px] h-9 \
+    pl-3.5 pr-2.5 w-[75px] h-[36px] \
     border-solid border-[1px] border-grayscale-100 rounded-lg \
     bg-transparent shadow-[4px_4px_10px_rgba(238,238,238,0.1)] \
     text-black-400 \
