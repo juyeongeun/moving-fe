@@ -13,7 +13,7 @@ const Main = ({ grayBgPaths, children }: MainProps) => {
   const isGreyBg = grayBgPaths.includes(pathname);
 
   const styles = {
-    padding: "px-[24px] py-[14px] tablet:px-[72px] pc:px-[260px] pc:py-[32px]",
+    padding: "px-[24px] tablet:px-[72px] pc:px-[260px]",
   };
 
   return (
