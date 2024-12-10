@@ -1,15 +1,17 @@
+import Main from "@/components/layout/Main";
 import React from "react";
-import { QueryClientProvider } from "@tanstack/react-query";
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
+const GREY_BG_PATHS = ["/mover/my-quote"];
+
 const Layout = ({ children }: LayoutProps) => {
   return (
-    <div>
-      <main>{children}</main>
-    </div>
+    <>
+      <Main grayBgPaths={GREY_BG_PATHS}>{children}</Main>
+    </>
   );
 };
 

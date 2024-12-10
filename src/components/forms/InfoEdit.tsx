@@ -8,6 +8,7 @@ import React, { useState } from "react";
 import { infoEditSchema, InfoEditFormData } from "@/utils/authValidation";
 import { useRouter } from "next/navigation";
 import ConfirmModal from "@/components/common/ConfirmModal";
+import toast from "react-hot-toast";
 
 interface InfoEditProps {
   isUser: boolean;
@@ -115,6 +116,11 @@ export default function InfoEdit({ isUser, userData }: InfoEditProps) {
         hasPasswordChange && data.newPassword
       );
 
+      toast.success("기본정보 수정이 완료되었습니다.", {
+        duration: 3000,
+        position: "bottom-center",
+        icon: "👏",
+      });
       reset();
     } catch (error) {
       console.error("수정 실패:", error);

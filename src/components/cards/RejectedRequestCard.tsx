@@ -6,6 +6,7 @@ import cn from "@/config/cn";
 interface RejectedRequestCardProps {
   data: QuoteDetailsData;
   className?: string;
+  classNameQuoteDetails?: string;
 }
 
 const styles = {
@@ -14,10 +15,14 @@ const styles = {
   completedText: "text-lg font-semibold pc:text-2lg",
 };
 
-const RejectedRequestCard = ({ data, className }: RejectedRequestCardProps) => {
+const RejectedRequestCard = ({
+  data,
+  className,
+  classNameQuoteDetails,
+}: RejectedRequestCardProps) => {
   return (
     <CardContainer className={cn("relative", className)}>
-      <QuoteDetails data={data} />
+      <QuoteDetails data={data} className={classNameQuoteDetails} />
 
       <div className={styles.completedOverlay}>
         <p className={styles.completedText}>반려된 요청이에요</p>
