@@ -57,8 +57,8 @@ const GNB = ({ userType = null }: GNBProps) => {
   };
 
   return (
-    <nav className="w-full py-[10px] px-6 border-b border-line-100 bg-white">
-      <div className="max-w-[1400px] h-full px-5 mx-auto flex justify-between items-center">
+    <nav className="w-full py-[10px] border-b border-line-100 bg-white">
+      <div className="max-w-[1400px] h-full mx-auto flex justify-between items-center">
         <div className="flex items-center gap-20">
           <Link href="/">
             <div className="text-2xl font-bold">
@@ -78,7 +78,6 @@ const GNB = ({ userType = null }: GNBProps) => {
               />
             </div>
           </Link>
-
           <div className="hidden pc:flex gap-10">{renderTabs()}</div>
         </div>
 

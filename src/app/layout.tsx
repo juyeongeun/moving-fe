@@ -3,7 +3,7 @@ import GNB from "@/components/layout/GNB";
 import localFont from "next/font/local";
 import "./globals.css";
 import QuoteGNB from "@/components/layout/QuoteGNB";
-import cn from "@/config/clsx";
+import cn from "@/config/cn";
 
 const pretendard = localFont({
   src: "./fonts/PretendardVariable.woff2",
@@ -35,8 +35,12 @@ export default function RootLayout({
           globalStyles
         )}
       >
-        <GNB />
-        <div className="max-w-[1400px] px-5 mx-auto">{children}</div>
+        {/* GNB는 max-width 컨테이너 안에 들어가도록 수정 */}
+        <div className="max-w-[1400px] px-5 mx-auto">
+          <GNB />
+        </div>
+        {/* children은 max-width 제한 없이 전체 너비 사용 가능하도록 */}
+        {children}
       </body>
     </html>
   );

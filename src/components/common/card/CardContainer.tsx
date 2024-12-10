@@ -1,7 +1,7 @@
 "use client";
 
 import { cva } from "class-variance-authority";
-import cn from "@/config/clsx";
+import cn from "@/config/cn";
 
 const cardContainerVariants = cva(
   "flex py-4 px-3.5 flex-col rounded-[16px] shadow-card border-[0.5px] border-line-100 min-w-[327px]",

@@ -1,5 +1,5 @@
 import { cva, type VariantProps } from "class-variance-authority";
-import cn from "@/config/clsx";
+import cn from "@/config/cn";
 import FavoriteUi from "./FavoriteUi";
 import ProfileImage from "./ProfileImage";
 import MoverExperience from "./MoverExperience";

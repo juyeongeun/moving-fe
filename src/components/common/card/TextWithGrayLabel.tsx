@@ -1,4 +1,4 @@
-import cn from "@/config/clsx";
+import cn from "@/config/cn";
 import GrayLabel from "./GrayLabel";
 import { cva } from "class-variance-authority";
 

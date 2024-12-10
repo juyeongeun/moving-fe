@@ -1,5 +1,5 @@
 import { cva, type VariantProps } from "class-variance-authority";
-import cn from "@/config/clsx";
+import cn from "@/config/cn";
 import assets from "@/variables/images";
 import Image from "next/image";
 
