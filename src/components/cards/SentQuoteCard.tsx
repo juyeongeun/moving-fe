@@ -36,7 +36,7 @@ const SentQuoteCard = ({
       <QuoteDetails
         data={data}
         className={classNameQuoteDetails}
-        showRequestDate={false}
+        showRequestDate={true}
       />
       <QuoteAmount amount={data.cost} />
 
