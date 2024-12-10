@@ -228,12 +228,12 @@ export default function MoverList({
 
   return (
     <div className="flex flex-col items-center pc:w-full">
-      <div className="flex flex-row gap-2.5 items-center justify-center w-full h-[54px] pc:h-[96px]">
-        <div className="hidden pc:flex flex-row items-center w-[328px] tablet:w-[600px] pc:w-[1400px] h-full text-2lg text-[#2b2b2b] font-semibold cursor-pointer pc:text-2xl">
+      <div className="hidden flex flex-row gap-2.5 items-center justify-center w-full h-[54px] pc:h-[96px]">
+        <div className="pc:flex flex-row items-center w-[328px] tablet:w-[600px] pc:w-[1400px] h-full text-2lg text-[#2b2b2b] font-semibold cursor-pointer pc:text-2xl">
           기사님 찾기
         </div>
       </div>
-      <div className="box-border flex pc:flex-row justify-center gap-[117px] mt-4 tablet:mt-6 pc:mt-6">
+      <div className="box-border flex pc:flex-row justify-center gap-[117px] pc:mt-6">
         <div className="box-border w-[328px] hidden tablet:hidden pc:flex pc:flex-col pc:gap-[46px]">
           <Filter
             onRegionChange={handleRegionFilterChange}
@@ -242,8 +242,8 @@ export default function MoverList({
           <FavoriteMoverList list={initialFavoriteList} />
         </div>
         <div className="box-border flex flex-col w-[328px] tablet:w-[600px] pc:w-[955px] h-[2548px]">
-          <div className="flex flex-row items-center justify-between h-[40px] pc:justify-end">
-            <div className="pc:hidden">
+          <div className="flex flex-row items-center justify-between h-[68px] pc:h-[40px] pc:justify-end">
+            <div className="flex flex-row gap-3 pc:hidden">
               <DropdownRegion
                 onSelect={handleRegionFilterChange}
                 disabled={false}
@@ -258,7 +258,7 @@ export default function MoverList({
               disabled={false}
             />
           </div>
-          <div className="relative flex items-center px-0 pc:mt-6 py-3 w-full h-[76px] tablet:px-2.5 tablet:py-3 pc:p-0 pc:h-[64px]">
+          <div className="relative flex items-center px-0 pc:mt-6 py-3 w-full h-[76px] tablet:px-2.5 tablet:py-1.5 pc:p-0 pc:h-[64px]">
             <Input
               name="searchKeyword"
               placeholder="어떤 고객님을 찾고 계세요?"
