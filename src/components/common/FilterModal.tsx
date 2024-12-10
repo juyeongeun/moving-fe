@@ -173,7 +173,7 @@ export default function FilterModal({
             지정 여부
           </p>
         </div>
-        <div className="relative w-6 h-6" onClick={onClose}>
+        <div className="relative w-6 h-6 cursor-pointer" onClick={onClose}>
           <Image src={assets.icons.x} alt="close" fill />
         </div>
       </div>

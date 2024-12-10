@@ -494,7 +494,7 @@ export default function RequestForm({ initialData }: RequestFormProps) {
               <Image src={assets.icons.search} alt="검색" fill />
             </div>
           </div>
-          <div className="flex flex-row justify-between w-full h-[40px] px-[10px] py-1 pc:mt-6">
+          <div className="flex flex-row justify-between w-full h-[40px] px-[10px] py-1 pc:mt-6 pc:p-0">
             <div className="flex flex-row items-center text-sm pc:text-lg font-medium">{`전체 ${data.list.length}건`}</div>
             <div className="flex flex-row gap-1">
               <DropdownSortMovingRequest
