@@ -61,7 +61,11 @@ interface ChipProps extends VariantProps<typeof chipVariants> {
   isResponsive?: boolean;
 }
 
-const ServiceChip = ({ variant, className, size }: ChipProps) => {
+const ServiceChip = ({
+  variant,
+  className,
+  size = "responsive",
+}: ChipProps) => {
   const isResponsive = size === "responsive";
 
   return (
