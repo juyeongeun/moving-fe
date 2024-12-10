@@ -1,5 +1,7 @@
 const assets = {
   icons: {
+    x: "/assets/icons/ic_X.svg",
+    xCircle: "/assets/icons/ic_X_circle.svg",
     alarm: "/assets/icons/ic_alarm.svg",
     box: "/assets/icons/ic_box.svg",
     checkboxActive: "/assets/icons/ic_checkbox_active.svg",
@@ -12,6 +14,7 @@ const assets = {
     clip: "/assets/icons/ic_clip.svg",
     company: "/assets/icons/ic_company.svg",
     document: "/assets/icons/ic_document.svg",
+    ellipsis: "/assets/icons/ic_ellipsis.svg",
     filterActive: "/assets/icons/ic_filter_active.svg",
     filterInactive: "/assets/icons/ic_filter_inactive.svg",
     home: "/assets/icons/ic_home.svg",
@@ -30,8 +33,6 @@ const assets = {
     visibilityOn: "/assets/icons/ic_visibility_on.svg",
     writing: "/assets/icons/ic_writing.svg",
     writingGray: "/assets/icons/ic_writing_gray.svg",
-    x: "/assets/icons/ic_X.svg",
-    xCircle: "/assets/icons/ic_X_circle.svg",
   },
   images: {
     avatarRed: "/assets/images/img_avatar_red.svg",
@@ -51,5 +52,4 @@ const assets = {
     movingTruck: "/assets/images/img_moving_truck.svg",
   },
 };
-
 export default assets;
