@@ -26,7 +26,7 @@ function NavItem({ href, isIncludedPath = false, children }: NavItemProps) {
     : pathname.startsWith(href);
 
   let linkStyle = cn(
-    "text-2lg font-bold",
+    "text-lg font-bold",
     isActive ? "text-black-400" : "text-gray-400"
   );
 
@@ -82,7 +82,7 @@ const GNB = ({ userType = null }: GNBProps) => {
   };
 
   return (
-    <nav className="w-full h-[88px] py-[10px] px-6 border-b border-line-100 bg-white">
+    <nav className="w-full h-[88px] py-[10px] pc:border-b pc:border-solid pc:border-line-100 bg-white">
       <div className="max-w-[1400px] h-full px-5 mx-auto flex justify-between items-center">
         <div className="flex items-center gap-20">
           <Link href="/">

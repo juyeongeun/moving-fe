@@ -17,9 +17,9 @@ const styles = {
   requestDate: "text-xs text-gray-500 justify-self-end pc:text-md",
   name: "text-lg font-semibold pc:text-xl",
   requestInfoContainer:
-    "box-border flex flex-col gap-2.5 tablet:gap-2 pc:gap-[17.5px] pc:p-4",
+    "box-border flex flex-col gap-2.5 tablet:gap-2 pc:gap-[17.5px]",
   addressContainer:
-    "box-border flex flex-col gap-2 tablet:flex-row tablet:items-center tablet:gap-3",
+    "box-border flex flex-col gap-2 tablet:flex-row tablet:items-center tablet:gap-3 pc:flex-col pc:gap-2 pc:items-start",
 };
 
 const QuoteDetails = ({
@@ -62,18 +62,18 @@ const QuoteDetails = ({
             variant="solid"
             className="hidden tablet:flex"
           />
+          <LineSeparator className="hidden tablet:block pc:hidden" />
           <TextWithGrayLabel
             label="출발"
             variant="solid"
             text={data.pickupAddress}
           />
-          <LineSeparator className="hidden tablet:block" />
+          <LineSeparator className="hidden tablet:block pc:hidden" />
           <TextWithGrayLabel
             label="도착"
             variant="solid"
             text={data.dropOffAddress}
           />
-          <LineSeparator className="hidden tablet:block" />
         </div>
       </div>
     </>
