@@ -103,7 +103,6 @@ const GNB = ({ userType = null }: GNBProps) => {
               />
             </div>
           </Link>
-
           <div className="hidden pc:flex gap-10">{renderTabs()}</div>
         </div>
 
