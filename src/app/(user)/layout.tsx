@@ -1,15 +1,17 @@
+import Main from "@/components/layout/Main";
 import React from "react";
-import GNB from "@/components/layout/GNB";
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
+const GREY_BG_PATHS = ["/me/mover", "/me/review"];
+
 const Layout = ({ children }: LayoutProps) => {
   return (
-    <div>
-      <main>{children}</main>
-    </div>
+    <>
+      <Main grayBgPaths={GREY_BG_PATHS}>{children}</Main>
+    </>
   );
 };
 

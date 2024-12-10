@@ -5,6 +5,8 @@ import "./globals.css";
 import QuoteGNBWrapper from "@/components/layout/QuoteGNBWrapper";
 import cn from "@/config/cn";
 import { Toaster } from "react-hot-toast";
+import TanstackQueryClientProvider from "@/contexts/queryClientProvider";
+
 
 const pretendard = localFont({
   src: "./fonts/PretendardVariable.woff2",
@@ -36,10 +38,12 @@ export default function RootLayout({
           globalStyles
         )}
       >
-        <GNB userType={"MOVER"} />
-        <QuoteGNBWrapper />
-        <div className="px-6">{children}</div>
-        <Toaster />
+        <TanstackQueryClientProvider>
+          <GNB userType={"MOVER"} />
+          <QuoteGNBWrapper />
+          {children}
+          <Toaster />
+        </TanstackQueryClientProvider>
       </body>
     </html>
   );
