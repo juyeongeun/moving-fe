@@ -136,7 +136,7 @@ type DropdownListProps = {
 
 export function DropdownList({ items, className }: DropdownListProps) {
   return (
-    <div className={clsx(className)}>
+    <div className={clsx("z-999", className)}>
       {items.map((item, index) => (
         <div key={index} className="w-full">
           {item}

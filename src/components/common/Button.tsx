@@ -8,7 +8,7 @@ import Link from "next/link";
 // 버튼 스타일 정의
 const buttonVariants = cva(
   // 기본 클래스
-  "button text-lg font-semibold px-6 py-4 pc:text-xl",
+  "button text-lg font-semibold px-6 py-4 pc:text-xl flex items-center justify-center",
   {
     variants: {
       variant: {
@@ -22,7 +22,7 @@ const buttonVariants = cva(
         false: "",
       },
       withIcon: {
-        true: "flex items-center justify-center",
+        true: "",
         false: "",
       },
     },
