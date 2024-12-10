@@ -44,5 +44,9 @@ export default function QuoteGNBWrapper() {
     );
   }
 
+  if (pathname === "/me/mover") {
+    return <QuoteGNB tabs={[{ id: 0, label: "찜한 기사님" }]} currentTab={0} />;
+  }
+
   return null;
 }

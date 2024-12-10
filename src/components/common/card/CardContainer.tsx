@@ -30,9 +30,9 @@ const CardContainer = ({
   gap?: string;
 }) => {
   return (
-    <div className={cn(cardContainerVariants({ size }), gap, className)}>
+    <li className={cn(cardContainerVariants({ size }), gap, className)}>
       {children}
-    </div>
+    </li>
   );
 };
 

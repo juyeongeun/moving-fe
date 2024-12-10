@@ -19,10 +19,12 @@ export default function ProgressBar({
     "overflow-hidden",
     frameClass
   );
+
   const progressBarClass = clsx(
     "h-full",
     "rounded-full bg-pr-yellow-100",
     "z-10",
+    "transition-all duration-700 ease-out", // 트랜지션 추가했습니다
     barClass
   );
 
@@ -32,8 +34,12 @@ export default function ProgressBar({
     <div className={progressBarframeClass}>
       <div
         className={progressBarClass}
-        style={{ width: `${progressPercentage}%` }}
-      ></div>
+        style={{
+          width: `${progressPercentage}%`,
+          transform: "scaleX(1)",
+          transformOrigin: "left",
+        }}
+      />
     </div>
   );
 }

@@ -12,8 +12,8 @@ export default function ProgressBarMovingRequest({
   currentValue,
 }: ProgressBarMovingRequestProps) {
   const ProgressBarMovingRequestFrameClass = clsx(
-    "w-[327px] h-2 bg-line-200",
-    "pc:w-[1400px]"
+    "h-2 bg-line-200",
+    "pc:w-full"
   );
   const ProgressBarMovingRequestClass = clsx("!bg-pr-blue-300");
 
