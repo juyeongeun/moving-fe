@@ -95,12 +95,12 @@ export default function FilterModal({
     "flex flex-row items-center justify-between h-[68px] border-solid border-b-[1px] border-b-line-200 text-black-400 font-medium"
   );
   const filterTypeLabelClass = cn(
-    "flex flex-row items-center justify-between mb-3 text-2lg font-semibold"
+    "flex flex-row items-center justify-between mb-3 h-[42px] text-2lg font-semibold"
   );
   const filterItemClass = cn(filterBaseClass, "text-lg text-black-400");
   const filterAllSelectClass = cn(
     filterBaseClass,
-    "mb-2 text-lg text-grayscale-300"
+    "mb-2 h-[52px] text-lg text-grayscale-300"
   );
 
   const styles = {
@@ -151,7 +151,7 @@ export default function FilterModal({
   return (
     <div className={styles.container}>
       <div className={filterTypeLabelClass}>
-        <div className="flex flex-row gap-6">
+        <div className="flex flex-row h-full gap-6">
           <p
             onClick={() => handleClickType(SERVICE_FILTER)}
             className={cn(

@@ -39,13 +39,19 @@ const IncomingRequestCard = ({
     <CardContainer className="pc:pb-[12px] gap-4 ">
       <QuoteDetails data={data} />
       <div className={styles.buttonContainer}>
-        <Button withIcon width="100%" onClick={handleAcceptButtonClick}>
+        <Button
+          withIcon
+          width="100%"
+          onClick={handleAcceptButtonClick}
+          className="h-[48px] tablet:h-[48px] pc:h-[64px]"
+        >
           견적 보내기
         </Button>
         <Button
           variant="outlined"
           width="100%"
           onClick={handleRejectButtonClick}
+          className="h-[48px] tablet:h-[48px] pc:h-[64px]"
         >
           반려
         </Button>

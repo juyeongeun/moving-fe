@@ -301,9 +301,6 @@ export default function RequestForm({ initialData }: RequestFormProps) {
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 
-  // const quoteModalBaseClass = cn(
-  //   "flex flex-col items-center justify-center mx-auto rounded-[32px] bg-white overflow-hidden w-[375px] pc:w-[656px] pc:pt-8 pc:py-10"
-  // );
   const quoteModalBaseClass = cn(
     "flex flex-col items-center justify-center mx-auto bg-transparent w-full tablet:w-[375px] pc:w-[608px]"
   );
@@ -485,7 +482,7 @@ export default function RequestForm({ initialData }: RequestFormProps) {
           />
         </div>
         <div className="box-border flex flex-col w-[328px] tablet:w-[600px] pc:w-[955px] h-[2548px]">
-          <div className="relative flex items-center p-0 w-full h-[64px] tablet:px-2.5 tablet:py-3 pc:p-0">
+          <div className="relative flex items-center px-0 py-3 w-full h-[76px] tablet:px-2.5 tablet:py-3 pc:p-0 pc:h-[64px]">
             <Input
               name="searchKeyword"
               placeholder="어떤 고객님을 찾고 계세요?"
@@ -497,8 +494,8 @@ export default function RequestForm({ initialData }: RequestFormProps) {
               <Image src={assets.icons.search} alt="검색" fill />
             </div>
           </div>
-          <div className="flex flex-row justify-between w-full h-10 pc:mt-6">
-            <div className="flex flex-row items-center text-lg font-medium">{`전체 ${data.list.length}건`}</div>
+          <div className="flex flex-row justify-between w-full h-[40px] px-[10px] py-1 pc:mt-6">
+            <div className="flex flex-row items-center text-sm pc:text-lg font-medium">{`전체 ${data.list.length}건`}</div>
             <div className="flex flex-row gap-1">
               <DropdownSortMovingRequest
                 onSelect={handleSortChange}
@@ -521,7 +518,7 @@ export default function RequestForm({ initialData }: RequestFormProps) {
               </div>
             </div>
           </div>
-          <div className="flex flex-col w-full pc:mt-[32px] pc:gap-[48px]">
+          <div className="flex flex-col w-full mt-3 gap-[32px] overflow-hidden tablet:mt-4 pc:mt-[32px] pc:gap-[48px]">
             {isFetching ? <p>Loading...</p> : items}
           </div>
         </div>
