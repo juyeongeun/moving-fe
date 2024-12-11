@@ -7,6 +7,7 @@ import MyReviewCard, {
 import Pagination from "@/components/common/Pagination";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
+import EmptyReview from "./EmptyReview";
 
 const reviewToWriteList = {
   currentPage: 1,
@@ -152,6 +153,22 @@ const myReviewList = {
   ],
 };
 
+const emptyReviewList = {
+  currentPage: 1,
+  pageSize: 6,
+  totalPages: 5,
+  totalCounts: 26,
+  list: [],
+};
+
+const emptyMyList = {
+  currentPage: 1,
+  pageSize: 6,
+  totalPages: 5,
+  totalCounts: 26,
+  list: [],
+};
+
 export default function MyReviewPage() {
   const [pageNum, setPageNum] = useState(1);
   const searchParams = useSearchParams();
@@ -162,10 +179,15 @@ export default function MyReviewPage() {
   };
 
   const displayData = currentTab === 0 ? reviewToWriteList : myReviewList;
+  // const displayData = currentTab === 0 ? emptyReviewList : emptyMyList;
+
+  if (displayData.list.length === 0) {
+    return <EmptyReview tab={currentTab} />;
+  }
 
   return (
     <>
-      <ul className="max-w-[1400px] mx-auto bg-bg-100 grid grid-cols-1 gap-[24px] tablet:gap-[32px] pc:grid-cols-2 pc:gap-x-[24px] pc:gap-y-[48px]">
+      <ul className="max-w-[1400px] mx-auto my-[16px] pc:my-[24px] bg-bg-100 grid grid-cols-1 gap-[24px] tablet:gap-[32px] pc:grid-cols-2 pc:gap-x-[24px] pc:gap-y-[48px]">
         {displayData.list.map((item) =>
           currentTab === 0 ? (
             <CreateReviewCard
