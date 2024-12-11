@@ -42,7 +42,6 @@ export default function FilterModal({
   onSubmit,
   onClose,
 }: FilterModalProps) {
-  const [selectedAddress, setSelectedAddress] = useState<number[]>([]);
   const [formState, setFormState] = useState({
     newServiceStates: serviceFilters,
     newDesignateStates: designateFilters,
@@ -136,8 +135,14 @@ export default function FilterModal({
   ];
 
   const handleClick = () => {
-    onSubmit(formState);
-    onClose();
+    try {
+      console.log("onSubmit 호출");
+      onSubmit(formState);
+      console.log("onClose 호출");
+      onClose();
+    } catch (error) {
+      console.error("onSubmit 에러:", error);
+    }
   };
 
   useEffect(() => {
