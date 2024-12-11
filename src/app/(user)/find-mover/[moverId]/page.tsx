@@ -168,7 +168,11 @@ export default function MyQuoteDetailPage() {
 
   const handleFavorite = () => {
     setIsFavorite(!isFavorite);
-    console.log(isFavorite);
+  };
+
+  const handleDesignate = () => {
+    // 견적서가 없으면 백엔드에서 에러 메시지 전달해줌
+    console.log("지정 견적 요청하기");
   };
 
   return (
@@ -277,7 +281,7 @@ export default function MyQuoteDetailPage() {
               variant="primary"
               disabled={data.isDesignated}
               width="100%"
-              onClick={() => {}}
+              onClick={handleDesignate}
             />
           </div>
         </div>
@@ -307,7 +311,7 @@ export default function MyQuoteDetailPage() {
               variant="primary"
               disabled={data.isDesignated}
               width="100%"
-              onClick={() => {}}
+              onClick={handleDesignate}
             />
           </div>
           <LineSeparator direction="horizontal" />
