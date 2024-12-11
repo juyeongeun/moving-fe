@@ -8,6 +8,34 @@ import Pagination from "@/components/common/Pagination";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import EmptyReview from "./EmptyReview";
+import NiceModal, { useModal } from "@ebay/nice-modal-react";
+import ReviewModal from "@/components/common/ReviewModal";
+import { type ReviewMoverData } from "@/components/common/card/ReviewMover";
+
+interface ReviewModal_Props {
+  data: ReviewMoverData;
+  onSubmit: () => void;
+}
+
+const ReviewNiceModal_ = NiceModal.create(
+  ({ data, onSubmit }: ReviewModal_Props) => {
+    const modal = useModal();
+
+    return (
+      <div className="bg-[#141414] bg-opacity-50 fixed inset-0 flex flex-col items-center justify-end tablet:justify-center pc:justify-center">
+        <div className="flex flex-col items-center justify-center mx-auto bg-transparent w-full">
+          <ReviewModal
+            onClose={() => modal.remove()}
+            onSubmit={onSubmit}
+            data={data}
+          />
+        </div>
+      </div>
+    );
+  }
+);
+
+NiceModal.register("ReviewNiceModal", ReviewNiceModal_);
 
 const reviewToWriteList = {
   currentPage: 1,
@@ -174,8 +202,14 @@ export default function MyReviewPage() {
   const searchParams = useSearchParams();
   const currentTab = Number(searchParams.get("tab") || "0");
 
-  const handleWriteReview = (reviewId: number) => {
-    console.log(`Writing review for ID: ${reviewId}`);
+  const handleWriteReview = (data: ReviewMoverData) => {
+    NiceModal.show("ReviewNiceModal", {
+      data: data,
+      onSubmit: () => {
+        console.log("Review submitted");
+        //api 호출 로직 추가해야됨
+      },
+    });
   };
 
   const displayData = currentTab === 0 ? reviewToWriteList : myReviewList;
@@ -193,7 +227,7 @@ export default function MyReviewPage() {
             <CreateReviewCard
               data={item}
               key={item.id}
-              onPrimaryClick={() => handleWriteReview(item.id)}
+              onPrimaryClick={() => handleWriteReview(item as ReviewMoverData)}
             />
           ) : (
             <MyReviewCard data={item as MyReviewCardData} key={item.id} />
