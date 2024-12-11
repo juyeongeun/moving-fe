@@ -1,13 +1,13 @@
 "use client";
 
-import Textarea from "./Textarea";
-import ReviewMover from "./card/ReviewMover";
+import Textarea from "../common/Textarea";
+import ReviewMover from "../common/card/ReviewMover";
 import assets from "@/variables/images";
 import Image from "next/image";
-import Button from "./Button";
-import StarRating from "./StartRating";
-import ServiceChip from "./card/ServiceChip";
-import LineSeparator from "./LineSeparator";
+import Button from "../common/Button";
+import StarRating from "../common/StartRating";
+import ServiceChip from "../common/card/ServiceChip";
+import LineSeparator from "../common/LineSeparator";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
