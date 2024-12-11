@@ -20,7 +20,7 @@ const EmptyReview = ({ tab }: { tab: number }) => {
         className="w-[110px] h-[82px] pc:w-[184px] pc:h-[136px]"
         width={110}
         height={82}
-        src={assets.images.emptyFolder}
+        src={assets.icons.empty}
         alt="empty-review"
       />
       <p className="text-lg font-normal text-grayscale-400 text-center w-full pc:text-2xl">

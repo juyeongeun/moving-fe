@@ -9,7 +9,7 @@ import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import EmptyReview from "./EmptyReview";
 import NiceModal, { useModal } from "@ebay/nice-modal-react";
-import ReviewModal from "@/components/common/ReviewModal";
+import ReviewModal from "@/components/modals/ReviewModal";
 import { type ReviewMoverData } from "@/components/common/card/ReviewMover";
 
 interface ReviewModal_Props {
