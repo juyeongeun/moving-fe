@@ -12,8 +12,7 @@ import {
 } from "../common/Dropdown";
 import { getRegionText } from "@/utils/utilFunctions";
 
-import { REGION_CODES } from "@/variables/regions";
-import { DROPDOWN_REGION_TEXT } from "@/variables/dropdown";
+import { REGION_CODES, REGION_TEXTS } from "@/variables/regions";
 
 type DropdownRegionProps = {
   onSelect: (regionCode: number) => void;
@@ -25,18 +24,15 @@ export default function DropdownRegion({
   disabled,
 }: DropdownRegionProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [currentSelectRegion, setCurrentSelectRegion] = useState<
+    (typeof REGION_TEXTS)[keyof typeof REGION_TEXTS] | string
+  >("지역");
 
   const keys = Object.keys(REGION_CODES);
-  const items = keys.map((key) => {
-    return {
-      label: getRegionText(REGION_CODES[key as keyof typeof REGION_CODES]),
-      onClick: () => onSelect(REGION_CODES[key as keyof typeof REGION_CODES]),
-    };
-  });
 
   const dropdownStyles = {
     base: "relative box-border flex flex-row justify-between items-center \
-    pl-3.5 pr-2.5 w-[75px] h-9 \
+    pl-3.5 pr-2.5 w-[75px] h-[36px] \
     border-solid border-[1px] border-grayscale-100 rounded-lg \
     bg-transparent shadow-[4px_4px_10px_rgba(238,238,238,0.1)] \
     text-black-400 \
@@ -54,7 +50,7 @@ export default function DropdownRegion({
   });
 
   const dropdownListWrapperClass = clsx(
-    "absolute box-border overflow-hidden",
+    "absolute box-border overflow-hidden z-50",
     "top-[42px] w-[150px] h-[179px]",
     "border-solid border-[1px] border-line-100 rounded-lg",
     "bg-white",
@@ -89,6 +85,21 @@ export default function DropdownRegion({
     pc:px-6 pc:h-[64px] pc:text-2lg"
   );
 
+  const handleSelectRegion = (key: string) => {
+    onSelect(REGION_CODES[key as keyof typeof REGION_CODES]);
+    setCurrentSelectRegion(
+      getRegionText(REGION_CODES[key as keyof typeof REGION_CODES])
+    );
+    setIsOpen(false);
+  };
+
+  const items = keys.map((key) => {
+    return {
+      label: getRegionText(REGION_CODES[key as keyof typeof REGION_CODES]),
+      onClick: () => handleSelectRegion(key),
+    };
+  });
+
   const itemsWithDivider = [
     ...items.map((item, index) => (
       <DropdownItem
@@ -106,7 +117,7 @@ export default function DropdownRegion({
     <Dropdown
       trigger={
         <div className={dropdownTriggerClass}>
-          <DropdownFilter>{DROPDOWN_REGION_TEXT}</DropdownFilter>
+          <DropdownFilter>{currentSelectRegion}</DropdownFilter>
           <DropdownImage isOpen={isOpen} />
         </div>
       }
