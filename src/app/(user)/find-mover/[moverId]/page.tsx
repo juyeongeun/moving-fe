@@ -14,6 +14,8 @@ import { useState } from "react";
 import Image from "next/image";
 import assets from "@/variables/images";
 import Button from "@/components/common/Button";
+// import QuoteRequestModal from "@/components/modals/QuoteRequestModal";
+
 const data = {
   id: 1,
   imageUrl: "https://picsum.photos/200/300",
