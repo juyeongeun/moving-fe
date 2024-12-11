@@ -147,7 +147,7 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
       return;
     }
 
-    if (data.imageUrl === "") {
+    if (previewImage === assets.images.imagePlaceholder) {
       setError("imageUrl", {
         type: "manual",
         message: "이미지를 선택해주세요.",
@@ -184,10 +184,11 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
         });
       } else {
         console.log(`${isUser ? "사용자" : "기사"} 폼 등록 제출`);
+        isUser ? router.push("/find-mover") : router.push("/mover/request");
         toast.success("프로필 등록이 완료되었습니다.", {
           duration: 3000,
           position: "bottom-center",
-          icon: "👏",
+          icon: "🎉",
         });
       }
       reset();
@@ -214,6 +215,7 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
       const reader = new FileReader();
       reader.onloadend = () => {
         setPreviewImage(reader.result as string);
+        setValue("imageUrl", reader.result as string, { shouldValidate: true });
       };
       reader.readAsDataURL(file);
     }
