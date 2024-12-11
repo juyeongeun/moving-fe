@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 import Image from "next/image";
 
 import Button from "./Button";
@@ -15,12 +15,7 @@ const SERVICE_FILTER: number = 0;
 const DESIGNATE_FILTER: number = 1;
 
 const allTrue = (arr: boolean[]): boolean => arr.every((item) => item);
-const sumNumberArray = (arr: number[]) => {
-  let sum: number = 0;
-  arr.forEach((el) => (sum += el));
-
-  return sum;
-};
+const sumNumberArray = (arr: number[]) => arr.reduce((sum, el) => sum + el, 0);
 
 interface FilterModalProps {
   serviceCounts: number[];
@@ -42,15 +37,19 @@ export default function FilterModal({
   onSubmit,
   onClose,
 }: FilterModalProps) {
-  const [formState, setFormState] = useState({
-    newServiceStates: serviceFilters,
-    newDesignateStates: designateFilters,
-  });
-  const [allServiceChecked, setAllServiceChecked] = useState(
-    allTrue(serviceFilters)
+  const [newServiceStates, setNewServiceStates] = useState(() => [
+    ...serviceFilters,
+  ]);
+  const [newDesignateStates, setNewDesignateStates] = useState(() => [
+    ...designateFilters,
+  ]);
+  const allServiceChecked = useMemo(
+    () => allTrue(newServiceStates),
+    [newServiceStates]
   );
-  const [allDesignateChecked, setAllDesignateChecked] = useState(
-    allTrue(designateFilters)
+  const allDesignateChecked = useMemo(
+    () => allTrue(newDesignateStates),
+    [newDesignateStates]
   );
   const [type, setType] = useState<number>(SERVICE_FILTER);
 
@@ -59,54 +58,56 @@ export default function FilterModal({
   };
 
   const setServices = (newStates: boolean[]) => {
-    setFormState((prev) => ({ ...prev, newServiceStates: newStates }));
+    setNewServiceStates(newStates);
   };
 
   const handleServiceItemCheckClick =
     (index: number) => (newState: boolean) => {
-      const updatedStates = [...formState.newServiceStates];
-      updatedStates[index] = newState;
-      setServices(updatedStates);
+      setNewServiceStates((prev) => {
+        const updatedStates = [...prev];
+        updatedStates[index] = newState;
+        return updatedStates;
+      });
     };
 
   const handleAllServiceCheckClick = (newState: boolean) => {
-    const updatedStates = formState.newServiceStates.map(() => newState);
+    const updatedStates = newServiceStates.map(() => newState);
     setServices(updatedStates);
   };
 
   const setDesignates = (newStates: boolean[]) => {
-    setFormState((prev) => ({ ...prev, newDesignateStates: newStates }));
+    setNewDesignateStates(newStates);
   };
 
   const handleDesignateItemCheckClick =
     (index: number) => (newState: boolean) => {
-      const updatedStates = [...formState.newDesignateStates];
-      updatedStates[index] = newState;
-      setDesignates(updatedStates);
+      setNewDesignateStates((prev) => {
+        const updatedStates = [...prev];
+        updatedStates[index] = newState;
+        return updatedStates;
+      });
     };
 
   const handleAllDesignateCheckClick = (newState: boolean) => {
-    const updatedStates = formState.newDesignateStates.map(() => newState);
+    const updatedStates = newDesignateStates.map(() => newState);
     setDesignates(updatedStates);
   };
 
-  const filterBaseClass = cn(
-    "flex flex-row items-center justify-between h-[68px] border-solid border-b-[1px] border-b-line-200 text-black-400 font-medium"
-  );
-  const filterTypeLabelClass = cn(
-    "flex flex-row items-center justify-between mb-3 h-[42px] text-2lg font-semibold"
-  );
-  const filterItemClass = cn(filterBaseClass, "text-lg text-black-400");
-  const filterAllSelectClass = cn(
-    filterBaseClass,
-    "mb-2 h-[52px] text-lg text-grayscale-300"
-  );
-
   const styles = {
     container: `flex flex-col gap-[16px] px-[24px] pt-[16px] pb-[32px] bg-white
-    w-[100%] rounded-t-[32px]
-    tablet:w-[375px] tablet:rounded-[32px]`,
+      w-[100%] rounded-t-[32px]
+      tablet:w-[375px] tablet:rounded-[32px]`,
+    base: `flex flex-row items-center justify-between h-[68px]
+      border-solid border-b-[1px] border-b-line-200 text-black-400 font-medium`,
+    typeLabel:
+      "flex flex-row items-center justify-between mb-3 h-[42px] text-2lg font-semibold",
+    item: "text-lg text-black-400",
+    allSelect: "mb-2 h-[52px] text-lg text-grayscale-300",
   };
+
+  const filterTypeLabelClass = cn(styles.typeLabel);
+  const filterItemClass = cn(styles.base, styles.item);
+  const filterAllSelectClass = cn(styles.base, styles.allSelect);
 
   const serviceFilterTexts = [
     {
@@ -135,28 +136,14 @@ export default function FilterModal({
   ];
 
   const handleClick = () => {
-    try {
-      console.log("onSubmit 호출");
-      onSubmit(formState);
-      console.log("onClose 호출");
-      onClose();
-    } catch (error) {
-      console.error("onSubmit 에러:", error);
-    }
+    onSubmit({ newServiceStates, newDesignateStates });
+    onClose();
   };
-
-  useEffect(() => {
-    setAllServiceChecked(allTrue(formState.newServiceStates));
-  }, [formState.newServiceStates]);
-
-  useEffect(() => {
-    setAllDesignateChecked(allTrue(formState.newDesignateStates));
-  }, [formState.newDesignateStates]);
 
   return (
     <div className={styles.container}>
       <div className={filterTypeLabelClass}>
-        <div className="flex flex-row h-full gap-6">
+        <div className="flex flex-row items-center h-full gap-6">
           <p
             onClick={() => handleClickType(SERVICE_FILTER)}
             className={cn(
@@ -196,7 +183,7 @@ export default function FilterModal({
               <div className={filterItemClass} key={index}>
                 {`${serviceFilterTexts[index].text} (${item})`}
                 <Checkbox
-                  state={formState.newServiceStates[index]}
+                  state={newServiceStates[index]}
                   onStateChange={handleServiceItemCheckClick(index)}
                 />
               </div>
@@ -215,7 +202,7 @@ export default function FilterModal({
               <div className={filterItemClass} key={index}>
                 {`${DesignatefilterTexts[index].text} (${item})`}
                 <Checkbox
-                  state={formState.newDesignateStates[index]}
+                  state={newDesignateStates[index]}
                   onStateChange={handleDesignateItemCheckClick(index)}
                 />
               </div>

@@ -7,6 +7,8 @@ import Textarea from "./Textarea";
 import Button from "./Button";
 import { useState } from "react";
 
+const MIN_COMMENT_LENGTH = 10;
+
 interface QuoteModalProps {
   onClose?: () => void;
   onSubmit?: (data: { cost: number; comment: string }) => void;
@@ -56,14 +58,15 @@ export default function QuoteModal({
   const [comment, setComment] = useState<string>("");
 
   const isValid = isRejected
-    ? comment.length >= 10 && typeof comment === "string"
+    ? comment.length >= MIN_COMMENT_LENGTH && typeof comment === "string"
     : quote.length > 0 &&
       !isNaN(Number(quote)) &&
-      comment.length >= 10 &&
+      comment.length >= MIN_COMMENT_LENGTH &&
       typeof comment === "string";
 
   const handleCallApi = () => {
-    return onSubmit({ cost: Number(quote), comment });
+    onSubmit({ cost: Number(quote), comment });
+    onClose();
   };
 
   return (
@@ -106,7 +109,7 @@ export default function QuoteModal({
         <p className={styles.Title}>코멘트를 입력해 주세요</p>
         <Textarea
           name="comment"
-          placeholder="최소 10자 이상 입력해주세요"
+          placeholder={`최소 ${MIN_COMMENT_LENGTH}자 이상 입력해주세요`}
           value={comment}
           onChange={(value: string) => setComment(value)}
         />
