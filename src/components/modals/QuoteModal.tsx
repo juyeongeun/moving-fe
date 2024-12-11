@@ -1,10 +1,10 @@
 import Image from "next/image";
 import assets from "@/variables/images";
-import ServiceChip from "./card/ServiceChip";
-import QuoteModalMover from "./card/QuoteModalUser";
-import Input from "./Input";
-import Textarea from "./Textarea";
-import Button from "./Button";
+import ServiceChip from "../common/card/ServiceChip";
+import QuoteModalMover from "../common/card/QuoteModalUser";
+import Input from "../common/Input";
+import Textarea from "../common/Textarea";
+import Button from "../common/Button";
 import { useState } from "react";
 
 const MIN_COMMENT_LENGTH = 10;
