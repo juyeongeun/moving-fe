@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useState } from "react";
 import { infoEditSchema, InfoEditFormData } from "@/utils/authValidation";
 import { useRouter } from "next/navigation";
-import ConfirmModal from "@/components/common/ConfirmModal";
+import ConfirmModal from "@/components/modals/ConfirmModal";
 import toast from "react-hot-toast";
 
 interface InfoEditProps {

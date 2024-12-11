@@ -1,4 +1,4 @@
-import FilterModal from "@/components/common/FilterModal";
+import FilterModal from "@/components/modals/FilterModal";
 import { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta<typeof FilterModal> = {

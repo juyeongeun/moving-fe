@@ -1,9 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import AddressField from "./AddressField";
-import SearchInput from "./SearchInput";
-import Button from "./Button";
+import AddressField from "../common/AddressField";
+import SearchInput from "../common/SearchInput";
+import Button from "../common/Button";
 import assets from "@/variables/images";
 import { useState } from "react";
 interface AddressInputProps {

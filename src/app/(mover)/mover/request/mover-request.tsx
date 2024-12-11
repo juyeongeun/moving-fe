@@ -8,8 +8,8 @@ import IncomingRequestCard from "@/components/cards/IncomingRequestCard";
 import Input from "@/components/common/Input";
 import DropdownSortMovingRequest from "../../../../components/dropdowns/DropdownSortMovingRequest";
 import Checkbox from "../../../../components/common/checkboxs/Checkbox";
-import QuoteModal from "../../../../components/common/QuoteModal";
-import FilterModal from "@/components/common/FilterModal";
+import QuoteModal from "../../../../components/modals/QuoteModal";
+import FilterModal from "@/components/modals/FilterModal";
 import cn from "@/config/cn";
 import { getServiceText } from "@/utils/utilFunctions";
 
