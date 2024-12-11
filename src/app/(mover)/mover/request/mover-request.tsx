@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import Modal from "react-modal";
+import NiceModal, { useModal } from "@ebay/nice-modal-react";
 
 import IncomingRequestCard from "@/components/cards/IncomingRequestCard";
 import Input from "@/components/common/Input";
@@ -178,6 +179,49 @@ function getRandomAddress() {
     5
   )} Street, ${getRandomString(6)} City`;
 }
+
+interface FilterModal_Props {
+  serviceCounts: number[];
+  serviceFilters: boolean[];
+  designateCounts: number[];
+  designateFilters: boolean[];
+  onSubmit: (data: {
+    newServiceStates: boolean[];
+    newDesignateStates: boolean[];
+  }) => void;
+  onClose: () => void;
+}
+
+const FilterNiceModal_ = NiceModal.create(
+  ({
+    serviceCounts,
+    serviceFilters,
+    designateCounts,
+    designateFilters,
+    onSubmit,
+  }: FilterModal_Props) => {
+    const modal = useModal();
+
+    console.log("FilterNiceModal_ 팝업");
+
+    return (
+      <div className="bg-[#141414] bg-opacity-50 fixed inset-0 flex flex-col items-center justify-end tablet:justify-center pc:justify-center">
+        <div className="flex flex-col items-center justify-center mx-auto bg-transparent w-full tablet:w-[375px] pc:w-[608px]">
+          <FilterModal
+            serviceCounts={serviceCounts}
+            serviceFilters={serviceFilters}
+            designateCounts={designateCounts}
+            designateFilters={designateFilters}
+            onSubmit={onSubmit}
+            onClose={() => modal.hide()}
+          />
+        </div>
+      </div>
+    );
+  }
+);
+
+NiceModal.register("FilterNiceModal", FilterNiceModal_);
 
 const DATA_COUNT = 20;
 
@@ -411,6 +455,18 @@ export default function RequestForm({ initialData }: RequestFormProps) {
     console.log("거절");
   };
 
+  const handleFilterIconClick = () => {
+    console.log("NiceModal.show 호출");
+    NiceModal.show("FilterNiceModal", {
+      serviceCounts: data.serviceCounts,
+      serviceFilters: formState.currentServiceFilter,
+      designateCounts: data.designateCounts,
+      designateFilters: formState.currentDesignateFilter,
+      onSubmit: handleFindMovingRequestList,
+      // onClose: () => setIsFilterModalOpen(false),
+    });
+  };
+
   const items = data.list.map((item, index) => {
     return (
       <IncomingRequestCard
@@ -501,10 +557,7 @@ export default function RequestForm({ initialData }: RequestFormProps) {
                 onSelect={handleSortChange}
                 disabled={data.list.length === 0}
               />
-              <div
-                className={filterIconClass}
-                onClick={() => setIsFilterModalOpen(true)}
-              >
+              <div className={filterIconClass} onClick={handleFilterIconClick}>
                 <Image
                   src={
                     isAllTrue(formState.currentServiceFilter) &&
@@ -542,7 +595,7 @@ export default function RequestForm({ initialData }: RequestFormProps) {
           onSubmit={submitQuote}
         />
       </Modal>
-      <Modal
+      {/* <Modal
         className={quoteModalBaseClass}
         overlayClassName="bg-[#141414] bg-opacity-50 fixed inset-0 flex flex-col items-center justify-end tablet:justify-center pc:justify-center"
         isOpen={isFilterModalOpen}
@@ -557,7 +610,7 @@ export default function RequestForm({ initialData }: RequestFormProps) {
           onSubmit={handleFindMovingRequestList}
           onClose={() => setIsFilterModalOpen(false)}
         />
-      </Modal>
+      </Modal> */}
     </div>
   );
 }
