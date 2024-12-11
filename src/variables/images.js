@@ -37,6 +37,7 @@ const assets = {
   },
   images: {
     avatarRed: "/assets/images/img_avatar_red.svg",
+    emptyFolder: "/assets/images/img_empty_folder.svg",
     imagePlaceholder: "/assets/images/img_image_placeholder.svg",
     landingMd01: "/assets/images/img_landing_md_01.svg",
     landingMd02: "/assets/images/img_landing_md_02.svg",
