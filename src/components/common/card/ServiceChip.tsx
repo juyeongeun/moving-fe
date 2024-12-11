@@ -5,7 +5,7 @@ import cn from "@/config/cn";
 import assets from "@/variables/images";
 
 const chipVariants = cva(
-  "inline-flex w-fit items-center justify-center gap-[1px] py-0.5 shadow-[4px_4px_8px_0px_rgba(217,217,217,0.1)] font-semibold rounded-[4px] text-sm",
+  "inline-flex w-fit items-center justify-center gap-[1px] py-0.5 shadow-[4px_4px_8px_0px_rgba(217,217,217,0.1)] font-semibold rounded-[4px] text-sm text-nowrap",
   {
     variants: {
       variant: {
@@ -50,7 +50,7 @@ const labels: Record<ChipType, string> = {
   smallMove: "소형이사",
   homeMove: "가정이사",
   officeMove: "사무실이사",
-  designatedQuote: "지정 견적 이사",
+  designatedQuote: "지정 견적 요청",
   pendingConfirm: "견적 대기",
   confirmed: "견적 확정",
 } as const;
@@ -67,15 +67,18 @@ const ServiceChip = ({ variant, className, size }: ChipProps) => {
   return (
     <div className={cn(chipVariants({ variant, size }), className)}>
       {variant in icons && (
-        <Image
-          src={icons[variant as ChipWithIconType]}
-          alt={`${variant} icon`}
-          width={20}
-          height={20}
+        <div
           className={cn(
+            "relative w-[20px] h-[20px]",
             isResponsive ? "pc:w-[24px] pc:h-[24px]" : "pc:w-[20px] pc:h-[20px]"
           )}
-        />
+        >
+          <Image
+            src={icons[variant as ChipWithIconType]}
+            alt={`${variant} icon`}
+            fill
+          />
+        </div>
       )}
       <span>{labels[variant]}</span>
     </div>

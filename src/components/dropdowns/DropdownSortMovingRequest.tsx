@@ -17,7 +17,7 @@ import {
 } from "@/variables/dropdown";
 
 type DropdownSortMovingRequestProps = {
-  onSelect: (regionCode: number) => void;
+  onSelect: (sortCode: number) => void;
   disabled: boolean;
 };
 

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import Modal from "react-modal";
+import NiceModal, { useModal } from "@ebay/nice-modal-react";
 
 import IncomingRequestCard from "@/components/cards/IncomingRequestCard";
 import Input from "@/components/common/Input";
@@ -16,6 +17,9 @@ import { getServiceText } from "@/utils/utilFunctions";
 import { SERVICE_CODES } from "@/variables/service";
 import assets from "@/variables/images";
 import { type QuoteDetailsData } from "@/types/mover";
+
+// 임시. 테스트용
+import { fetchData_ } from "./page";
 
 const filterBaseClass = cn(
   "flex flex-row items-center justify-between h-[68px] border-solid border-b-[1px] border-b-line-200 text-black font-medium"
@@ -167,101 +171,95 @@ function Filter({ designateCounts, onChange }: FilterProps) {
   );
 }
 
-function getRandomString(length: number) {
-  return Array.from({ length }, () =>
-    String.fromCharCode(97 + Math.floor(Math.random() * 26))
-  ).join("");
+interface FilterModal_Props {
+  serviceCounts: number[];
+  serviceFilters: boolean[];
+  designateCounts: number[];
+  designateFilters: boolean[];
+  onSubmit: (data: {
+    newServiceStates: boolean[];
+    newDesignateStates: boolean[];
+  }) => void;
 }
 
-function getRandomAddress() {
-  return `${Math.floor(Math.random() * 1000)} ${getRandomString(
-    5
-  )} Street, ${getRandomString(6)} City`;
-}
-
-const DATA_COUNT = 20;
-
-const mockRequestQuoteData = Array.from({ length: DATA_COUNT }, (_, index) => {
-  const randomService = Math.floor(Math.random() * 3);
-  const baseDate = new Date(2025, 1, 1);
-  const randomOffset = Math.floor(Math.random() * 30);
-
-  return {
-    id: Math.floor(Math.random() * 1000),
-    requestDate: new Date(
-      baseDate.getTime() + randomOffset * 24 * 60 * 60 * 1000
-    ).toISOString(),
-    service: randomService,
-    isDesignated: Math.random() > 0.5,
-    isConfirmed: false,
-    name: `User ${getRandomString(3)}${index + 1}`,
-    movingDate: new Date(
-      baseDate.getTime() + (randomOffset + 5) * 24 * 60 * 60 * 1000
-    ).toISOString(),
-    pickupAddress: getRandomAddress(),
-    dropOffAddress: getRandomAddress(),
-    isCompleted: false,
-  };
-});
-
-async function fetchData_(formState: {
-  keyword: string;
-  currentServiceFilter: boolean[];
-  currentDesignateFilter: boolean[];
-  currentSort: string;
-}) {
-  const filteredList = mockRequestQuoteData.filter((item) => {
-    if (!formState.currentServiceFilter[item.service]) return false;
-
-    if (item.isDesignated && !formState.currentDesignateFilter[1]) return false;
-
-    if (!item.isDesignated && !formState.currentDesignateFilter[0])
-      return false;
-
-    if (
-      formState.keyword &&
-      !item.name.toLowerCase().includes(formState.keyword.toLowerCase())
-    )
-      return false;
-
-    return true;
-  });
-
-  const sortedList = filteredList.sort((a, b) => {
-    if (formState.currentSort === "recent") {
-      return (
-        new Date(b.requestDate).getTime() - new Date(a.requestDate).getTime()
-      );
-    } else if (formState.currentSort === "movingDate") {
-      return (
-        new Date(a.movingDate).getTime() - new Date(b.movingDate).getTime()
-      );
-    }
-    return 0;
-  });
-
-  const serviceCounts = [0, 0, 0];
-  sortedList.forEach((item) => {
-    serviceCounts[item.service]++;
-  });
-
-  const designateCounts = [0, 0];
-  sortedList.forEach((item) => {
-    if (item.isDesignated) {
-      designateCounts[1]++;
-    } else {
-      designateCounts[0]++;
-    }
-  });
-
-  console.log("fetchData_");
-
-  return {
-    list: sortedList,
+const FilterNiceModal_ = NiceModal.create(
+  ({
     serviceCounts,
+    serviceFilters,
     designateCounts,
-  };
+    designateFilters,
+    onSubmit,
+  }: FilterModal_Props) => {
+    const modal = useModal();
+
+    console.log("FilterNiceModal_ 팝업");
+
+    return (
+      <div className="bg-[#141414] bg-opacity-50 fixed inset-0 flex flex-col items-center justify-end tablet:justify-center pc:justify-center">
+        <div className="flex flex-col items-center justify-center mx-auto bg-transparent w-full tablet:w-[375px] pc:w-[608px]">
+          <FilterModal
+            serviceCounts={serviceCounts}
+            serviceFilters={serviceFilters}
+            designateCounts={designateCounts}
+            designateFilters={designateFilters}
+            onSubmit={onSubmit}
+            onClose={() => modal.remove()}
+          />
+        </div>
+      </div>
+    );
+  }
+);
+
+NiceModal.register("FilterNiceModal", FilterNiceModal_);
+
+interface QuoteModal_Props {
+  isRejected: boolean;
+  customerName: string;
+  serviceType: number;
+  isDesignatedQuote: boolean;
+  startAddress: string;
+  endAddress: string;
+  moveDate: string;
+  onSubmit: (quoteDate: { cost?: number; comment: string }) => void;
 }
+
+const QuoteNiceModal_ = NiceModal.create(
+  ({
+    isRejected,
+    customerName,
+    serviceType,
+    isDesignatedQuote,
+    startAddress,
+    endAddress,
+    moveDate,
+    onSubmit,
+  }: QuoteModal_Props) => {
+    const modal = useModal();
+
+    console.log("QuoteNiceModal_ 팝업");
+
+    return (
+      <div className="bg-[#141414] bg-opacity-50 fixed inset-0 flex flex-col items-center justify-end tablet:justify-center pc:justify-center">
+        <div className="flex flex-col items-center justify-center mx-auto bg-transparent w-full tablet:w-[375px] pc:w-[608px]">
+          <QuoteModal
+            isRejected={isRejected}
+            customerName={customerName}
+            serviceType={serviceType}
+            isDesignatedQuote={isDesignatedQuote}
+            startAddress={startAddress}
+            endAddress={endAddress}
+            moveDate={moveDate}
+            onSubmit={onSubmit}
+            onClose={() => modal.remove()}
+          />
+        </div>
+      </div>
+    );
+  }
+);
+
+NiceModal.register("QuoteNiceModal", QuoteNiceModal_);
 
 interface RequestQuoteData extends QuoteDetailsData {
   id: number;
@@ -298,13 +296,6 @@ export default function RequestForm({ initialData }: RequestFormProps) {
     customerName: "",
   });
 
-  const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
-  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
-
-  const quoteModalBaseClass = cn(
-    "flex flex-col items-center justify-center mx-auto bg-transparent w-full tablet:w-[375px] pc:w-[608px]"
-  );
-
   const filterIconClass = cn("relative w-8 h-8 pc:hidden");
 
   useEffect(() => {
@@ -316,9 +307,7 @@ export default function RequestForm({ initialData }: RequestFormProps) {
       setDebouncedKeyword(formState.keyword);
     }, 300);
 
-    return () => {
-      clearTimeout(handler);
-    };
+    return () => clearTimeout(handler);
   }, [formState.keyword]);
 
   useEffect(() => {
@@ -347,13 +336,16 @@ export default function RequestForm({ initialData }: RequestFormProps) {
     fetchData();
   }, [
     debouncedKeyword,
-    formState.currentServiceFilter,
-    formState.currentDesignateFilter,
+    formState.currentServiceFilter[0],
+    formState.currentServiceFilter[1],
+    formState.currentServiceFilter[2],
+    formState.currentDesignateFilter[0],
+    formState.currentDesignateFilter[1],
     formState.currentSort,
   ]);
 
   const handleAcceptRequest = (data: RequestQuoteData) => {
-    setQuoteModalData({
+    NiceModal.show("QuoteNiceModal", {
       id: data.id,
       serviceType: data.service,
       isDesignatedQuote: data.isDesignated,
@@ -362,14 +354,11 @@ export default function RequestForm({ initialData }: RequestFormProps) {
       endAddress: data.dropOffAddress,
       moveDate: data.movingDate,
       customerName: data.name,
+      onSubmit: submitQuote,
     });
-    setIsQuoteModalOpen(true);
-    console.log("수락");
   };
 
   const submitQuote = (quoteDate: { cost?: number; comment: string }) => {
-    setIsQuoteModalOpen(false);
-
     // 임시
     if (quoteModalData.isRejected) {
       // 이사 요청 반려
@@ -397,7 +386,7 @@ export default function RequestForm({ initialData }: RequestFormProps) {
   };
 
   const handleRejectRequest = (data: RequestQuoteData) => {
-    setQuoteModalData({
+    NiceModal.show("QuoteNiceModal", {
       id: data.id,
       serviceType: data.service,
       isDesignatedQuote: data.isDesignated,
@@ -406,9 +395,18 @@ export default function RequestForm({ initialData }: RequestFormProps) {
       endAddress: data.dropOffAddress,
       moveDate: data.movingDate,
       customerName: data.name,
+      onSubmit: submitQuote,
     });
-    setIsQuoteModalOpen(true);
-    console.log("거절");
+  };
+
+  const handleFilterIconClick = () => {
+    NiceModal.show("FilterNiceModal", {
+      serviceCounts: data.serviceCounts,
+      serviceFilters: formState.currentServiceFilter,
+      designateCounts: data.designateCounts,
+      designateFilters: formState.currentDesignateFilter,
+      onSubmit: handleFindMovingRequestList,
+    });
   };
 
   const items = data.list.map((item, index) => {
@@ -481,7 +479,7 @@ export default function RequestForm({ initialData }: RequestFormProps) {
             onChange={handleFilterChange}
           />
         </div>
-        <div className="box-border flex flex-col w-[328px] tablet:w-[600px] pc:w-[955px] h-[2548px]">
+        <div className="box-border flex flex-col w-[328px] tablet:w-[600px] pc:w-[955px]">
           <div className="relative flex items-center px-0 py-3 w-full h-[76px] tablet:px-2.5 tablet:py-3 pc:p-0 pc:h-[64px]">
             <Input
               name="searchKeyword"
@@ -501,10 +499,7 @@ export default function RequestForm({ initialData }: RequestFormProps) {
                 onSelect={handleSortChange}
                 disabled={data.list.length === 0}
               />
-              <div
-                className={filterIconClass}
-                onClick={() => setIsFilterModalOpen(true)}
-              >
+              <div className={filterIconClass} onClick={handleFilterIconClick}>
                 <Image
                   src={
                     isAllTrue(formState.currentServiceFilter) &&
@@ -523,41 +518,6 @@ export default function RequestForm({ initialData }: RequestFormProps) {
           </div>
         </div>
       </div>
-      <Modal
-        className={quoteModalBaseClass}
-        overlayClassName="bg-[#141414] bg-opacity-50 fixed inset-0 flex flex-col items-center justify-end tablet:justify-center pc:justify-center"
-        isOpen={isQuoteModalOpen}
-        onRequestClose={() => setIsQuoteModalOpen(false)}
-        contentLabel="견적서 모달"
-      >
-        <QuoteModal
-          isRejected={quoteModalData.isRejected}
-          customerName={quoteModalData.customerName}
-          serviceType={quoteModalData.serviceType}
-          isDesignatedQuote={quoteModalData.isDesignatedQuote}
-          startAddress={quoteModalData.startAddress}
-          endAddress={quoteModalData.endAddress}
-          moveDate={quoteModalData.moveDate}
-          onClose={() => setIsQuoteModalOpen(false)}
-          onSubmit={submitQuote}
-        />
-      </Modal>
-      <Modal
-        className={quoteModalBaseClass}
-        overlayClassName="bg-[#141414] bg-opacity-50 fixed inset-0 flex flex-col items-center justify-end tablet:justify-center pc:justify-center"
-        isOpen={isFilterModalOpen}
-        onRequestClose={() => setIsFilterModalOpen(false)}
-        contentLabel="필터 모달"
-      >
-        <FilterModal
-          serviceCounts={data.serviceCounts}
-          serviceFilters={formState.currentServiceFilter}
-          designateCounts={data.designateCounts}
-          designateFilters={formState.currentDesignateFilter}
-          onSubmit={handleFindMovingRequestList}
-          onClose={() => setIsFilterModalOpen(false)}
-        />
-      </Modal>
     </div>
   );
 }

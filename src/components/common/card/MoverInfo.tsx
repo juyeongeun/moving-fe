@@ -34,7 +34,7 @@ const MoverInfo = ({ data, className, size }: MoverInfoProps) => {
 
   return (
     <div className={cn(moverInfoVariants({ size }), className)}>
-      <ProfileImage imgUrl={data.imageUrl} />
+      <ProfileImage imgUrl={data.imageUrl} size={size} />
       <div
         className={cn("flex flex-col gap-2 w-full", {
           "pc:gap-3": isResponsive,
