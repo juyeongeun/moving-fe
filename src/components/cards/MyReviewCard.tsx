@@ -8,11 +8,11 @@ import { mapServiceType, formatDate } from "@/utils/utilFunctions";
 import cn from "@/config/cn";
 import StarRatingDisplay from "../common/StarRatingDisplay";
 
-interface MyReviewCardData {
+export interface MyReviewCardData {
   id: number;
   service: number;
   isDesignated: boolean;
-  imageUrl: string;
+  imageUrl: string | null;
   nickname: string;
   movingDate: string;
   cost: number;

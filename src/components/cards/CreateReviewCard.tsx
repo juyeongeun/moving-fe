@@ -13,7 +13,7 @@ interface CreateReviewData {
   id: number;
   service: number;
   isDesignated: boolean;
-  imageUrl: string;
+  imageUrl: string | null;
   nickname: string;
   movingDate: string;
   cost: number;
@@ -35,7 +35,7 @@ const CreateReviewCard = ({
   const quotePrice = `${data.cost.toLocaleString()}원`;
 
   return (
-    <CardContainer className={cn("max-w-[688px]", "pc:py-[32px]", className)}>
+    <CardContainer className={cn("pc:py-[32px]", className)}>
       <div className="flex gap-2">
         <ServiceChip variant={serviceType as ChipType} />
         {data.isDesignated && <ServiceChip variant="designatedQuote" />}
@@ -45,7 +45,7 @@ const CreateReviewCard = ({
         <ProfileImage imgUrl={data.imageUrl} />
         <div className="flex flex-col gap-1 pc:gap-2">
           <NameText text={data.nickname} type="mover" />
-          <div className="flex gap-2 items-center gap-[12.5px]">
+          <div className="flex gap-2 items-center pc:gap-[12.5px]">
             <TextWithGrayLabel label="이사일" text={moveInDate} />
             <LineSeparator />
             <TextWithGrayLabel label="견적가" text={quotePrice} />
