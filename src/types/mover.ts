@@ -59,3 +59,7 @@ export interface QuoteDetailsData {
   pickupAddress: string;
   dropOffAddress: string;
 }
+
+export interface ConfirmInfo {
+  isConfirmed?: boolean;
+}

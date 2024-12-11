@@ -463,7 +463,7 @@ export default function RequestForm({ initialData }: RequestFormProps) {
 
   return (
     <div className="flex flex-col items-center pc:w-full">
-      <div className="flex flex-row gap-2.5 items-center justify-center w-full h-[54px] pc:h-[96px]">
+      <div className="flex flex-row gap-2.5 items-center justify-center w-[328px] tablet:w-[600px] pc:w-[1400px] h-[54px] pc:h-[96px]">
         <div className="flex flex-row items-center w-[328px] tablet:w-[600px] pc:w-[1400px] h-full text-2lg text-[#2b2b2b] font-semibold cursor-pointer pc:text-2xl">
           받은 요청
         </div>
