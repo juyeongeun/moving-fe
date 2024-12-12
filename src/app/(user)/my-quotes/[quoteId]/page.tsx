@@ -1,5 +1,7 @@
 import MoverInfoCard from "@/components/cards/MoverInfoCard";
 import Button from "@/components/common/Button";
+import QuoteDetailInfo from "@/components/Quote/QuoteDetailInfo";
+import ButtonFavorite from "@/components/ButtonFavorite";
 import cn from "@/config/cn";
 import {
   formatDate,
@@ -36,6 +38,7 @@ interface Mover {
 
 interface ApiResponse {
   service: number;
+  isCompleted: boolean; // 이사일이 지나서 완료된 요청인지 여부 판단
   isConfirmed: boolean;
   mover: Mover;
   id: number;
@@ -111,6 +114,7 @@ function generateRandomResponse(quoteId: number): ApiResponse {
 
   return {
     service: getRandomInt(0, 2),
+    isCompleted: Math.random() > 0.5,
     isConfirmed: Math.random() > 0.5,
     mover,
     id: getRandomInt(1, 1000),
@@ -159,20 +163,6 @@ function ShareBox() {
   );
 }
 
-interface QuoteInfoItemProps {
-  keyText: string;
-  value: string;
-}
-
-function QuoteInfoItem({ keyText, value }: QuoteInfoItemProps) {
-  return (
-    <div className="flex flex-row justify-center h-6 text-md pc:h-[26px] pc:text-2lg">
-      <div className="w-[105px] text-grayscale-300 pc:w-[122px]">{keyText}</div>
-      <div className="w-full">{value}</div>
-    </div>
-  );
-}
-
 export interface MyQuotesDetailPageProps {
   params: {
     quoteId: string;
@@ -210,10 +200,18 @@ export default async function MyQuotesDetailPage({
     introduction: data.mover.introduction,
   };
 
+  const quoteInfoData = {
+    requestDate: data.requestDate,
+    service: data.service,
+    movingDate: data.movingDate,
+    pickupAddress: data.pickupAddress,
+    dropOffAddress: data.dropOffAddress,
+  };
+
   return (
     <div className="flex flex-col items-center w-full">
       <div className="flex flex-row gap-2.5 items-center justify-center w-[328px] tablet:w-[600px] pc:w-[1400px] h-[54px] pc:h-[96px]">
-        <div className="flex flex-row items-center w-[328px] tablet:w-[600px] pc:w-[1400px] h-full text-2lg text-[#2b2b2b] font-semibold cursor-pointer pc:text-2xl">
+        <div className="flex flex-row items-center w-[328px] tablet:w-[600px] pc:w-[1400px] h-full text-2lg text-[#2b2b2b] font-semibold pc:text-2xl">
           견적 상세
         </div>
       </div>
@@ -236,28 +234,21 @@ export default async function MyQuotesDetailPage({
           <Divider className="pc:hidden" />
           <div className="flex flex-col justify-between w-full h-[242px] tablet:h-[258px] pc:h-[330px] tablet:text-lg pc:text-2xl">
             <div className="text-black-400 font-semibold">견적 정보</div>
-            <div className="flex flex-col justify-center gap-2.5 pc:gap-4 w-full h-[192px] px-[20px] tablet:px-[32px] pc:px-[40px] bg-bg-100 border-solid border-[1px] rounded-[16px] border-line-100 tablet:h-[208px] pc:h-[258px] ">
-              <QuoteInfoItem
-                keyText="견적 요청일"
-                value={formatDate(data.requestDate)}
-              />
-              <QuoteInfoItem
-                keyText="서비스"
-                value={getServiceText(data.service)}
-              />
-              <QuoteInfoItem
-                keyText="이용일"
-                value={formatDateWithDayTime(data.movingDate)}
-              />
-              <QuoteInfoItem keyText="출발지" value={data.pickupAddress} />
-              <QuoteInfoItem keyText="도착지" value={data.dropOffAddress} />
-            </div>
+            <QuoteDetailInfo data={quoteInfoData} />
           </div>
         </div>
         <div className="box-border gap-6 w-[328px] hidden tablet:hidden pc:flex pc:flex-col">
           <Button className="w-[328px] h-[64px]">견적 확정하기</Button>
           <ShareBox />
         </div>
+      </div>
+      <div className="flex flex-row item-center sticky bottom-0 w-full h-[74px] pc:hidden">
+        <ButtonFavorite
+          moverId={data.mover.id}
+          customerId={1} // 임시. 고객 정보 저장/확인 로직 필요
+          isFavorite={data.mover.isFavorite}
+        />
+        <Button className="w-full h-[54px]">견적 확정하기</Button>
       </div>
     </div>
   );

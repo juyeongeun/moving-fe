@@ -1,6 +1,31 @@
+import cn from "@/config/cn";
 import { getServiceText } from "@/utils/utilFunctions";
-import { formatDateWithDay } from "@/utils/utilFunctions";
-import { formatDate } from "@/utils/utilFunctions";
+import { formatDate, formatDateWithDayTime } from "@/utils/utilFunctions";
+
+const styles = {
+  container: `flex flex-col justify-center gap-2.5 
+     px-[20px] w-full h-[192px] 
+     bg-bg-100 border-solid border-[1px] rounded-[16px] border-line-100 
+     tablet:px-[32px] tablet:h-[208px]     
+     pc:gap-4 pc:px-[40px]  pc:h-[258px]`,
+  wrapper: "flex flex-row justify-center h-6 text-md pc:h-[26px] pc:text-2lg",
+  title: "w-[105px] text-grayscale-300 pc:w-[122px]",
+  value: "w-full text-black-400 text-ellipsis",
+};
+
+interface QuoteDetailInfoItemProps {
+  keyText: string;
+  value: string;
+}
+
+function QuoteDetailInfoItem({ keyText, value }: QuoteDetailInfoItemProps) {
+  return (
+    <div className={styles.wrapper}>
+      <p className={styles.title}>{keyText}</p>
+      <p className={styles.value}>{value}</p>
+    </div>
+  );
+}
 
 interface QuoteDetailInfoProps {
   data: {
@@ -10,39 +35,30 @@ interface QuoteDetailInfoProps {
     pickupAddress: string;
     dropOffAddress: string;
   };
+  className?: string;
 }
 
-const styles = {
-  container:
-    "flex flex-col gap-[10px] bg-bg-100 border border-solid border-line-100 rounded-[16px] px-[32px] py-[24px]",
-  wrapper: "flex flex-row gap-[40px]",
-  title: "text-md w-[65px] text-grayscale-300 pc:text-2lg pc:w-[90px]",
-  value: "text-md text-black-400 pc:text-2lg",
-};
+export default function QuoteDetailInfo({
+  data,
+  className,
+}: QuoteDetailInfoProps) {
+  const quoteClass = cn(styles.container, className);
+  const itemInfos = [
+    { keyText: "견적 요청일", value: formatDate(data.requestDate) },
+    { keyText: "서비스", value: getServiceText(data.service) },
+    { keyText: "이동일", value: formatDateWithDayTime(data.movingDate) },
+    { keyText: "출발지", value: data.pickupAddress },
+    { keyText: "도착지", value: data.dropOffAddress },
+  ];
+  const items = itemInfos.map((item, index) => {
+    return (
+      <QuoteDetailInfoItem
+        key={index}
+        keyText={item.keyText}
+        value={item.value}
+      />
+    );
+  });
 
-export default function QuoteDetailInfo({ data }: QuoteDetailInfoProps) {
-  return (
-    <div className={styles.container}>
-      <div className={styles.wrapper}>
-        <p className={styles.title}>견적 요청일</p>
-        <p className={styles.value}>{formatDate(data.requestDate)}</p>
-      </div>
-      <div className={styles.wrapper}>
-        <p className={styles.title}>서비스</p>
-        <p className={styles.value}>{getServiceText(data.service)}</p>
-      </div>
-      <div className={styles.wrapper}>
-        <p className={styles.title}>이동일</p>
-        <p className={styles.value}>{formatDateWithDay(data.movingDate)}</p>
-      </div>
-      <div className={styles.wrapper}>
-        <p className={styles.title}>출발지</p>
-        <p className={styles.value}>{data.pickupAddress}</p>
-      </div>
-      <div className={styles.wrapper}>
-        <p className={styles.title}>도착지</p>
-        <p className={styles.value}>{data.dropOffAddress}</p>
-      </div>
-    </div>
-  );
+  return <div className={quoteClass}>{items}</div>;
 }
