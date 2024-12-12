@@ -26,7 +26,7 @@ export default function QuoteButtonGroup({
   const styles = {
     buttonContainer: isPc
       ? "hidden pc:flex pc:flex-col pc:gap-[32px] pc:justify-center pc:items-center"
-      : "fixed bottom-0 bg-white border-none w-full flex flex-row gap-[8px] justify-center items-center py-[10px] z-[999] pc:hidden",
+      : "fixed bottom-0 bg-white border-none w-full flex flex-row gap-[8px] justify-center items-center py-[10px] px-6 tablet:px-[72px] z-[999] pc:hidden",
     likeIcon:
       "p-[15px] w-[54px] h-[54px] cursor-pointer border border-solid border-line-200 rounded-[16px] text-nowrap pc:w-full pc:text-xl pc:font-semibold pc:py-[11px] pc:flex pc:flex-row pc:gap-[8px] pc:items-center pc:justify-center",
     shareText: "text-lg font-semibold text-black-400 pc:text-xl",
