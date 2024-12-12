@@ -15,6 +15,7 @@ const assets = {
     company: "/assets/icons/ic_company.svg",
     document: "/assets/icons/ic_document.svg",
     ellipsis: "/assets/icons/ic_ellipsis.svg",
+    empty: "/assets/icons/ic_empty.svg",
     filterActive: "/assets/icons/ic_filter_active.svg",
     filterInactive: "/assets/icons/ic_filter_inactive.svg",
     home: "/assets/icons/ic_home.svg",

@@ -48,7 +48,7 @@ function ReviewImageSlider({ images }: { images: string[] }): JSX.Element {
         >
           {images.map((image, index) => (
             <div
-              className={`relative w-full mobile:h-[50vh] tablet:w-48 tablet:h-48 overflow-hidden border border-solid border-[3px] border-line-100 rounded-[16px] cursor-pointer hover:opacity-90 transition-opacity hover:border-pr-blue-100 ${
+              className={`relative aspect-square w-full tablet:w-48 tablet:h-48 overflow-hidden border-solid border-[3px] border-line-100 rounded-[16px] cursor-pointer hover:opacity-90 transition-opacity hover:border-pr-blue-100 ${
                 index === currentImageIndex ? "block" : "hidden tablet:block"
               }`}
               key={index}

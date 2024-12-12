@@ -18,7 +18,7 @@ const Pagination = ({
   };
 
   const generatePages = (current: number, total: number) => {
-    if (total < 5) {
+    if (total <= 5) {
       return range(1, total);
     }
 

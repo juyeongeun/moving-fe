@@ -3,8 +3,8 @@
 import { useState, useMemo } from "react";
 import Image from "next/image";
 
-import Button from "./Button";
-import Checkbox from "./checkboxs/Checkbox";
+import Button from "../common/Button";
+import Checkbox from "../common/checkboxs/Checkbox";
 import cn from "@/config/cn";
 import { getServiceText } from "@/utils/utilFunctions";
 

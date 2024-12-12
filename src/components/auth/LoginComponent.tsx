@@ -8,6 +8,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, LoginFormData } from "@/utils/authValidation";
 import React from "react";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 interface SignUpComponentProps {
   isUser: boolean;
@@ -26,6 +28,7 @@ const styles = {
 };
 
 export default function SignUpComponent({ isUser }: SignUpComponentProps) {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -42,12 +45,11 @@ export default function SignUpComponent({ isUser }: SignUpComponentProps) {
       if (!validationResult.success) {
         throw new Error("유효성 검사 실패");
       }
-
       // API 호출 로직
       console.log("폼 제출:", data);
-
-      // 성공 시 폼 초기화
       reset();
+
+      isUser ? router.push("/find-mover") : router.push("/mover/request");
     } catch (error) {
       console.error("로그인 실패:", error);
     }
