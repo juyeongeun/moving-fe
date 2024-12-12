@@ -205,6 +205,7 @@ export default function MyQuoteDetailPage() {
                   key={service}
                   text={SERVICE_TEXTS[service as keyof typeof SERVICE_TEXTS]}
                   state={true}
+                  disabled={true}
                 />
               ))}
             </div>
@@ -218,6 +219,7 @@ export default function MyQuoteDetailPage() {
                   key={region}
                   text={REGION_TEXTS[region as keyof typeof REGION_TEXTS]}
                   state={true}
+                  disabled={true}
                 />
               ))}
             </div>
