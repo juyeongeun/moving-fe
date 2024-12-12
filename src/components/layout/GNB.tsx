@@ -34,7 +34,7 @@ function TestSelectTextUser({
 
   return (
     <div className="flex flex-row gap-2">
-      <label>
+      <label className="pc:text-sm">
         <input
           type="radio"
           name="userType"
@@ -44,7 +44,7 @@ function TestSelectTextUser({
         />{" "}
         비회원
       </label>
-      <label>
+      <label className="pc:text-sm">
         <input
           type="radio"
           name="userType"
@@ -54,7 +54,7 @@ function TestSelectTextUser({
         />{" "}
         일반
       </label>
-      <label>
+      <label className="pc:text-sm">
         <input
           type="radio"
           name="userType"
