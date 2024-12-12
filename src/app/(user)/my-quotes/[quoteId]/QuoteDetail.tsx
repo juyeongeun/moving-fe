@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 
 import MoverInfoCard from "@/components/cards/MoverInfoCard";
@@ -10,6 +11,7 @@ import QuoteButtonGroup from "@/components/common/QuoteButtonGroup";
 import cn from "@/config/cn";
 
 import { GetQuoteApiResponseData } from "@/types/api";
+import assets from "@/variables/images";
 
 function ShareBox() {
   return (
@@ -31,8 +33,8 @@ interface QuoteDetailProps {
 }
 
 export default function QuoteDetail({ data }: QuoteDetailProps) {
-  const [isDesignated, setIsDesignated] = useState<boolean>(
-    data.mover.isDesignated
+  const [isCompeleted, setIsCompeleted] = useState<boolean>(
+    data.movingRequest.isCompleted
   );
   const [isFavorite, setIsFavorite] = useState<boolean>(data.mover.isFavorite);
   const [favoriteCount, setFavoriteCount] = useState<number>(
@@ -56,7 +58,7 @@ export default function QuoteDetail({ data }: QuoteDetailProps) {
     confirmCount: data.mover.confirmCount,
     favoriteCount: favoriteCount,
     isFavorite: isFavorite,
-    isDesignated: isDesignated,
+    isDesignated: data.mover.isDesignated,
     isConfirmed: data.isConfirmed,
     services: data.mover.services,
     regions: data.mover.regions,
@@ -69,6 +71,19 @@ export default function QuoteDetail({ data }: QuoteDetailProps) {
     movingDate: data.movingRequest.movingDate,
     pickupAddress: data.movingRequest.pickupAddress,
     dropOffAddress: data.movingRequest.dropOffAddress,
+  };
+
+  const styles = {
+    quoteInfo: `flex flex-col justify-between w-full h-[242px] text-lg 
+      tablet:h-[258px]  
+      pc:h-[330px] pc:text-2xl`,
+    warning: `box-border flex flex-row items-center p-6 gap-4 
+      w-full h-[48px] 
+      bg-pr-blue-100 border-solid border-[1px] border-pr-blue-200 rounded-[12px] 
+      shadow-[inset_-2px_-2px_10px_rgba(46,46,46,0.04),_2px_2px_10px_rgba(46,46,46,0.04)] 
+      text-sm font-semibold text-pr-blue-300
+      pc:h-[74px] 
+      pc:text-lg`,
   };
 
   const handleFavoriteButtonClick = () => {
@@ -86,8 +101,8 @@ export default function QuoteDetail({ data }: QuoteDetailProps) {
   const handleConfirmQuoteButtonClick = () => {
     console.log("견적 확정 버튼 클릭 - 견적 확정 API 호출");
 
-    if (!isDesignated) {
-      setIsDesignated(true);
+    if (!isCompeleted) {
+      setIsCompeleted(true);
     }
   };
 
@@ -110,21 +125,28 @@ export default function QuoteDetail({ data }: QuoteDetailProps) {
             <ShareBox />
           </div>
           <LineSeparator direction="horizontal" className="pc:hidden" />
-          <div className="flex flex-col justify-between w-full h-[242px] tablet:h-[258px] pc:h-[330px] tablet:text-lg pc:text-2xl ">
+          <div className={styles.quoteInfo}>
             <div className="text-black-400 font-semibold">견적 정보</div>
             <QuoteDetailInfo data={quoteInfoData} />
           </div>
+          {data.movingRequest.isEstimateConfirmed ||
+          isCompeleted ? undefined : (
+            <div className={styles.warning}>
+              <div className="relative w-4 h-4 pc:w-6 pc:h-6">
+                <Image src={assets.icons.info} alt="경고" fill />
+              </div>
+              확정하지 않은 견적이에요!
+            </div>
+          )}
         </div>
         <div className="box-border gap-6 w-[328px] hidden tablet:hidden pc:flex pc:flex-col">
           <QuoteButtonGroup
             isFavorite={isFavorite}
-            disabled={isDesignated}
+            disabled={isCompeleted}
             isPc={true}
             onFavoriteClick={handleFavoriteButtonClick}
             onButtonClick={handleConfirmQuoteButtonClick}
-            buttonText={
-              isDesignated ? "지정 견적 요청 완료" : "지정 견적 요청하기"
-            }
+            buttonText={isCompeleted ? "견적 확정 완료" : "견적 확정하기"}
             showLabel={false}
           />
           <ShareBox />
@@ -132,11 +154,11 @@ export default function QuoteDetail({ data }: QuoteDetailProps) {
       </div>
       <QuoteButtonGroup
         isFavorite={isFavorite}
-        disabled={isDesignated}
+        disabled={isCompeleted}
         isPc={false}
         onFavoriteClick={handleFavoriteButtonClick}
         onButtonClick={handleConfirmQuoteButtonClick}
-        buttonText={isDesignated ? "지정 견적 요청 완료" : "지정 견적 요청하기"}
+        buttonText={isCompeleted ? "견적 확정 완료" : "견적 확정하기"}
         showLabel={false}
       />
     </>

@@ -68,6 +68,9 @@ function generateRandomResponse(quoteId: number): GetQuoteApiResponseData {
     },
   };
 
+  const isCompleted = Math.random() > 0.5;
+  const isEstimateConfirmed = isCompleted ? isCompleted : Math.random() > 0.5;
+
   return {
     id: getRandomInt(1, 1000),
     cost: getRandomInt(10000, 1000000),
@@ -80,7 +83,8 @@ function generateRandomResponse(quoteId: number): GetQuoteApiResponseData {
       ).toISOString(),
       pickupAddress: getRandomAddress(),
       dropOffAddress: getRandomAddress(),
-      isCompleted: Math.random() > 0.5,
+      isCompleted: isCompleted,
+      isEstimateConfirmed: isEstimateConfirmed,
       createdAt: new Date(
         baseDate.getTime() + (randomOffset + 5) * 24 * 60 * 60 * 1000
       ).toISOString(),

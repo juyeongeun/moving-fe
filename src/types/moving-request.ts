@@ -12,4 +12,5 @@ export interface MovingRequesteDataWithCreated extends MovingRequestBaseData {
 export interface MovingRequestDataWithComplete
   extends MovingRequesteDataWithCreated {
   isCompleted: boolean;
+  isEstimateConfirmed: boolean;
 }
