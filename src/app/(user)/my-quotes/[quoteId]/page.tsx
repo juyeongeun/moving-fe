@@ -2,12 +2,8 @@ import MoverInfoCard from "@/components/cards/MoverInfoCard";
 import Button from "@/components/common/Button";
 import QuoteDetailInfo from "@/components/Quote/QuoteDetailInfo";
 import ButtonFavorite from "@/components/ButtonFavorite";
+
 import cn from "@/config/cn";
-import {
-  formatDate,
-  formatDateWithDayTime,
-  getServiceText,
-} from "@/utils/utilFunctions";
 
 interface Rating {
   "1": number;
@@ -242,13 +238,13 @@ export default async function MyQuotesDetailPage({
           <ShareBox />
         </div>
       </div>
-      <div className="flex flex-row item-center sticky bottom-0 w-full h-[74px] pc:hidden">
-        <ButtonFavorite
+      <div className="flex flex-row item-center sticky bottom-0 w-full h-[74px] bg-black-100 pc:hidden">
+        {/* <ButtonFavorite
           moverId={data.mover.id}
           customerId={1} // 임시. 고객 정보 저장/확인 로직 필요
           isFavorite={data.mover.isFavorite}
         />
-        <Button className="w-full h-[54px]">견적 확정하기</Button>
+        <Button className="w-full h-[54px]">견적 확정하기</Button> */}
       </div>
     </div>
   );
