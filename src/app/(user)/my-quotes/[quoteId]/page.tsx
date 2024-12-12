@@ -1,7 +1,7 @@
 import MoverInfoCard from "@/components/cards/MoverInfoCard";
 import Button from "@/components/common/Button";
 import QuoteDetailInfo from "@/components/Quote/QuoteDetailInfo";
-import ButtonFavorite from "@/components/ButtonFavorite";
+import LineSeparator from "@/components/common/LineSeparator";
 
 import cn from "@/config/cn";
 
@@ -212,9 +212,9 @@ export default async function MyQuotesDetailPage({
         </div>
       </div>
       <div className="box-border flex flex-row justify-center gap-[117px] mt-4 tablet:mt-6 pc:mt-6">
-        <div className="box-border flex flex-col w-[328px] tablet:w-[600px] pc:w-[955px]">
+        <div className="box-border flex flex-col gap-[23.5px] w-[328px] tablet:w-[600px] pc:gap-[39.5px] pc:w-[955px]">
           <MoverInfoCard data={tempCardData} />
-          <Divider />
+          <LineSeparator direction="horizontal" />
           <div className="flex flex-col justify-between w-full h-[74px] tablet:h-[94px] pc:h-[110px]">
             <div className="text-black-400 font-semibold text-lg pc:text-2xl">
               견적가
@@ -223,11 +223,11 @@ export default async function MyQuotesDetailPage({
               {Intl.NumberFormat("en-US").format(data.cost)}원
             </div>
           </div>
-          <Divider />
+          <LineSeparator direction="horizontal" />
           <div className="w-full h-[100px] tablet:h-[102px] pc:hidden">
             <ShareBox />
           </div>
-          <Divider className="pc:hidden" />
+          <LineSeparator direction="horizontal" className="pc:hidden" />
           <div className="flex flex-col justify-between w-full h-[242px] tablet:h-[258px] pc:h-[330px] tablet:text-lg pc:text-2xl">
             <div className="text-black-400 font-semibold">견적 정보</div>
             <QuoteDetailInfo data={quoteInfoData} />
