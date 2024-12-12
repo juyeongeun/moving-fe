@@ -8,6 +8,7 @@ import LineSeparator from "@/components/common/LineSeparator";
 import QuoteDetailInfo from "@/components/Quote/QuoteDetailInfo";
 import QuoteButtonGroup from "@/components/common/QuoteButtonGroup";
 import { setMoverFavorite } from "@/api/mover";
+import { finalizeQuote } from "@/api/quotes";
 import { ShareBox } from "@/components/temp";
 
 import { GetQuoteApiResponseData } from "@/types/api";
@@ -109,11 +110,16 @@ export default function QuoteDetail({ data }: QuoteDetailProps) {
   };
 
   const handleConfirmQuoteButtonClick = () => {
-    console.log("견적 확정 버튼 클릭 - 견적 확정 API 호출");
-
-    if (!isCompeleted) {
-      setIsCompeleted(true);
-    }
+    finalizeQuote(data.id)
+      .then((res) => {
+        if (!isCompeleted) {
+          setIsCompeleted(true);
+        }
+      })
+      .catch((err) => {
+        // 에러 처리
+        console.error("Failed finalizeQuote", err);
+      });
   };
 
   const buttonGroupProps = {

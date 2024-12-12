@@ -44,10 +44,21 @@ export async function setMoverFavorite({
   moverId,
   favorite,
 }: setMoverFavoriteProps) {
-  const path = `${PATH}/${moverId}/favorite?favorite=${favorite}`;
-  const res = await axiosInstance.post(path);
-
   console.log("찜하기 버튼 클릭 - 찜하기 API 호출");
 
-  return res;
+  /**
+   * 1. Endpoint:  `GET /:id/favorite`
+   * 2. Description: 기사 수정하기
+   * 3. Request : access-token 쿠키 전달
+   * 4. link : https://www.notion.so/API-14d9702f08878032932ee08ab2c19fb0?pvs=4#a9cab076c4424ed385da592fc320c1d7
+   */
+  // const path = `${PATH}/${moverId}/favorite?favorite=${favorite}`;
+  // const res = await axiosInstance.post(path);
+
+  // return res;
+
+  return new Promise((resolve) => {
+    const response = { isFavorite: favorite, id: 0 };
+    resolve(response);
+  });
 }

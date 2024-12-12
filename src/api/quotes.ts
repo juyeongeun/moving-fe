@@ -94,6 +94,8 @@ function generateRandomResponse(quoteId: number): GetQuoteApiResponseData {
 }
 
 export function getQuote(quoteId: number): Promise<GetQuoteApiResponseData> {
+  console.log("견적 상세 조회회");
+
   /**
    * 1. Endpoint:  `GET /quotes/:id`
    * 2. Description: 견적 상세 조회
@@ -103,6 +105,17 @@ export function getQuote(quoteId: number): Promise<GetQuoteApiResponseData> {
 
   return new Promise((resolve) => {
     const response = generateRandomResponse(quoteId);
+    resolve(response);
+  });
+}
+
+export function finalizeQuote(quoteId: number) {
+  console.log("견적 확정 버튼 클릭 - 견적 확정 API 호출");
+
+  /** 노션 정보 없음 */
+
+  return new Promise((resolve) => {
+    const response = { success: true };
     resolve(response);
   });
 }
