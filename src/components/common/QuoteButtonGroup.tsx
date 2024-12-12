@@ -1,7 +1,6 @@
 import assets from "@/variables/images";
 import Image from "next/image";
 import Button from "@/components/common/Button";
-import { useState } from "react";
 
 interface QuoteButtonGroupProps {
   favorite: boolean;
