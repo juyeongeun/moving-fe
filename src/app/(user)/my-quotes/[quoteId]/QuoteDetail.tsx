@@ -7,26 +7,11 @@ import MoverInfoCard from "@/components/cards/MoverInfoCard";
 import LineSeparator from "@/components/common/LineSeparator";
 import QuoteDetailInfo from "@/components/Quote/QuoteDetailInfo";
 import QuoteButtonGroup from "@/components/common/QuoteButtonGroup";
-
-import cn from "@/config/cn";
+import { setMoverFavorite } from "@/api/mover";
+import { ShareBox } from "@/components/temp";
 
 import { GetQuoteApiResponseData } from "@/types/api";
 import assets from "@/variables/images";
-
-function ShareBox() {
-  return (
-    <div className="flex flex-col justify-between w-[152px] h-[80px] tablet:h-[82px] pc:w-[224px] pc:h-[118px]">
-      <div className="text-black-400 font-semibold text-lg pc:text-xl">
-        견적서 공유하기
-      </div>
-      <div className="flex flex-row justify-between">
-        <div className="w-[40px] h-[40px] pc:w-[64px] pc:h-[64px] bg-neutral-500"></div>
-        <div className="w-[40px] h-[40px] pc:w-[64px] pc:h-[64px] bg-amber-400"></div>
-        <div className="w-[40px] h-[40px] pc:w-[64px] pc:h-[64px] bg-sky-600"></div>
-      </div>
-    </div>
-  );
-}
 
 interface QuoteDetailProps {
   data: GetQuoteApiResponseData;
@@ -36,10 +21,10 @@ export default function QuoteDetail({ data }: QuoteDetailProps) {
   const [isCompeleted, setIsCompeleted] = useState<boolean>(
     data.movingRequest.isCompleted
   );
-  const [isFavorite, setIsFavorite] = useState<boolean>(data.mover.isFavorite);
-  const [favoriteCount, setFavoriteCount] = useState<number>(
-    data.mover.favoriteCount
-  );
+  const [favoriteState, setFavoriteState] = useState({
+    isFavorite: data.mover.isFavorite,
+    favoriteCount: data.mover.favoriteCount,
+  });
 
   const cardData = {
     id: data.id,
@@ -56,8 +41,8 @@ export default function QuoteDetail({ data }: QuoteDetailProps) {
     },
     reviewCount: data.mover.reviewCount,
     confirmCount: data.mover.confirmCount,
-    favoriteCount: favoriteCount,
-    isFavorite: isFavorite,
+    favoriteCount: favoriteState.favoriteCount,
+    isFavorite: favoriteState.isFavorite,
     isDesignated: data.mover.isDesignated,
     isConfirmed: data.isConfirmed,
     services: data.mover.services,
@@ -87,15 +72,20 @@ export default function QuoteDetail({ data }: QuoteDetailProps) {
   };
 
   const handleFavoriteButtonClick = () => {
-    console.log("찜하기 버튼 클릭 - 찜하기 API 호출");
-
-    if (isFavorite) {
-      setFavoriteCount((prev) => --prev);
-    } else {
-      setFavoriteCount((prev) => ++prev);
-    }
-
-    setIsFavorite((prev) => !prev);
+    setMoverFavorite({
+      moverId: data.mover.id,
+      favorite: !data.mover.isFavorite,
+    })
+      .then((res) => {
+        setFavoriteState((prev) => ({
+          isFavorite: !prev.isFavorite,
+          favoriteCount: prev.favoriteCount + (prev.isFavorite ? -1 : 1),
+        }));
+      })
+      .catch((err) => {
+        // 에러 처리
+        console.error("Failed setMoverFavorite", err);
+      });
   };
 
   const handleConfirmQuoteButtonClick = () => {
@@ -104,6 +94,15 @@ export default function QuoteDetail({ data }: QuoteDetailProps) {
     if (!isCompeleted) {
       setIsCompeleted(true);
     }
+  };
+
+  const buttonGroupProps = {
+    isFavorite: favoriteState.isFavorite,
+    disabled: isCompeleted,
+    onFavoriteClick: handleFavoriteButtonClick,
+    onButtonClick: handleConfirmQuoteButtonClick,
+    buttonText: isCompeleted ? "견적 확정 완료" : "견적 확정하기",
+    showLabel: false,
   };
 
   return (
@@ -129,8 +128,7 @@ export default function QuoteDetail({ data }: QuoteDetailProps) {
             <div className="text-black-400 font-semibold">견적 정보</div>
             <QuoteDetailInfo data={quoteInfoData} />
           </div>
-          {data.movingRequest.isEstimateConfirmed ||
-          isCompeleted ? undefined : (
+          {!data.movingRequest.isEstimateConfirmed && !isCompeleted && (
             <div className={styles.warning}>
               <div className="relative w-4 h-4 pc:w-6 pc:h-6">
                 <Image src={assets.icons.info} alt="경고" fill />
@@ -140,27 +138,11 @@ export default function QuoteDetail({ data }: QuoteDetailProps) {
           )}
         </div>
         <div className="box-border gap-6 w-[328px] hidden tablet:hidden pc:flex pc:flex-col">
-          <QuoteButtonGroup
-            isFavorite={isFavorite}
-            disabled={isCompeleted}
-            isPc={true}
-            onFavoriteClick={handleFavoriteButtonClick}
-            onButtonClick={handleConfirmQuoteButtonClick}
-            buttonText={isCompeleted ? "견적 확정 완료" : "견적 확정하기"}
-            showLabel={false}
-          />
+          <QuoteButtonGroup {...buttonGroupProps} isPc={true} />
           <ShareBox />
         </div>
       </div>
-      <QuoteButtonGroup
-        isFavorite={isFavorite}
-        disabled={isCompeleted}
-        isPc={false}
-        onFavoriteClick={handleFavoriteButtonClick}
-        onButtonClick={handleConfirmQuoteButtonClick}
-        buttonText={isCompeleted ? "견적 확정 완료" : "견적 확정하기"}
-        showLabel={false}
-      />
+      <QuoteButtonGroup {...buttonGroupProps} isPc={false} />
     </>
   );
 }

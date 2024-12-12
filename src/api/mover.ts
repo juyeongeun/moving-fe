@@ -34,3 +34,20 @@ export const getMoverList = async ({
   const response = await axiosInstance.get(PATH, { params });
   return response.data;
 };
+
+interface setMoverFavoriteProps {
+  moverId: number;
+  favorite: boolean;
+}
+
+export async function setMoverFavorite({
+  moverId,
+  favorite,
+}: setMoverFavoriteProps) {
+  const path = `${PATH}/${moverId}/favorite?favorite=${favorite}`;
+  const res = await axiosInstance.post(path);
+
+  console.log("찜하기 버튼 클릭 - 찜하기 API 호출");
+
+  return res;
+}
