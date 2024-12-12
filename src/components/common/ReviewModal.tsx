@@ -1,12 +1,12 @@
 "use client";
 
-import Textarea from "../common/Textarea";
-import ReviewMover, { type ReviewMoverData } from "../common/card/ReviewMover";
-import assets from "@/variables/images";
+import Textarea from "./Textarea";
+import ReviewMover, { type ReviewMoverData } from "./card/ReviewMover";
+import assets from "@/variables/images.js";
 import Image from "next/image";
-import Button from "../common/Button";
-import StarRating from "../common/StarRating";
-import LineSeparator from "../common/LineSeparator";
+import Button from "./Button";
+import StarRating from "./StarRating";
+import LineSeparator from "./LineSeparator";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
@@ -17,7 +17,7 @@ const styles = {
 
 interface ReviewModalProps {
   onClose: () => void;
-  onSubmit: () => void;
+  onSubmit: () => Promise<void>;
   data: ReviewMoverData;
 }
 
