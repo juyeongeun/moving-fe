@@ -22,6 +22,10 @@ export default function QuoteDetail({ data }: QuoteDetailProps) {
   const [isCompeleted, setIsCompeleted] = useState<boolean>(
     data.movingRequest.isCompleted
   );
+  const [confirmState, setConfirmState] = useState({
+    isConfirmed: data.isConfirmed,
+    confirmCount: data.mover.confirmCount,
+  });
   const [favoriteState, setFavoriteState] = useState({
     isFavorite: data.mover.isFavorite,
     favoriteCount: data.mover.favoriteCount,
@@ -41,11 +45,11 @@ export default function QuoteDetail({ data }: QuoteDetailProps) {
       average: data.mover.rating.average,
     },
     reviewCount: data.mover.reviewCount,
-    confirmCount: data.mover.confirmCount,
+    confirmCount: confirmState.confirmCount,
     favoriteCount: favoriteState.favoriteCount,
     isFavorite: favoriteState.isFavorite,
     isDesignated: data.mover.isDesignated,
-    isConfirmed: data.isConfirmed,
+    isConfirmed: confirmState.isConfirmed,
     services: data.mover.services,
     regions: data.mover.regions,
     introduction: data.mover.introduction || "한 줄 소개",
@@ -114,6 +118,10 @@ export default function QuoteDetail({ data }: QuoteDetailProps) {
       .then((res) => {
         if (!isCompeleted) {
           setIsCompeleted(true);
+          setConfirmState((prev) => ({
+            isConfirmed: true,
+            confirmCount: prev.confirmCount + 1,
+          }));
         }
       })
       .catch((err) => {
