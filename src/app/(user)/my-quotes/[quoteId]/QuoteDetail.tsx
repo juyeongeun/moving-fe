@@ -59,6 +59,21 @@ export default function QuoteDetail({ data }: QuoteDetailProps) {
   };
 
   const styles = {
+    container: `box-border flex flex-row justify-center gap-[117px] mt-4 
+      tablet:mt-6 
+      pc:mt-6`,
+    content: `box-border flex flex-col gap-[23.5px] w-[328px] 
+      tablet:w-[600px] 
+      pc:gap-[39.5px] pc:w-[955px]`,
+    costSection: `flex flex-col justify-between w-full h-[74px] 
+      tablet:h-[94px] 
+      pc:h-[110px]`,
+    costTitle: `text-black-400 font-semibold text-lg 
+      pc:text-2xl`,
+    costValue: `text-black-400 font-bold text-xl 
+      pc:text-3xl`,
+    shareBoxWrapper: `pc:hidden`,
+    shareBoxSeparator: `pc:hidden`,
     quoteInfo: `flex flex-col justify-between w-full h-[242px] text-lg 
       tablet:h-[258px]  
       pc:h-[330px] pc:text-2xl`,
@@ -69,6 +84,11 @@ export default function QuoteDetail({ data }: QuoteDetailProps) {
       text-sm font-semibold text-pr-blue-300
       pc:h-[74px] 
       pc:text-lg`,
+    warningIcon: `relative w-4 h-4 
+      pc:w-6 pc:h-6`,
+    sidebar: `box-border gap-6 w-[328px] hidden 
+      tablet:hidden 
+      pc:flex pc:flex-col`,
   };
 
   const handleFavoriteButtonClick = () => {
@@ -107,37 +127,40 @@ export default function QuoteDetail({ data }: QuoteDetailProps) {
 
   return (
     <>
-      <div className="box-border flex flex-row justify-center gap-[117px] mt-4 tablet:mt-6 pc:mt-6">
-        <div className="box-border flex flex-col gap-[23.5px] w-[328px] tablet:w-[600px] pc:gap-[39.5px] pc:w-[955px]">
+      <div className={styles.container}>
+        <div className={styles.content}>
           <MoverInfoCard data={cardData} size="responsive" />
           <LineSeparator direction="horizontal" />
-          <div className="flex flex-col justify-between w-full h-[74px] tablet:h-[94px] pc:h-[110px]">
-            <div className="text-black-400 font-semibold text-lg pc:text-2xl">
-              견적가
-            </div>
-            <div className="text-black-400 font-bold text-xl pc:text-3xl">
+          <div className={styles.costSection}>
+            <div className={styles.costTitle}>견적가</div>
+            <div className={styles.costValue}>
               {Intl.NumberFormat("en-US").format(data.cost)}원
             </div>
           </div>
           <LineSeparator direction="horizontal" />
-          <div className="pc:hidden">
+          <div className={styles.shareBoxWrapper}>
             <ShareBox />
           </div>
-          <LineSeparator direction="horizontal" className="pc:hidden" />
+          <LineSeparator
+            direction="horizontal"
+            className={styles.shareBoxSeparator}
+          />
           <div className={styles.quoteInfo}>
-            <div className="text-black-400 font-semibold">견적 정보</div>
+            <div className={styles.quoteInfo}>견적 정보</div>
             <QuoteDetailInfo data={quoteInfoData} />
           </div>
-          {!data.movingRequest.isEstimateConfirmed && !isCompeleted && (
-            <div className={styles.warning}>
-              <div className="relative w-4 h-4 pc:w-6 pc:h-6">
-                <Image src={assets.icons.info} alt="경고" fill />
+          {!data.movingRequest.isEstimateConfirmed &&
+            !isCompeleted &&
+            !data.isConfirmed && (
+              <div className={styles.warning}>
+                <div className={styles.warningIcon}>
+                  <Image src={assets.icons.info} alt="경고" fill />
+                </div>
+                확정하지 않은 견적이에요!
               </div>
-              확정하지 않은 견적이에요!
-            </div>
-          )}
+            )}
         </div>
-        <div className="box-border gap-6 w-[328px] hidden tablet:hidden pc:flex pc:flex-col">
+        <div className={styles.sidebar}>
           <QuoteButtonGroup {...buttonGroupProps} isPc={true} />
           <ShareBox />
         </div>
