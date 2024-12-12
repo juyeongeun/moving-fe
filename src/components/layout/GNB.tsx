@@ -82,8 +82,8 @@ const GNB = ({ userType = null }: GNBProps) => {
   };
 
   return (
-    <nav className="w-full h-[88px] py-[10px] pc:border-b pc:border-solid pc:border-line-100 bg-white">
-      <div className="max-w-[1400px] h-full px-5 mx-auto flex justify-between items-center">
+    <nav className="w-full h-[88px] py-[10px] px-[24px] tablet:px-[72px] pc:border-b pc:border-solid pc:border-line-100 bg-white">
+      <div className="max-w-[1400px] h-full  mx-auto flex justify-between items-center">
         <div className="flex items-center gap-20">
           <Link href="/">
             <div className="text-2xl font-bold">
