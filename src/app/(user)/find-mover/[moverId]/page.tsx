@@ -13,7 +13,7 @@ import cn from "@/config/cn";
 import { useState } from "react";
 import Image from "next/image";
 import assets from "@/variables/images";
-import Button from "@/components/common/Button";
+import QuoteButtonGroup from "@/components/common/QuoteButtonGroup";
 // import QuoteRequestModal from "@/components/modals/QuoteRequestModal";
 
 const data = {
@@ -47,8 +47,8 @@ const data = {
 
 const reviewList = {
   currentPage: 1,
-  totalPages: 18,
-  totalCount: 50,
+  totalPages: 7,
+  totalCount: 10,
   list: [
     {
       id: 1,
@@ -153,8 +153,6 @@ const styles = {
   serviceContainer:
     "w-[300px] flex flex-wrap gap-[8px] tablet:w-[450px] pc:gap-[16px]",
   baseH2: "text-lg font-bold text-black-400 pc:my-[32px] pc:text-2xl",
-  buttonContainer:
-    "w-full flex flex-row gap-[8px] justify-center items-center pc:hidden",
   likeIcon:
     "p-[15px] h-[54px] cursor-pointer border border-solid border-line-200 rounded-[16px] pc:text-xl pc:font-semibold pc:py-[11px] pc:flex pc:flex-row pc:gap-[8px] pc:items-center pc:px-[105px]",
   pcButtonContainer:
@@ -165,16 +163,27 @@ const styles = {
 
 export default function MyQuoteDetailPage() {
   const { quoteId } = useParams();
-  const [pageNum, setPageNum] = useState<number>(1);
+  const [pageNum, setPageNum] = useState<number>(reviewList.currentPage);
+  const [isDesignated, setIsDesignated] = useState<boolean>(data.isDesignated);
   const [isFavorite, setIsFavorite] = useState<boolean>(data.isFavorite);
 
-  const handleFavorite = () => {
-    setIsFavorite(!isFavorite);
+  const handleFavorite = async () => {
+    try {
+      setIsFavorite(!isFavorite);
+      // API 호출 로직
+      // await favoriteAPI(moverId);
+    } catch (error) {
+      // 에러 처리
+    }
   };
 
-  const handleDesignate = () => {
-    // 견적서가 없으면 백엔드에서 에러 메시지 전달해줌
-    console.log("지정 견적 요청하기");
+  const handleQuoteRequest = async () => {
+    try {
+      setIsDesignated(!isDesignated);
+      // await requestQuote(moverId);
+    } catch (error) {
+      // 에러 처리
+    }
   };
 
   return (
@@ -263,63 +272,31 @@ export default function MyQuoteDetailPage() {
               </div>
             )}
           </section>
-          <div className={styles.buttonContainer}>
-            <button className={styles.likeIcon} onClick={handleFavorite}>
-              <Image
-                src={
-                  isFavorite
-                    ? assets.icons.likeActive
-                    : assets.icons.likeInactive
-                }
-                alt="mover-image"
-                width={24}
-                height={24}
-              />
-            </button>
-            <Button
-              children={
-                data.isDesignated ? "지정 견적 요청 완료" : "지정 견적 요청하기"
-              }
-              variant="primary"
-              disabled={data.isDesignated}
-              width="100%"
-              onClick={handleDesignate}
-            />
-          </div>
         </div>
 
         <div className={styles.pcShareContainer}>
-          <div className={styles.pcButtonContainer}>
-            <p className={styles.shareText}>
-              {data.nickname} 기사님에게 지정 견적을 요청해보세요!
-            </p>
-            <button className={styles.likeIcon} onClick={handleFavorite}>
-              <Image
-                src={
-                  isFavorite
-                    ? assets.icons.likeActive
-                    : assets.icons.likeInactive
-                }
-                alt="mover-image"
-                width={24}
-                height={24}
-              />
-              기사님 찜하기
-            </button>
-            <Button
-              children={
-                data.isDesignated ? "지정 견적 요청 완료" : "지정 견적 요청하기"
-              }
-              variant="primary"
-              disabled={data.isDesignated}
-              width="100%"
-              onClick={handleDesignate}
-            />
-          </div>
+          <QuoteButtonGroup
+            isPc={true}
+            favorite={isFavorite}
+            isActive={isDesignated}
+            moverNickname={data.nickname}
+            buttonText={
+              isDesignated ? "지정 견적 요청 완료" : "지정 견적 요청하기"
+            }
+            onFavoriteClick={handleFavorite}
+            onButtonClick={handleQuoteRequest}
+          />
           <LineSeparator direction="horizontal" />
           <p className={styles.shareText}>나만 알기엔 아쉬운 기사님인가요?</p>
         </div>
       </div>
+      <QuoteButtonGroup
+        favorite={isFavorite}
+        isActive={isDesignated}
+        onFavoriteClick={handleFavorite}
+        onButtonClick={handleQuoteRequest}
+        buttonText={isDesignated ? "지정 견적 요청 완료" : "지정 견적 요청하기"}
+      />
     </>
   );
 }
