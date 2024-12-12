@@ -43,6 +43,7 @@ const data = {
   isDesignated: false,
   favoriteCount: 10,
   isFavorite: true,
+  isConfirmed: false,
 };
 
 const reviewList = {
