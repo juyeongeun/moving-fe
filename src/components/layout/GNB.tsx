@@ -11,7 +11,63 @@ import useResize from "../hooks/useResize";
 import assets from "@/variables/images";
 
 import { PC_WIDTH } from "@/variables/screen";
+// 임시 //--------------------- 테스트
+function TestSelectTextUser({
+  value,
+  onCheck,
+}: {
+  value: UserType;
+  onCheck: (value: UserType) => void;
+}) {
+  const [selected, setSelected] = useState<UserType>(value);
 
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let selectedValue = null;
+
+    if (event.target.value !== "default") {
+      selectedValue = event.target.value as UserType;
+    }
+
+    setSelected(selectedValue);
+    onCheck(selectedValue);
+  };
+
+  return (
+    <div className="flex flex-row gap-2">
+      <label>
+        <input
+          type="radio"
+          name="userType"
+          value="default"
+          checked={selected === null}
+          onChange={handleChange}
+        />{" "}
+        비회원
+      </label>
+      <label>
+        <input
+          type="radio"
+          name="userType"
+          value="USER"
+          checked={selected === "USER"}
+          onChange={handleChange}
+        />{" "}
+        일반
+      </label>
+      <label>
+        <input
+          type="radio"
+          name="userType"
+          value="MOVER"
+          checked={selected === "MOVER"}
+          onChange={handleChange}
+        />{" "}
+        기사
+      </label>
+    </div>
+  );
+}
+// 테스트 ---------------------
 interface NavItemProps {
   href: string;
   isIncludedPath?: boolean;
@@ -49,6 +105,7 @@ interface GNBProps {
 
 const GNB = ({ userType = null }: GNBProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [tempUserType, setTempUserType] = useState<UserType>(null);
 
   useResize((width) => {
     if (width >= PC_WIDTH) {
@@ -60,7 +117,10 @@ const GNB = ({ userType = null }: GNBProps) => {
   const userName = "테스터";
 
   const renderTabs = () => {
-    switch (userType) {
+    // switch (userType) {
+    switch (
+      tempUserType // 임시
+    ) {
       case "MOVER":
         return (
           <>
@@ -105,6 +165,7 @@ const GNB = ({ userType = null }: GNBProps) => {
         </div>
 
         <div className="flex flex-row items-center gap-6">
+          <TestSelectTextUser value={tempUserType} onCheck={setTempUserType} />
           <DropdownNotification
             onSelect={(id: number) => {
               console.log(id); // 임시. 테스트용
