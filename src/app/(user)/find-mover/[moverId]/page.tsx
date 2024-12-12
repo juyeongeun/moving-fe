@@ -153,10 +153,6 @@ const styles = {
   serviceContainer:
     "w-[300px] flex flex-wrap gap-[8px] tablet:w-[450px] pc:gap-[16px]",
   baseH2: "text-lg font-bold text-black-400 pc:my-[32px] pc:text-2xl",
-  likeIcon:
-    "p-[15px] h-[54px] cursor-pointer border border-solid border-line-200 rounded-[16px] pc:text-xl pc:font-semibold pc:py-[11px] pc:flex pc:flex-row pc:gap-[8px] pc:items-center pc:px-[105px]",
-  pcButtonContainer:
-    "hidden pc:flex pc:flex-col pc:gap-[32px] pc:justify-center pc:items-center",
   emptyContainer:
     "flex flex-col items-center justify-center gap-[24px] p-[80px] mb-auto text-lg text-grayscale-400",
 };
