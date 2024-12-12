@@ -3,8 +3,8 @@ import Image from "next/image";
 import Button from "@/components/common/Button";
 
 interface QuoteButtonGroupProps {
-  favorite: boolean;
-  isActive?: boolean;
+  isFavorite: boolean;
+  disabled?: boolean;
   isPc?: boolean;
   moverNickname?: string;
   buttonText?: string;
@@ -12,25 +12,24 @@ interface QuoteButtonGroupProps {
   onButtonClick: () => void;
 }
 
-const styles = {
-  buttonContainer:
-    "sticky bottom-0 bg-white border-none w-full flex flex-row gap-[8px] justify-center items-center py-[10px] z-[999] pc:hidden",
-  likeIcon:
-    "p-[15px] h-[54px] cursor-pointer border border-solid border-line-200 rounded-[16px] pc:text-xl pc:font-semibold pc:py-[11px] pc:flex pc:flex-row pc:gap-[8px] pc:items-center pc:px-[105px]",
-  pcButtonContainer:
-    "hidden pc:flex pc:flex-col pc:gap-[32px] pc:justify-center pc:items-center",
-  shareText: "text-lg font-semibold text-black-400 pc:text-xl",
-};
-
 export default function QuoteButtonGroup({
-  favorite,
-  isActive,
+  isFavorite,
+  disabled,
   isPc = false,
   moverNickname,
   buttonText,
   onFavoriteClick,
   onButtonClick,
 }: QuoteButtonGroupProps) {
+  const styles = {
+    buttonContainer: isPc
+      ? "hidden pc:flex pc:flex-col pc:gap-[32px] pc:justify-center pc:items-center"
+      : "sticky bottom-0 bg-white border-none w-full flex flex-row gap-[8px] justify-center items-center py-[10px] z-[999] pc:hidden",
+    likeIcon:
+      "p-[15px] h-[54px] cursor-pointer border border-solid border-line-200 rounded-[16px] pc:text-xl pc:font-semibold pc:py-[11px] pc:flex pc:flex-row pc:gap-[8px] pc:items-center pc:px-[105px]",
+    shareText: "text-lg font-semibold text-black-400 pc:text-xl",
+  };
+
   return (
     <>
       {!isPc ? (
@@ -38,7 +37,7 @@ export default function QuoteButtonGroup({
           <button className={styles.likeIcon} onClick={onFavoriteClick}>
             <Image
               src={
-                favorite ? assets.icons.likeActive : assets.icons.likeInactive
+                isFavorite ? assets.icons.likeActive : assets.icons.likeInactive
               }
               alt="mover-image"
               width={24}
@@ -48,20 +47,20 @@ export default function QuoteButtonGroup({
           <Button
             children={buttonText}
             variant="primary"
-            disabled={isActive}
+            disabled={disabled}
             width="100%"
             onClick={onButtonClick}
           />
         </div>
       ) : (
-        <div className={styles.pcButtonContainer}>
+        <div className={styles.buttonContainer}>
           <p className={styles.shareText}>
             {moverNickname} 기사님에게 지정 견적을 요청해보세요!
           </p>
           <button className={styles.likeIcon} onClick={onFavoriteClick}>
             <Image
               src={
-                favorite ? assets.icons.likeActive : assets.icons.likeInactive
+                isFavorite ? assets.icons.likeActive : assets.icons.likeInactive
               }
               alt="mover-image"
               width={24}
@@ -72,7 +71,7 @@ export default function QuoteButtonGroup({
           <Button
             children={buttonText}
             variant="primary"
-            disabled={isActive}
+            disabled={disabled}
             width="100%"
             onClick={onButtonClick}
           />

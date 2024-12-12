@@ -275,8 +275,8 @@ export default function MyQuoteDetailPage() {
         <div className={styles.pcShareContainer}>
           <QuoteButtonGroup
             isPc={true}
-            favorite={isFavorite}
-            isActive={isDesignated}
+            isFavorite={isFavorite}
+            disabled={isDesignated}
             moverNickname={data.nickname}
             buttonText={
               isDesignated ? "지정 견적 요청 완료" : "지정 견적 요청하기"
@@ -289,8 +289,8 @@ export default function MyQuoteDetailPage() {
         </div>
       </div>
       <QuoteButtonGroup
-        favorite={isFavorite}
-        isActive={isDesignated}
+        isFavorite={isFavorite}
+        disabled={isDesignated}
         onFavoriteClick={handleFavorite}
         onButtonClick={handleQuoteRequest}
         buttonText={isDesignated ? "지정 견적 요청 완료" : "지정 견적 요청하기"}
