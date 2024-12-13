@@ -10,7 +10,7 @@ import CustomerReview from "@/components/review/CustomerReview";
 import RatingInfo from "@/components/RatingInfo";
 import Pagination from "@/components/common/Pagination";
 import cn from "@/config/cn";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import assets from "@/variables/images";
 import QuoteButtonGroup from "@/components/common/QuoteButtonGroup";
@@ -161,7 +161,12 @@ const styles = {
 
 export default function MyQuoteDetailPage() {
   const { quoteId } = useParams();
-  const fullUrl = window.location.href;
+  const [fullUrl, setFullUrl] = useState<string>("");
+
+  useEffect(() => {
+    setFullUrl(window.location.href);
+  }, []);
+
   const [pageNum, setPageNum] = useState<number>(reviewList.currentPage);
   const [isDesignated, setIsDesignated] = useState<boolean>(data.isDesignated);
   const [isFavorite, setIsFavorite] = useState<boolean>(data.isFavorite);

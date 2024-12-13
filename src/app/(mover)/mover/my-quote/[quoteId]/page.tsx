@@ -6,6 +6,7 @@ import LineSeparator from "@/components/common/LineSeparator";
 import { formatCost } from "@/utils/formatCost";
 import QuoteDetailInfo from "@/components/Quote/QuoteDetailInfo";
 import ShareButtons from "@/components/common/ShareButtons";
+import { useEffect, useState } from "react";
 
 const data = {
   id: 103,
@@ -38,7 +39,12 @@ const styles = {
 
 export default function MyQuoteDetailPage() {
   const { quoteId } = useParams();
-  const fullUrl = window.location.href;
+  const [fullUrl, setFullUrl] = useState<string>("");
+
+  useEffect(() => {
+    setFullUrl(window.location.href);
+  }, []);
+
   return (
     <>
       <h2 className={styles.title}>견적 상세</h2>

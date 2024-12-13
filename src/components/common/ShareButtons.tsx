@@ -91,6 +91,7 @@ const ShareButtons = ({
             review: String(moverInfo?.reviewCount),
             description: moverInfo?.description || "",
             name: moverInfo?.nickname || "아무개",
+            REGI_WEB_DOMAIN: url,
           }
         : {
             cost: String(`${quoteInfo?.cost.toLocaleString()}원` || ""),
@@ -99,6 +100,7 @@ const ShareButtons = ({
               ? formatDateWithDay(quoteInfo.movingDate)
               : "",
             pickup: quoteInfo?.pickupAddress || "",
+            REGI_WEB_DOMAIN: url,
           };
 
     try {
