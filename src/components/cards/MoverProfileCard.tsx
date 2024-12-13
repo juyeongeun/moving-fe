@@ -64,7 +64,11 @@ const MoverProfileCard = ({
         </div>
 
         <div className={cn(styles.innerContainer(), "pc:relative")}>
-          <ProfileImage imgUrl={data.imageUrl} className="hidden pc:block" />
+          <ProfileImage
+            imgUrl={data.imageUrl}
+            className="hidden pc:block"
+            isLarge={true}
+          />
           <div className="flex flex-col gap-3.5 pc:gap-4">
             <MoverExperience data={data} />
 
