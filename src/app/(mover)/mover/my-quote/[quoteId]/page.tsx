@@ -4,7 +4,7 @@ import ConfirmedQuoteCard from "@/components/cards/ConfirmedQuoteCard";
 import { useParams } from "next/navigation";
 import LineSeparator from "@/components/common/LineSeparator";
 import { formatCost } from "@/utils/formatCost";
-import QuoteDetailInfo from "@/components/Quote/QuoteDetailInfo";
+import QuoteDetailInfo from "@/components/quote/QuoteDetailInfo";
 import ShareButtons from "@/components/common/ShareButtons";
 import { usePathname, useSearchParams } from "next/navigation";
 

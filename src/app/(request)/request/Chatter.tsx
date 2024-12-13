@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ChatField from "@/components/common/ChatField";
-import DatePicker from "@/components/Quote/DatePicker";
+import DatePicker from "@/components/quote/DatePicker";
 import StepSelectionField from "./StepSelectionFiled";
 import AddressSelectionField from "./AddressSelectionField";
 import { useQuoteProgress } from "@/context/QuoteProgressContext";
