@@ -39,7 +39,9 @@ const MoverInfoCard = ({
     <Link href={href}>
       <CardContainer size={size} className={className}>
         <div className="flex flex-row gap-2 overflow-hidden">
-          {data.isConfirmed ? <ServiceChip variant="confirmed" /> : undefined}
+          {data.isConfirmed ? (
+            <ServiceChip variant="confirmed" size={size} />
+          ) : undefined}
           {serviceTypes.map((serviceType) => (
             <ServiceChip
               variant={serviceType as ChipType}
