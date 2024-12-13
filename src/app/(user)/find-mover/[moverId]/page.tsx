@@ -10,12 +10,13 @@ import CustomerReview from "@/components/review/CustomerReview";
 import RatingInfo from "@/components/RatingInfo";
 import Pagination from "@/components/common/Pagination";
 import cn from "@/config/cn";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import assets from "@/variables/images";
 import QuoteButtonGroup from "@/components/common/QuoteButtonGroup";
 // import QuoteRequestModal from "@/components/modals/QuoteRequestModal";
 import ShareButtons from "@/components/common/ShareButtons";
+import { usePathname, useSearchParams } from "next/navigation";
 
 const data = {
   id: 1,
@@ -143,7 +144,7 @@ const reviewList = {
 
 const styles = {
   topContainer:
-    "mb-[24px] tablet:mb-[40px] pc:flex pc:flex-row pc:gap-[90px] pc:justify-center pc:mt-[52px]",
+    "mb-[24px] tablet:mb-[40px] pc:flex pc:flex-row pc:gap-[90px] pc:item-center",
   container: "flex flex-col gap-[24px] pc:gap-[40px] pc:max-w-[920px]",
   pcShareContainer:
     "hidden pc:whitespace-nowrap pc:flex pc:flex-col pc:gap-[40px]",
@@ -161,12 +162,13 @@ const styles = {
 
 export default function MyQuoteDetailPage() {
   const { quoteId } = useParams();
-  const [fullUrl, setFullUrl] = useState<string>("");
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const fullUrl = `${pathname}${
+    searchParams.toString() ? `?${searchParams.toString()}` : ""
+  }`;
 
-  useEffect(() => {
-    setFullUrl(window.location.href);
-  }, []);
-
+  console.log(fullUrl);
   const [pageNum, setPageNum] = useState<number>(reviewList.currentPage);
   const [isDesignated, setIsDesignated] = useState<boolean>(data.isDesignated);
   const [isFavorite, setIsFavorite] = useState<boolean>(data.isFavorite);

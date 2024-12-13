@@ -243,21 +243,32 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
                   *
                 </span>
               </label>
-              <input
-                type="file"
-                ref={fileInputRef}
-                onChange={handleFileChange}
-                accept="image/*"
-                className="hidden"
-              />
-              <Image
-                src={previewImage}
-                alt="profile"
-                width={100}
-                height={100}
-                onClick={handleProfileImageClick}
-                className="cursor-pointer w-[100px] h-[100px]"
-              />
+              <div className="relative">
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                  accept="image/*"
+                  className="hidden"
+                />
+                <Image
+                  src={previewImage}
+                  alt="profile"
+                  width={100}
+                  height={100}
+                  onClick={handleProfileImageClick}
+                  className="cursor-pointer w-[100px] h-[100px] rounded-md"
+                />
+                {isEdit && (
+                  <Image
+                    src={assets.icons.pencil}
+                    className="absolute left-[72px] top-[5px] bg-white border-gray-300 border-solid border-[1.5px] rounded-md p-[3px]"
+                    width={22}
+                    height={22}
+                    alt="pencil"
+                  />
+                )}
+              </div>
               {errors.imageUrl && (
                 <p className={styles.errorMessage}>{errors.imageUrl.message}</p>
               )}

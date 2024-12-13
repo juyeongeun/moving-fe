@@ -6,7 +6,7 @@ import LineSeparator from "@/components/common/LineSeparator";
 import { formatCost } from "@/utils/formatCost";
 import QuoteDetailInfo from "@/components/Quote/QuoteDetailInfo";
 import ShareButtons from "@/components/common/ShareButtons";
-import { useEffect, useState } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
 
 const data = {
   id: 103,
@@ -39,11 +39,11 @@ const styles = {
 
 export default function MyQuoteDetailPage() {
   const { quoteId } = useParams();
-  const [fullUrl, setFullUrl] = useState<string>("");
-
-  useEffect(() => {
-    setFullUrl(window.location.href);
-  }, []);
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const fullUrl = `${pathname}${
+    searchParams.toString() ? `?${searchParams.toString()}` : ""
+  }`;
 
   return (
     <>
