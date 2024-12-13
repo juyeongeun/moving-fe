@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
 
 import MoverInfoCard from "@/components/cards/MoverInfoCard";
 import LineSeparator from "@/components/common/LineSeparator";
@@ -10,6 +11,7 @@ import QuoteButtonGroup from "@/components/common/QuoteButtonGroup";
 import { setMoverFavorite } from "@/api/mover";
 import { finalizeQuote } from "@/api/quote";
 import { ShareBox } from "@/components/temp";
+import ShareButtons from "@/components/common/ShareButtons";
 
 import { GetQuoteApiResponseData } from "@/types/api";
 import assets from "@/variables/images";
@@ -30,6 +32,12 @@ export default function QuoteDetail({ data }: QuoteDetailProps) {
     isFavorite: data.mover.isFavorite,
     favoriteCount: data.mover.favoriteCount,
   });
+
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const currentUrl = `${pathname}${
+    searchParams.toString() ? `?${searchParams.toString()}` : ""
+  }`;
 
   const cardData = {
     id: data.id,
@@ -188,7 +196,7 @@ export default function QuoteDetail({ data }: QuoteDetailProps) {
         </div>
         <div className={styles.sidebar}>
           <QuoteButtonGroup {...buttonGroupProps} isPc={true} />
-          <ShareBox />
+          <ShareButtons url={currentUrl} variant="quote" />
         </div>
       </div>
       <QuoteButtonGroup {...buttonGroupProps} isPc={false} />
