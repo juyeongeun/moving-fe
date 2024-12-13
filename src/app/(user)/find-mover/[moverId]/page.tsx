@@ -15,6 +15,7 @@ import Image from "next/image";
 import assets from "@/variables/images";
 import QuoteButtonGroup from "@/components/common/QuoteButtonGroup";
 // import QuoteRequestModal from "@/components/modals/QuoteRequestModal";
+import ShareButtons from "@/components/common/ShareButtons";
 
 const data = {
   id: 1,
@@ -160,6 +161,7 @@ const styles = {
 
 export default function MyQuoteDetailPage() {
   const { quoteId } = useParams();
+  const fullUrl = window.location.href;
   const [pageNum, setPageNum] = useState<number>(reviewList.currentPage);
   const [isDesignated, setIsDesignated] = useState<boolean>(data.isDesignated);
   const [isFavorite, setIsFavorite] = useState<boolean>(data.isFavorite);
@@ -190,7 +192,16 @@ export default function MyQuoteDetailPage() {
           <MoverInfoCard data={data} />
           <LineSeparator direction="horizontal" />
           <div className={styles.shareContainer}>
-            <p className={styles.shareText}>나만 알기엔 아쉬운 기사님인가요?</p>
+            <ShareButtons
+              variant="mover"
+              url={fullUrl}
+              moverInfo={{
+                favoriteCount: data.favoriteCount,
+                reviewCount: data.reviewCount,
+                description: data.description,
+                nickname: data.nickname,
+              }}
+            />
           </div>
           <LineSeparator direction="horizontal" />
           <div className={styles.contentContainer}>
@@ -286,7 +297,16 @@ export default function MyQuoteDetailPage() {
             onButtonClick={handleQuoteRequest}
           />
           <LineSeparator direction="horizontal" />
-          <p className={styles.shareText}>나만 알기엔 아쉬운 기사님인가요?</p>
+          <ShareButtons
+            variant="mover"
+            url={fullUrl}
+            moverInfo={{
+              favoriteCount: data.favoriteCount,
+              reviewCount: data.reviewCount,
+              description: data.description,
+              nickname: data.nickname,
+            }}
+          />
         </div>
       </div>
       <QuoteButtonGroup
