@@ -5,6 +5,8 @@ import { useParams } from "next/navigation";
 import LineSeparator from "@/components/common/LineSeparator";
 import { formatCost } from "@/utils/formatCost";
 import QuoteDetailInfo from "@/components/Quote/QuoteDetailInfo";
+import ShareButtons from "@/components/common/ShareButtons";
+import { usePathname, useSearchParams } from "next/navigation";
 
 const data = {
   id: 103,
@@ -22,9 +24,8 @@ const data = {
 
 const styles = {
   topContainer:
-    "mb-[110px] tablet:mb-[72px] pc:flex pc:flex-row pc:gap-[117px] pc:justify-center",
-  title:
-    "text-2lg font-semibold text-black-400 py-[30px] pc:text-2xl pc:pl-[132px]",
+    "mb-[110px] tablet:mb-[72px] pc:flex pc:flex-row pc:gap-[117px] pc:item-center",
+  title: "text-2lg font-semibold text-black-400 py-[30px] pc:text-2xl",
   container: "flex flex-col gap-[24px]",
   pcShareContainer: "hidden pc:block",
   shareContainer: "pc:hidden",
@@ -38,18 +39,29 @@ const styles = {
 
 export default function MyQuoteDetailPage() {
   const { quoteId } = useParams();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const fullUrl = `${pathname}${
+    searchParams.toString() ? `?${searchParams.toString()}` : ""
+  }`;
+
   return (
     <>
-      <div className="w-full">
-        <div className="max-w-[1400px] mx-auto">
-          <p className={styles.title}>견적 상세</p>
-        </div>
-      </div>
+      <h2 className={styles.title}>견적 상세</h2>
       <div className={styles.topContainer}>
         <div className={styles.container}>
           <ConfirmedQuoteCard data={data} />
           <div className={styles.shareContainer}>
-            <p className={styles.shareText}>견적서 공유하기</p>
+            <ShareButtons
+              variant="quote"
+              url={fullUrl}
+              quoteInfo={{
+                cost: data.cost,
+                dropOffAddress: data.dropOffAddress,
+                movingDate: data.movingDate,
+                pickupAddress: data.pickupAddress,
+              }}
+            />
           </div>
           <LineSeparator direction="horizontal" />
           <div className={styles.costContainer}>
@@ -71,7 +83,16 @@ export default function MyQuoteDetailPage() {
           </div>
         </div>
         <div className={styles.pcShareContainer}>
-          <p className={styles.shareText}>견적서 공유하기</p>
+          <ShareButtons
+            variant="quote"
+            url={fullUrl}
+            quoteInfo={{
+              cost: data.cost,
+              dropOffAddress: data.dropOffAddress,
+              movingDate: data.movingDate,
+              pickupAddress: data.pickupAddress,
+            }}
+          />
         </div>
       </div>
     </>

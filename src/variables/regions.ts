@@ -1,5 +1,4 @@
 export const REGION_CODES = {
-  ALL: 82,
   SEOUL: 8202,
   GYEONGGI: 82031,
   INCHEON: 82032,
@@ -20,7 +19,6 @@ export const REGION_CODES = {
 } as const;
 
 export const REGION_TEXTS = {
-  [REGION_CODES.ALL]: "전체",
   [REGION_CODES.SEOUL]: "서울",
   [REGION_CODES.GYEONGGI]: "경기",
   [REGION_CODES.INCHEON]: "인천",

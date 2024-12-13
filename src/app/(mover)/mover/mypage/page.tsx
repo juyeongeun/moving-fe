@@ -7,6 +7,7 @@ import LineSeparator from "@/components/common/LineSeparator";
 import cn from "@/config/cn";
 import CustomerReview from "@/components/review/CustomerReview";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const mockData = {
   id: 1,
@@ -123,25 +124,30 @@ const reviewList = {
 
 export default function MyPage() {
   const styles = {
-    baseH2: "text-lg font-bold text-black-400 pc:my-[32px] pc:text-2xl",
+    baseH2: "text-lg font-bold text-black-400 pc:text-2xl",
   };
 
   const [pageNum, setPageNum] = useState<number>(1);
   //여기에 tanstack-query로 Fetch
   const { list } = reviewList;
   const { totalPages } = reviewList;
+  const router = useRouter();
 
   return (
     <>
       <section>
-        <h2 className={cn(styles.baseH2, "my-[15px]")}>마이페이지</h2>
+        <h2 className={cn(styles.baseH2, "mb-[15px]")}>마이페이지</h2>
 
         <LineSeparator
           direction="horizontal"
           className="mb-[24px] pc:bg-transparent"
         />
 
-        <MoverProfileCard data={mockData} />
+        <MoverProfileCard
+          data={mockData}
+          onPrimaryClick={() => router.push("/mover/profile-edit")}
+          onOutlinedClick={() => router.push("/mover/info-edit")}
+        />
       </section>
       <LineSeparator
         direction="horizontal"

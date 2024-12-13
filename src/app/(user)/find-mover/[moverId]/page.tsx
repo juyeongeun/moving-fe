@@ -15,6 +15,8 @@ import Image from "next/image";
 import assets from "@/variables/images";
 import QuoteButtonGroup from "@/components/common/QuoteButtonGroup";
 // import QuoteRequestModal from "@/components/modals/QuoteRequestModal";
+import ShareButtons from "@/components/common/ShareButtons";
+import { usePathname, useSearchParams } from "next/navigation";
 
 const data = {
   id: 1,
@@ -142,7 +144,7 @@ const reviewList = {
 
 const styles = {
   topContainer:
-    "mb-[24px] mt-[24px] tablet:mb-[40px] pc:flex pc:flex-row pc:gap-[90px] pc:justify-center pc:mt-[52px]",
+    "mb-[24px] tablet:mb-[40px] pc:flex pc:flex-row pc:gap-[90px] pc:item-center",
   container: "flex flex-col gap-[24px] pc:gap-[40px] pc:max-w-[920px]",
   pcShareContainer:
     "hidden pc:whitespace-nowrap pc:flex pc:flex-col pc:gap-[40px]",
@@ -160,6 +162,13 @@ const styles = {
 
 export default function MyQuoteDetailPage() {
   const { quoteId } = useParams();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const fullUrl = `${pathname}${
+    searchParams.toString() ? `?${searchParams.toString()}` : ""
+  }`;
+
+  console.log(fullUrl);
   const [pageNum, setPageNum] = useState<number>(reviewList.currentPage);
   const [isDesignated, setIsDesignated] = useState<boolean>(data.isDesignated);
   const [isFavorite, setIsFavorite] = useState<boolean>(data.isFavorite);
@@ -190,7 +199,16 @@ export default function MyQuoteDetailPage() {
           <MoverInfoCard data={data} />
           <LineSeparator direction="horizontal" />
           <div className={styles.shareContainer}>
-            <p className={styles.shareText}>나만 알기엔 아쉬운 기사님인가요?</p>
+            <ShareButtons
+              variant="mover"
+              url={fullUrl}
+              moverInfo={{
+                favoriteCount: data.favoriteCount,
+                reviewCount: data.reviewCount,
+                description: data.description,
+                nickname: data.nickname,
+              }}
+            />
           </div>
           <LineSeparator direction="horizontal" />
           <div className={styles.contentContainer}>
@@ -286,7 +304,16 @@ export default function MyQuoteDetailPage() {
             onButtonClick={handleQuoteRequest}
           />
           <LineSeparator direction="horizontal" />
-          <p className={styles.shareText}>나만 알기엔 아쉬운 기사님인가요?</p>
+          <ShareButtons
+            variant="mover"
+            url={fullUrl}
+            moverInfo={{
+              favoriteCount: data.favoriteCount,
+              reviewCount: data.reviewCount,
+              description: data.description,
+              nickname: data.nickname,
+            }}
+          />
         </div>
       </div>
       <QuoteButtonGroup
