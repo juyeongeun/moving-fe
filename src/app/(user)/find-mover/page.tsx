@@ -25,6 +25,7 @@ export interface MockDataItem {
   isFavorite: boolean;
   reviewCount: number;
   favoriteCount: number;
+  isConfirmed: boolean;
   confirmCount: number;
   ratings: Rating;
 }
@@ -102,6 +103,7 @@ export const fetchData_ = ({
       isFavorite: isFavorite === null ? Math.random() > 0.5 : isFavorite,
       reviewCount: Math.floor(Math.random() * 100),
       favoriteCount: Math.floor(Math.random() * 100),
+      isConfirmed: Math.random() > 0.5,
       confirmCount: Math.floor(Math.random() * 100),
       ratings: {
         ...ratings,
