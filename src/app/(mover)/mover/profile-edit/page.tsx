@@ -6,7 +6,7 @@ const styles = {
 
 export default function ProfileEditPage() {
   const data = {
-    nickName: "테스트",
+    nickname: "테스트",
     career: "1",
     introduction: "테스트",
     description: "테스트테스트테스트테스트테스트테스트",
