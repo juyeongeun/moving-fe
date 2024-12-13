@@ -77,6 +77,13 @@ export default function QuoteDetail({ data }: QuoteDetailProps) {
       pc:text-2xl`,
     costValue: `text-black-400 font-bold text-xl 
       pc:text-3xl`,
+    commentSection: `flex flex-col justify-between w-full h-[74px] 
+      tablet:h-[94px] 
+      pc:h-[110px]`,
+    commentTitle: `text-black-400 font-semibold text-lg 
+      pc:text-2xl`,
+    commentValue: `text-black-400 font-medium text-md 
+      pc:text-xl`,
     shareBoxWrapper: `pc:hidden`,
     shareBoxSeparator: `pc:hidden`,
     quoteInfo: `flex flex-col justify-between w-full h-[242px] text-lg 
@@ -150,6 +157,11 @@ export default function QuoteDetail({ data }: QuoteDetailProps) {
             <div className={styles.costValue}>
               {Intl.NumberFormat("en-US").format(data.cost)}원
             </div>
+          </div>
+          <LineSeparator direction="horizontal" />
+          <div className={styles.commentSection}>
+            <div className={styles.commentTitle}>기사님 코멘트</div>
+            <div className={styles.commentValue}>{data.comment}</div>
           </div>
           <LineSeparator direction="horizontal" />
           <div className={styles.shareBoxWrapper}>
