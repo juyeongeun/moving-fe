@@ -7,12 +7,12 @@ import { FavoriteFields, type BaseMoverData } from "@/types/mover";
 import NameText from "./NameText";
 
 const moverInfoVariants = cva(
-  "flex gap-3 items-center text-black-300 border-solid rounded-md border-line-100 shadow-border border-[1px] p-2.5",
+  "flex gap-2.5 items-center text-black-300 border-solid rounded-md border-line-100 shadow-border border-[1px] p-2.5",
   {
     variants: {
       size: {
         fixed: "",
-        responsive: "pc:p-3",
+        responsive: "pc:p-4",
       },
     },
     defaultVariants: {
@@ -25,26 +25,28 @@ type MoverInfoProps = {
   data: BaseMoverData & FavoriteFields;
   className?: string;
   size?: "fixed" | "responsive";
+  isLarge?: boolean;
 };
 
-const MoverInfo = ({ data, className, size }: MoverInfoProps) => {
+const MoverInfo = ({ data, className, size, isLarge }: MoverInfoProps) => {
   if (!data) return null;
 
   const isResponsive = size === "responsive";
 
   return (
     <div className={cn(moverInfoVariants({ size }), className)}>
-      <ProfileImage imgUrl={data.imageUrl} size={size} />
+      <ProfileImage imgUrl={data.imageUrl} size={size} isLarge={isLarge} />
       <div
-        className={cn("flex flex-col gap-2 w-full", {
-          "pc:gap-3": isResponsive,
+        className={cn("flex flex-col gap-2.5 w-full", {
+          "pc:gap-2": isResponsive,
         })}
       >
         <div className="flex items-center justify-between">
-          <NameText text={data.nickname} type="mover" />
+          <NameText text={data.nickname} type="mover" size={size} />
           <FavoriteUi
             isFavorite={data.isFavorite}
             favoriteCount={data.favoriteCount}
+            size={size}
           />
         </div>
 
