@@ -81,13 +81,18 @@ export default function DropdownProfile({
   const handleSignOutClick = () => {
     // 임시. 로그아웃 함수 호출
     console.log("로그아웃 함수 호출");
+    setIsOpen(false);
   };
 
   const customerItemsWithDivider = [
     <div key={"customer label"} className={nameClass}>{`${name} 고객님`}</div>,
     ...PROFILE_CUSTOMER.map((item, index) => (
       <Link href={item.link}>
-        <DropdownItem key={index} className={dropdownItemClass}>
+        <DropdownItem
+          key={index}
+          className={dropdownItemClass}
+          onClick={() => setIsOpen(false)}
+        >
           {item.text}
         </DropdownItem>
       </Link>
@@ -101,7 +106,11 @@ export default function DropdownProfile({
     <div key={"mover label"} className={nameClass}>{`${name} 기사님`}</div>,
     ...PROFILE_MOVER.map((item, index) => (
       <Link href={item.link}>
-        <DropdownItem key={index} className={dropdownItemClass}>
+        <DropdownItem
+          key={index}
+          className={dropdownItemClass}
+          onClick={() => setIsOpen(false)}
+        >
           {item.text}
         </DropdownItem>
       </Link>

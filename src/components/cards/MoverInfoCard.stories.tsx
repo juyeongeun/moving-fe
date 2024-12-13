@@ -32,8 +32,9 @@ const mockMoverData = {
   reviewCount: 17,
   confirmCount: 50,
   favoriteCount: 25,
-  isFavorite: false,
-  isDesignated: true,
+  isFavorite: Math.random() > 0.5,
+  isDesignated: Math.random() > 0.5,
+  isConfirmed: Math.random() > 0.5,
 };
 
 export const Default: Story = {

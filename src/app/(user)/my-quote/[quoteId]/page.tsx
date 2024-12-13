@@ -1,6 +1,6 @@
 import QuoteDetail from "./QuoteDetail";
 
-import { getQuote } from "@/api/quotes";
+import { getQuote } from "@/api/quote";
 import { GetQuoteApiResponseData } from "@/types/api";
 
 async function fetchQuoteData(
@@ -23,6 +23,7 @@ export default async function MyQuotesDetailPage({
   const data = await fetchQuoteData(Number(quoteId));
 
   const styles = {
+    constainer: `flex flex-col items-center w-full`,
     topBar: `flex flex-row gap-2.5 items-center justify-center w-[328px] h-[54px] 
       tablet:w-[600px] 
       pc:w-[1400px] pc:h-[96px]`,
@@ -33,7 +34,7 @@ export default async function MyQuotesDetailPage({
   };
 
   return (
-    <div className="flex flex-col items-center w-full">
+    <div className={styles.constainer}>
       <div className={styles.topBar}>
         <div className={styles.barItem}>견적 상세</div>
       </div>

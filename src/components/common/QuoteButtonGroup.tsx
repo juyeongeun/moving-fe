@@ -1,6 +1,6 @@
 import assets from "@/variables/images";
 import Image from "next/image";
-import Button from "@/components/common/Button";
+import Button, { ButtonProps } from "@/components/common/Button";
 
 interface QuoteButtonGroupProps {
   isFavorite: boolean;
@@ -32,6 +32,14 @@ export default function QuoteButtonGroup({
     shareText: "text-lg font-semibold text-black-400 pc:text-xl",
   };
 
+  const buttonProps: ButtonProps = {
+    children: buttonText,
+    variant: "primary",
+    disabled: disabled,
+    width: "100%",
+    onClick: onButtonClick,
+  };
+
   return (
     <>
       {!isPc ? (
@@ -46,13 +54,7 @@ export default function QuoteButtonGroup({
               height={24}
             />
           </button>
-          <Button
-            children={buttonText}
-            variant="primary"
-            disabled={disabled}
-            width="100%"
-            onClick={onButtonClick}
-          />
+          <Button {...buttonProps} />
         </div>
       ) : (
         <div className={styles.buttonContainer}>
@@ -72,13 +74,7 @@ export default function QuoteButtonGroup({
             />
             기사님 찜하기
           </button>
-          <Button
-            children={buttonText}
-            variant="primary"
-            disabled={disabled}
-            width="100%"
-            onClick={onButtonClick}
-          />
+          <Button {...buttonProps} />
         </div>
       )}
     </>

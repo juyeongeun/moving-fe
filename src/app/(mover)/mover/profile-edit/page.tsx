@@ -13,7 +13,8 @@ export default function ProfileEditPage() {
     description: "테스트",
     services: [1, 2],
     regions: [82055, 8202],
-    imageUrl: "http://test.com",
+    imageUrl:
+      "https://cdn.pixabay.com/photo/2016/03/21/20/05/image-1271454_640.png",
   };
   return (
     <div className={styles.container}>

@@ -48,7 +48,7 @@ const buttonVariants = cva(
 
 type ButtonVariantProps = Omit<VariantProps<typeof buttonVariants>, "disabled">;
 
-interface ButtonProps
+export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     ButtonVariantProps {
   width?: string | number;

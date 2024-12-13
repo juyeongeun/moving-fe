@@ -2,14 +2,16 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
 
 import MoverInfoCard from "@/components/cards/MoverInfoCard";
 import LineSeparator from "@/components/common/LineSeparator";
 import QuoteDetailInfo from "@/components/Quote/QuoteDetailInfo";
 import QuoteButtonGroup from "@/components/common/QuoteButtonGroup";
 import { setMoverFavorite } from "@/api/mover";
-import { finalizeQuote } from "@/api/quotes";
+import { finalizeQuote } from "@/api/quote";
 import { ShareBox } from "@/components/temp";
+import ShareButtons from "@/components/common/ShareButtons";
 
 import { GetQuoteApiResponseData } from "@/types/api";
 import assets from "@/variables/images";
@@ -30,6 +32,12 @@ export default function QuoteDetail({ data }: QuoteDetailProps) {
     isFavorite: data.mover.isFavorite,
     favoriteCount: data.mover.favoriteCount,
   });
+
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const currentUrl = `${pathname}${
+    searchParams.toString() ? `?${searchParams.toString()}` : ""
+  }`;
 
   const cardData = {
     id: data.id,
@@ -77,6 +85,13 @@ export default function QuoteDetail({ data }: QuoteDetailProps) {
       pc:text-2xl`,
     costValue: `text-black-400 font-bold text-xl 
       pc:text-3xl`,
+    commentSection: `flex flex-col justify-between w-full h-[74px] 
+      tablet:h-[94px] 
+      pc:h-[110px]`,
+    commentTitle: `text-black-400 font-semibold text-lg 
+      pc:text-2xl`,
+    commentValue: `text-black-400 font-medium text-md 
+      pc:text-xl`,
     shareBoxWrapper: `pc:hidden`,
     shareBoxSeparator: `pc:hidden`,
     quoteInfo: `flex flex-col justify-between w-full h-[242px] text-lg 
@@ -139,6 +154,13 @@ export default function QuoteDetail({ data }: QuoteDetailProps) {
     showLabel: false,
   };
 
+  const quoteInfo = {
+    cost: data.cost,
+    pickupAddress: data.movingRequest.pickupAddress,
+    dropOffAddress: data.movingRequest.dropOffAddress,
+    movingDate: data.movingRequest.movingDate,
+  };
+
   return (
     <>
       <div className={styles.container}>
@@ -150,6 +172,11 @@ export default function QuoteDetail({ data }: QuoteDetailProps) {
             <div className={styles.costValue}>
               {Intl.NumberFormat("en-US").format(data.cost)}원
             </div>
+          </div>
+          <LineSeparator direction="horizontal" />
+          <div className={styles.commentSection}>
+            <div className={styles.commentTitle}>기사님 코멘트</div>
+            <div className={styles.commentValue}>{data.comment}</div>
           </div>
           <LineSeparator direction="horizontal" />
           <div className={styles.shareBoxWrapper}>
@@ -176,7 +203,11 @@ export default function QuoteDetail({ data }: QuoteDetailProps) {
         </div>
         <div className={styles.sidebar}>
           <QuoteButtonGroup {...buttonGroupProps} isPc={true} />
-          <ShareBox />
+          <ShareButtons
+            url={currentUrl}
+            variant="quote"
+            quoteInfo={quoteInfo}
+          />
         </div>
       </div>
       <QuoteButtonGroup {...buttonGroupProps} isPc={false} />
