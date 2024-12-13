@@ -14,6 +14,7 @@ import assets from "@/variables/images";
 import { REGION_CODES, REGION_TEXTS } from "@/variables/regions";
 import { SERVICE_CODES, SERVICE_TEXTS } from "@/variables/service";
 import toast from "react-hot-toast";
+
 interface ProfileProps {
   isUser: boolean;
   isEdit: boolean;
@@ -30,22 +31,11 @@ interface ProfileProps {
 
 const styles = {
   container: `relative flex flex-col items-center w-full`,
-  pcContainer: `pc:flex pc:flex-col pc:items-center pc:w-full pc:relative`,
-  pcLeftContainer: ` pc:flex pc:flex-col pc:w-full`,
-  pcRightContainer: ` pc:flex pc:flex-col pc:w-full`,
-  pcForm: `pc:flex pc:flex-row pc:gap-[72px]`,
   form: `flex flex-col gap-[0px] w-full mt-[16px] mb-[32px] pt-[20px] border-t-[1px] border-solid border-line-200`,
-  formItem: `flex flex-col gap-[8px] border-b-[1px] border-solid border-line-100 pb-[20px] w-full mb-[20px]
-  pc:mb-[32px] pc:pb-[32px]`,
+  formItem: `flex flex-col gap-[8px] border-b-[1px] border-solid border-line-100 pb-[20px] w-full mb-[20px]`,
   formLabel: `text-lg text-black-400 font-semibold pc:text-xl`,
   buttonContainer: `flex flex-col gap-[8px] mt-[24px] pc:flex-row-reverse pc:gap-[32px] w-full`,
-  button: `flex-1 text-center`,
   title: `w-full text-2lg font-bold text-black-400 pc:text-3xl pc:font-semibold`,
-  overlay: `fixed inset-0 bg-black-100 bg-opacity-50 z-40`,
-  modalWrapper: `absolute top-0 left-0 w-full h-full flex items-center justify-center z-50`,
-  checkboxChipContainer: `flex flex-row flex-wrap gap-[6px]`,
-  regionContainer: `flex flex-row flex-wrap gap-[8px] w-[277px] pc:w-[416px]`,
-  profileImage: `cursor-pointer w-[100px] h-[100px]`,
   errorMessage: `text-pr-red-200 text-sm font-regular mb-[16px]`,
 };
 
@@ -70,10 +60,10 @@ const FormField = ({
 }) => (
   <div className={styles.formItem}>
     <label htmlFor={name} className={styles.formLabel}>
-      {typeof label === "string" ? label : label}
-      {name === "services" || name === "regions" ? (
+      {label}
+      {(name === "services" || name === "regions") && (
         <span className="text-pr-blue-300 text-lg font-semibold">*</span>
-      ) : null}
+      )}
     </label>
     <Input
       {...register(name)}
@@ -88,7 +78,6 @@ const FormField = ({
 
 export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
   const router = useRouter();
-
   const {
     register,
     handleSubmit,
@@ -112,8 +101,6 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
   });
 
   const values = watch();
-
-  // 이미지 미리보기 상태 수정
   const [previewImage, setPreviewImage] = React.useState<string>(
     userData?.imageUrl || assets.images.imagePlaceholder
   );
@@ -157,7 +144,6 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
 
     try {
       const formData = new FormData();
-
       Object.entries(data).forEach(([key, value]) => {
         if (key === "services" || key === "regions") {
           formData.append(key, JSON.stringify(value));
@@ -170,13 +156,14 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
         formData.append("imageUrl", fileInputRef.current.files[0]);
       }
 
-      //테스트 확인 코드
+      // 테스트 확인 코드
       formData.forEach((value, key) => {
         console.log(`${key}:`, value);
       });
 
       if (isEdit) {
         console.log(`${isUser ? "사용자" : "기사"} 폼 수정 제출`);
+        isUser ? router.push("/find-mover") : router.push("/mover/mypage");
         toast.success("프로필 수정이 완료되었습니다.", {
           duration: 3000,
           position: "bottom-center",
@@ -235,9 +222,11 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
       </p>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <div
-          className={`${styles.pcForm} ${isUser && "pc:flex-col pc:gap-[0px]"}`}
+          className={`pc:flex pc:flex-row pc:gap-[72px] ${
+            isUser ? "pc:flex-col pc:gap-[0px]" : ""
+          }`}
         >
-          <div className={styles.pcLeftContainer}>
+          <div className="pc:flex pc:flex-col pc:w-full">
             {!isUser && (
               <FormField
                 label="별명"
@@ -264,7 +253,7 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
                 width={100}
                 height={100}
                 onClick={handleProfileImageClick}
-                className={`${styles.profileImage}`}
+                className="cursor-pointer w-[100px] h-[100px]"
               />
               {errors.imageUrl && (
                 <p className={styles.errorMessage}>{errors.imageUrl.message}</p>
@@ -289,10 +278,7 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
                 <div
                   className={`${styles.formItem} border-none pc:pb-[0px] pc:mb-[0px] hidden pc:flex`}
                 >
-                  <label
-                    className={`${styles.formLabel}`}
-                    htmlFor="description"
-                  >
+                  <label className={styles.formLabel} htmlFor="description">
                     상세 설명
                   </label>
                   <Textarea
@@ -301,9 +287,7 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
                     error={getErrorMessage("description")}
                     value={values.description}
                     onChange={(value) => {
-                      setValue("description", value, {
-                        shouldValidate: true,
-                      });
+                      setValue("description", value, { shouldValidate: true });
                     }}
                   />
                 </div>
@@ -311,11 +295,11 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
             )}
           </div>
 
-          <div className={styles.pcRightContainer}>
+          <div className="pc:flex pc:flex-col pc:w-full">
             <div
               className={`${styles.formItem} ${errors.services && "gap-[2px]"}`}
             >
-              <label className={`${styles.formLabel}`} htmlFor="services">
+              <label className={styles.formLabel} htmlFor="services">
                 제공 서비스{" "}
                 <span className="text-pr-blue-300 text-lg font-semibold">
                   *
@@ -324,16 +308,25 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
               {errors.services && (
                 <p className={styles.errorMessage}>{errors.services.message}</p>
               )}
-              <div className={styles.checkboxChipContainer}>
+              <div className="flex flex-row flex-wrap gap-[6px]">
                 {Object.values(SERVICE_CODES).map((code) => (
                   <CheckboxChip
                     key={code}
                     text={SERVICE_TEXTS[code]}
                     state={values.services.includes(code)}
                     onStateChange={(checked: boolean) => {
-                      const newServices = checked
-                        ? [...values.services, code]
-                        : values.services.filter((service) => service !== code);
+                      let newServices: number[];
+                      if (code === 99) {
+                        newServices = checked
+                          ? Object.values(SERVICE_CODES)
+                          : [];
+                      } else {
+                        newServices = checked
+                          ? [...values.services, code]
+                          : values.services.filter(
+                              (service) => service !== code
+                            );
+                      }
                       setValue("services", newServices, {
                         shouldValidate: true,
                       });
@@ -347,7 +340,7 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
                 errors.regions && "gap-[2px]"
               } pc:border-none`}
             >
-              <label className={`${styles.formLabel}`} htmlFor="services">
+              <label className={styles.formLabel} htmlFor="services">
                 서비스 가능 지역{" "}
                 <span className="text-pr-blue-300 text-lg font-semibold">
                   *
@@ -356,11 +349,7 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
               {errors.regions && (
                 <p className={styles.errorMessage}>{errors.regions.message}</p>
               )}
-              <div
-                className={`${styles.regionContainer} ${
-                  isUser && "pc:w-[500px]"
-                }`}
-              >
+              <div className="flex flex-row flex-wrap gap-[8px] w-[277px] pc:w-[416px]">
                 {Object.values(REGION_CODES).map((code) => (
                   <CheckboxChip
                     key={code}
@@ -369,22 +358,13 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
                     onStateChange={(checked: boolean) => {
                       let newRegions: number[];
                       if (code === 82) {
-                        // 전체 지역 코드
-                        if (checked) {
-                          // 전체가 선택되면 모든 지역 코드 선택
-                          newRegions = Object.values(REGION_CODES);
-                        } else {
-                          // 전체가 해제되면 모든 지역 해제
-                          newRegions = [];
-                        }
+                        newRegions = checked ? Object.values(REGION_CODES) : [];
                       } else {
                         newRegions = checked
                           ? [...values.regions, code]
                           : values.regions.filter((region) => region !== code);
                       }
-                      setValue("regions", newRegions, {
-                        shouldValidate: true,
-                      });
+                      setValue("regions", newRegions, { shouldValidate: true });
                     }}
                   />
                 ))}
@@ -405,9 +385,7 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
               error={getErrorMessage("description")}
               value={values.description}
               onChange={(value) => {
-                setValue("description", value, {
-                  shouldValidate: true,
-                });
+                setValue("description", value, { shouldValidate: true });
               }}
             />
           </div>
@@ -417,14 +395,14 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
             children={isEdit ? "수정하기" : "시작하기"}
             type="submit"
             variant="primary"
-            className={styles.button}
+            className="flex-1 text-center"
             disabled={!isFormValid}
           />
           {isEdit && (
             <Button
               children="취소"
               variant="outlined"
-              className={styles.button}
+              className="flex-1 text-center"
               onClick={() => router.push("/")}
             />
           )}

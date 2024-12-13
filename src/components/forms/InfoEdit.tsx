@@ -115,6 +115,7 @@ export default function InfoEdit({ isUser, userData }: InfoEditProps) {
         data.phoneNumber,
         hasPasswordChange && data.newPassword
       );
+      isUser ? router.push("/find-mover") : router.push("/mover/mypage");
 
       toast.success("기본정보 수정이 완료되었습니다.", {
         duration: 3000,
