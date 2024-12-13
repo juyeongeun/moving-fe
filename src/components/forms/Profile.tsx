@@ -163,7 +163,7 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
 
       if (isEdit) {
         console.log(`${isUser ? "사용자" : "기사"} 폼 수정 제출`);
-        isUser ? router.push("/find-mover") : router.push("/mover/mypage");
+        isUser ? router.push("/find-mover") : router.push("/mover/my-page");
         toast.success("프로필 수정이 완료되었습니다.", {
           duration: 3000,
           position: "bottom-center",
