@@ -7,7 +7,7 @@ export default function Dropdown() {
   const options = ["전체", "옵션 1", "옵션 2", "옵션 3", "옵션 4"];
 
   return (
-    <div className="relative w-[343px]">
+    <div className="relative max-w-[343px]">
       {/* 드롭다운 버튼 */}
       <button
         onClick={() => setIsOpen(!isOpen)}

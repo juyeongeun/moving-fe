@@ -9,7 +9,7 @@ export interface BaseMoverData {
     "3": number;
     "4": number;
     "5": number;
-    average: number;
+    average: number | null;
   };
   reviewCount: number;
   confirmCount: number;
