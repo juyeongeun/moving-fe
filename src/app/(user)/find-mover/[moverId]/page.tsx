@@ -142,7 +142,7 @@ const reviewList = {
 
 const styles = {
   topContainer:
-    "mb-[110px] mt-[24px] tablet:mb-[72px] pc:flex pc:flex-row pc:gap-[90px] pc:justify-center pc:mt-[52px]",
+    "mb-[24px] mt-[24px] tablet:mb-[40px] pc:flex pc:flex-row pc:gap-[90px] pc:justify-center pc:mt-[52px]",
   container: "flex flex-col gap-[24px] pc:gap-[40px] pc:max-w-[920px]",
   pcShareContainer:
     "hidden pc:whitespace-nowrap pc:flex pc:flex-col pc:gap-[40px]",
