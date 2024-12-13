@@ -8,25 +8,27 @@ interface QuoteButtonGroupProps {
   isPc?: boolean;
   moverNickname?: string;
   buttonText?: string;
+  showLabel?: boolean;
   onFavoriteClick: () => void;
   onButtonClick: () => void;
 }
 
 export default function QuoteButtonGroup({
   isFavorite,
-  disabled,
+  disabled = false,
   isPc = false,
   moverNickname,
   buttonText,
+  showLabel = true,
   onFavoriteClick,
   onButtonClick,
 }: QuoteButtonGroupProps) {
   const styles = {
     buttonContainer: isPc
       ? "hidden pc:flex pc:flex-col pc:gap-[32px] pc:justify-center pc:items-center"
-      : "sticky bottom-0 bg-white border-none w-full flex flex-row gap-[8px] justify-center items-center py-[10px] z-[999] pc:hidden",
+      : "fixed bottom-0 right-0 bg-white border-solid border-t border-line-100 w-full flex flex-row gap-[8px] justify-center items-center py-[10px] p-6 px-[72px] z-[999] pc:hidden",
     likeIcon:
-      "p-[15px] h-[54px] cursor-pointer border border-solid border-line-200 rounded-[16px] pc:text-xl pc:font-semibold pc:py-[11px] pc:flex pc:flex-row pc:gap-[8px] pc:items-center pc:px-[105px]",
+      "p-[15px] w-[54px] h-[54px] cursor-pointer border border-solid border-line-200 rounded-[16px] text-nowrap pc:w-full pc:text-xl pc:font-semibold pc:py-[11px] pc:flex pc:flex-row pc:gap-[8px] pc:items-center pc:justify-center",
     shareText: "text-lg font-semibold text-black-400 pc:text-xl",
   };
 
@@ -54,9 +56,11 @@ export default function QuoteButtonGroup({
         </div>
       ) : (
         <div className={styles.buttonContainer}>
-          <p className={styles.shareText}>
-            {moverNickname} 기사님에게 지정 견적을 요청해보세요!
-          </p>
+          {showLabel ? (
+            <p className={styles.shareText}>
+              {moverNickname} 기사님에게 지정 견적을 요청해보세요!
+            </p>
+          ) : undefined}
           <button className={styles.likeIcon} onClick={onFavoriteClick}>
             <Image
               src={

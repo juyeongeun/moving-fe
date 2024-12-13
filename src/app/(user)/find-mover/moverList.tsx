@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 
 import Input from "@/components/common/Input";
 import MoverInfoCard from "@/components/cards/MoverInfoCard";
-import { FullMoverData, FavoriteFields } from "@/types/mover";
+import { FullMoverData, FavoriteFields, ConfirmInfo } from "@/types/mover";
 import DropdownRegion from "@/components/dropdowns/DropdownRegion";
 import DropdownService from "@/components/dropdowns/DropdownService";
 import DropdownSortMovingRequest from "@/components/dropdowns/DropdownSortMovingRequest";
@@ -21,15 +21,10 @@ import { MockDataItem, fetchData_ } from "./page";
 
 function FavoriteMoverList({ list }: { list: MockDataItem[] }) {
   const items = list.map((item, index) => {
-    const { name, ...rest } = item;
-    const singleData: FullMoverData & FavoriteFields = {
-      ...rest,
-    };
-
     return (
       <MoverInfoCard
         key={`${item.id}-${index}`}
-        data={singleData}
+        data={item}
         size="fixed"
         className=""
       />
@@ -116,15 +111,10 @@ export default function MoverList({
   const [isFetching, setIsFetching] = useState(false);
 
   const items = data.list.map((item, index) => {
-    const { name, ...rest } = item;
-    const singleData: FullMoverData & FavoriteFields = {
-      ...rest,
-    };
-
     return (
       <MoverInfoCard
         key={`${item.id}-${index}`}
-        data={singleData}
+        data={item}
         size="responsive"
         className=""
       />

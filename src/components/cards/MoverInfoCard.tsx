@@ -8,10 +8,11 @@ import {
   type FavoriteFields,
   type CardProps,
   type FullMoverData,
+  type ConfirmInfo,
 } from "@/types/mover";
 
 export interface MoverInfoProps extends CardProps {
-  data: FullMoverData & FavoriteFields;
+  data: FullMoverData & FavoriteFields & ConfirmInfo;
 }
 
 const titleVariants = cva("text-lg font-semibold text-black-300", {
@@ -38,6 +39,7 @@ const MoverInfoCard = ({
     <Link href={href}>
       <CardContainer size={size} className={className}>
         <div className="flex flex-row gap-2 overflow-hidden">
+          {data.isConfirmed ? <ServiceChip variant="confirmed" /> : undefined}
           {serviceTypes.map((serviceType) => (
             <ServiceChip
               variant={serviceType as ChipType}
