@@ -5,7 +5,7 @@ export const PROFILE_CUSTOMER = [
   { text: "이사 리뷰", link: "/me/review" },
 ];
 export const PROFILE_MOVER = [
-  { text: "마이페이지", link: "/mover/mypage" },
+  { text: "마이페이지", link: "/mover/my-page" },
   { text: "받은 견적", link: "/mover/request" },
 ];
 

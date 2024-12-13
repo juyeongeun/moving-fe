@@ -71,7 +71,7 @@ const GNB = ({ userType = null }: GNBProps) => {
       case "USER":
         return (
           <>
-            <NavItem href="/request-quote">견적 요청</NavItem>
+            <NavItem href="/request">견적 요청</NavItem>
             <NavItem href="/find-mover">기사님 찾기</NavItem>
             <NavItem href="/my-quote">내 견적 관리</NavItem>
           </>

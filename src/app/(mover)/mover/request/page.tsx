@@ -1,4 +1,4 @@
-import RequestForm from "./mover-request";
+import RequestForm from "./moverRequest";
 
 const DATA_COUNT = 20;
 

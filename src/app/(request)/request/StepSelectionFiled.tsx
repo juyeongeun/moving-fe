@@ -1,6 +1,6 @@
 import React from "react";
-import CheckBoxButton from "@/components/RequestCheckboxField/CheckboxButton";
-import CheckboxField from "@/components/RequestCheckboxField/CheckboxField";
+import CheckBoxButton from "@/components/request-checkbox-field/CheckboxButton";
+import CheckboxField from "@/components/request-checkbox-field/CheckboxField";
 
 interface StepSelectionFieldProps {
   options: Array<{
