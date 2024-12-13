@@ -6,7 +6,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 
 import MoverInfoCard from "@/components/cards/MoverInfoCard";
 import LineSeparator from "@/components/common/LineSeparator";
-import QuoteDetailInfo from "@/components/quote/QuoteDetailInfo";
+import QuoteDetailInfo from "@/components/request/QuoteDetailInfo";
 import QuoteButtonGroup from "@/components/common/QuoteButtonGroup";
 import { setMoverFavorite } from "@/api/mover";
 import { finalizeQuote } from "@/api/quote";
