@@ -101,6 +101,7 @@ const ShareButtons = ({
               : "",
             pickup: quoteInfo?.pickupAddress || "",
             REGI_WEB_DOMAIN: url,
+
           };
 
     try {
