@@ -123,7 +123,7 @@ const ShareButtons = ({
   };
 
   return (
-    <section className="flex flex-col gap-4 pc:pag-[22px]">
+    <section className="flex flex-col gap-2 pc:gap-[22px]">
       <h2 className="text-lg font-semibold pc:text-xl">{heading}</h2>
       <div className="flex items-center gap-4">
         <button onClick={handleCopyLink}>
