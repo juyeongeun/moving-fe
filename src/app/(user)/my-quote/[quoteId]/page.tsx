@@ -1,6 +1,6 @@
 import QuoteDetail from "./QuoteDetail";
 
-import { getQuote } from "@/api/quotes";
+import { getQuote } from "@/api/quote";
 import { GetQuoteApiResponseData } from "@/types/api";
 
 async function fetchQuoteData(

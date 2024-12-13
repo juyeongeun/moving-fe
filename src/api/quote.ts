@@ -74,7 +74,7 @@ function generateRandomResponse(quoteId: number): GetQuoteApiResponseData {
   return {
     id: getRandomInt(1, 1000),
     cost: getRandomInt(10000, 1000000),
-    comment: `${getRandomInt(1, 100)}만원`,
+    comment: `${getRandomInt(6, 10)}시 부터 이사 가능합니다`,
     isConfirmed: Math.random() > 0.5,
     movingRequest: {
       service: getRandomInt(0, 2),
@@ -94,7 +94,7 @@ function generateRandomResponse(quoteId: number): GetQuoteApiResponseData {
 }
 
 export function getQuote(quoteId: number): Promise<GetQuoteApiResponseData> {
-  console.log("견적 상세 조회회");
+  console.log("견적 상세 조회");
 
   /**
    * 1. Endpoint:  `GET /quotes/:id`

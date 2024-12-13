@@ -8,7 +8,7 @@ import LineSeparator from "@/components/common/LineSeparator";
 import QuoteDetailInfo from "@/components/Quote/QuoteDetailInfo";
 import QuoteButtonGroup from "@/components/common/QuoteButtonGroup";
 import { setMoverFavorite } from "@/api/mover";
-import { finalizeQuote } from "@/api/quotes";
+import { finalizeQuote } from "@/api/quote";
 import { ShareBox } from "@/components/temp";
 
 import { GetQuoteApiResponseData } from "@/types/api";
