@@ -1,7 +1,6 @@
 import Image from "next/image";
 import assets from "@/variables/images";
 import Button from "@/components/common/Button";
-import Message from "@/components/Message";
 import { useRouter } from "next/navigation";
 
 const EmptyReview = ({ tab }: { tab: number }) => {
