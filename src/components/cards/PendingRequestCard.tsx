@@ -15,7 +15,7 @@ import Button from "../common/Button";
 import { formatDateWithDay } from "@/utils/utilFunctions";
 import TextWithGrayLabel from "../common/card/TextWithGrayLabel";
 
-interface PendingRequestData
+export interface PendingRequestData
   extends FullMoverData,
     FavoriteFields,
     RequestDetails,
@@ -57,7 +57,7 @@ const PendingRequestCard = ({
   const serviceType = mapServiceType([data.service])[0];
 
   return (
-    <CardContainer className="max-w-[688px]" size={size} gap="gap-3.5 pc:gap-6">
+    <CardContainer size={size} gap="gap-3.5 pc:gap-6">
       <div className={styles.chipContainer}>
         <ServiceChip variant="pendingConfirm" />
         <ServiceChip variant={serviceType as ChipType} />
