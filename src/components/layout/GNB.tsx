@@ -105,12 +105,23 @@ const GNB = ({ userType = null }: GNBProps) => {
         </div>
 
         <div className="flex flex-row items-center gap-6">
-          <DropdownNotification
-            onSelect={(id: number) => {
-              console.log(id); // 임시. 테스트용
-            }}
-          />
-          <DropdownProfile name={userName} />
+          {userType ? (
+            <>
+              <DropdownNotification
+                onSelect={(id: number) => {
+                  console.log(id); // 임시. 테스트용
+                }}
+              />
+              <DropdownProfile name={userName} />
+            </>
+          ) : (
+            <Link
+              href="auth/login"
+              className="hidden pc:block px-6 py-3 bg-pr-blue-300 text-white rounded-lg font-medium hover:bg-primary/90"
+            >
+              로그인
+            </Link>
+          )}
           <button
             className="block pc:hidden"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -139,17 +150,26 @@ const GNB = ({ userType = null }: GNBProps) => {
           >
             <Image src={assets.icons.x} alt="close" width={24} height={24} />
           </button>
-          <div className="flex items-center gap-2 mt-8 mb-6">
-            <Image
-              src={assets.icons.userProfile}
-              alt="user"
-              width={36}
-              height={36}
-            />
-            <span className="text-2lg font-medium text-black-400">
-              {userName}
-            </span>
-          </div>
+          {userType ? (
+            <div className="flex items-center gap-2 mt-8 mb-6">
+              <Image
+                src={assets.icons.userProfile}
+                alt="user"
+                width={36}
+                height={36}
+              />
+              <span className="text-2lg font-medium text-black-400">
+                {userName}
+              </span>
+            </div>
+          ) : (
+            <Link
+              href="auth/login"
+              className="block mt-8 mb-6 px-6 py-3 bg-pr-blue-300 text-white rounded-lg font-medium hover:bg-primary/90 text-center"
+            >
+              로그인
+            </Link>
+          )}
           <div className="flex flex-col gap-6">{renderTabs()}</div>
         </div>
       </div>

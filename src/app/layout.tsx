@@ -40,7 +40,7 @@ export default function RootLayout({
       >
         <NiceModalProvider>
           <TanstackQueryClientProvider>
-            <GNB userType={"MOVER"} />
+            <GNB />
             <QuoteGNBWrapper />
             {children}
             <Toaster />
