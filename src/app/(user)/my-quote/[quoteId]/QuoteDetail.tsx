@@ -154,6 +154,13 @@ export default function QuoteDetail({ data }: QuoteDetailProps) {
     showLabel: false,
   };
 
+  const quoteInfo = {
+    cost: data.cost,
+    pickupAddress: data.movingRequest.pickupAddress,
+    dropOffAddress: data.movingRequest.dropOffAddress,
+    movingDate: data.movingRequest.movingDate,
+  };
+
   return (
     <>
       <div className={styles.container}>
@@ -196,7 +203,11 @@ export default function QuoteDetail({ data }: QuoteDetailProps) {
         </div>
         <div className={styles.sidebar}>
           <QuoteButtonGroup {...buttonGroupProps} isPc={true} />
-          <ShareButtons url={currentUrl} variant="quote" />
+          <ShareButtons
+            url={currentUrl}
+            variant="quote"
+            quoteInfo={quoteInfo}
+          />
         </div>
       </div>
       <QuoteButtonGroup {...buttonGroupProps} isPc={false} />
