@@ -19,12 +19,13 @@ export default function CheckboxChip({
   disabled = false,
 }: CheckboxChipProps) {
   const checkboxChipBaseClass = clsx(
-    "box-border flex flex-row justify-center items-center cursor-pointer",
+    "box-border flex flex-row justify-center items-center",
     "px-3",
     "h-9",
     "border-solid border-[1px] rounded-full shadow-[4px_4px_10px_rgba(230,230,230,0.25)]",
     "text-md font-medium",
     "pc:px-5 pc:h-[46px] pc:text-2lg",
+    disabled ? "cursor-default" : "cursor-pointer",
     className
   );
 

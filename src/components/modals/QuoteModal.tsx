@@ -1,15 +1,17 @@
 import Image from "next/image";
 import assets from "@/variables/images";
-import ServiceChip from "./card/ServiceChip";
-import QuoteModalMover from "./card/QuoteModalUser";
-import Input from "./Input";
-import Textarea from "./Textarea";
-import Button from "./Button";
+import ServiceChip from "../common/card/ServiceChip";
+import QuoteModalMover from "../common/card/QuoteModalUser";
+import Input from "../common/Input";
+import Textarea from "../common/Textarea";
+import Button from "../common/Button";
 import { useState } from "react";
+
+const MIN_COMMENT_LENGTH = 10;
 
 interface QuoteModalProps {
   onClose?: () => void;
-  onSubmit?: () => void;
+  onSubmit?: (data: { cost: number; comment: string }) => void;
   serviceType: number;
   isDesignatedQuote: boolean;
   isRejected: boolean;
@@ -20,8 +22,9 @@ interface QuoteModalProps {
 }
 
 const styles = {
-  container: `flex flex-col bg-white px-[24px] pt-[32px] pb-[40px] rounded-t-[32px]
-  pc:px-[24px] pc:pt-[32px] pc:pb-[40px] pc:rounded-[32px] pc:w-[608px]`,
+  container: `flex flex-col bg-white px-[24px] pt-[32px] pb-[40px] rounded-t-[32px] w-full
+  tablet:rounded-[32px]
+  pc:px-[24px] pc:pt-[32px] pc:pb-[40px] pc:rounded-[32px]`,
   titleContainer: `flex flex-row justify-between items-center mb-[26px] text-2lg font-bold text-black-400
   pc:text-2xl pc:font-semibold pc:mb-[40px]`,
   closeIcon: `cursor-pointer pc:w-[32px] pc:h-[32px]`,
@@ -55,11 +58,16 @@ export default function QuoteModal({
   const [comment, setComment] = useState<string>("");
 
   const isValid = isRejected
-    ? comment.length >= 10 && typeof comment === "string"
+    ? comment.length >= MIN_COMMENT_LENGTH && typeof comment === "string"
     : quote.length > 0 &&
       !isNaN(Number(quote)) &&
-      comment.length >= 10 &&
+      comment.length >= MIN_COMMENT_LENGTH &&
       typeof comment === "string";
+
+  const handleCallApi = () => {
+    onSubmit({ cost: Number(quote), comment });
+    onClose();
+  };
 
   return (
     <div className={styles.container}>
@@ -101,7 +109,7 @@ export default function QuoteModal({
         <p className={styles.Title}>코멘트를 입력해 주세요</p>
         <Textarea
           name="comment"
-          placeholder="최소 10자 이상 입력해주세요"
+          placeholder={`최소 ${MIN_COMMENT_LENGTH}자 이상 입력해주세요`}
           value={comment}
           onChange={(value: string) => setComment(value)}
         />
@@ -109,7 +117,7 @@ export default function QuoteModal({
       <Button
         children={isRejected ? "반려하기" : "견적 보내기"}
         variant="primary"
-        onClick={onSubmit}
+        onClick={handleCallApi}
         disabled={!isValid}
       />
     </div>

@@ -8,6 +8,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { signUpSchema, SignUpFormData } from "@/utils/authValidation";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 interface SignUpComponentProps {
   isUser: boolean;
@@ -27,7 +29,7 @@ const styles = {
 
 export default function SignUpComponent({ isUser }: SignUpComponentProps) {
   const [isConfirmTouched, setIsConfirmTouched] = React.useState(false);
-
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -53,6 +55,24 @@ export default function SignUpComponent({ isUser }: SignUpComponentProps) {
       const validationResult = signUpSchema.safeParse(data);
       if (!validationResult.success) {
         throw new Error("유효성 검사 실패");
+      }
+
+      if (isUser) {
+        // API 호출 로직
+        router.push("/me/profile");
+        toast.success("프로필을 등록하여 회원가입을 완성해주세요.", {
+          duration: 3000,
+          position: "bottom-center",
+          icon: "👤",
+        });
+      } else {
+        // API 호출 로직
+        router.push("/mover/profile");
+        toast.success("프로필을 등록하여 회원가입을 완성해주세요.", {
+          duration: 3000,
+          position: "bottom-center",
+          icon: "👤",
+        });
       }
 
       // API 호출 로직

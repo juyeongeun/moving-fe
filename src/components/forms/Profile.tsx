@@ -13,7 +13,7 @@ import Image from "next/image";
 import assets from "@/variables/images";
 import { REGION_CODES, REGION_TEXTS } from "@/variables/regions";
 import { SERVICE_CODES, SERVICE_TEXTS } from "@/variables/service";
-
+import toast from "react-hot-toast";
 interface ProfileProps {
   isUser: boolean;
   isEdit: boolean;
@@ -147,6 +147,14 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
       return;
     }
 
+    if (previewImage === assets.images.imagePlaceholder) {
+      setError("imageUrl", {
+        type: "manual",
+        message: "이미지를 선택해주세요.",
+      });
+      return;
+    }
+
     try {
       const formData = new FormData();
 
@@ -169,8 +177,19 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
 
       if (isEdit) {
         console.log(`${isUser ? "사용자" : "기사"} 폼 수정 제출`);
+        toast.success("프로필 수정이 완료되었습니다.", {
+          duration: 3000,
+          position: "bottom-center",
+          icon: "👏",
+        });
       } else {
         console.log(`${isUser ? "사용자" : "기사"} 폼 등록 제출`);
+        isUser ? router.push("/find-mover") : router.push("/mover/request");
+        toast.success("프로필 등록이 완료되었습니다.", {
+          duration: 3000,
+          position: "bottom-center",
+          icon: "🎉",
+        });
       }
       reset();
       fileInputRef.current && (fileInputRef.current.value = "");
@@ -196,6 +215,7 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
       const reader = new FileReader();
       reader.onloadend = () => {
         setPreviewImage(reader.result as string);
+        setValue("imageUrl", reader.result as string, { shouldValidate: true });
       };
       reader.readAsDataURL(file);
     }
@@ -246,6 +266,9 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
                 onClick={handleProfileImageClick}
                 className={`${styles.profileImage}`}
               />
+              {errors.imageUrl && (
+                <p className={styles.errorMessage}>{errors.imageUrl.message}</p>
+              )}
             </div>
             {!isUser && (
               <>

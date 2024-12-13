@@ -13,6 +13,7 @@
     "image": "node src/utils/generateImgSrc.js"
   },
   "dependencies": {
+    "@ebay/nice-modal-react": "^1.2.13",
     "@hookform/resolvers": "^3.9.1",
     "@tanstack/react-query": "^5.61.4",
     "@tanstack/react-query-devtools": "^5.61.4",
@@ -49,6 +50,7 @@
     "@types/node": "^20",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18",
+    "@types/react-modal": "^3.16.3",
     "postcss": "^8.4.49",
     "storybook": "^8.4.5",
     "tailwind-merge": "^2.5.5",

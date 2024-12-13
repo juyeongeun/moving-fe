@@ -4,7 +4,7 @@ import Image from "next/image";
 import React, { useRef, useEffect, useCallback } from "react";
 import clsx from "clsx";
 
-import assets from "../../variables/images.js";
+import assets from "@/variables/images";
 
 type DropdownFilterProps = {
   children: React.ReactNode | string;
@@ -136,7 +136,7 @@ type DropdownListProps = {
 
 export function DropdownList({ items, className }: DropdownListProps) {
   return (
-    <div className={clsx(className)}>
+    <div className={clsx("z-50", className)}>
       {items.map((item, index) => (
         <div key={index} className="w-full">
           {item}

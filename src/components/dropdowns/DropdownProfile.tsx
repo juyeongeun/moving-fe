@@ -56,11 +56,11 @@ export default function DropdownProfile({
   const dropdownItemClass = clsx(
     "box-border flex flex-col items-left \
     px-3 py-2 \
-    w-[152px] h-10 \
+    w-full h-10 \
     text-md text-black-400 font-medium no-wrap\
     hover:bg-pr-blue-50 \
     cursor-pointer \
-    pc:px-6 pc:py-3.5 pc:h-[54px] pc:text-lg pc:w-[248px]"
+    pc:px-6 pc:py-3.5 pc:h-[54px] pc:text-lg"
   );
 
   const nameClass = clsx(

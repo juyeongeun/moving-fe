@@ -86,19 +86,17 @@ const GNB = ({ userType = null }: GNBProps) => {
       <div className="max-w-[1400px] h-full  mx-auto flex justify-between items-center">
         <div className="flex items-center gap-20">
           <Link href="/">
-            <div className="text-2xl font-bold">
+            <div className="relative w-[28.8px] h-[32.76px] tablet:w-[88px] tablet:h-[34px] pc:w-[116px] pc:h-[44px] text-2xl font-bold">
               <Image
                 src={assets.images.logo}
                 alt="logo"
-                width={116}
-                height={44}
+                fill
                 className="hidden tablet:block"
               />
               <Image
                 src={assets.images.logoMarkonly}
                 alt="logo"
-                width={24}
-                height={24}
+                fill
                 className="block tablet:hidden"
               />
             </div>

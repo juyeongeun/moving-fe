@@ -113,7 +113,7 @@ export default function MyQuotePage() {
   const displayData = currentTab === 0 ? defaultData : rejectData;
 
   const styles = {
-    container: `max-w-[1400px] mx-auto bg-bg-100 grid grid-cols-1 gap-[24px] pc:grid-cols-2  tablet:gap-[32px] pc:gap-x-[24px] pc:gap-y-[48px]`,
+    container: `max-w-[1400px] mx-auto bg-bg-100 grid grid-cols-1 gap-[24px] mt-[24px] pc:grid-cols-2  tablet:gap-[32px] tablet:mt-[32px] pc:gap-x-[24px] pc:gap-y-[48px] pc:mt-[40px]`,
   };
 
   return (
@@ -125,9 +125,14 @@ export default function MyQuotePage() {
               data={data}
               onButtonClick={() => handleButtonClick(data)}
               key={data.id}
+              classNameQuoteDetails={"pc:flex-col pc:gap-2 pc:items-start"}
             />
           ) : (
-            <RejectedRequestCard data={data} key={data.id} />
+            <RejectedRequestCard
+              data={data}
+              key={data.id}
+              classNameQuoteDetails={"pc:flex-col pc:gap-2 pc:items-start"}
+            />
           )
         )}
       </ul>
