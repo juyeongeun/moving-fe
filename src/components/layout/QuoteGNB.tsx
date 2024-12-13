@@ -26,9 +26,9 @@ export const QuoteGNB = ({ tabs, currentTab = 0 }: QuoteGNBProps) => {
     <nav
       role="navigation"
       aria-label="견적 내역 탭"
-      className="w-full border-b border-gray-200 bg-white"
+      className="w-full border-b border-solid px-[24px] tablet:px-[72px] border-gray-200 bg-white"
     >
-      <div className="max-w-[1400px] px-5 mx-auto flex gap-8">
+      <div className="max-w-[1400px] mx-auto flex gap-8">
         {tabs.map((tab) => (
           <button
             key={tab.id}
