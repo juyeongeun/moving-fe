@@ -7,6 +7,7 @@ import cn from "@/config/cn";
 import { Toaster } from "react-hot-toast";
 import TanstackQueryClientProvider from "@/contexts/queryClientProvider";
 import NiceModalProvider from "@/components/NiceModalProvider";
+import MSWComponent from "@/components/layout/MswComponent";
 
 const pretendard = localFont({
   src: "./fonts/PretendardVariable.woff2",
@@ -38,14 +39,16 @@ export default function RootLayout({
           globalStyles
         )}
       >
-        <NiceModalProvider>
-          <TanstackQueryClientProvider>
-            <GNB userType={"USER"} />
-            <QuoteGNBWrapper />
-            {children}
-            <Toaster />
-          </TanstackQueryClientProvider>
-        </NiceModalProvider>
+        <MSWComponent>
+          <NiceModalProvider>
+            <TanstackQueryClientProvider>
+              <GNB userType={"USER"} />
+              <QuoteGNBWrapper />
+              {children}
+              <Toaster />
+            </TanstackQueryClientProvider>
+          </NiceModalProvider>
+        </MSWComponent>
       </body>
     </html>
   );
