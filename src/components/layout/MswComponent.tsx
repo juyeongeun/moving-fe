@@ -1,39 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-export const MSWComponent = ({ children }: { children: React.ReactNode }) => {
-  const [mswReady, setMswReady] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
-
+export function MSWComponent({ children }: { children: React.ReactNode }) {
   useEffect(() => {
-    const init = async () => {
-      try {
-        if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
-          const initMsw = await import("../../mocks").then(
-            (res) => res.default
-          );
-          await initMsw();
-          setMswReady(true);
-        } else {
-          setMswReady(true);
-        }
-      } catch (err) {
-        setError(err as Error);
-        setMswReady(true);
-      }
-    };
-
-    if (!mswReady) {
-      init();
+    if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
+      import("@/mocks/browser").then(({ startWorker }) => startWorker());
     }
-  }, [mswReady]);
-
-  if (error) {
-    console.error("MSW initialization failed:", error);
-  }
+  }, []);
 
   return <>{children}</>;
-};
+}
 
 export default MSWComponent;

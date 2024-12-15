@@ -8,6 +8,7 @@ import { Toaster } from "react-hot-toast";
 import TanstackQueryClientProvider from "@/contexts/queryClientProvider";
 import NiceModalProvider from "@/components/NiceModalProvider";
 import MSWComponent from "@/components/layout/MswComponent";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const pretendard = localFont({
   src: "./fonts/PretendardVariable.woff2",
@@ -46,6 +47,7 @@ export default function RootLayout({
               <QuoteGNBWrapper />
               {children}
               <Toaster />
+              <ReactQueryDevtools initialIsOpen={false} />
             </TanstackQueryClientProvider>
           </NiceModalProvider>
         </MSWComponent>
