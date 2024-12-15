@@ -5,7 +5,7 @@ import { moverKey } from "../queryKeys";
 //내가 찜한 기사님 목록 조회
 export const useGetFavoriteMoverList = () => {
   return useInfiniteQuery({
-    queryKey: [moverKey.favorite()],
+    queryKey: moverKey.favorite(),
     queryFn: () =>
       getMoverList({
         isFavorite: true,
