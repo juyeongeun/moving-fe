@@ -4,11 +4,12 @@ import Input from "@/components/common/Input";
 import Button from "@/components/common/Button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useState } from "react";
+import React from "react";
 import { infoEditSchema, InfoEditFormData } from "@/utils/authValidation";
 import { useRouter } from "next/navigation";
-import ConfirmModal from "@/components/modals/ConfirmModal";
 import toast from "react-hot-toast";
+import { editUserInfo } from "@/api/auth";
+import { UserInfo } from "@/types/auth";
 
 interface InfoEditProps {
   isUser: boolean;
@@ -30,8 +31,6 @@ const styles = {
   buttonContainer: `flex flex-col gap-[8px] mt-[24px] pc:flex-row-reverse pc:gap-[32px] w-full`,
   button: `flex-1 text-center`,
   title: `w-full text-2lg font-bold text-black-400`,
-  overlay: `fixed inset-0 bg-black-100 bg-opacity-50 z-40`,
-  modalWrapper: `absolute top-0 left-0 w-full h-full flex items-center justify-center z-50`,
 };
 
 const FormField = ({
@@ -70,7 +69,6 @@ const FormField = ({
 
 export default function InfoEdit({ isUser, userData }: InfoEditProps) {
   const router = useRouter();
-  const [showModal, setShowModal] = useState(false);
 
   const {
     register,
@@ -98,33 +96,44 @@ export default function InfoEdit({ isUser, userData }: InfoEditProps) {
   };
 
   const onSubmit = async (data: InfoEditFormData) => {
+    const hasPasswordChange = data.currentPassword && data.newPassword;
+    const userType = isUser ? "유저" : "기사";
+
+    console.log(
+      `${userType} 폼 제출:`,
+      data.name,
+      data.phoneNumber,
+      hasPasswordChange && data.newPassword
+    );
+
+    const userInfo: UserInfo = {
+      name: data.name,
+      phoneNumber: data.phoneNumber,
+      currentPassword: data.currentPassword,
+    };
+
+    if (data.newPassword) {
+      userInfo.newPassword = data.newPassword;
+    }
     try {
-      const hasPasswordChange = data.currentPassword && data.newPassword;
-      const userType = isUser ? "유저" : "기사";
+      await editUserInfo(userInfo);
 
-      // if (data.currentPassword && userData.password !== data.currentPassword) {
-      //   setShowModal(true);
-      //   return;
-      // }
-
-      // 현재 비밀번호 확인시 일치하지 않으면 모달 or 토스트메시지 띄우는 오류 로직 작성
-
-      console.log(
-        `${userType} 폼 제출:`,
-        data.name,
-        data.phoneNumber,
-        hasPasswordChange && data.newPassword
-      );
       isUser ? router.push("/find-mover") : router.push("/mover/my-page");
 
       toast.success("기본정보 수정이 완료되었습니다.", {
-        duration: 3000,
         position: "bottom-center",
         icon: "👏",
       });
       reset();
-    } catch (error) {
-      console.error("수정 실패:", error);
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.data?.message ||
+        error.response?.data?.message ||
+        "정보 수정에 실패했습니다.";
+
+      toast.error(errorMessage, {
+        position: "bottom-center",
+      });
     }
   };
 
@@ -145,19 +154,6 @@ export default function InfoEdit({ isUser, userData }: InfoEditProps) {
 
   return (
     <div className={styles.container}>
-      {showModal && (
-        <>
-          <div className={styles.overlay} />
-          <div className={styles.modalWrapper}>
-            <ConfirmModal
-              title="비밀번호 오류"
-              description="현재 비밀번호가 일치하지 않습니다."
-              buttonText="확인"
-              onClose={() => setShowModal(false)}
-            />
-          </div>
-        </>
-      )}
       <p className={styles.title}>기본정보 수정</p>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.pcForm}>
