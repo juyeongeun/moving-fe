@@ -14,8 +14,7 @@ export const login = async (userData: UserLogin) => {
   return { status: response.status };
 };
 
-export const editUserInfo = async (userData: UserInfo) => {
-  console.log(userData);
-  const response = await axiosInstance.patch(`/users`, userData);
+export const logout = async () => {
+  const response = await axiosInstance.post(`${PATH}/signout`);
   return { status: response.status };
 };

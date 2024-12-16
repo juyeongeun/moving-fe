@@ -48,7 +48,7 @@ export default function SignUpComponent({ isUser }: SignUpComponentProps) {
     try {
       await login(data);
       reset();
-      // isUser ? router.push("/find-mover") : router.push("/mover/request");
+      isUser ? router.push("/find-mover") : router.push("/mover/request");
     } catch (error: any) {
       const errorMessage =
         error.response?.data?.data?.message ||

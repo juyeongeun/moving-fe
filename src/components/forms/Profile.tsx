@@ -14,6 +14,7 @@ import assets from "@/variables/images";
 import { REGION_CODES, REGION_TEXTS } from "@/variables/regions";
 import { SERVICE_CODES, SERVICE_TEXTS } from "@/variables/service";
 import toast from "react-hot-toast";
+import { editCustomerProfile } from "@/api/customer";
 
 interface ProfileProps {
   isUser: boolean;
@@ -142,30 +143,29 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
       return;
     }
 
+    const formData = new FormData();
+    formData.append("services", JSON.stringify(values.services));
+    formData.append("regions", JSON.stringify(values.regions));
+    if (fileInputRef.current?.files?.[0]) {
+      formData.append("imageUrl", fileInputRef.current.files[0]);
+    }
     try {
-      const formData = new FormData();
-      Object.entries(data).forEach(([key, value]) => {
-        if (key === "services" || key === "regions") {
-          formData.append(key, JSON.stringify(value));
-        } else if (value && typeof value === "string" && key !== "imageUrl") {
-          formData.append(key, value);
-        }
-      });
-
-      if (fileInputRef.current?.files?.[0]) {
-        formData.append("imageUrl", fileInputRef.current.files[0]);
-      }
-
-      // 테스트 확인 코드
-      formData.forEach((value, key) => {
-        console.log(`${key}:`, value);
-      });
-
       if (isEdit) {
-        console.log(`${isUser ? "사용자" : "기사"} 폼 수정 제출`);
-        isUser ? router.push("/find-mover") : router.push("/mover/my-page");
+        if (isUser) {
+          await editCustomerProfile(formData);
+          // router.push("/find-mover");
+        } else {
+          if (values.nickname) formData.append("nickname", values.nickname);
+          if (values.career) formData.append("career", values.career);
+          if (values.introduction)
+            formData.append("introduction", values.introduction);
+          if (values.description)
+            formData.append("description", values.description);
+
+          // router.push("/mover/my-page");
+        }
+
         toast.success("프로필 수정이 완료되었습니다.", {
-          duration: 3000,
           position: "bottom-center",
           icon: "👏",
         });
@@ -173,15 +173,21 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
         console.log(`${isUser ? "사용자" : "기사"} 폼 등록 제출`);
         isUser ? router.push("/find-mover") : router.push("/mover/request");
         toast.success("프로필 등록이 완료되었습니다.", {
-          duration: 3000,
           position: "bottom-center",
           icon: "🎉",
         });
       }
       reset();
       fileInputRef.current && (fileInputRef.current.value = "");
-    } catch (error) {
-      console.error("수정 실패:", error);
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.data?.message ||
+        error.response?.data?.message ||
+        "정보 수정에 실패했습니다.";
+
+      toast.error(errorMessage, {
+        position: "bottom-center",
+      });
     }
   };
 

@@ -21,6 +21,6 @@ export interface AuthResponse {
 export interface UserInfo {
   name: string;
   phoneNumber: string;
-  currentPassword: string;
+  currentPassword?: string;
   newPassword?: string;
 }

@@ -8,15 +8,19 @@ import React from "react";
 import { infoEditSchema, InfoEditFormData } from "@/utils/authValidation";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import { editUserInfo } from "@/api/auth";
+import { editUserInfo } from "@/api/user";
 import { UserInfo } from "@/types/auth";
 
 interface InfoEditProps {
   isUser: boolean;
   userData: {
-    name: string;
-    email: string;
-    phoneNumber: string;
+    user: {
+      name: string;
+      email: string;
+      phoneNumber: string;
+      isOAuth: boolean;
+      id: number;
+    };
   };
 }
 
@@ -80,9 +84,9 @@ export default function InfoEdit({ isUser, userData }: InfoEditProps) {
     resolver: zodResolver(infoEditSchema),
     mode: "onChange",
     defaultValues: {
-      name: userData.name,
-      email: userData.email,
-      phoneNumber: userData.phoneNumber,
+      name: userData.user.name,
+      email: userData.user.email,
+      phoneNumber: userData.user.phoneNumber,
       currentPassword: "",
       newPassword: "",
       newPasswordConfirm: "",
@@ -109,10 +113,10 @@ export default function InfoEdit({ isUser, userData }: InfoEditProps) {
     const userInfo: UserInfo = {
       name: data.name,
       phoneNumber: data.phoneNumber,
-      currentPassword: data.currentPassword,
     };
 
-    if (data.newPassword) {
+    if (data.newPassword && data.currentPassword) {
+      userInfo.currentPassword = data.currentPassword;
       userInfo.newPassword = data.newPassword;
     }
     try {
@@ -141,15 +145,12 @@ export default function InfoEdit({ isUser, userData }: InfoEditProps) {
 
   // 버튼 활성화 조건을 확인하는 함수 추가
   const isSubmitDisabled = () => {
-    const hasCurrentPassword = !values.currentPassword;
     const isPasswordChangeValid =
       values.newPassword || values.newPasswordConfirm
         ? values.newPassword && values.newPasswordConfirm
         : true;
 
-    return (
-      hasCurrentPassword || !isPasswordChangeValid || (hasErrors && isDirty)
-    );
+    return !isPasswordChangeValid || (hasErrors && isDirty);
   };
 
   return (
