@@ -24,10 +24,11 @@ const data = {
 
 const styles = {
   topContainer:
-    "mb-[110px] tablet:mb-[72px] pc:flex pc:flex-row pc:gap-[117px] pc:item-center",
-  title: "text-2lg font-semibold text-black-400 py-[30px] pc:text-2xl",
+    "mb-[110px] tablet:mb-[72px] pc:flex pc:flex-row pc:gap-[117px] pc:justify-center",
+  title:
+    "text-2lg font-semibold text-black-400 pb-[6px] pc:text-2xl pc:pb-[30px]",
   container: "flex flex-col gap-[24px]",
-  pcShareContainer: "hidden pc:block",
+  pcShareContainer: "hidden pc:block ",
   shareContainer: "pc:hidden",
   shareText: "text-lg font-semibold text-black-400 pc:text-xl",
   costContainer: "flex flex-col gap-[16px] pc:gap-[32px]",
@@ -47,9 +48,9 @@ export default function MyQuoteDetailPage() {
 
   return (
     <>
-      <h2 className={styles.title}>견적 상세</h2>
       <div className={styles.topContainer}>
         <div className={styles.container}>
+          <h2 className={styles.title}>견적 상세</h2>
           <ConfirmedQuoteCard data={data} />
           <div className={styles.shareContainer}>
             <ShareButtons
