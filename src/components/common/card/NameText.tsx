@@ -1,28 +1,33 @@
 import cn from "@/config/cn";
 import { cva } from "class-variance-authority";
 
-const nameVariants = cva("text-md font-semibold", {
+const nameVariants = cva("font-semibold", {
   variants: {
     size: {
-      responsive: "",
-      fixed: "",
+      responsive: "text-lg",
+      fixed: "text-lg",
     },
     type: {
-      mover: "pc:text-2lg",
-      customer: "pc:text-xl",
+      mover: "",
+      customer: "",
     },
   },
+  compoundVariants: [
+    {
+      size: "responsive",
+      type: "mover",
+      className: "pc:text-2lg",
+    },
+    {
+      size: "responsive",
+      type: "customer",
+      className: "pc:text-xl",
+    },
+  ],
   defaultVariants: {
     size: "responsive",
     type: "mover",
   },
-  compoundVariants: [
-    {
-      size: "fixed",
-      type: ["mover", "customer"],
-      class: "",
-    },
-  ],
 });
 
 const NameText = ({
@@ -39,7 +44,7 @@ const NameText = ({
   const nameType = type === "mover" ? "기사님" : "고객님";
 
   return (
-    <p className={cn(nameVariants({ size }), className)}>
+    <p className={cn(nameVariants({ size, type }), className)}>
       {text} <span>{nameType}</span>
     </p>
   );

@@ -35,7 +35,7 @@ const ReviewMover = ({
       </div>
 
       <div className="flex items-center gap-2.5 pc:gap-6 pc:py-2">
-        <ProfileImage imgUrl={data.imageUrl} />
+        <ProfileImage imgUrl={data.imageUrl} isLarge={true} />
         <div className="flex flex-col gap-1 pc:gap-2">
           <NameText text={data.nickname} type="mover" />
           <div className="flex gap-2 items-center pc:gap-[12.5px]">
