@@ -15,18 +15,31 @@ import { REGION_CODES, REGION_TEXTS } from "@/variables/regions";
 import { SERVICE_CODES, SERVICE_TEXTS } from "@/variables/service";
 import toast from "react-hot-toast";
 import { editCustomerProfile } from "@/api/customer";
+import { useSignUpStore } from "@/store/signupStore";
+import { customerSignup, moverSignup } from "@/api/auth";
 
 interface ProfileProps {
   isUser: boolean;
   isEdit: boolean;
   userData?: {
-    nickname?: string;
-    career?: string;
-    introduction?: string;
-    description?: string;
-    services?: number[];
-    regions?: number[];
-    imageUrl?: string;
+    user: {
+      customer?: {
+        id: number;
+        services: number[];
+        regions: number[];
+        imageUrl: string;
+      };
+      mover?: {
+        id: number;
+        nickname: string;
+        career: string;
+        introduction: string;
+        description: string;
+        services: number[];
+        regions: number[];
+        imageUrl: string;
+      };
+    };
   };
 }
 
@@ -81,6 +94,23 @@ const FormField = ({
 
 export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
   const router = useRouter();
+  console.log(userData);
+  const defaultValues = isUser
+    ? {
+        services: userData?.user?.customer?.services ?? [],
+        regions: userData?.user?.customer?.regions ?? [],
+        imageUrl: userData?.user?.customer?.imageUrl ?? "",
+      }
+    : {
+        nickname: userData?.user?.mover?.nickname ?? "",
+        career: userData?.user?.mover?.career ?? "",
+        introduction: userData?.user?.mover?.introduction ?? "",
+        description: userData?.user?.mover?.description ?? "",
+        services: userData?.user?.mover?.services ?? [],
+        regions: userData?.user?.mover?.regions ?? [],
+        imageUrl: userData?.user?.mover?.imageUrl ?? "",
+      };
+
   const {
     register,
     handleSubmit,
@@ -92,20 +122,14 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
   } = useForm<ProfileFormData>({
     resolver: zodResolver(profileSchema(isUser)),
     mode: "onChange",
-    defaultValues: {
-      nickname: userData?.nickname ?? "",
-      career: userData?.career ?? undefined,
-      introduction: userData?.introduction ?? "",
-      description: userData?.description ?? "",
-      services: userData?.services ?? [],
-      regions: userData?.regions ?? [],
-      imageUrl: userData?.imageUrl ?? "",
-    },
+    defaultValues,
   });
 
   const values = watch();
   const [previewImage, setPreviewImage] = React.useState<string>(
-    userData?.imageUrl || assets.images.imagePlaceholder
+    isUser
+      ? userData?.user?.customer?.imageUrl || assets.images.imagePlaceholder
+      : userData?.user?.mover?.imageUrl || assets.images.imagePlaceholder
   );
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
@@ -152,7 +176,11 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
     try {
       if (isEdit) {
         if (isUser) {
+          formData.forEach((value, key) => {
+            console.log(key, value);
+          });
           await editCustomerProfile(formData);
+
           // router.push("/find-mover");
         } else {
           if (values.nickname) formData.append("nickname", values.nickname);
@@ -170,8 +198,25 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
           icon: "👏",
         });
       } else {
-        console.log(`${isUser ? "사용자" : "기사"} 폼 등록 제출`);
-        isUser ? router.push("/find-mover") : router.push("/mover/request");
+        formData.append("email", useSignUpStore.getState().userEmail);
+        formData.append("password", useSignUpStore.getState().userPassword);
+        formData.append("name", useSignUpStore.getState().userName);
+        formData.append("phoneNumber", useSignUpStore.getState().userPhone);
+        formData.append("isOAuth", "false");
+        if (isUser) {
+          await customerSignup(formData);
+          router.push("/auth/login");
+        } else {
+          if (values.nickname) formData.append("nickname", values.nickname);
+          if (values.career) formData.append("career", values.career);
+          if (values.introduction)
+            formData.append("introduction", values.introduction);
+          if (values.description)
+            formData.append("description", values.description);
+          await moverSignup(formData);
+          router.push("/mover/auth/login");
+        }
+
         toast.success("프로필 등록이 완료되었습니다.", {
           position: "bottom-center",
           icon: "🎉",

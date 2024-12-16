@@ -1,11 +1,32 @@
 import axiosInstance from "./axios";
-import { UserSignup, UserLogin, AuthResponse, UserInfo } from "@/types/auth";
+import { UserLogin, AuthResponse } from "@/types/auth";
 
 const PATH = "/auth";
 
-export const signup = async (userData: UserSignup): Promise<AuthResponse> => {
-  const response = await axiosInstance.post(`${PATH}/signup`, userData);
+export const customerSignup = async (
+  userData: FormData
+): Promise<AuthResponse> => {
+  const response = await axiosInstance.post(
+    `${PATH}/signup/customer`,
+    userData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
 
+  return response.data;
+};
+
+export const moverSignup = async (
+  userData: FormData
+): Promise<AuthResponse> => {
+  const response = await axiosInstance.post(`${PATH}/signup/mover`, userData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
   return response.data;
 };
 

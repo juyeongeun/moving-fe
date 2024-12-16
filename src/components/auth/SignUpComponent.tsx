@@ -10,6 +10,7 @@ import React from "react";
 import { signUpSchema, SignUpFormData } from "@/utils/authValidation";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { useSignUpStore } from "@/store/signupStore";
 
 interface SignUpComponentProps {
   isUser: boolean;
@@ -58,7 +59,12 @@ export default function SignUpComponent({ isUser }: SignUpComponentProps) {
       }
 
       if (isUser) {
-        // API 호출 로직
+        useSignUpStore.getState().setUserData({
+          email: data.email,
+          password: data.password,
+          name: data.name,
+          phoneNumber: data.phoneNumber,
+        });
         router.push("/me/profile");
         toast.success("프로필을 등록하여 회원가입을 완성해주세요.", {
           duration: 3000,
@@ -74,9 +80,6 @@ export default function SignUpComponent({ isUser }: SignUpComponentProps) {
           icon: "👤",
         });
       }
-
-      // API 호출 로직
-      console.log("폼 제출:", data);
 
       // 성공 시 폼 초기화
       reset();

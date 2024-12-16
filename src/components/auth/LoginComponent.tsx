@@ -46,6 +46,7 @@ export default function SignUpComponent({ isUser }: SignUpComponentProps) {
       throw new Error("유효성 검사 실패");
     }
     try {
+      console.log(data);
       await login(data);
       reset();
       isUser ? router.push("/find-mover") : router.push("/mover/request");
