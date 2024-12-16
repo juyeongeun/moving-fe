@@ -1,4 +1,3 @@
-import CAN_USE_DOM from "@/utils/canUseDom";
 import axios from "axios";
 
 const API_URL =
