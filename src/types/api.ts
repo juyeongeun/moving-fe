@@ -8,3 +8,15 @@ export interface GetQuoteApiResponseData extends QuoteData {
   movingRequest: MovingRequestDataWithComplete;
   mover: MoverDetailData;
 }
+
+export interface CursorResponse {
+  nextCursor: number;
+  hasNext: boolean;
+}
+
+export interface OffsetResponse {
+  currentPage: number;
+  pageSize: number;
+  totalPages: number;
+  totalCounts: number;
+}

@@ -25,7 +25,7 @@ const FavoriteMoverCard = ({ data, className }: FavoriteMoverCardProps) => {
           <ServiceChip variant={serviceType as ChipType} key={serviceType} />
         ))}
       </div>
-      <MoverInfo data={data} />
+      <MoverInfo data={data} isLarge={true} />
     </CardContainer>
   );
 };

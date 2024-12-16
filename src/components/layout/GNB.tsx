@@ -7,7 +7,7 @@ import Image from "next/image";
 import cn from "@/config/cn";
 import DropdownProfile from "../dropdowns/DropdownProfile";
 import DropdownNotification from "../dropdowns/DropdownNotification";
-import useResize from "../hooks/useResize";
+import useResize from "../../hooks/useResize";
 import assets from "@/variables/images";
 
 import { PC_WIDTH } from "@/variables/screen";
