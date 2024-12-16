@@ -383,20 +383,24 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
                 )}
               </label>
               <div className="flex flex-row flex-wrap gap-[8px] w-[277px] mt-2 pc:mt-8 pc:w-[416px]">
-                {Object.values(REGION_CODES).map((code) => (
-                  <CheckboxChip
-                    key={code}
-                    text={REGION_TEXTS[code]}
-                    state={values.regions.includes(code)}
-                    onStateChange={(checked: boolean) => {
-                      let newRegions: number[];
-                      newRegions = checked
-                        ? [...values.regions, code]
-                        : values.regions.filter((region) => region !== code);
-                      setValue("regions", newRegions, { shouldValidate: true });
-                    }}
-                  />
-                ))}
+                {Object.values(REGION_CODES)
+                  .filter((code) => code !== 82)
+                  .map((code) => (
+                    <CheckboxChip
+                      key={code}
+                      text={REGION_TEXTS[code]}
+                      state={values.regions.includes(code)}
+                      onStateChange={(checked: boolean) => {
+                        let newRegions: number[];
+                        newRegions = checked
+                          ? [...values.regions, code]
+                          : values.regions.filter((region) => region !== code);
+                        setValue("regions", newRegions, {
+                          shouldValidate: true,
+                        });
+                      }}
+                    />
+                  ))}
               </div>
               {errors.regions && (
                 <p className={styles.errorMessage}>{errors.regions.message}</p>
