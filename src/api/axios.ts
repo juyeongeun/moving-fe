@@ -1,9 +1,16 @@
+import CAN_USE_DOM from "@/utils/canUseDom";
 import axios from "axios";
 
-export const axiosInstance = axios.create({
-  baseURL: "/api",
-});
+const API_URL =
+  (process.env.NEXT_PUBLIC_API_MOCKING === "enabled" && "/api") ||
+  process.env.NEXT_PUBLIC_API_URL;
 
-// 요청 인터셉터 추후 추가
+export const axiosInstance = axios.create({
+  baseURL: API_URL,
+  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
 
 export default axiosInstance;
