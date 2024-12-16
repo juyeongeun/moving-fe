@@ -7,7 +7,7 @@ import { FavoriteFields, BaseMoverData } from "@/types/mover";
 
 interface ReceivedQuoteData extends BaseMoverData, FavoriteFields {
   introduction: string;
-  isDesignated: boolean;
+  isDesignated: boolean | undefined;
   service: number;
   cost: number;
 }

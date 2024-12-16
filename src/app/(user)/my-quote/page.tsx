@@ -7,6 +7,7 @@ import { useSearchParams } from "next/navigation";
 import PendingRequestCard, {
   PendingRequestData,
 } from "@/components/cards/PendingRequestCard";
+import ReceivedQuoteCard from "@/components/cards/ReceivedQuoteCard";
 import { userData } from "./mock";
 import { ChevronDown, Package } from "lucide-react";
 import Dropdown from "./myQuoteDropdown";
@@ -49,6 +50,7 @@ const MyQuotePage = () => {
   const pendingRequestDataArray = userData.list.map((data) => {
     const mappedData: Partial<PendingRequestDataWithIds> = {
       ...data,
+      isDesignated: data.mover.isDesignated ?? false,
       nickname: data.mover?.nickname || "",
       quoteId: data.id,
       moverId: data.mover?.id || 0,
@@ -205,7 +207,7 @@ const MyQuotePage = () => {
 
                   <div className="p-0 pc:p-4 grid gap-4 pc:grid-cols-2">
                     {pendingRequestDataArray.map((data, index) => (
-                      <PendingRequestCard
+                      <ReceivedQuoteCard
                         key={index}
                         data={data}
                         onPrimaryClick={() =>
