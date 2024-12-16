@@ -25,7 +25,8 @@ const data = {
 const styles = {
   topContainer:
     "mb-[110px] tablet:mb-[72px] pc:flex pc:flex-row pc:gap-[117px] pc:justify-center",
-  title: "text-2lg font-semibold text-black-400 py-[30px] pc:text-2xl",
+  title:
+    "text-2lg font-semibold text-black-400 pb-[6px] pc:text-2xl pc:pb-[30px]",
   container: "flex flex-col gap-[24px]",
   pcShareContainer: "hidden pc:block ",
   shareContainer: "pc:hidden",
