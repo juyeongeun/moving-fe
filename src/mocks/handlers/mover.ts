@@ -54,7 +54,7 @@ export const moverHandlers = [
       filteredList.sort((a, b) => {
         switch (params.order) {
           case "rating":
-            return b.ratings.average - a.ratings.average;
+            return b.rating.average - a.rating.average;
           case "review":
             return b.reviewCount - a.reviewCount;
           case "career":
@@ -99,6 +99,11 @@ export const moverHandlers = [
       return new HttpResponse(null, { status: 404 });
     }
 
-    return HttpResponse.json(mover);
+    return HttpResponse.json({
+      ...mover,
+      isConfirmed: Math.random() > 0.5,
+      description:
+        "안녕하세요. 이사업계 경력 7년으로 안전한 이사를 도와드리는 김코드입니다.고객님의 물품을 소중하고 안전하게 운송하여 드립니다. 소형이사 및 가정이사 서비스를 제공하며 서비스 가능 지역은 서울과 경기권입니다.",
+    });
   }),
 ];

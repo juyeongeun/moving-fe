@@ -1,5 +1,5 @@
 import axiosInstance from "./axios";
-
+import { type MoverDetailData } from "@/types/mover";
 const PATH = "/movers";
 
 interface GetMoverListParams {
@@ -61,4 +61,12 @@ export async function setMoverFavorite({
     const response = { isFavorite: favorite, id: 0 };
     resolve(response);
   });
+}
+
+// (일반유저) 기사님 상세 페이지
+export async function getMoverById(
+  moverId: number
+): Promise<MoverDetailData & { isConfirmed: boolean }> {
+  const response = await axiosInstance.get(`${PATH}/${moverId}`);
+  return response.data;
 }

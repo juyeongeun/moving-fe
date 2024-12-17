@@ -1,16 +1,21 @@
+// API 구조 참고
+export interface RatingData {
+  "1": number;
+  "2": number;
+  "3": number;
+  "4": number;
+  "5": number;
+  totalCount: number;
+  totalSum: number;
+  average: number;
+}
+
 export interface BaseMoverData {
   id: number;
   imageUrl: string | null;
   nickname: string;
   career: number;
-  ratings: {
-    "1": number;
-    "2": number;
-    "3": number;
-    "4": number;
-    "5": number;
-    average: number | null;
-  };
+  rating: RatingData;
   reviewCount: number;
   confirmCount: number;
 }
@@ -67,17 +72,7 @@ interface MoverBaseData extends UserBaseData {
   introduction?: string;
   description?: string;
 }
-// API 구조 참고
-export interface RatingData {
-  "1": number;
-  "2": number;
-  "3": number;
-  "4": number;
-  "5": number;
-  totalCount: number;
-  totalSum: number;
-  average: number;
-}
+
 // API 구조 참고
 export interface MoverDetailData extends MoverBaseData {
   isDesignated: boolean;
