@@ -94,7 +94,6 @@ const FormField = ({
 
 export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
   const router = useRouter();
-  console.log(userData);
   const defaultValues = isUser
     ? {
         services: userData?.user?.customer?.services ?? [],
@@ -144,83 +143,99 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
       : errors[fieldName]?.message;
   };
 
-  const onSubmit = async (data: ProfileFormData) => {
+  const validateForm = (data: ProfileFormData) => {
     if (isUser && (data.regions.length < 1 || data.regions.length > 3)) {
       setError("regions", {
         type: "manual",
         message: "1개 이상 3개 이하로 선택해주세요.",
       });
-      return;
+      return false;
     }
     if (!isUser && (data.regions.length === 0 || data.regions.length > 5)) {
       setError("regions", {
         type: "manual",
         message: "1개 이상 5개 이하로 선택해주세요.",
       });
-      return;
+      return false;
     }
     if (previewImage === assets.images.imagePlaceholder) {
       setError("imageUrl", {
         type: "manual",
         message: "이미지를 선택해주세요.",
       });
-      return;
+      return false;
     }
+    return true;
+  };
 
+  const createFormData = (values: ProfileFormData) => {
     const formData = new FormData();
     formData.append("services", JSON.stringify(values.services));
     formData.append("regions", JSON.stringify(values.regions));
+
     if (fileInputRef.current?.files?.[0]) {
       formData.append("imageUrl", fileInputRef.current.files[0]);
     }
+
+    if (!isUser) {
+      if (values.nickname) formData.append("nickname", values.nickname);
+      if (values.career) formData.append("career", values.career);
+      if (values.introduction)
+        formData.append("introduction", values.introduction);
+      if (values.description)
+        formData.append("description", values.description);
+    }
+
+    if (!isEdit) {
+      const signUpState = useSignUpStore.getState();
+      formData.append("email", signUpState.userEmail);
+      formData.append("password", signUpState.userPassword);
+      formData.append("name", signUpState.userName);
+      formData.append("phoneNumber", signUpState.userPhone);
+      formData.append("isOAuth", "false");
+    }
+
+    return formData;
+  };
+
+  const handleSuccess = (isEdit: boolean) => {
+    const message = isEdit
+      ? "프로필 수정이 완료되었습니다."
+      : "프로필 등록이 완료되었습니다.";
+    const icon = isEdit ? "👏" : "🎉";
+
+    toast.success(message, {
+      position: "bottom-center",
+      icon,
+    });
+
+    reset();
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const onSubmit = async (data: ProfileFormData) => {
+    if (!validateForm(data)) return;
+
     try {
+      const formData = createFormData(values);
+
       if (isEdit) {
         if (isUser) {
           await editCustomerProfile(formData);
-
-          // router.push("/find-mover");
-        } else {
-          if (values.nickname) formData.append("nickname", values.nickname);
-          if (values.career) formData.append("career", values.career);
-          if (values.introduction)
-            formData.append("introduction", values.introduction);
-          if (values.description)
-            formData.append("description", values.description);
-
-          // router.push("/mover/my-page");
+          router.push("/find-mover");
         }
-
-        toast.success("프로필 수정이 완료되었습니다.", {
-          position: "bottom-center",
-          icon: "👏",
-        });
+        // else 무버 프로필 수정 API 호출 필요
       } else {
-        formData.append("email", useSignUpStore.getState().userEmail);
-        formData.append("password", useSignUpStore.getState().userPassword);
-        formData.append("name", useSignUpStore.getState().userName);
-        formData.append("phoneNumber", useSignUpStore.getState().userPhone);
-        formData.append("isOAuth", "false");
         if (isUser) {
           await customerSignup(formData);
           router.push("/auth/login");
         } else {
-          if (values.nickname) formData.append("nickname", values.nickname);
-          if (values.career) formData.append("career", values.career);
-          if (values.introduction)
-            formData.append("introduction", values.introduction);
-          if (values.description)
-            formData.append("description", values.description);
           await moverSignup(formData);
           router.push("/mover/auth/login");
         }
-
-        toast.success("프로필 등록이 완료되었습니다.", {
-          position: "bottom-center",
-          icon: "🎉",
-        });
       }
-      reset();
-      fileInputRef.current && (fileInputRef.current.value = "");
+
+      handleSuccess(isEdit);
     } catch (error: any) {
       const errorMessage =
         error.response?.data?.data?.message ||

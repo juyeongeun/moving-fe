@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { useSignUpStore } from "@/store/signupStore";
 import { validate } from "@/api/auth";
+
 interface SignUpComponentProps {
   isUser: boolean;
 }
@@ -42,14 +43,6 @@ export default function SignUpComponent({ isUser }: SignUpComponentProps) {
     resolver: zodResolver(signUpSchema),
     mode: "onChange",
   });
-
-  const password = watch("password");
-
-  React.useEffect(() => {
-    if (password && isConfirmTouched) {
-      trigger("passwordConfirm");
-    }
-  }, [password, trigger, isConfirmTouched]);
 
   const onSubmit = async (data: SignUpFormData) => {
     try {
@@ -146,7 +139,13 @@ export default function SignUpComponent({ isUser }: SignUpComponentProps) {
             비밀번호
           </label>
           <Input
-            {...register("password")}
+            {...register("password", {
+              onChange: () => {
+                if (isConfirmTouched) {
+                  trigger("passwordConfirm");
+                }
+              },
+            })}
             type="password"
             placeholder="비밀번호를 입력해주세요."
             isAuth={true}
