@@ -24,3 +24,8 @@ export interface UserInfo {
   currentPassword?: string;
   newPassword?: string;
 }
+
+export interface UserValidate {
+  email: string;
+  phoneNumber: string;
+}

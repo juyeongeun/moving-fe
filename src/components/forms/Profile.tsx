@@ -176,9 +176,6 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
     try {
       if (isEdit) {
         if (isUser) {
-          formData.forEach((value, key) => {
-            console.log(key, value);
-          });
           await editCustomerProfile(formData);
 
           // router.push("/find-mover");

@@ -12,7 +12,7 @@ export const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use(
-  async (config) => {
+  (config) => {
     return config;
   },
   (error) => {
@@ -28,7 +28,7 @@ axiosInstance.interceptors.response.use(
         await axiosInstance.post("/auth/refresh");
         return axiosInstance(error.config);
       } catch (refreshError) {
-        // window.location.href = "/auth/login";
+        window.location.href = "/auth/login";
         return Promise.reject(error);
       }
     }
