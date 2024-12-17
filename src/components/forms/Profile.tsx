@@ -17,6 +17,7 @@ import toast from "react-hot-toast";
 import { editCustomerProfile } from "@/api/customer";
 import { useSignUpStore } from "@/store/signupStore";
 import { customerSignup, moverSignup } from "@/api/auth";
+import { editMoverProfile } from "@/api/mover";
 
 interface ProfileProps {
   isUser: boolean;
@@ -75,11 +76,7 @@ const FormField = ({
 }) => (
   <div className={styles.formItem}>
     <label htmlFor={name} className={styles.formLabel}>
-      {label}
-      {(name === "services" || name === "regions") && (
-        <span className="text-pr-blue-300 text-lg font-semibold">*</span>
-      )}{" "}
-      <span className="text-pr-blue-300 text-lg font-semibold">*</span>
+      {label} <span className="text-pr-blue-300 text-lg font-semibold">*</span>
     </label>
     <Input
       {...register(name)}
@@ -223,8 +220,10 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
         if (isUser) {
           await editCustomerProfile(formData);
           router.push("/find-mover");
+        } else {
+          await editMoverProfile(formData);
+          router.push("/mover/my-page");
         }
-        // else 무버 프로필 수정 API 호출 필요
       } else {
         if (isUser) {
           await customerSignup(formData);
@@ -325,7 +324,7 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
                 {isEdit && (
                   <Image
                     src={assets.icons.pencil}
-                    className="absolute left-[72px] top-[5px] bg-white border-gray-300 border-solid border-[1.5px] rounded-md p-[3px]"
+                    className="absolute cursor-pointer left-[72px] top-[5px] bg-white border-gray-300 border-solid border-[1.5px] rounded-md p-[3px]"
                     width={22}
                     height={22}
                     alt="pencil"
@@ -356,7 +355,10 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
                   className={`${styles.formItem} border-none pc:pb-[0px] pc:mb-[0px] hidden pc:flex`}
                 >
                   <label className={styles.formLabel} htmlFor="description">
-                    상세 설명
+                    상세 설명{" "}
+                    <span className="text-pr-blue-300 text-lg font-semibold">
+                      *
+                    </span>
                   </label>
                   <Textarea
                     {...register("description")}

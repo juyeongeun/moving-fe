@@ -62,3 +62,12 @@ export async function setMoverFavorite({
     resolve(response);
   });
 }
+
+export const editMoverProfile = async (userData: FormData) => {
+  const response = await axiosInstance.patch(`${PATH}`, userData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return response.data;
+};
