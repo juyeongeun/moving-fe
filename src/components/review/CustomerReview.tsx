@@ -5,7 +5,7 @@ import LineSeparator from "../common/LineSeparator";
 import ReviewImageSlider from "./ReviewImageSlider";
 import { format } from "date-fns";
 
-interface CustomerReviewData {
+export interface CustomerReviewData {
   id: number;
   rating: number;
   content: string;

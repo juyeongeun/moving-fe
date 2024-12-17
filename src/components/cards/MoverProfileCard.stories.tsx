@@ -19,7 +19,7 @@ const mockData = {
   name: "김다나",
   phoneNumber: "01012341234",
   imageUrl: "",
-  ratings: {
+  rating: {
     "1": 0,
     "2": 0,
     "3": 1,

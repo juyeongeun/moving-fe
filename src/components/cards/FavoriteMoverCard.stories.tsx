@@ -20,7 +20,7 @@ const mockData = {
   introduction: "열심히하는 기사입니다",
   services: [0, 1],
   regions: [82031, 8202],
-  ratings: {
+  rating: {
     "1": 0,
     "2": 0,
     "3": 1,
