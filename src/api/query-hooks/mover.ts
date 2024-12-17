@@ -1,8 +1,7 @@
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { getMoverList } from "../mover";
+import { getMoverList, getMoverProfile } from "../mover";
 import { moverKey } from "../queryKeys";
 import { getMoverById } from "../mover";
-import { MoverDetailData } from "@/types/mover";
 
 //내가 찜한 기사님 목록 조회
 export const useGetFavoriteMoverList = () => {
@@ -24,5 +23,13 @@ export const useGetMoverDetail = (moverId: number) => {
     queryKey: moverKey.detail(moverId),
     queryFn: () => getMoverById(moverId),
     enabled: !!moverId,
+  });
+};
+
+// 기사 마이페이지
+export const useGetMoverMyPage = () => {
+  return useQuery({
+    queryKey: moverKey.myPage(),
+    queryFn: () => getMoverProfile(),
   });
 };

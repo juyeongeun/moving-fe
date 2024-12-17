@@ -224,3 +224,29 @@ export const MOVER_LIST = {
     },
   ],
 };
+
+export const MOVER_MY_PAGE = {
+  id: 3,
+  imageUrl: null,
+  services: [1],
+  nickname: "김기사",
+  name: "김영수",
+  career: 3,
+  regions: [82041, 82062],
+  introduction: "정확하고 안전한 이사, 믿고 맡겨주세요.",
+  isDesignated: true,
+  isFavorite: true,
+  reviewCount: 0,
+  favoriteCount: 1,
+  confirmCount: 0,
+  rating: {
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "4": 0,
+    "5": 0,
+    totalCount: 0,
+    totalSum: 0,
+    average: null,
+  },
+};

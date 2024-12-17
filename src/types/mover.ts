@@ -18,6 +18,7 @@ export interface BaseMoverData {
   rating: RatingData;
   reviewCount: number;
   confirmCount: number;
+  description?: string;
 }
 
 export interface ProfileData {

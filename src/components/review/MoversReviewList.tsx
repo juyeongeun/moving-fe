@@ -8,10 +8,10 @@ import Loader from "../common/Loader";
 import EmptyReview from "@/app/(user)/me/review/EmptyReview";
 
 export const MoversReviewList = ({
-  totalRatings,
+  totalRating,
   moverId,
 }: {
-  totalRatings: RatingData;
+  totalRating: RatingData;
   moverId: number;
 }) => {
   const [pageNum, setPageNum] = useState<number>(1);
@@ -34,21 +34,21 @@ export const MoversReviewList = ({
   return (
     <section>
       <h2 className="text-lg font-bold text-black-400 pc:my-[32px] pc:text-2xl mb-[32px]">
-        리뷰 ({totalRatings.totalCount})
+        리뷰 ({totalRating.totalCount})
       </h2>
-      {totalRatings.totalCount > 0 ? (
+      {totalRating.totalCount > 0 ? (
         <>
           <article className="flex flex-col items-center">
             <RatingInfo
               rating={{
-                "1": totalRatings["1"],
-                "2": totalRatings["2"],
-                "3": totalRatings["3"],
-                "4": totalRatings["4"],
-                "5": totalRatings["5"],
-                totalCount: totalRatings.totalCount,
-                totalSum: totalRatings.totalSum,
-                average: totalRatings.average,
+                "1": totalRating["1"],
+                "2": totalRating["2"],
+                "3": totalRating["3"],
+                "4": totalRating["4"],
+                "5": totalRating["5"],
+                totalCount: totalRating.totalCount,
+                totalSum: totalRating.totalSum,
+                average: totalRating.average,
               }}
             />
           </article>

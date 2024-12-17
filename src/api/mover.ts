@@ -1,5 +1,6 @@
+import { type MoverDetails } from "@/components/cards/MoverInfoCard";
 import axiosInstance from "./axios";
-import { type MoverDetailData } from "@/types/mover";
+import { BaseMoverData } from "@/types/mover";
 const PATH = "/movers";
 
 interface GetMoverListParams {
@@ -64,9 +65,23 @@ export async function setMoverFavorite({
 }
 
 // (일반유저) 기사님 상세 페이지
-export async function getMoverById(
-  moverId: number
-): Promise<MoverDetailData & { isConfirmed: boolean }> {
+export async function getMoverById(moverId: number): Promise<MoverDetails> {
   const response = await axiosInstance.get(`${PATH}/${moverId}`);
+  return response.data;
+}
+
+export interface MoverMyPageResponse extends BaseMoverData {
+  name: string;
+  services: number[];
+  regions: number[];
+  introduction: string;
+  isDesignated: boolean;
+  isFavorite: boolean;
+  favoriteCount: number;
+}
+
+// (기사님) 마이 페이지
+export async function getMoverProfile(): Promise<MoverMyPageResponse> {
+  const response = await axiosInstance.get(`${PATH}/my-profile`);
   return response.data;
 }

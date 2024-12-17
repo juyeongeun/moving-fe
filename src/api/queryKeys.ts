@@ -5,6 +5,7 @@ export const moverKey = {
   details: () => [...moverKey.all, "detail"] as const,
   detail: (moverId: number) => [...moverKey.details(), moverId] as const, // 기사 상세 페이지
   favorite: (params = {}) => [...moverKey.list(params), "favorite"] as const, // 내가 찜한 기사 목록
+  myPage: () => [...moverKey.details(), "myPage"] as const, // 기사님 마이페이지
 };
 
 export const reviewKey = {
