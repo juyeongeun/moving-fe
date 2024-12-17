@@ -10,7 +10,7 @@ export interface GetQuoteApiResponseData extends QuoteData {
 }
 
 export interface CursorResponse {
-  nextCursor: number;
+  nextCursor: number | null;
   hasNext: boolean;
 }
 
@@ -19,4 +19,14 @@ export interface OffsetResponse {
   pageSize: number;
   totalPages: number;
   totalCounts: number;
+}
+
+export interface CursorParams {
+  limit?: number;
+  nextCursorId?: number | null;
+}
+
+export interface PageParams {
+  pageNum?: number;
+  pageSize?: number;
 }

@@ -9,14 +9,6 @@ import Message from "@/components/common/Message";
 import { useGetFavoriteMoverList } from "@/api/query-hooks/mover";
 import { CursorResponse } from "@/types/api";
 
-// interface FavoriteMoverListProps {
-//   data: {
-//     nextCursor: number;
-//     hasNext: boolean;
-//     list: FavoriteMoverData[];
-//   };
-// }
-
 interface FavoriteMoverResponse extends CursorResponse {
   list: FavoriteMoverData[];
 }

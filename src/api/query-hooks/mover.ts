@@ -11,7 +11,7 @@ export const useGetFavoriteMoverList = () => {
         isFavorite: true,
         limit: 10,
       }),
-    getNextPageParam: (lastPage) => lastPage.nextCursorId,
+    getNextPageParam: (lastPage) => lastPage.nextCursor,
     initialPageParam: null,
   });
 };

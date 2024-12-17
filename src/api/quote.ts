@@ -1,7 +1,11 @@
 import axiosInstance from "./axios";
 
 import { type MoverDetailData } from "@/types/mover";
-import { CursorResponse, GetQuoteApiResponseData } from "@/types/api";
+import {
+  type CursorResponse,
+  type GetQuoteApiResponseData,
+  type CursorParams,
+} from "@/types/api";
 import { type SentQuoteData, type QuoteDetailsData } from "@/types/quote";
 
 const PATH = "/quotes";
@@ -121,23 +125,33 @@ export function finalizeQuote(quoteId: number) {
   });
 }
 
-interface GetSentQuotes extends CursorResponse {
+export interface SentQuotesResponse extends CursorResponse {
   list: SentQuoteData[] | [];
 }
 
 // (기사님) 보낸 견적 목록 조회
-export async function getSentQuoteList(): Promise<GetSentQuotes> {
-  const response = await axiosInstance.get(`${PATH}/mover`);
+export async function getSentQuoteList({
+  nextCursorId = null,
+  limit = 8,
+}: CursorParams): Promise<SentQuotesResponse> {
+  const response = await axiosInstance.get(`${PATH}/mover`, {
+    params: { nextCursorId, limit },
+  });
   return response.data;
 }
 
-interface GetRejectedQuoteList extends CursorResponse {
+export interface RejectedQuotesResponse extends CursorResponse {
   list: QuoteDetailsData[] | [];
 }
 
 // (기사님) 요청 반려 목록 조회
-export async function getRejectedQuoteList(): Promise<GetRejectedQuoteList> {
-  const response = await axiosInstance.get(`${PATH}/mover/rejected`);
+export async function getRejectedQuoteList({
+  nextCursorId = null,
+  limit = 8,
+}: CursorParams): Promise<RejectedQuotesResponse> {
+  const response = await axiosInstance.get(`${PATH}/mover/rejected`, {
+    params: { nextCursorId, limit },
+  });
   return response.data;
 }
 
