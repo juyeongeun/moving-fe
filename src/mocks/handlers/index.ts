@@ -1,4 +1,5 @@
 import { moverHandlers } from "./mover";
+import { quoteHandlers } from "./quote";
 import { reviewHandlers } from "./review";
 import { movingRequestHandlers } from "./pendingQuotes";
 
@@ -7,6 +8,8 @@ export const handlers = [
   ...moverHandlers,
   ...reviewHandlers,
   ...movingRequestHandlers,
+  ,
+  ...quoteHandlers,
 ];
 
 export default handlers;
