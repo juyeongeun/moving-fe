@@ -383,3 +383,98 @@ export const AVAILABLE_REVIEW_LIST = {
     },
   ],
 };
+
+// 특정 기사님의 리뷰 리스트
+export const MOVERS_REVIEW_LIST = {
+  currentPage: 1,
+  totalPages: 7,
+  totalCount: 10,
+  list: [
+    {
+      id: 1,
+      images: null,
+      name: "김다나",
+      rating: 5,
+      content: "좋아요",
+      createdAt: "2024-11-27T12:45:30.123Z",
+    },
+    {
+      id: 2,
+      images: [],
+      name: "이수민",
+      rating: 4,
+      content: "친절하고 안전하게 옮겨주셨습니다.",
+      createdAt: "2024-11-27T14:02:10.456Z",
+    },
+    {
+      id: 3,
+      images: null,
+      name: "박지원",
+      rating: 5,
+      content: "시간 약속을 잘 지키고 꼼꼼했습니다.",
+      createdAt: "2024-11-27T15:21:50.789Z",
+    },
+    {
+      id: 4,
+      images: [],
+      name: "최민호",
+      rating: 3,
+      content: "전체적으로 좋았지만 조금 늦었습니다.",
+      createdAt: "2024-11-27T16:10:05.987Z",
+    },
+    {
+      id: 5,
+      images: [
+        "https://picsum.photos/200/200",
+        "https://picsum.photos/200/300",
+      ],
+      name: "홍길동",
+      rating: 5,
+      content: "완벽한 서비스였습니다!",
+      createdAt: "2024-11-27T17:40:20.123Z",
+    },
+    {
+      id: 6,
+      images: [],
+      name: "유재석",
+      rating: 4,
+      content: "가격대비 훌륭한 서비스였어요.",
+      createdAt: "2024-11-27T18:22:55.456Z",
+    },
+    {
+      id: 7,
+      images: [
+        "https://picsum.photos/200/200",
+        "https://picsum.photos/200/100",
+      ],
+      name: "강호동",
+      rating: 5,
+      content: "무거운 짐도 문제없이 옮겨주셨습니다.",
+      createdAt: "2024-11-27T19:10:40.789Z",
+    },
+    {
+      id: 8,
+      images: null,
+      name: "신동엽",
+      rating: 4,
+      content: "연락이 신속하고 응대가 좋았습니다.",
+      createdAt: "2024-11-27T20:35:30.222Z",
+    },
+    {
+      id: 9,
+      images: [],
+      name: "정우성",
+      rating: 5,
+      content: "다음에도 이용하고 싶어요.",
+      createdAt: "2024-11-27T21:55:45.999Z",
+    },
+    {
+      id: 10,
+      images: ["https://picsum.photos/200/400"],
+      name: "이영자",
+      rating: 5,
+      content: "최고의 서비스였습니다.",
+      createdAt: "2024-11-27T22:15:10.111Z",
+    },
+  ],
+};
