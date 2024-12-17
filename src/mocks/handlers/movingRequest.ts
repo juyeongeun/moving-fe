@@ -1,5 +1,5 @@
 import { http, HttpResponse } from "msw";
-import { MOVING_REQUESTS, MOVING_REQUEST_QUOTES } from "../data/movingRequest"; // 데이터 import
+import { MOVING_REQUESTS, MOVING_REQUEST_QUOTES } from "../data/movingQuotes"; // 데이터 import
 
 export const movingRequestHandlers = [
   // 1. 고객의 이사 요청 목록 조회
