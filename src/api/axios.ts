@@ -13,7 +13,7 @@ export const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use(
-  async (config) => {
+  (config) => {
     return config;
   },
   (error) => {
