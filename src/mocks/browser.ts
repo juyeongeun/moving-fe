@@ -4,7 +4,10 @@ import { handlers } from "./handlers";
 const worker = setupWorker(...handlers);
 
 export const startWorker = async () => {
-  if (process.env.NODE_ENV === "development" && typeof window !== "undefined") {
+  if (
+    process.env.NEXT_PUBLIC_API_MOCKING === "enabled" &&
+    typeof window !== "undefined"
+  ) {
     return worker.start({
       onUnhandledRequest: (request, print) => {
         const allowedPaths = [
