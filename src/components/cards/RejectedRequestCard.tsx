@@ -1,4 +1,4 @@
-import { type QuoteDetailsData } from "@/types/mover";
+import { type QuoteDetailsData } from "@/types/quote";
 import CardContainer from "../common/card/CardContainer";
 import QuoteDetails from "../common/card/QuoteDetails";
 import cn from "@/config/cn";
