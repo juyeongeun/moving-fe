@@ -3,6 +3,7 @@ import axiosInstance from "./axios";
 import { type MoverDetailData } from "@/types/mover";
 import {
   type CursorResponse,
+  type OffsetResponse,
   type GetQuoteApiResponseData,
   type CursorParams,
 } from "@/types/api";
@@ -30,7 +31,7 @@ function generateRandomResponse(quoteId: number): GetQuoteApiResponseData {
   const baseDate = new Date(2025, 1, 1);
   const randomOffset = Math.floor(Math.random() * 30);
 
-  const ratings = {
+  const rating = {
     1: Math.floor(Math.random() * 50),
     2: Math.floor(Math.random() * 50),
     3: Math.floor(Math.random() * 50),
@@ -38,11 +39,11 @@ function generateRandomResponse(quoteId: number): GetQuoteApiResponseData {
     5: Math.floor(Math.random() * 50),
   };
 
-  const totalCount = Object.values(ratings).reduce(
+  const totalCount = Object.values(rating).reduce(
     (sum, count) => sum + count,
     0
   );
-  const totalSum = Object.entries(ratings).reduce(
+  const totalSum = Object.entries(rating).reduce(
     (sum, [key, value]) => sum + Number(key) * value,
     0
   );
@@ -66,7 +67,7 @@ function generateRandomResponse(quoteId: number): GetQuoteApiResponseData {
     favoriteCount: getRandomInt(0, 1000),
     confirmCount: getRandomInt(0, 300),
     rating: {
-      ...ratings,
+      ...rating,
       totalCount,
       totalSum,
       average,
@@ -125,30 +126,22 @@ export function finalizeQuote(quoteId: number) {
   });
 }
 
-export interface SentQuotesResponse extends CursorResponse {
-  list: SentQuoteData[] | [];
-}
-
 // (기사님) 보낸 견적 목록 조회
 export async function getSentQuoteList({
   nextCursorId = null,
   limit = 8,
-}: CursorParams): Promise<SentQuotesResponse> {
+}: CursorParams): Promise<CursorResponse<SentQuoteData>> {
   const response = await axiosInstance.get(`${PATH}/mover`, {
     params: { nextCursorId, limit },
   });
   return response.data;
 }
 
-export interface RejectedQuotesResponse extends CursorResponse {
-  list: QuoteDetailsData[] | [];
-}
-
 // (기사님) 요청 반려 목록 조회
 export async function getRejectedQuoteList({
   nextCursorId = null,
   limit = 8,
-}: CursorParams): Promise<RejectedQuotesResponse> {
+}: CursorParams): Promise<CursorResponse<QuoteDetailsData>> {
   const response = await axiosInstance.get(`${PATH}/mover/rejected`, {
     params: { nextCursorId, limit },
   });

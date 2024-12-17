@@ -6,14 +6,11 @@ import { useRouter, useSearchParams } from "next/navigation";
 import RejectedRequestCard from "@/components/cards/RejectedRequestCard";
 import Loader from "@/components/common/Loader";
 import Message from "@/components/common/Message";
-import {
-  type RejectedQuotesResponse,
-  type SentQuotesResponse,
-} from "@/api/quote";
-import { type SentQuoteData } from "@/types/quote";
+import { type QuoteDetailsData, type SentQuoteData } from "@/types/quote";
+import { CursorResponse } from "@/types/api";
 
 interface QuoteCardListProps {
-  pages: (SentQuotesResponse | RejectedQuotesResponse)[];
+  pages: CursorResponse<SentQuoteData | QuoteDetailsData>[];
   currentTab: number;
   onButtonClick: (id: number) => void;
   isFetchingNextPage: boolean;
