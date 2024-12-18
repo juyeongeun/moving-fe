@@ -1,4 +1,4 @@
-export const MOVING_REQUESTS = {
+export const MOVING_REQUESTS_WITH_STATUS = {
   totalCount: 5,
   list: [
     {
