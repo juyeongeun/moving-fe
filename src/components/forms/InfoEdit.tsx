@@ -4,12 +4,14 @@ import Input from "@/components/common/Input";
 import Button from "@/components/common/Button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React from "react";
+import React, { useState } from "react";
 import { infoEditSchema, InfoEditFormData } from "@/utils/authValidation";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { editUserInfo } from "@/api/user";
 import { UserInfo } from "@/types/auth";
+import NiceModal, { useModal } from "@ebay/nice-modal-react";
+import ConfirmModal from "@/components/modals/ConfirmModal";
 
 interface InfoEditProps {
   isUser: boolean;
@@ -71,8 +73,11 @@ const FormField = ({
   </div>
 );
 
+NiceModal.register("confirm-modal", ConfirmModal);
+
 export default function InfoEdit({ isUser, userData }: InfoEditProps) {
   const router = useRouter();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const {
     register,
@@ -93,6 +98,49 @@ export default function InfoEdit({ isUser, userData }: InfoEditProps) {
     },
   });
 
+  React.useEffect(() => {
+    const showPasswordConfirm = async () => {
+      try {
+        await NiceModal.show("confirm-modal", {
+          title: "비밀번호 확인",
+          description: "정보 수정을 위해 현재 비밀번호를 입력해주세요.",
+          buttonText: "확인",
+          onConfirm: async (password: string) => {
+            try {
+              // await verifyPassword(password);
+              if (password == "qw12!@") {
+                setIsAuthenticated(true);
+                NiceModal.remove("confirm-modal");
+              } else {
+                toast.error("비밀번호가 일치하지 않습니다.", {
+                  position: "bottom-center",
+                });
+                showPasswordConfirm();
+              }
+            } catch (error) {
+              toast.error("비밀번호가 일치하지 않습니다.", {
+                position: "bottom-center",
+              });
+              showPasswordConfirm();
+            }
+          },
+          onCancel: () => {
+            router.back();
+          },
+        });
+      } catch (error) {
+        console.error("Modal error:", error);
+        router.back();
+      }
+    };
+
+    showPasswordConfirm();
+  }, []);
+
+  if (!isAuthenticated) {
+    return null;
+  }
+
   const values = watch();
 
   const getErrorMessage = (fieldName: keyof InfoEditFormData) => {
@@ -100,16 +148,6 @@ export default function InfoEdit({ isUser, userData }: InfoEditProps) {
   };
 
   const onSubmit = async (data: InfoEditFormData) => {
-    const hasPasswordChange = data.currentPassword && data.newPassword;
-    const userType = isUser ? "유저" : "기사";
-
-    console.log(
-      `${userType} 폼 제출:`,
-      data.name,
-      data.phoneNumber,
-      hasPasswordChange && data.newPassword
-    );
-
     const userInfo: UserInfo = {
       name: data.name,
       phoneNumber: data.phoneNumber,
@@ -143,7 +181,6 @@ export default function InfoEdit({ isUser, userData }: InfoEditProps) {
 
   const hasErrors = Object.keys(errors).length > 0;
 
-  // 버튼 활성화 조건을 확인하는 함수 추가
   const isSubmitDisabled = () => {
     const isPasswordChangeValid =
       values.newPassword || values.newPasswordConfirm

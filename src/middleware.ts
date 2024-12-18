@@ -16,7 +16,6 @@ const protectedRoutes = [
   "/mover/info-edit",
   "/mover/my-page",
   "/mover/my-quote",
-  "/mover/my-quote/",
   "/mover/profile-edit",
   "/mover/request",
   "/request",
@@ -25,7 +24,6 @@ const protectedRoutes = [
   "/me/profile-edit",
   "/me/review",
   "/my-quote",
-  "/my-quote/",
 ];
 
 export default function middleware(request: NextRequest) {

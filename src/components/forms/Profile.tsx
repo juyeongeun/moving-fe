@@ -99,7 +99,9 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
       }
     : {
         nickname: userData?.user?.mover?.nickname ?? "",
-        career: userData?.user?.mover?.career ?? "",
+        career: userData?.user?.mover?.career
+          ? String(userData?.user?.mover?.career)
+          : "",
         introduction: userData?.user?.mover?.introduction ?? "",
         description: userData?.user?.mover?.description ?? "",
         services: userData?.user?.mover?.services ?? [],
