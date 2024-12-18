@@ -8,21 +8,19 @@ import Loader from "@/components/common/Loader";
 import Message from "@/components/common/Message";
 import { type QuoteDetailsData, type SentQuoteData } from "@/types/quote";
 import { CursorResponse } from "@/types/api";
+import { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 
 interface QuoteCardListProps {
   pages: CursorResponse<SentQuoteData | QuoteDetailsData>[];
   currentTab: number;
   onButtonClick: (id: number) => void;
-  isFetchingNextPage: boolean;
-  hasNextPage: boolean;
 }
 
 const QuoteCardList = ({
   pages,
   currentTab,
   onButtonClick,
-  isFetchingNextPage,
-  hasNextPage,
 }: QuoteCardListProps) => {
   return (
     <ul className="max-w-[1400px] mx-auto bg-bg-100 grid grid-cols-1 gap-[24px] mt-[24px] pc:grid-cols-2 tablet:gap-[32px] tablet:mt-[32px] pc:gap-x-[24px] pc:gap-y-[48px] pc:mt-[40px]">
@@ -44,10 +42,6 @@ const QuoteCardList = ({
           )
         )
       )}
-      {isFetchingNextPage && <Loader msg="더 불러오는 중..." />}
-      {!hasNextPage && !isFetchingNextPage && (
-        <Message msg="더 불러올 견적이 없습니다." />
-      )}
     </ul>
   );
 };
@@ -57,8 +51,23 @@ export default function MyQuotePage() {
   const searchParams = useSearchParams();
   const currentTab = Number(searchParams.get("tab") || "0");
 
-  const { data, isPending, isError, isFetchingNextPage, hasNextPage } =
-    useGetManagedQuoteList({ tab: currentTab });
+  const { ref, inView } = useInView();
+
+  const {
+    isFetchingNextPage,
+    fetchNextPage,
+    isFetching,
+    hasNextPage,
+    isPending,
+    isError,
+    data,
+  } = useGetManagedQuoteList({ tab: currentTab });
+
+  useEffect(() => {
+    if (inView) {
+      !isFetching && hasNextPage && fetchNextPage();
+    }
+  }, [isFetching, inView, hasNextPage, fetchNextPage]);
 
   const handleButtonClick = (quoteId: number) => {
     router.push(`/mover/my-quote/${quoteId}`);
@@ -80,12 +89,22 @@ export default function MyQuotePage() {
   }
 
   return (
-    <QuoteCardList
-      pages={pages}
-      currentTab={currentTab}
-      onButtonClick={handleButtonClick}
-      isFetchingNextPage={isFetchingNextPage}
-      hasNextPage={hasNextPage}
-    />
+    <>
+      <QuoteCardList
+        pages={pages}
+        currentTab={currentTab}
+        onButtonClick={handleButtonClick}
+      />
+
+      <div ref={ref}>
+        {isFetchingNextPage ? (
+          <Loader msg="찜한 기사님 목록 불러오는중" />
+        ) : hasNextPage ? (
+          <Loader msg="새 목록 불러오는 중" />
+        ) : (
+          <Message msg="더 불러올 기사님이 없습니다." />
+        )}
+      </div>
+    </>
   );
 }

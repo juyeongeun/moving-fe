@@ -262,11 +262,11 @@ export const MOVER_MY_PAGE = {
   rating: {
     "1": 0,
     "2": 0,
-    "3": 0,
-    "4": 0,
-    "5": 0,
-    totalCount: 0,
-    totalSum: 0,
-    average: null,
+    "3": 1,
+    "4": 3,
+    "5": 6,
+    totalCount: 10,
+    totalSum: 45,
+    average: 4.5,
   },
 };

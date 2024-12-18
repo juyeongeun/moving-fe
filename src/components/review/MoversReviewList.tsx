@@ -23,7 +23,7 @@ export const MoversReviewList = ({
     pageSize: 5,
   });
   const totalPages = Number(data?.totalPages);
-  console.log("totalRating:", totalRating); // Debug log
+
   if (isPending) {
     return <Loader msg="리뷰 불러오는 중" />;
   }
@@ -33,7 +33,7 @@ export const MoversReviewList = ({
   return (
     <section>
       <h2 className="text-lg font-bold text-black-400 pc:my-[32px] pc:text-2xl mb-[32px]">
-        리뷰 ({totalRating.totalCount})
+        리뷰 ({totalRating.totalCount > 0 ? totalRating.totalCount : 0})
       </h2>
       {totalRating?.totalCount === 0 ? (
         <EmptyReview />

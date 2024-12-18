@@ -16,7 +16,7 @@ import { getServiceText } from "@/utils/utilFunctions";
 
 import { SERVICE_CODES } from "@/variables/service";
 import assets from "@/variables/images";
-import { type QuoteDetailsData } from "@/types/mover";
+import { QuoteDetailsData } from "@/types/quote";
 
 // 임시. 테스트용
 import { fetchData_ } from "./page";
