@@ -23,7 +23,7 @@ const data = {
   imageUrl: "https://picsum.photos/200/300",
   nickname: "김일반",
   career: 5,
-  ratings: {
+  rating: {
     "1": 1,
     "2": 2,
     "3": 3,
@@ -252,15 +252,15 @@ export default function MyQuoteDetailPage() {
               <>
                 <article className="flex flex-col items-center">
                   <RatingInfo
-                    ratings={{
-                      "1": data.ratings["1"],
-                      "2": data.ratings["2"],
-                      "3": data.ratings["3"],
-                      "4": data.ratings["4"],
-                      "5": data.ratings["5"],
+                    rating={{
+                      "1": data.rating["1"],
+                      "2": data.rating["2"],
+                      "3": data.rating["3"],
+                      "4": data.rating["4"],
+                      "5": data.rating["5"],
                       totalCount: data.reviewCount,
-                      totalSum: data.ratings.totalSum,
-                      average: data.ratings.average,
+                      totalSum: data.rating.totalSum,
+                      average: data.rating.average,
                     }}
                   />
                 </article>

@@ -9,7 +9,7 @@ import PendingRequestCard, {
 } from "@/components/cards/PendingRequestCard";
 import ReceivedQuoteCard from "@/components/cards/ReceivedQuoteCard";
 import { ChevronDown, Package } from "lucide-react";
-import Dropdown from "./myQuoteDropdown";
+import DropdownQuote from "@/components/dropdowns/DropdownQuote";
 import LineSeparator from "@/components/common/LineSeparator";
 import { fetchPendingQuotes } from "@/api/PendingQuotes";
 import { mapServiceType } from "@/utils/utilFunctions";
@@ -99,13 +99,14 @@ const MyQuotePage = () => {
 
   const pendingRequestDataArray = quotes.map((data: Quote) => ({
     quoteId: data.id,
-    moverId: data.mover.id,
+    id: data.mover.id,
+    imageUrl: data.mover.imageUrl,
     nickname: data.mover.nickname,
     career: data.mover.career,
     isDesignated: data.mover.isDesignated,
-    ratings: {
+    rating: {
       ...data.mover.rating,
-      average: data.mover.rating.average || 0,
+      // average: data.mover.rating.average || 0,
     },
     reviewCount: data.mover.reviewCount,
     cost: data.cost,
@@ -118,11 +119,17 @@ const MyQuotePage = () => {
     requestDate: data.movingRequest.requestDate,
     movingType: data.movingRequest.service,
     service: data.movingRequest.service,
+    isFavorite: data.mover.isFavorite,
+    introduction: data.mover.introduction,
+    services: [0],
+    regions: [8202],
   }));
 
   const toggleSection = (sectionNumber: number): void => {
     setOpenSection(openSection === sectionNumber ? null : sectionNumber);
   };
+
+  const handleQuoteFilterClick = () => {};
 
   return (
     <div className="max-w-[1400px] mx-auto my-[16px] pc:my-[24px]">
@@ -249,22 +256,16 @@ const MyQuotePage = () => {
                   <div className="px-5 py-4 flex flex-col gap-4">
                     <div className="text-2xl font-semibold">견적서 목록</div>
                     <div>
-                      <Dropdown />
+                      <DropdownQuote
+                        onSelect={handleQuoteFilterClick}
+                        disabled={false}
+                      />
                     </div>
                   </div>
 
                   <div className="p-0 pc:p-4 grid gap-4 pc:grid-cols-2">
                     {pendingRequestDataArray.map((data, index) => (
-                      <ReceivedQuoteCard
-                        key={index}
-                        data={data}
-                        onPrimaryClick={() =>
-                          console.log("Primary button clicked")
-                        }
-                        onOutlinedClick={() =>
-                          console.log("Outlined button clicked")
-                        }
-                      />
+                      <ReceivedQuoteCard key={index} data={data} />
                     ))}
                   </div>
                 </div>

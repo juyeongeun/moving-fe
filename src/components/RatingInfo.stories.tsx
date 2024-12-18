@@ -22,7 +22,7 @@ type Story = StoryObj<typeof RatingInfo>;
 
 export const sample: Story = {
   args: {
-    ratings: {
+    rating: {
       "1": 0,
       "2": 0,
       "3": 0,

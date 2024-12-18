@@ -7,6 +7,8 @@ const API_URL =
 
 export const axiosInstance = axios.create({
   baseURL: API_URL,
+  // baseURL: "https://moving-be.onrender.com",
+  // baseURL: "https://moving-be-1.onrender.com",
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",

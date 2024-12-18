@@ -3,7 +3,7 @@ export interface BaseMoverData {
   imageUrl: string | null;
   nickname: string;
   career: number;
-  ratings: {
+  rating: {
     "1": number;
     "2": number;
     "3": number;

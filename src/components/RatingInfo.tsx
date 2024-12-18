@@ -77,9 +77,9 @@ type Ratings = {
   average: number;
 };
 
-type RatingInfoProps = { ratings: Ratings };
+type RatingInfoProps = { rating: Ratings };
 
-export default function RatingInfo({ ratings }: RatingInfoProps) {
+export default function RatingInfo({ rating }: RatingInfoProps) {
   const ratingInfoClass = clsx(
     "box-border flex flex-col gap-[40px] items-center justify-center",
     "px-0",
@@ -116,18 +116,18 @@ export default function RatingInfo({ ratings }: RatingInfoProps) {
     <div className={ratingInfoClass}>
       <div className={averageInfoClass}>
         <div className="flex flex-row items-center">
-          <div className={averageClass}>{ratings.average}</div>
+          <div className={averageClass}>{rating.average}</div>
           <div className={maxRatingClass}>/{MAX_STAR_COUNT}</div>
         </div>
-        <StarRating average={ratings.average} />
+        <StarRating average={rating.average} />
       </div>
       <div className={RatingDetailListClass}>
         {ratingScores.map((score) => (
           <RatingDetail
             key={score}
             label={`${score}점`}
-            maxValue={ratings.totalCount}
-            currentValue={ratings[score.toString() as keyof Ratings]}
+            maxValue={rating.totalCount}
+            currentValue={rating[score.toString() as keyof Ratings]}
           />
         ))}
       </div>

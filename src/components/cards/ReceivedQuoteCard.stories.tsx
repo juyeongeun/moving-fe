@@ -21,7 +21,7 @@ const mockData = {
   nickname: "김기사",
   career: 4,
   introduction: "안전하고 신속한 이사를 약속드립니다.",
-  ratings: {
+  rating: {
     "1": 0,
     "2": 0,
     "3": 1,

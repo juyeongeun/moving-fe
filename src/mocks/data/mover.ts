@@ -10,7 +10,7 @@ export const MOVER_LIST = {
       introduction: "열심히 하는 기사입니다. 고객 만족을 위해 최선을 다합니다.",
       services: [0, 1],
       regions: [82031, 8202],
-      ratings: {
+      rating: {
         "1": 0,
         "2": 0,
         "3": 1,
@@ -32,7 +32,7 @@ export const MOVER_LIST = {
       introduction: "신속하고 안전한 운송을 제공합니다.",
       services: [1, 2],
       regions: [82021, 8103],
-      ratings: {
+      rating: {
         "1": 1,
         "2": 0,
         "3": 0,
@@ -54,7 +54,7 @@ export const MOVER_LIST = {
       introduction: "친절한 응대와 책임감이 강한 기사입니다.",
       services: [0, 2],
       regions: [82031, 8204],
-      ratings: {
+      rating: {
         "1": 0,
         "2": 1,
         "3": 2,
@@ -76,7 +76,7 @@ export const MOVER_LIST = {
       introduction: "시간 엄수와 안전 운송에 최선을 다합니다.",
       services: [1, 2],
       regions: [82032, 8203],
-      ratings: {
+      rating: {
         "1": 0,
         "2": 0,
         "3": 2,
@@ -98,7 +98,7 @@ export const MOVER_LIST = {
       introduction: "경험 풍부한 기사로, 다양한 상황에 대처 가능합니다.",
       services: [0, 1],
       regions: [82031, 8205],
-      ratings: {
+      rating: {
         "1": 1,
         "2": 1,
         "3": 0,
@@ -120,7 +120,7 @@ export const MOVER_LIST = {
       introduction: "신입이지만 열정이 가득한 기사입니다.",
       services: [2],
       regions: [82033, 8201],
-      ratings: {
+      rating: {
         "1": 0,
         "2": 1,
         "3": 1,
@@ -142,7 +142,7 @@ export const MOVER_LIST = {
       introduction: "오랜 경력으로 신뢰를 드리는 베테랑 기사입니다.",
       services: [0, 2],
       regions: [82031, 8206],
-      ratings: {
+      rating: {
         "1": 0,
         "2": 0,
         "3": 3,
@@ -164,7 +164,7 @@ export const MOVER_LIST = {
       introduction: "친절하고 꼼꼼한 서비스로 만족을 드립니다.",
       services: [1, 2],
       regions: [82034, 8202],
-      ratings: {
+      rating: {
         "1": 2,
         "2": 0,
         "3": 0,
@@ -186,7 +186,7 @@ export const MOVER_LIST = {
       introduction: "최고의 퍼포먼스로 고객을 만족시키는 베스트 기사입니다.",
       services: [2],
       regions: [82035, 8203],
-      ratings: {
+      rating: {
         "1": 0,
         "2": 1,
         "3": 2,
@@ -208,7 +208,7 @@ export const MOVER_LIST = {
       introduction: "성실하게 일하며 고객의 신뢰를 쌓는 기사입니다.",
       services: [0, 1],
       regions: [82031, 8207],
-      ratings: {
+      rating: {
         "1": 0,
         "2": 0,
         "3": 1,

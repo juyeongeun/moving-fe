@@ -21,7 +21,7 @@ const mockMoverData = {
   imageUrl: "https://picsum.photos/200",
   services: [1, 2],
   regions: [1, 2],
-  ratings: {
+  rating: {
     1: 0,
     2: 0,
     3: 2,
