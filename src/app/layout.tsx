@@ -8,7 +8,8 @@ import { Toaster } from "react-hot-toast";
 import TanstackQueryClientProvider from "@/contexts/queryClientProvider";
 import NiceModalProvider from "@/components/NiceModalProvider";
 import MSWComponent from "@/components/layout/MswComponent";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { isDevelopment } from "@/utils/env";
+import ReactQueryDevtoolsClient from "@/components/ReactQueryDevtoolsClient";
 
 const pretendard = localFont({
   src: "./fonts/PretendardVariable.woff2",
@@ -23,15 +24,15 @@ export const metadata: Metadata = {
   title: "무빙",
   description: "이사 소비자와 이사 전문가 매칭 서비스",
   icons: {
-    icon: "/public/favicon.ico",
+    icon: "/favicon.ico",
   },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="ko">
       <body
@@ -47,7 +48,8 @@ export default function RootLayout({
               <QuoteGNBWrapper />
               {children}
               <Toaster />
-              <ReactQueryDevtools initialIsOpen={false} />
+              {isDevelopment() && <ReactQueryDevtoolsClient />}{" "}
+              {/* Development 환경에서만 렌더링 */}
             </TanstackQueryClientProvider>
           </NiceModalProvider>
         </MSWComponent>

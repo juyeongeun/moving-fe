@@ -14,3 +14,12 @@ export const reviewKey = {
   me: () => [...reviewKey.lists(), "me"] as const, // 내가 쓴 리뷰
   available: () => [...reviewKey.list(), "available"] as const, // 내가 작성할 수 있는 리뷰
 };
+
+export const quoteKey = {
+  all: ["quote"] as const,
+  lists: () => [...quoteKey.all, "list"] as const,
+  sent: () => [...quoteKey.lists(), "mover"] as const, // (기사님) 견적관리 보낸 목록 조회
+  rejected: () => [...quoteKey.sent(), "rejected"] as const, // (기사님) 견적관리 반려 목록 조회
+  details: () => [...quoteKey.all, "detail"] as const,
+  detail: (quoteId: number) => [...quoteKey.details(), quoteId] as const, // (기사님) 견적 상세 페이지
+};

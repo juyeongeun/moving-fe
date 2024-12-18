@@ -7,20 +7,9 @@ import { formatCost } from "@/utils/formatCost";
 import QuoteDetailInfo from "@/components/request/QuoteDetailInfo";
 import ShareButtons from "@/components/common/ShareButtons";
 import { usePathname, useSearchParams } from "next/navigation";
-
-const data = {
-  id: 103,
-  requestDate: "2024-03-17T12:00:00.000Z",
-  service: 1,
-  isDesignated: true,
-  name: "김일반",
-  movingDate: "2024-11-30T12:00:00.000Z",
-  pickupAddress: "서울특별시 강남구 역삼동 123-456",
-  dropOffAddress: "서울특별시 서초구 서초동 789-012",
-  isCompleted: true,
-  isConfirmed: true,
-  cost: 150000,
-};
+import { useGetSentQuoteDetail } from "@/api/query-hooks/quote";
+import Loader from "@/components/common/Loader";
+import Message from "@/components/common/Message";
 
 const styles = {
   topContainer:
@@ -45,6 +34,16 @@ export default function MyQuoteDetailPage() {
   const fullUrl = `${pathname}${
     searchParams.toString() ? `?${searchParams.toString()}` : ""
   }`;
+
+  const { data, isPending } = useGetSentQuoteDetail(Number(quoteId));
+
+  if (isPending) {
+    return <Loader msg="견적을 불러오는 중입니다." />;
+  }
+
+  if (!data) {
+    return <Message msg="데이터 없음" />;
+  }
 
   return (
     <>

@@ -18,7 +18,7 @@ const CheckBoxButton: React.FC<ButtonProps> = ({
 
   const variantClasses = {
     primary:
-      "bg-pr-blue-300 text-white hover:bg-pr-blue-400 disabled:bg-gray-200",
+      "bg-pr-blue-300 text-white hover:bg-pr-blue-200 disabled:bg-gray-200",
     secondary:
       "bg-white text-pr-blue-300 border border-pr-blue-300 hover:bg-pr-blue-50",
   };

@@ -1,7 +1,8 @@
 import axiosInstance from "./axios";
 
-import { MoverDetailData } from "@/types/mover";
-import { GetQuoteApiResponseData } from "@/types/api";
+import { type MoverDetailData } from "@/types/mover";
+import { CursorResponse, GetQuoteApiResponseData } from "@/types/api";
+import { type SentQuoteData, type QuoteDetailsData } from "@/types/quote";
 
 const PATH = "/quotes";
 
@@ -118,4 +119,47 @@ export function finalizeQuote(quoteId: number) {
     const response = { success: true };
     resolve(response);
   });
+}
+
+interface GetSentQuotes extends CursorResponse {
+  list: SentQuoteData[] | [];
+}
+
+// (기사님) 보낸 견적 목록 조회
+export async function getSentQuoteList(): Promise<GetSentQuotes> {
+  const response = await axiosInstance.get(`${PATH}/mover`);
+  return response.data;
+}
+
+interface GetRejectedQuoteList extends CursorResponse {
+  list: QuoteDetailsData[] | [];
+}
+
+// (기사님) 요청 반려 목록 조회
+export async function getRejectedQuoteList(): Promise<GetRejectedQuoteList> {
+  const response = await axiosInstance.get(`${PATH}/mover/rejected`);
+  return response.data;
+}
+
+interface GetSentQuotesDetailData {
+  id: number;
+  requestDate: string;
+  service: number;
+  isDesignated: boolean;
+  name: string;
+  movingDate: string;
+  pickupAddress: string;
+  dropOffAddress: string;
+  isCompleted: boolean;
+  isConfirmed: boolean;
+  cost: number;
+}
+// (기사님) 보낸 견적 상세 조회
+export async function getSentQuoteDetail({
+  quoteId,
+}: {
+  quoteId: number;
+}): Promise<GetSentQuotesDetailData> {
+  const response = await axiosInstance.get(`${PATH}/mover/${quoteId}`);
+  return response.data;
 }

@@ -1,17 +1,11 @@
-import { type QuoteDetailsData } from "@/types/mover";
+import { type SentQuoteData } from "@/types/quote";
 import CardContainer from "../common/card/CardContainer";
 import QuoteDetails from "../common/card/QuoteDetails";
 import { QuoteAmount } from "./PendingRequestCard";
 import cn from "@/config/cn";
 
-interface MoverQuoteData extends QuoteDetailsData {
-  isCompleted: boolean;
-  isConfirmed: boolean;
-  cost: number;
-}
-
 interface SentQuoteCardProps {
-  data: MoverQuoteData;
+  data: SentQuoteData;
   className?: string;
   classNameQuoteDetails?: string;
   onButtonClick: () => void;
