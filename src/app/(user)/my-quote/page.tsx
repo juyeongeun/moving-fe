@@ -1,7 +1,5 @@
 "use client";
 
-import assets from "@/variables/images";
-import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import PendingRequestCard, {
