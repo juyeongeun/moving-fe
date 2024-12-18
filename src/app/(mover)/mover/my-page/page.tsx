@@ -13,7 +13,7 @@ const mockData = {
   id: 1,
   name: "김다나",
   imageUrl: null,
-  ratings: {
+  rating: {
     "1": 1,
     "2": 4,
     "3": 1,
@@ -159,15 +159,15 @@ export default function MyPage() {
         </h2>
         <article className="flex flex-col items-center">
           <RatingInfo
-            ratings={{
-              "1": mockData.ratings["1"],
-              "2": mockData.ratings["2"],
-              "3": mockData.ratings["3"],
-              "4": mockData.ratings["4"],
-              "5": mockData.ratings["5"],
+            rating={{
+              "1": mockData.rating["1"],
+              "2": mockData.rating["2"],
+              "3": mockData.rating["3"],
+              "4": mockData.rating["4"],
+              "5": mockData.rating["5"],
               totalCount: mockData.reviewCount,
-              totalSum: mockData.ratings.totalSum,
-              average: mockData.ratings.average,
+              totalSum: mockData.rating.totalSum,
+              average: mockData.rating.average,
             }}
           />
         </article>

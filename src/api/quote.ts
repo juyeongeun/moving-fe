@@ -26,7 +26,7 @@ function generateRandomResponse(quoteId: number): GetQuoteApiResponseData {
   const baseDate = new Date(2025, 1, 1);
   const randomOffset = Math.floor(Math.random() * 30);
 
-  const ratings = {
+  const rating = {
     1: Math.floor(Math.random() * 50),
     2: Math.floor(Math.random() * 50),
     3: Math.floor(Math.random() * 50),
@@ -34,11 +34,11 @@ function generateRandomResponse(quoteId: number): GetQuoteApiResponseData {
     5: Math.floor(Math.random() * 50),
   };
 
-  const totalCount = Object.values(ratings).reduce(
+  const totalCount = Object.values(rating).reduce(
     (sum, count) => sum + count,
     0
   );
-  const totalSum = Object.entries(ratings).reduce(
+  const totalSum = Object.entries(rating).reduce(
     (sum, [key, value]) => sum + Number(key) * value,
     0
   );
@@ -62,7 +62,7 @@ function generateRandomResponse(quoteId: number): GetQuoteApiResponseData {
     favoriteCount: getRandomInt(0, 1000),
     confirmCount: getRandomInt(0, 300),
     rating: {
-      ...ratings,
+      ...rating,
       totalCount,
       totalSum,
       average,

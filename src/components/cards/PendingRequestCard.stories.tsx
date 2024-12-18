@@ -27,7 +27,7 @@ const mockData = {
   imageUrl: "",
   nickname: "김코드",
   career: 1,
-  ratings: {
+  rating: {
     "1": 0,
     "2": 0,
     "3": 1,

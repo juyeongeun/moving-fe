@@ -103,7 +103,7 @@ const MyQuotePage = () => {
     nickname: data.mover.nickname,
     career: data.mover.career,
     isDesignated: data.mover.isDesignated,
-    ratings: {
+    rating: {
       ...data.mover.rating,
       average: data.mover.rating.average || 0,
     },

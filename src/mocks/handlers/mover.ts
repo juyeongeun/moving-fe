@@ -54,7 +54,7 @@ export const moverHandlers = [
       filteredList.sort((a, b) => {
         switch (params.order) {
           case "rating":
-            return b.ratings.average - a.ratings.average;
+            return b.rating.average - a.rating.average;
           case "review":
             return b.reviewCount - a.reviewCount;
           case "career":
