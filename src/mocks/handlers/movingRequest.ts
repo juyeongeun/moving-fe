@@ -80,6 +80,7 @@ export const movingRequestHandlers = [
       list: filteredQuotes,
     });
   }),
+  http.get("/api/moving-request/pending-quotes", () => {
+    return HttpResponse.json(MOVING_REQUESTS);
+  }),
 ];
-
-export default movingRequestHandlers;
