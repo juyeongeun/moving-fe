@@ -285,7 +285,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
         </div>
 
         <button
-          className="w-full mt-6 py-4 px-6 bg-pr-blue-300 text-white rounded-[16px] text-xl font-semibold hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className="w-full mt-6 py-4 px-6 bg-pr-blue-300 text-white rounded-[16px] text-xl font-semibold hover:bg-pr-blue-200 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           onClick={handleButtonClick}
         >
           {step === DATE_STEP ? "시간 선택" : "선택완료"}

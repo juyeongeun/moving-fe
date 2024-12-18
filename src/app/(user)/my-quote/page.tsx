@@ -2,77 +2,127 @@
 
 import assets from "@/variables/images";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import PendingRequestCard, {
   PendingRequestData,
 } from "@/components/cards/PendingRequestCard";
-import { userData } from "./mock";
+import ReceivedQuoteCard from "@/components/cards/ReceivedQuoteCard";
 import { ChevronDown, Package } from "lucide-react";
 import Dropdown from "./myQuoteDropdown";
 import LineSeparator from "@/components/common/LineSeparator";
+import { fetchPendingQuotes } from "@/api/PendingQuotes";
+import { mapServiceType } from "@/utils/utilFunctions";
+
+interface MovingRequest {
+  service: number;
+  movingDate: string;
+  pickupAddress: string;
+  dropOffAddress: string;
+  requestDate: string;
+  isConfirmed: boolean;
+  status: string;
+}
+
+interface Mover {
+  id: number;
+  nickname: string;
+  imageUrl: string | null;
+  career: number;
+  introduction: string;
+  services: number[];
+  name: string;
+  isDesignated: boolean;
+  isFavorite: boolean;
+  rating: {
+    "1": number;
+    "2": number;
+    "3": number;
+    "4": number;
+    "5": number;
+    totalCount: number;
+    totalSum: number;
+    average: number;
+  };
+  reviewCount: number;
+  confirmCount: number;
+  favoriteCount: number;
+}
+
+interface Quote {
+  id: number;
+  cost: number;
+  comment: string;
+  isConfirmed: boolean;
+  movingRequest: MovingRequest;
+  mover: Mover;
+}
 
 const MyQuotePage = () => {
+  const [quotes, setQuotes] = useState<Quote[]>([]);
+  const [totalCount, setTotalCount] = useState<number>(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [openSection, setOpenSection] = useState<number | null>(null);
-
-  const toggleSection = (index: number): void => {
-    setOpenSection(openSection === index ? null : index);
-  };
 
   const searchParams = useSearchParams();
   const tab = searchParams.get("tab") || "0";
 
-  interface PendingRequestDataWithIds extends PendingRequestData {
-    quoteId: number;
-    moverId: number;
-    nickname: string;
-    career: number;
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await fetchPendingQuotes();
+        setQuotes(data.list);
+        setTotalCount(data.totalCount);
+        setError(null);
+      } catch (error) {
+        console.error("Error fetching quotes:", error);
+        setError("견적 정보를 불러오는데 실패했습니다.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading)
+    return (
+      <div className="flex justify-center items-center h-screen">로딩중...</div>
+    );
+  if (error)
+    return (
+      <div className="flex justify-center items-center h-screen text-red-500">
+        {error}
+      </div>
+    );
+
+  const pendingRequestDataArray = quotes.map((data: Quote) => ({
+    quoteId: data.id,
+    moverId: data.mover.id,
+    nickname: data.mover.nickname,
+    career: data.mover.career,
+    isDesignated: data.mover.isDesignated,
     ratings: {
-      "1": number;
-      "2": number;
-      "3": number;
-      "4": number;
-      "5": number;
-      average: number | null;
-    };
-    reviewCount: number;
-    confirmCount: number;
-    favoriteCount: number;
-    status: string;
-    pickUpAddress: string;
-    dropOffAddress: string;
-    moveDate: string;
-    movingType: string;
-    requestDate: string;
-  }
+      ...data.mover.rating,
+      average: data.mover.rating.average || 0,
+    },
+    reviewCount: data.mover.reviewCount,
+    cost: data.cost,
+    confirmCount: data.mover.confirmCount,
+    favoriteCount: data.mover.favoriteCount,
+    status: data.movingRequest.status,
+    pickupAddress: data.movingRequest.pickupAddress,
+    dropOffAddress: data.movingRequest.dropOffAddress,
+    movingDate: data.movingRequest.movingDate,
+    requestDate: data.movingRequest.requestDate,
+    movingType: data.movingRequest.service,
+    service: data.movingRequest.service,
+  }));
 
-  const pendingRequestDataArray = userData.list.map((data) => {
-    const mappedData: Partial<PendingRequestDataWithIds> = {
-      ...data,
-      nickname: data.mover?.nickname || "",
-      quoteId: data.id,
-      moverId: data.mover?.id || 0,
-      career: data.mover?.career || 0,
-      ratings: data.mover?.rating
-        ? {
-            ...data.mover.rating,
-            average: data.mover.rating.average ?? 0,
-          }
-        : {
-            "1": 0,
-            "2": 0,
-            "3": 0,
-            "4": 0,
-            "5": 0,
-            average: 0,
-          },
-      reviewCount: data.mover?.reviewCount || 0,
-      confirmCount: data.mover?.confirmCount || 0,
-      favoriteCount: data.mover?.favoriteCount || 0,
-    };
-
-    return mappedData as PendingRequestDataWithIds;
-  });
+  const toggleSection = (sectionNumber: number): void => {
+    setOpenSection(openSection === sectionNumber ? null : sectionNumber);
+  };
 
   return (
     <div className="max-w-[1400px] mx-auto my-[16px] pc:my-[24px]">
@@ -82,7 +132,7 @@ const MyQuotePage = () => {
             <PendingRequestCard
               key={index}
               data={data}
-              onPrimaryClick={() => console.log(`${data.id}`)}
+              onPrimaryClick={() => console.log(`${data.quoteId}`)}
               onOutlinedClick={() =>
                 (window.location.href = `http://localhost:3000/my-quote/${data.quoteId}`)
               }
@@ -205,7 +255,7 @@ const MyQuotePage = () => {
 
                   <div className="p-0 pc:p-4 grid gap-4 pc:grid-cols-2">
                     {pendingRequestDataArray.map((data, index) => (
-                      <PendingRequestCard
+                      <ReceivedQuoteCard
                         key={index}
                         data={data}
                         onPrimaryClick={() =>
