@@ -315,13 +315,12 @@ export default function RequestForm({ initialData }: RequestFormProps) {
                 <IncomingRequestCard
                   key={`${item.id}-${index}`}
                   data={item}
-                  onPrimaryClick={() => {}}
-                  onOutlinedClick={() => {}}
+                  onPrimaryClick={handleAcceptRequest}
+                  onOutlinedClick={handleRejectRequest}
                 />
               ))
             )}
 
-            {/* Infinite Scroll Ref */}
             <div ref={loadMoreRef} className="h-20 bg-transparent"></div>
             {isFetchingNextPage && <p>임시 - 로딩 중</p>}
             {!hasNextPage && <p>임시 - 추가 목록 없음</p>}
