@@ -387,7 +387,7 @@ export const AVAILABLE_REVIEW_LIST = {
 // 특정 기사님의 리뷰 리스트
 export const MOVERS_REVIEW_LIST = {
   currentPage: 1,
-  totalPages: 7,
+  totalPages: 2,
   totalCount: 10,
   list: [
     {

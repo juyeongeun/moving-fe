@@ -6,14 +6,15 @@ import {
 } from "../data/review";
 
 export const reviewHandlers = [
+  http.get("/api/reviews/mover/:moverId", ({ params }) => {
+    const { moverId } = params;
+    return HttpResponse.json(MOVERS_REVIEW_LIST);
+  }),
   http.get("/api/reviews/me", () => {
     return HttpResponse.json(MY_REVIEW_LIST);
   }),
 
   http.get("/api/reviews/available", () => {
     return HttpResponse.json(AVAILABLE_REVIEW_LIST);
-  }),
-  http.get("/api/reviews/movers/:moverId", () => {
-    return HttpResponse.json(MOVERS_REVIEW_LIST);
   }),
 ];

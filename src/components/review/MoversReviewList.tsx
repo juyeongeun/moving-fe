@@ -6,6 +6,7 @@ import { type RatingData } from "@/types/mover";
 import { useState } from "react";
 import Loader from "../common/Loader";
 import EmptyReview from "@/app/(user)/me/review/EmptyReview";
+import Message from "../common/Message";
 
 export const MoversReviewList = ({
   totalRating,
@@ -16,27 +17,27 @@ export const MoversReviewList = ({
 }) => {
   const [pageNum, setPageNum] = useState<number>(1);
 
-  const { data, isPending } = useGetMoversReviewList({
+  const { data, isPending, isError } = useGetMoversReviewList({
     moverId,
-    pageNum,
+    pageNum: 1,
     pageSize: 5,
   });
   const totalPages = Number(data?.totalPages);
-
+  console.log("totalRating:", totalRating); // Debug log
   if (isPending) {
     return <Loader msg="리뷰 불러오는 중" />;
   }
 
-  if (!data) {
-    return null;
-  }
+  if (isError) return <Message msg="리뷰를 불러오는데 실패했습니다." />;
 
   return (
     <section>
       <h2 className="text-lg font-bold text-black-400 pc:my-[32px] pc:text-2xl mb-[32px]">
         리뷰 ({totalRating.totalCount})
       </h2>
-      {totalRating.totalCount > 0 ? (
+      {totalRating?.totalCount === 0 ? (
+        <EmptyReview />
+      ) : (
         <>
           <article className="flex flex-col items-center">
             <RatingInfo
@@ -59,8 +60,6 @@ export const MoversReviewList = ({
             ))}
           </ul>
         </>
-      ) : (
-        <EmptyReview />
       )}
       <Pagination
         currentPage={pageNum}
