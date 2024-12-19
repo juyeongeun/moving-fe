@@ -43,19 +43,6 @@ export default function RoleGuard({
         const userInfo = await getUserInfo();
         const userRole = userInfo.user.mover ? "mover" : "customer";
 
-        // mover 경로 접근 제어
-        const isMoverPath = pathname.startsWith("/mover");
-        if (isMoverPath && userRole !== "mover") {
-          router.replace("/auth/login");
-          return;
-        }
-
-        // customer가 mover 경로로 접근 시도하는 경우
-        if (userRole === "customer" && isMoverPath) {
-          router.replace("/");
-          return;
-        }
-
         const hasPermission = allowedRoles.includes(userRole);
         if (!hasPermission) {
           router.replace(fallbackPath);

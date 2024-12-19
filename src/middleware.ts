@@ -28,27 +28,18 @@ const protectedRoutes = [
 
 export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-
   const cookieHeader = request.headers.get("cookie");
+  const hasTokens =
+    cookieHeader?.includes("accessToken") ||
+    cookieHeader?.includes("refreshToken");
 
-  const cookies = Object.fromEntries(
-    cookieHeader?.split("; ").map((cookie) => {
-      const [key, ...values] = cookie.split("=");
-      return [key, values.join("=")];
-    }) || []
-  );
-
-  // 보호된 라우트 체크
+  // 보호된 라우트에 대한 기본적인 인증 체크
   if (protectedRoutes.some((route) => pathname.startsWith(route))) {
-    if (!cookies.accessToken && !cookies.refreshToken) {
-      return NextResponse.redirect(new URL("/auth/login", request.url));
-    }
-  }
-
-  // 이미 로그인된 사용자의 인증 페이지 접근 체크
-  if (authRoutes.some((route) => pathname === route)) {
-    if (cookies.accessToken) {
-      return NextResponse.redirect(new URL("/", request.url));
+    if (!hasTokens) {
+      const loginPath = pathname.startsWith("/mover")
+        ? "/mover/auth/login"
+        : "/auth/login";
+      return NextResponse.redirect(new URL(loginPath, request.url));
     }
   }
 
