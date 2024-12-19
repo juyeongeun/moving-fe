@@ -16,3 +16,10 @@ export const axiosInstance = axios.create({
 });
 
 export default axiosInstance;
+
+export const axiosInstance2 = axios.create({
+  baseURL: "https://moving-be-1.onrender.com",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});

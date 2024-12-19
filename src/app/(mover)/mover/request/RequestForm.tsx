@@ -48,7 +48,7 @@ export default function RequestForm({ initialData }: RequestFormProps) {
     orderBy: "recent",
   });
   const [debouncedKeyword, setDebouncedKeyword] = useState(formState.keyword);
-  // const [isFetching, setIsFetching] = useState(false);
+  const [hideList, setHideList] = useState(false);
 
   const [quoteModalData, setQuoteModalData] = useState({
     id: 0,
@@ -80,7 +80,7 @@ export default function RequestForm({ initialData }: RequestFormProps) {
       number | null
     >({
       queryKey: ["movingRequestList", formState],
-      queryFn: ({ pageParam = null }) =>
+      queryFn: ({ pageParam = "" }) =>
         getMovingRequestListByMover({
           smallMove: formState.currentServiceFilter[0],
           houseMove: formState.currentServiceFilter[1],
@@ -91,7 +91,14 @@ export default function RequestForm({ initialData }: RequestFormProps) {
           limit: 5,
           cursor: pageParam,
         }),
-      getNextPageParam: (data) => data.nextCursor ?? null,
+      getNextPageParam: (data) => {
+        if (data.nextCursor === "") {
+          return null;
+        }
+
+        const cursor = Number(data.nextCursor);
+        return isNaN(cursor) ? null : cursor;
+      },
       initialPageParam: null,
     });
 
@@ -216,7 +223,7 @@ export default function RequestForm({ initialData }: RequestFormProps) {
     NiceModal.show("FilterNiceModal", {
       serviceCounts: data?.pages[data.pages.length - 1]?.serviceCounts,
       serviceFilters: formState.currentServiceFilter,
-      designateCounts: data?.pages[data.pages.length - 1]?.designateCounts,
+      designateCounts: data?.pages[data.pages.length - 1]?.requestCounts,
       designateFilter: formState.isDesignated,
       onSubmit: handleFindMovingRequestList,
     });
@@ -242,19 +249,56 @@ export default function RequestForm({ initialData }: RequestFormProps) {
         <div className={styles.sidebar}>
           <ServiceFilter
             serviceCounts={
-              data?.pages[data.pages.length - 1]?.serviceCounts || [0, 0, 0]
+              data
+                ? [
+                    data.pages[data.pages.length - 1]?.serviceCounts.smallMove,
+                    data.pages[data.pages.length - 1]?.serviceCounts.houseMove,
+                    data.pages[data.pages.length - 1]?.serviceCounts.officeMove,
+                  ]
+                : [0, 0, 0]
             }
-            onChange={(states) =>
-              setFormState({ ...formState, currentServiceFilter: states })
-            }
+            onChange={(states) => {
+              if (!states[0] && !states[1] && !states[2]) {
+                setHideList(true);
+                return;
+              }
+
+              setHideList(false);
+
+              setFormState({ ...formState, currentServiceFilter: states });
+            }}
           />
           <DesignateFilter
             designateCounts={
-              data?.pages[data.pages.length - 1]?.designateCounts || [0, 0]
+              data
+                ? [
+                    data.pages[data.pages.length - 1]?.requestCounts.total -
+                      data.pages[data.pages.length - 1]?.requestCounts
+                        .designated,
+                    data.pages[data.pages.length - 1]?.requestCounts.designated,
+                  ]
+                : [0, 0]
             }
-            onChange={(state) =>
-              setFormState({ ...formState, isDesignated: state })
-            }
+            onChange={(states) => {
+              if (!states[0] && !states[1]) {
+                setHideList(true);
+                return;
+              }
+
+              setHideList(false);
+
+              let newState = null;
+
+              if (!states[0] && states[1]) {
+                newState = true;
+              }
+
+              if (states[0] && !states[1]) {
+                newState = false;
+              }
+
+              setFormState({ ...formState, isDesignated: newState });
+            }}
           />
         </div>
         <div className={styles.content}>
@@ -274,10 +318,7 @@ export default function RequestForm({ initialData }: RequestFormProps) {
           </div>
           <div className={styles.filterAndSort}>
             <div className={styles.itemCount}>{`전체 ${
-              data?.pages[data.pages.length - 1]?.designateCounts?.reduce(
-                (total, count) => total + count,
-                0
-              ) || 0
+              data?.pages[data.pages.length - 1]?.requestCounts?.total || 0
             }건`}</div>
             <div className={styles.dropdownAndFilter}>
               <DropdownSortMovingRequest

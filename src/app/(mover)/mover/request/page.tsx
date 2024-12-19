@@ -5,16 +5,26 @@ import { getMovingRequestListByMover } from "@/api/movingRequest";
 const PAGE_SIZE = 20;
 
 export default async function RequestListPage({}) {
-  const initialData = await getMovingRequestListByMover({
-    keyword: "",
-    smallMove: true,
-    houseMove: true,
-    officeMove: true,
-    isDesignated: null,
-    orderBy: "recent",
-    limit: PAGE_SIZE,
-    cursor: null,
-  });
+  try {
+    const initialData = await getMovingRequestListByMover({
+      keyword: "",
+      smallMove: true,
+      houseMove: true,
+      officeMove: true,
+      isDesignated: null,
+      orderBy: "recent",
+      limit: PAGE_SIZE,
+    });
 
-  return <RequestForm initialData={initialData} />;
+    console.log("Initial Data:", initialData);
+
+    return initialData ? (
+      <RequestForm initialData={initialData} />
+    ) : (
+      <div>No Data</div>
+    );
+  } catch (error) {
+    console.error("RequestListPage Error:", error);
+    return <div>Error Loading Data</div>;
+  }
 }

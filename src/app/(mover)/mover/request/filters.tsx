@@ -6,6 +6,7 @@ import { getServiceText } from "@/utils/utilFunctions";
 import cn from "@/config/cn";
 
 import { SERVICE_CODES } from "@/variables/service";
+import { LetterText } from "lucide-react";
 
 const styles = {
   serviceContainer: "w-full h-[296px]",
@@ -88,24 +89,28 @@ export function ServiceFilter({ serviceCounts, onChange }: ServiceFilterProps) {
 
 interface DesignateFilterProps {
   designateCounts: number[];
-  onChange?: (newState: boolean | null) => void;
+  onChange?: (newStates: boolean[]) => void;
 }
 
 export function DesignateFilter({
   designateCounts,
   onChange,
 }: DesignateFilterProps) {
-  const [filterState, setFilterState] = useState<boolean | null>(null);
+  const [designateState, setDesignateState] = useState<boolean[]>([true, true]);
 
-  const handleItemCheckClick = (newState: boolean) => {
-    setFilterState(newState);
-    onChange?.(newState);
+  const [allChecked, setAllChecked] = useState(allTrue(designateState));
+
+  const handleItemCheckClick = (index: number) => (newState: boolean) => {
+    const updatedStates = [...designateState];
+    updatedStates[index] = newState;
+    setDesignateState(updatedStates);
+    onChange?.(updatedStates);
   };
 
-  const handleAllCheckClick = () => {
-    const newState = filterState === null ? true : filterState ? false : null;
-    setFilterState(newState);
-    onChange?.(newState);
+  const handleAllCheckClick = (newState: boolean) => {
+    const updatedStates = designateState.map(() => newState);
+    setDesignateState(updatedStates);
+    onChange?.(updatedStates);
   };
 
   const filterTexts = [
@@ -119,24 +124,26 @@ export function DesignateFilter({
     },
   ];
 
+  useEffect(() => {
+    setAllChecked(allTrue(designateState));
+  }, [designateState]);
+
   return (
     <div className={styles.designateFilterContainer}>
       <div className={cn(styles.base, styles.label)}>
         지정 여부
         <div className={styles.allSelect}>
-          <Checkbox
-            state={filterState !== null && filterState}
-            onStateChange={handleAllCheckClick}
-          />
+          <Checkbox state={allChecked} onStateChange={handleAllCheckClick} />
           전체선택
         </div>
       </div>
-      {designateCounts.map((item, index) => (
-        <div className={cn(styles.base, styles.item)} key={index}>
-          {`${filterTexts[index].text} (${item})`}
+
+      {filterTexts.map(({ text, index }) => (
+        <div key={index} className={cn(styles.base, styles.item)}>
+          {`${text} (${designateCounts[index]})`}
           <Checkbox
-            state={filterState === null || filterState === (index === 1)}
-            onStateChange={() => handleItemCheckClick(index === 1)}
+            state={designateState[index]}
+            onStateChange={handleItemCheckClick(index)}
           />
         </div>
       ))}

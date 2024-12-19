@@ -24,11 +24,21 @@ export interface OffsetResponse {
   totalCounts: number;
 }
 
+export interface serviceCounts {
+  smallMove: number;
+  houseMove: number;
+  officeMove: number;
+}
+export interface requestCounts {
+  total: number;
+  designated: number;
+}
+
 // API 구조 참고
 export interface GetMovingRequestListByMoverResponseData {
   list: MovingRequestDataByMover[];
-  serviceCounts: number[];
-  designateCounts: number[];
-  nextCursor: number | null | undefined;
+  serviceCounts: serviceCounts;
+  requestCounts: requestCounts;
+  nextCursor: number | string;
   hasNext: boolean;
 }

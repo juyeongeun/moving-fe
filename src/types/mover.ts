@@ -87,3 +87,15 @@ export interface MoverDetailData extends MoverBaseData {
   confirmCount: number;
   rating: RatingData;
 }
+
+export interface QuoteDetailsData {
+  id: number;
+  requestDate: string;
+  service: number;
+  isDesignated: boolean;
+  isConfirmed?: boolean;
+  name: string;
+  movingDate: string;
+  pickupAddress: string;
+  dropOffAddress: string;
+}
