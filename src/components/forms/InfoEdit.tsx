@@ -79,6 +79,7 @@ NiceModal.register("confirm-modal", ConfirmModal);
 export default function InfoEdit({ isUser, userData }: InfoEditProps) {
   const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [modalShown, setModalShown] = useState(false);
 
   const {
     register,
@@ -99,49 +100,40 @@ export default function InfoEdit({ isUser, userData }: InfoEditProps) {
     },
   });
 
-  const handlePasswordCheck = async (password: string) => {
-    try {
-      console.log("password:", password);
-      await passwordCheck(password);
-      setIsAuthenticated(true);
-      NiceModal.remove("confirm-modal");
-    } catch (error: any) {
-      const errorMessage =
-        error.response?.data?.data?.message ||
-        error.response?.data?.message ||
-        "비밀번호가 일치하지 않습니다.";
-      toast.error(errorMessage, {
-        position: "bottom-center",
-      });
+  React.useEffect(() => {
+    if (!isAuthenticated && !modalShown) {
+      setModalShown(true);
+      const showPasswordConfirm = async () => {
+        try {
+          await NiceModal.show("confirm-modal", {
+            title: "비밀번호 확인",
+            description: "정보 수정을 위해 현재 비밀번호를 입력해주세요.",
+            buttonText: "확인",
+            onConfirm: async (password: string) => {
+              try {
+                await passwordCheck(password);
+                setIsAuthenticated(true);
+                NiceModal.remove("confirm-modal");
+              } catch (error) {
+                toast.error("비밀번호가 일치하지 않습니다.", {
+                  position: "bottom-center",
+                });
+                return false; // 모달 유지
+              }
+            },
+            onCancel: () => {
+              router.back();
+            },
+          });
+        } catch (error) {
+          console.error("Modal error:", error);
+          router.back();
+        }
+      };
+
       showPasswordConfirm();
     }
-  };
-
-  const showPasswordConfirm = async () => {
-    try {
-      await NiceModal.show("confirm-modal", {
-        title: "비밀번호 확인",
-        description: "정보 수정을 위해 현재 비밀번호를 입력해주세요.",
-        buttonText: "확인",
-        onConfirm: handlePasswordCheck,
-        onCancel: () => {
-          router.back();
-        },
-      });
-    } catch (error: any) {
-      const errorMessage =
-        error.response?.data?.data?.message ||
-        error.response?.data?.message ||
-        "비밀번호가 일치하지 않습니다.";
-      toast.error(errorMessage, {
-        position: "bottom-center",
-      });
-    }
-  };
-
-  React.useEffect(() => {
-    showPasswordConfirm();
-  }, []);
+  }, [isAuthenticated, modalShown]);
 
   if (!isAuthenticated) {
     return null;
@@ -266,7 +258,9 @@ export default function InfoEdit({ isUser, userData }: InfoEditProps) {
             children="취소"
             variant="outlined"
             className={styles.button}
-            onClick={() => router.push("/")}
+            onClick={() => {
+              isUser ? router.back() : router.push("/mover/my-page");
+            }}
           />
         </div>
       </form>

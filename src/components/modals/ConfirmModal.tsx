@@ -28,15 +28,15 @@ export default NiceModal.create(
     const [password, setPassword] = useState("");
 
     const styles = {
-      container: `bg-white w-[500px] h-auto rounded-[24px] px-[16px] py-[24px]
-    pc:w-[608px] pc:h-[278px] pc:px-[24px] pc:py-[32px]`,
+      container: `bg-white w-[375px] h-auto rounded-[24px] px-[16px] py-[24px]
+    tablet:w-[500px] pc:w-[608px] pc:px-[24px] pc:py-[32px]`,
       titleText: `text-2lg font-bold text-black-400 mb-[30px]
     pc:mb-[40px] pc:text-2xl pc:font-semibold`,
       description: "text-2lg font-medium text-black-300 mb-[24px] pc:mb-[40px]",
     };
 
     return (
-      <div className="bg-[#141414] bg-opacity-50 fixed inset-0 flex flex-col items-center justify-end tablet:justify-center pc:justify-center">
+      <div className="bg-[#141414] bg-opacity-50 fixed inset-0 flex flex-col items-center justify-center">
         <div className={styles.container} id={id}>
           <p className={styles.titleText}>{title}</p>
           <p className={styles.description}>{description}</p>

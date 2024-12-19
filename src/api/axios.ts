@@ -1,8 +1,9 @@
-import CAN_USE_DOM from "@/utils/canUseDom";
 import axios from "axios";
 
 const API_URL =
-  (process.env.NEXT_PUBLIC_API_MOCKING === "enabled" && "/api") || "/api";
+  process.env.NEXT_PUBLIC_API_MOCKING === "enabled"
+    ? "/api" // mocking URL
+    : "/api"; // 실제 API URL
 
 export const axiosInstance = axios.create({
   baseURL: API_URL,

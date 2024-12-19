@@ -26,7 +26,7 @@ const protectedRoutes = [
   "/my-quote",
 ];
 
-export default function middleware(request: NextRequest) {
+export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   const cookieHeader = request.headers.get("cookie");
@@ -40,7 +40,7 @@ export default function middleware(request: NextRequest) {
 
   // 보호된 라우트 체크
   if (protectedRoutes.some((route) => pathname.startsWith(route))) {
-    if (!cookies.accessToken) {
+    if (!cookies.accessToken && !cookies.refreshToken) {
       return NextResponse.redirect(new URL("/auth/login", request.url));
     }
   }

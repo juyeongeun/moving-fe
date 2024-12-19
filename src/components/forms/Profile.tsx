@@ -507,7 +507,9 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
               children="취소"
               variant="outlined"
               className="flex-1 text-center"
-              onClick={() => router.push("/")}
+              onClick={() => {
+                isUser ? router.back() : router.push("/mover/my-page");
+              }}
             />
           )}
         </div>
