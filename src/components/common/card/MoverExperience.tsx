@@ -27,7 +27,7 @@ const MoverExperience = ({
 }: {
   data: Pick<
     BaseMoverData,
-    "career" | "ratings" | "confirmCount" | "reviewCount"
+    "career" | "rating" | "confirmCount" | "reviewCount"
   >;
   className?: string;
   size?: "fixed" | "responsive";
@@ -48,7 +48,7 @@ const MoverExperience = ({
           width={20}
           height={20}
         />
-        {data.ratings?.average?.toFixed(1)}
+        {data.rating?.average?.toFixed(1)}
         <span className="text-grayscale-300">{`(${data.reviewCount})`}</span>
       </div>
       <LineSeparator />

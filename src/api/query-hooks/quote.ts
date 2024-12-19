@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { quoteKey } from "../queryKeys";
 import {
   getSentQuoteList,
@@ -11,9 +11,11 @@ export function useGetManagedQuoteList({ tab }: { tab: number }) {
   const queryKey = tab === 0 ? quoteKey.sent : quoteKey.rejected;
   const getApiFunction = tab === 0 ? getSentQuoteList : getRejectedQuoteList;
 
-  return useQuery({
+  return useInfiniteQuery({
     queryKey: queryKey(),
-    queryFn: () => getApiFunction(),
+    queryFn: () => getApiFunction({ limit: 8 }),
+    getNextPageParam: (lastPage) => lastPage.nextCursor,
+    initialPageParam: null,
   });
 }
 

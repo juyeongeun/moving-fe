@@ -27,7 +27,7 @@ export interface MockDataItem {
   favoriteCount: number;
   isConfirmed: boolean;
   confirmCount: number;
-  ratings: Rating;
+  rating: Rating;
 }
 
 const generateRandomName = (length: number) => {
@@ -66,7 +66,7 @@ export const fetchData_ = ({
   const regionValues = Object.values(REGION_CODES);
 
   const data = Array.from({ length: listCount }, (_, index) => {
-    const ratings = {
+    const rating = {
       1: Math.floor(Math.random() * 50),
       2: Math.floor(Math.random() * 50),
       3: Math.floor(Math.random() * 50),
@@ -74,11 +74,11 @@ export const fetchData_ = ({
       5: Math.floor(Math.random() * 50),
     };
 
-    const totalRatings = Object.values(ratings).reduce(
+    const totalRatings = Object.values(rating).reduce(
       (sum, count) => sum + count,
       0
     );
-    const weightedSum = Object.entries(ratings).reduce(
+    const weightedSum = Object.entries(rating).reduce(
       (sum, [key, value]) => sum + Number(key) * value,
       0
     );
@@ -105,8 +105,8 @@ export const fetchData_ = ({
       favoriteCount: Math.floor(Math.random() * 100),
       isConfirmed: Math.random() > 0.5,
       confirmCount: Math.floor(Math.random() * 100),
-      ratings: {
-        ...ratings,
+      rating: {
+        ...rating,
         average,
       },
     };

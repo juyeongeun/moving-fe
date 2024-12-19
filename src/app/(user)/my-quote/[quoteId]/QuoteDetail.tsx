@@ -44,7 +44,7 @@ export default function QuoteDetail({ data }: QuoteDetailProps) {
     imageUrl: data.mover.imageUrl,
     nickname: data.mover.nickname,
     career: data.mover.career,
-    ratings: {
+    rating: {
       "1": data.mover.rating["1"],
       "2": data.mover.rating["2"],
       "3": data.mover.rating["3"],

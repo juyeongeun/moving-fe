@@ -9,14 +9,26 @@ export interface GetQuoteApiResponseData extends QuoteData {
   mover: MoverDetailData;
 }
 
-export interface CursorResponse {
-  nextCursor: number;
+export interface CursorResponse<T> {
+  nextCursor: number | null;
   hasNext: boolean;
+  list: T[];
 }
 
-export interface OffsetResponse {
+export interface OffsetResponse<T> {
   currentPage: number;
   pageSize: number;
   totalPages: number;
   totalCounts: number;
+  list: T[];
+}
+
+export interface CursorParams {
+  limit?: number;
+  nextCursorId?: number | null;
+}
+
+export interface OffsetParams {
+  pageNum?: number;
+  pageSize?: number;
 }
