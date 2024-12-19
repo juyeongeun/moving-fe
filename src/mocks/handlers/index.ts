@@ -8,7 +8,6 @@ export const handlers = [
   ...moverHandlers,
   ...reviewHandlers,
   ...movingRequestHandlers,
-  ,
   ...quoteHandlers,
 ];
 

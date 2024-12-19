@@ -12,6 +12,7 @@ import { editUserInfo } from "@/api/user";
 import { UserInfo } from "@/types/auth";
 import NiceModal from "@ebay/nice-modal-react";
 import ConfirmModal from "@/components/modals/ConfirmModal";
+import { passwordCheck } from "@/api/auth";
 
 interface InfoEditProps {
   isUser: boolean;
@@ -98,42 +99,47 @@ export default function InfoEdit({ isUser, userData }: InfoEditProps) {
     },
   });
 
-  React.useEffect(() => {
-    const showPasswordConfirm = async () => {
-      try {
-        await NiceModal.show("confirm-modal", {
-          title: "비밀번호 확인",
-          description: "정보 수정을 위해 현재 비밀번호를 입력해주세요.",
-          buttonText: "확인",
-          onConfirm: async (password: string) => {
-            try {
-              // await verifyPassword(password);
-              if (password == "qw12!@") {
-                setIsAuthenticated(true);
-                NiceModal.remove("confirm-modal");
-              } else {
-                toast.error("비밀번호가 일치하지 않습니다.", {
-                  position: "bottom-center",
-                });
-                showPasswordConfirm();
-              }
-            } catch (error) {
-              toast.error("비밀번호가 일치하지 않습니다.", {
-                position: "bottom-center",
-              });
-              showPasswordConfirm();
-            }
-          },
-          onCancel: () => {
-            router.back();
-          },
-        });
-      } catch (error) {
-        console.error("Modal error:", error);
-        router.back();
-      }
-    };
+  const handlePasswordCheck = async (password: string) => {
+    try {
+      console.log("password:", password);
+      await passwordCheck(password);
+      setIsAuthenticated(true);
+      NiceModal.remove("confirm-modal");
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.data?.message ||
+        error.response?.data?.message ||
+        "비밀번호가 일치하지 않습니다.";
+      toast.error(errorMessage, {
+        position: "bottom-center",
+      });
+      showPasswordConfirm();
+    }
+  };
 
+  const showPasswordConfirm = async () => {
+    try {
+      await NiceModal.show("confirm-modal", {
+        title: "비밀번호 확인",
+        description: "정보 수정을 위해 현재 비밀번호를 입력해주세요.",
+        buttonText: "확인",
+        onConfirm: handlePasswordCheck,
+        onCancel: () => {
+          router.back();
+        },
+      });
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.data?.message ||
+        error.response?.data?.message ||
+        "비밀번호가 일치하지 않습니다.";
+      toast.error(errorMessage, {
+        position: "bottom-center",
+      });
+    }
+  };
+
+  React.useEffect(() => {
     showPasswordConfirm();
   }, []);
 

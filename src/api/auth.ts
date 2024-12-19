@@ -44,3 +44,10 @@ export const validate = async (userData: UserValidate) => {
   const response = await axiosInstance.post(`${PATH}/validate`, userData);
   return response.data;
 };
+
+export const passwordCheck = async (password: string) => {
+  const response = await axiosInstance.post(`${PATH}/password`, {
+    password,
+  });
+  return response.data;
+};
