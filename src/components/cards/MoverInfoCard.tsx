@@ -11,8 +11,10 @@ import {
   type ConfirmInfo,
 } from "@/types/mover";
 
+export type MoverDetails = FullMoverData & FavoriteFields & ConfirmInfo;
+
 export interface MoverInfoProps extends CardProps {
-  data: FullMoverData & FavoriteFields & ConfirmInfo;
+  data: MoverDetails;
 }
 
 const titleVariants = cva("text-lg font-semibold text-black-300", {

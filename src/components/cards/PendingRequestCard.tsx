@@ -7,20 +7,21 @@ import { mapServiceType } from "@/utils/utilFunctions";
 import {
   type CardProps,
   type RequestDetails,
-  type FullMoverData,
   type FavoriteFields,
   Address,
+  BaseMoverData,
 } from "@/types/mover";
 import Button from "../common/Button";
 import { formatDateWithDay } from "@/utils/utilFunctions";
 import TextWithGrayLabel from "../common/card/TextWithGrayLabel";
 
 export interface PendingRequestData
-  extends FullMoverData,
+  extends BaseMoverData,
     FavoriteFields,
     RequestDetails,
     Address {
   service: number;
+  isDesignated: boolean;
 }
 
 type PendingRequestCardProps = CardProps & {

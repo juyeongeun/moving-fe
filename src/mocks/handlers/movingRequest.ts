@@ -1,8 +1,8 @@
 import { http, HttpResponse } from "msw";
-import { MOVING_REQUESTS, MOVING_REQUEST_QUOTES } from "../data/movingQuotes"; // 데이터 import
-
+import { PAST_REQUESTS, MOVING_REQUESTED_QUOTES } from "../data/movingQuotes"; // 데이터 import
+import { MOVING_REQUESTS_WITH_STATUS } from "../data/pendingQuotes";
 export const movingRequestHandlers = [
-  // 1. 고객의 이사 요청 목록 조회
+  // 1. 고객의 과거 이사 요청 목록 조회 (받았던 견적)
   http.get("/api/moving-requests/by-customer", ({ request }) => {
     const url = new URL(request.url);
     const pageSize = parseInt(url.searchParams.get("pageSize") || "5", 10);
@@ -11,7 +11,7 @@ export const movingRequestHandlers = [
     const startIndex = (pageNum - 1) * pageSize;
     const endIndex = startIndex + pageSize;
 
-    const paginatedRequests = MOVING_REQUESTS.list.slice(startIndex, endIndex);
+    const paginatedRequests = PAST_REQUESTS.list.slice(startIndex, endIndex);
 
     if (paginatedRequests.length === 0) {
       return HttpResponse.json(
@@ -29,8 +29,8 @@ export const movingRequestHandlers = [
     return HttpResponse.json({
       currentPage: pageNum,
       pageSize: pageSize,
-      totalPage: Math.ceil(MOVING_REQUESTS.totalCount / pageSize),
-      totalCount: MOVING_REQUESTS.totalCount,
+      totalPage: Math.ceil(PAST_REQUESTS.totalCount / pageSize),
+      totalCount: PAST_REQUESTS.totalCount,
       list: paginatedRequests,
     });
   }),
@@ -42,7 +42,9 @@ export const movingRequestHandlers = [
     const isCompleted = url.searchParams.get("isCompleted") === "true";
 
     // 해당 이사 요청 ID 찾기
-    const request = MOVING_REQUESTS.list.find((item) => item.id === Number(id));
+    const request = MOVING_REQUESTED_QUOTES.list.find(
+      (item) => item.id === Number(id)
+    );
 
     if (!request) {
       return HttpResponse.json(
@@ -58,7 +60,7 @@ export const movingRequestHandlers = [
     }
 
     // 견적서 목록에서 필터링
-    const filteredQuotes = MOVING_REQUEST_QUOTES.list.filter((quote) =>
+    const filteredQuotes = MOVING_REQUESTED_QUOTES.list.filter((quote) =>
       isCompleted ? quote.isConfirmed : true
     );
 
@@ -80,6 +82,16 @@ export const movingRequestHandlers = [
       list: filteredQuotes,
     });
   }),
-];
 
-export default movingRequestHandlers;
+  // 유져 대기 견적서 (status: PENDING)
+  http.get("/api/moving-request/pending-quotes", () => {
+    const filteredQuotes = MOVING_REQUESTS_WITH_STATUS.list.filter(
+      (quote) => quote.movingRequest.status === "PENDING"
+    );
+    console.log("filteredQuotes", filteredQuotes);
+    return HttpResponse.json({
+      totalCount: filteredQuotes.length,
+      list: filteredQuotes,
+    });
+  }),
+];

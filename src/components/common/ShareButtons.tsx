@@ -14,7 +14,7 @@ declare global {
 interface MoverInfo {
   favoriteCount: number;
   reviewCount: number;
-  description: string;
+  description?: string;
   nickname: string;
 }
 
@@ -101,7 +101,6 @@ const ShareButtons = ({
               : "",
             pickup: quoteInfo?.pickupAddress || "",
             REGI_WEB_DOMAIN: url,
-
           };
 
     try {

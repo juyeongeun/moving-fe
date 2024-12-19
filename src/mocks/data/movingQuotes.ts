@@ -1,4 +1,4 @@
-export const MOVING_REQUESTS = {
+export const PAST_REQUESTS = {
   currentPage: 1,
   pageSize: 10,
   totalPage: 1,
@@ -37,7 +37,7 @@ export const MOVING_REQUESTS = {
   ],
 };
 
-export const MOVING_REQUEST_QUOTES = {
+export const MOVING_REQUESTED_QUOTES = {
   id: 8,
   list: [
     {

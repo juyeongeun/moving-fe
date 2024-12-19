@@ -1,5 +1,5 @@
 import { http, HttpResponse } from "msw";
-import { MOVER_LIST } from "../data/mover";
+import { MOVER_LIST, MOVER_MY_PAGE } from "../data/mover";
 
 interface QueryParams {
   nextCursorId?: number;
@@ -12,6 +12,26 @@ interface QueryParams {
 }
 
 export const moverHandlers = [
+  http.get("/api/movers/my-profile", () => {
+    console.log("Intercepted my-profile request");
+    return HttpResponse.json(MOVER_MY_PAGE);
+  }),
+  http.get("/api/movers/:id", ({ params }) => {
+    const { id } = params;
+    const { list } = MOVER_LIST;
+    const mover = list.find((m) => m.id === Number(id));
+
+    if (!mover) {
+      return new HttpResponse(null, { status: 404 });
+    }
+
+    return HttpResponse.json({
+      ...mover,
+      isConfirmed: Math.random() > 0.5,
+      description:
+        "안녕하세요. 이사업계 경력 7년으로 안전한 이사를 도와드리는 김코드입니다.고객님의 물품을 소중하고 안전하게 운송하여 드립니다. 소형이사 및 가정이사 서비스를 제공하며 서비스 가능 지역은 서울과 경기권입니다.",
+    });
+  }),
   http.get("/api/movers", ({ request }) => {
     const url = new URL(request.url);
     const params: QueryParams = {
@@ -85,20 +105,7 @@ export const moverHandlers = [
 
     return HttpResponse.json({
       list: limitedList,
-      total: filteredList.length,
       nextCursor,
     });
-  }),
-
-  http.get("/api/movers/:id", ({ params }) => {
-    const { id } = params;
-    const { list } = MOVER_LIST;
-    const mover = list.find((m) => m.id === Number(id));
-
-    if (!mover) {
-      return new HttpResponse(null, { status: 404 });
-    }
-
-    return HttpResponse.json(mover);
   }),
 ];
