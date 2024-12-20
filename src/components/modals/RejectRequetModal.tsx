@@ -2,19 +2,18 @@ import Image from "next/image";
 import assets from "@/variables/images";
 import ServiceChip from "../common/card/ServiceChip";
 import QuoteModalMover from "../common/card/QuoteModalUser";
-import Input from "../common/Input";
 import Textarea from "../common/Textarea";
 import Button from "../common/Button";
 import { useState } from "react";
 
-const MIN_COMMENT_LENGTH = 10;
+import { MIN_QUOTE_COMMENT_LENGTH } from "@/variables/quote";
 
-interface QuoteModalProps {
+interface RejectRequetModalProps {
   onClose?: () => void;
-  onSubmit?: (data: { cost: number; comment: string }) => void;
+  onSubmit?: (data: { requestId: number; comment: string }) => void;
+  requestId: number;
   serviceType: number;
   isDesignatedQuote: boolean;
-  isRejected: boolean;
   startAddress: string;
   endAddress: string;
   moveDate: string;
@@ -23,30 +22,30 @@ interface QuoteModalProps {
 
 const styles = {
   container: `flex flex-col bg-white px-[24px] pt-[32px] pb-[40px] rounded-t-[32px] w-full
-  tablet:rounded-[32px]
-  pc:px-[24px] pc:pt-[32px] pc:pb-[40px] pc:rounded-[32px]`,
+    tablet:rounded-[32px]
+    pc:px-[24px] pc:pt-[32px] pc:pb-[40px] pc:rounded-[32px]`,
   titleContainer: `flex flex-row justify-between items-center mb-[26px] text-2lg font-bold text-black-400
-  pc:text-2xl pc:font-semibold pc:mb-[40px]`,
+    pc:text-2xl pc:font-semibold pc:mb-[40px]`,
   closeIcon: `cursor-pointer pc:w-[32px] pc:h-[32px]`,
   chipsContainer: `flex gap-[8px] mb-[14px] pc:mb-[24px]`,
   quoteContainer: `mb-[20px] pb-[20px] border-b-[1px] border-solid border-line-200
-  pc:mb-[32px] pc:pb-[32px] pc:text-2xl`,
+    pc:mb-[32px] pc:pb-[32px] pc:text-2xl`,
   Title: `mb-[16px] text-lg font-semibold text-black-300
-  pc:text-xl`,
+    pc:text-xl`,
   commentContainer: `mb-[26px] pc:mb-[40px]`,
 };
 
-export default function QuoteModal({
+export default function RejectRequetModal({
   onClose = () => {},
   onSubmit = () => {},
+  requestId,
   serviceType,
   isDesignatedQuote,
-  isRejected = false,
   startAddress = "서울특별시 강남구 테헤란로 14길 6 남도빌딩",
   endAddress = "서울특별시 강남구 테헤란로 14길 6 남도빌딩",
   moveDate = "2024. 01. 01(목)",
   customerName = "김코드",
-}: QuoteModalProps) {
+}: RejectRequetModalProps) {
   const service: "smallMove" | "homeMove" | "officeMove" =
     serviceType === 2
       ? "homeMove"
@@ -54,25 +53,20 @@ export default function QuoteModal({
       ? "officeMove"
       : "smallMove";
 
-  const [quote, setQuote] = useState<string>("");
   const [comment, setComment] = useState<string>("");
 
-  const isValid = isRejected
-    ? comment.length >= MIN_COMMENT_LENGTH && typeof comment === "string"
-    : quote.length > 0 &&
-      !isNaN(Number(quote)) &&
-      comment.length >= MIN_COMMENT_LENGTH &&
-      typeof comment === "string";
+  const isValid =
+    comment.length >= MIN_QUOTE_COMMENT_LENGTH && typeof comment === "string";
 
   const handleCallApi = () => {
-    onSubmit({ cost: Number(quote), comment });
+    onSubmit({ requestId, comment });
     onClose();
   };
 
   return (
     <div className={styles.container}>
       <div className={styles.titleContainer}>
-        <p>{isRejected ? "반려요청" : "견적 보내기"}</p>
+        <p>반려요청</p>
         <Image
           src={assets.icons.x}
           alt="close"
@@ -92,30 +86,17 @@ export default function QuoteModal({
         startAddress={startAddress}
         endAddress={endAddress}
       />
-      {!isRejected && (
-        <div className={styles.quoteContainer}>
-          <p className={styles.Title}>견적가를 입력해주세요</p>
-          <Input
-            name="quote"
-            placeholder="견적가 입력"
-            value={quote}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setQuote(e.target.value)
-            }
-          />
-        </div>
-      )}
       <div className={styles.commentContainer}>
         <p className={styles.Title}>코멘트를 입력해 주세요</p>
         <Textarea
           name="comment"
-          placeholder={`최소 ${MIN_COMMENT_LENGTH}자 이상 입력해주세요`}
+          placeholder={`최소 ${MIN_QUOTE_COMMENT_LENGTH}자 이상 입력해주세요`}
           value={comment}
           onChange={(value: string) => setComment(value)}
         />
       </div>
       <Button
-        children={isRejected ? "반려하기" : "견적 보내기"}
+        children="반려하기"
         variant="primary"
         onClick={handleCallApi}
         disabled={!isValid}

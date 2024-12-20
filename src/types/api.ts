@@ -54,3 +54,14 @@ export interface GetMovingRequestListByMoverResponseData {
   nextCursor: number | string;
   hasNext: boolean;
 }
+
+export interface GetMovingRequestListByMoverParamData {
+  smallMove: boolean;
+  houseMove: boolean;
+  officeMove: boolean;
+  keyword?: string;
+  isDesignated: boolean | null;
+  orderBy: "recent" | "movingDate";
+  limit: number;
+  cursor: number | string | null;
+}

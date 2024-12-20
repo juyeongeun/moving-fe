@@ -1,9 +1,9 @@
 import NiceModal, { useModal } from "@ebay/nice-modal-react";
 
-import QuoteModal from "@/components/modals/QuoteModal";
+import CreateQuoteModal from "@/components/modals/CreateQuoteModal";
 
-interface QuoteModal_Props {
-  isRejected: boolean;
+interface CreateQuoteModalProps {
+  requestId: number;
   customerName: string;
   serviceType: number;
   isDesignatedQuote: boolean;
@@ -13,8 +13,8 @@ interface QuoteModal_Props {
   onSubmit: (quoteDate: { cost?: number; comment: string }) => void;
 }
 
-export function QuoteModalComponent({
-  isRejected,
+export function CreateQuoteModalComponent({
+  requestId,
   customerName,
   serviceType,
   isDesignatedQuote,
@@ -22,7 +22,7 @@ export function QuoteModalComponent({
   endAddress,
   moveDate,
   onSubmit,
-}: QuoteModal_Props) {
+}: CreateQuoteModalProps) {
   const modal = useModal();
 
   const styles = {
@@ -40,8 +40,8 @@ export function QuoteModalComponent({
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modalContainer}>
-        <QuoteModal
-          isRejected={isRejected}
+        <CreateQuoteModal
+          requestId={requestId}
           customerName={customerName}
           serviceType={serviceType}
           isDesignatedQuote={isDesignatedQuote}
@@ -56,4 +56,4 @@ export function QuoteModalComponent({
   );
 }
 
-export const QuoteNiceModal = NiceModal.create(QuoteModalComponent);
+export const CreateQuoteNiceModal = NiceModal.create(CreateQuoteModalComponent);

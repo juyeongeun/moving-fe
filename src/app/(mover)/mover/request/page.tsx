@@ -14,6 +14,7 @@ export default async function RequestListPage({}) {
       isDesignated: null,
       orderBy: "recent",
       limit: PAGE_SIZE,
+      cursor: null,
     });
 
     console.log("Initial Data:", initialData);

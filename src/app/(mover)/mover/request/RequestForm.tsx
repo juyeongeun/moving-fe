@@ -1,19 +1,23 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { InfiniteData, useInfiniteQuery } from "@tanstack/react-query";
 import Modal from "react-modal";
-import NiceModal, { hide } from "@ebay/nice-modal-react";
+import NiceModal from "@ebay/nice-modal-react";
 
 import IncomingRequestCard from "@/components/cards/IncomingRequestCard";
 import Input from "@/components/common/Input";
-import DropdownSortMovingRequest from "../../../../components/dropdowns/DropdownSortMovingRequest";
+import DropdownSortMovingRequest from "@/components/dropdowns/DropdownSortMovingRequest";
 import { ServiceFilter, DesignateFilter } from "./filters";
 import EmptyList from "@/components/EmptyList";
 import ScrollIndicator from "@/components/ScrollIndicator";
+import LoadingDots from "@/components/LoadingDots";
 import { FilterNiceModal } from "./FilterNiceModal";
-import { QuoteNiceModal } from "./QuoteNiceModal";
+import { RejectRequetNiceModal } from "./RejectRequetNiceModal";
+import { CreateQuoteNiceModal } from "./CreateQuoteNiceModal";
+import useInfiniteScroll from "@/hooks/useInfiniteScroll";
+import { isAllTrue } from "@/utils/utilFunctions";
 
 import assets from "@/variables/images";
 import { type QuoteDetailsData } from "@/types/mover";
@@ -21,10 +25,18 @@ import { type QuoteDetailsData } from "@/types/mover";
 import { getMovingRequestListByMover } from "@/api/movingRequest";
 import { type GetMovingRequestListByMoverResponseData } from "@/types/api";
 
-const isAllTrue = (arr: boolean[]) => arr.every(Boolean);
-
 NiceModal.register("FilterNiceModal", FilterNiceModal);
-NiceModal.register("QuoteNiceModal", QuoteNiceModal);
+NiceModal.register("RejectRequetNiceModal", RejectRequetNiceModal);
+NiceModal.register("CreateQuoteNiceModal", CreateQuoteNiceModal);
+
+const DEFAULT_PAGE_SIZE = 5;
+
+interface FormState {
+  keyword: string;
+  currentServiceFilter: boolean[];
+  isDesignated: boolean | null;
+  orderBy: "recent" | "movingDate";
+}
 
 interface RequestQuoteData extends QuoteDetailsData {
   id: number;
@@ -36,34 +48,24 @@ interface RequestFormProps {
 }
 
 export default function RequestForm({ initialData }: RequestFormProps) {
-  // const [data, setData] = useState(initialData);
-  const [formState, setFormState] = useState<{
-    keyword: string;
-    currentServiceFilter: boolean[];
-    isDesignated: boolean | null;
-    orderBy: "recent" | "movingDate";
-  }>({
+  const [formState, setFormState] = useState<FormState>({
     keyword: "",
     currentServiceFilter: [true, true, true],
     isDesignated: null,
     orderBy: "recent",
   });
+  const [currentServiceFilterState, setCurrentServiceFilterState] = useState<
+    boolean[]
+  >([true, true, true]);
+  const [requestState, setRequestState] = useState<boolean[]>([true, true]);
   const [debouncedKeyword, setDebouncedKeyword] = useState(formState.keyword);
-  const [emptyServiceFilter, setEmptyServiceFilter] = useState(true);
-  const [emptyRequestFilter, setEmptyRequestFilter] = useState(true);
 
-  const [quoteModalData, setQuoteModalData] = useState({
-    id: 0,
-    serviceType: 0,
-    isDesignatedQuote: false,
-    isRejected: false,
-    startAddress: "recent",
-    endAddress: "",
-    moveDate: "",
-    customerName: "",
+  const loadMoreRef = useInfiniteScroll({
+    callback: () => {
+      if (hasNextPage) fetchNextPage();
+    },
+    options: { threshold: 0.5 },
   });
-
-  const loadMoreRef = useRef<HTMLDivElement>(null);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isFetching } =
     useInfiniteQuery<
@@ -90,7 +92,7 @@ export default function RequestForm({ initialData }: RequestFormProps) {
           keyword: debouncedKeyword,
           isDesignated: formState.isDesignated,
           orderBy: formState.orderBy,
-          limit: 5,
+          limit: DEFAULT_PAGE_SIZE,
           cursor: pageParam,
         }),
       getNextPageParam: (data) => {
@@ -137,6 +139,9 @@ export default function RequestForm({ initialData }: RequestFormProps) {
       pc:mt-[32px] pc:gap-[48px]`,
   };
 
+  const isListEmpty =
+    !currentServiceFilterState.some(Boolean) || !requestState.some(Boolean);
+
   useEffect(() => {
     Modal.setAppElement("body");
   }, []);
@@ -166,12 +171,26 @@ export default function RequestForm({ initialData }: RequestFormProps) {
     };
   }, [fetchNextPage, hasNextPage]);
 
+  useEffect(() => {
+    const isDesignated =
+      !requestState[0] && requestState[1]
+        ? true
+        : requestState[0] && !requestState[1]
+        ? false
+        : null;
+
+    setFormState((prev) => ({
+      ...prev,
+      currentServiceFilter: currentServiceFilterState,
+      isDesignated,
+    }));
+  }, [currentServiceFilterState, requestState]);
+
   const handleAcceptRequest = (data: RequestQuoteData) => {
-    NiceModal.show("QuoteNiceModal", {
-      id: data.id,
+    NiceModal.show("CreateQuoteNiceModal", {
+      requestId: data.id,
       serviceType: data.service,
       isDesignatedQuote: data.isDesignated,
-      isRejected: false,
       startAddress: data.pickupAddress,
       endAddress: data.dropOffAddress,
       moveDate: data.movingDate,
@@ -180,45 +199,45 @@ export default function RequestForm({ initialData }: RequestFormProps) {
     });
   };
 
-  const submitQuote = (quoteDate: { cost?: number; comment: string }) => {
-    // 임시
-    if (quoteModalData.isRejected) {
-      // 이사 요청 반려
-      console.log(
-        "이사 요청 반려 API 호출 > id : ",
-        quoteModalData.id,
-        " comment : ",
-        quoteDate.comment
-      );
-      return;
-    }
+  const handleRejectRequest = (data: RequestQuoteData) => {
+    NiceModal.show("RejectRequetNiceModal", {
+      requestId: data.id,
+      serviceType: data.service,
+      isDesignatedQuote: data.isDesignated,
+      startAddress: data.pickupAddress,
+      endAddress: data.dropOffAddress,
+      moveDate: data.movingDate,
+      customerName: data.name,
+      onSubmit: rejectRequest,
+    });
+  };
 
-    // 견적서 보내기
+  const submitQuote = (quoteDate: {
+    requestId: number;
+    cost: number;
+    comment: string;
+  }) => {
+    // 견적서 보내기 API 호출출
     console.log(
       "견적서 보내기 API 호출 > id : ",
-      quoteModalData.id,
+      quoteDate.requestId,
       " cost : ",
       quoteDate.cost,
       " comment : ",
       quoteDate.comment
     );
     return;
-
-    // 이사 요청 반려 / 견적서 보내기가 완료된 이사 요청에 대한 구별 또는 이사 요청 목록 조회에서 배제 필요
   };
 
-  const handleRejectRequest = (data: RequestQuoteData) => {
-    NiceModal.show("QuoteNiceModal", {
-      id: data.id,
-      serviceType: data.service,
-      isDesignatedQuote: data.isDesignated,
-      isRejected: true,
-      startAddress: data.pickupAddress,
-      endAddress: data.dropOffAddress,
-      moveDate: data.movingDate,
-      customerName: data.name,
-      onSubmit: submitQuote,
-    });
+  const rejectRequest = (quoteDate: { requestId: number; comment: string }) => {
+    // 이사 요청 반려 API 호출출
+    console.log(
+      "이사 요청 반려 API 호출 > id : ",
+      quoteDate.requestId,
+      " comment : ",
+      quoteDate.comment
+    );
+    return;
   };
 
   const handleFilterIconClick = () => {
@@ -259,16 +278,7 @@ export default function RequestForm({ initialData }: RequestFormProps) {
                   ]
                 : [0, 0, 0]
             }
-            onChange={(states) => {
-              if (!states[0] && !states[1] && !states[2]) {
-                setEmptyServiceFilter(false);
-                return;
-              }
-
-              setEmptyServiceFilter(true);
-
-              setFormState({ ...formState, currentServiceFilter: states });
-            }}
+            onChange={(states) => setCurrentServiceFilterState(states)}
           />
           <DesignateFilter
             designateCounts={
@@ -281,26 +291,7 @@ export default function RequestForm({ initialData }: RequestFormProps) {
                   ]
                 : [0, 0]
             }
-            onChange={(states) => {
-              if (!states[0] && !states[1]) {
-                setEmptyRequestFilter(false);
-                return;
-              }
-
-              setEmptyRequestFilter(true);
-
-              let newState = null;
-
-              if (!states[0] && states[1]) {
-                newState = true;
-              }
-
-              if (states[0] && !states[1]) {
-                newState = false;
-              }
-
-              setFormState({ ...formState, isDesignated: newState });
-            }}
+            onChange={(states) => setRequestState(states)}
           />
         </div>
         <div className={styles.content}>
@@ -352,8 +343,10 @@ export default function RequestForm({ initialData }: RequestFormProps) {
             </div>
           </div>
           <div className={styles.itemList}>
-            {isFetching && <p>Loading...</p>}
-            {emptyServiceFilter && emptyRequestFilter ? (
+            {isFetching && <LoadingDots />}
+            {isListEmpty ? (
+              <EmptyList text="조회된 이사 요청 정보가 없습니다" />
+            ) : (
               data?.pages.map((page, i) =>
                 page.list.map((item, index) => (
                   <IncomingRequestCard
@@ -364,13 +357,11 @@ export default function RequestForm({ initialData }: RequestFormProps) {
                   />
                 ))
               )
-            ) : (
-              <EmptyList text="조회된 이사 요청 정보가 없습니다" />
             )}
 
             <div ref={loadMoreRef} className="h-20 bg-transparent"></div>
-            {isFetchingNextPage && <p>임시 - 로딩 중</p>}
-            {hasNextPage && <ScrollIndicator />}
+            {isFetchingNextPage && <LoadingDots />}
+            {!isListEmpty && hasNextPage && <ScrollIndicator />}
           </div>
         </div>
       </div>

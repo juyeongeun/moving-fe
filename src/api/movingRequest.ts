@@ -1,7 +1,10 @@
 import axios from "axios";
 import axiosInstance, { axiosInstance2 } from "./axios";
 
-import { GetMovingRequestListByMoverResponseData } from "@/types/api";
+import {
+  GetMovingRequestListByMoverParamData,
+  GetMovingRequestListByMoverResponseData,
+} from "@/types/api";
 
 interface Rating {
   "1": number;
@@ -304,16 +307,7 @@ export async function getMovingRequestListByMover({
   orderBy,
   limit,
   cursor,
-}: {
-  smallMove: boolean;
-  houseMove: boolean;
-  officeMove: boolean;
-  keyword?: string;
-  isDesignated: boolean | null;
-  orderBy: "recent" | "movingDate";
-  limit?: number;
-  cursor?: number | string | null;
-}): Promise<GetMovingRequestListByMoverResponseData> {
+}: GetMovingRequestListByMoverParamData): Promise<GetMovingRequestListByMoverResponseData> {
   const serviceQuery = `smallMove=${smallMove}&houseMove=${houseMove}&officeMove=${officeMove}`;
   const sortQuery = `&orderBy=${orderBy}`;
   let designateQuery = ``;
