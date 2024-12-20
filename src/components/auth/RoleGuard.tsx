@@ -3,10 +3,11 @@
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { getUserInfo } from "@/api/user";
+import { useUserStore } from "@/store/userStore";
 
 interface RoleGuardProps {
   children: React.ReactNode;
-  allowedRoles: ("customer" | "mover")[];
+  allowedRoles: "USER" | "MOVER" | null;
   fallbackPath?: string;
 }
 
@@ -41,9 +42,16 @@ export default function RoleGuard({
 
       try {
         const userInfo = await getUserInfo();
-        const userRole = userInfo.user.mover ? "mover" : "customer";
+        const userRole = userInfo.user.mover ? "MOVER" : "USER";
 
-        const hasPermission = allowedRoles.includes(userRole);
+        useUserStore.getState().setUserData({
+          email: userInfo.user.email,
+          name: userInfo.user.name,
+          phoneNumber: userInfo.user.phoneNumber,
+          role: userRole,
+        });
+        console.log(useUserStore.getState().userRole);
+        const hasPermission = allowedRoles?.includes(userRole);
         if (!hasPermission) {
           router.replace(fallbackPath);
           return;

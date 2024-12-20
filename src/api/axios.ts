@@ -25,13 +25,19 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
-    if (error.response?.message === "Unauthorized") {
-      try {
-        await axiosInstance.post("/auth/refresh");
-        return axiosInstance(error.config);
-      } catch (refreshError) {
-        window.location.href = "/auth/login";
-        return Promise.reject(error);
+    if (error.response?.status === 403) {
+      const errorMessage = error.response?.data?.message;
+      if (
+        errorMessage === "Token missing" ||
+        errorMessage === "Invalid token"
+      ) {
+        try {
+          await axiosInstance.post("/auth/refresh");
+          return axiosInstance(error.config);
+        } catch (refreshError) {
+          window.location.href = "/auth/login";
+          return Promise.reject(error);
+        }
       }
     }
     return Promise.reject(error);

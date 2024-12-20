@@ -10,7 +10,7 @@ const GREY_BG_PATHS = ["/me/mover", "/me/review"];
 const Layout = ({ children }: LayoutProps) => {
   return (
     <>
-      <RoleGuard allowedRoles={["customer"]}>
+      <RoleGuard allowedRoles={"USER"}>
         <Main grayBgPaths={GREY_BG_PATHS}>{children}</Main>
       </RoleGuard>
     </>

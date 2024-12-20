@@ -33,13 +33,26 @@ export default async function middleware(request: NextRequest) {
     cookieHeader?.includes("accessToken") ||
     cookieHeader?.includes("refreshToken");
 
-  // 보호된 라우트에 대한 기본적인 인증 체크
+  // 이미 로그인된 사용자의 인증 페이지 접근 제한
+  if (authRoutes.includes(pathname) && hasTokens) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
+
+  // mover 페이지 접근 시
+  if (
+    pathname.startsWith("/mover") &&
+    !pathname.startsWith("/mover/auth/login") &&
+    !pathname.startsWith("/mover/auth/register")
+  ) {
+    if (!hasTokens) {
+      return NextResponse.redirect(new URL("/mover/auth/login", request.url));
+    }
+  }
+
+  // 일반 보호된 라우트
   if (protectedRoutes.some((route) => pathname.startsWith(route))) {
     if (!hasTokens) {
-      const loginPath = pathname.startsWith("/mover")
-        ? "/mover/auth/login"
-        : "/auth/login";
-      return NextResponse.redirect(new URL(loginPath, request.url));
+      return NextResponse.redirect(new URL("/auth/login", request.url));
     }
   }
 
