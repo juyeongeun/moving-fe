@@ -9,6 +9,7 @@ const assets = {
     checkboxInactive: "/assets/icons/ic_checkbox_inactive.svg",
     chevronDown: "/assets/icons/ic_chevron_down.svg",
     chevronDownActive: "/assets/icons/ic_chevron_down_active.svg",
+    chevronDownDouble: "/assets/icons/ic_chevron_down_double.svg",
     chevronLeft: "/assets/icons/ic_chevron_left.svg",
     chevronRight: "/assets/icons/ic_chevron_right.svg",
     chevronUp: "/assets/icons/ic_chevron_up.svg",
@@ -42,6 +43,7 @@ const assets = {
   },
   images: {
     avatarRed: "/assets/images/img_avatar_red.svg",
+    emptyFolder: "/assets/images/img_empty_folder.svg",
     imagePlaceholder: "/assets/images/img_image_placeholder.svg",
     landingMd01: "/assets/images/img_landing_md_01.svg",
     landingMd02: "/assets/images/img_landing_md_02.svg",

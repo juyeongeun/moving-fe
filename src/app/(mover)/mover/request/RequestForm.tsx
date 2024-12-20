@@ -4,13 +4,14 @@ import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { InfiniteData, useInfiniteQuery } from "@tanstack/react-query";
 import Modal from "react-modal";
-import NiceModal from "@ebay/nice-modal-react";
+import NiceModal, { hide } from "@ebay/nice-modal-react";
 
 import IncomingRequestCard from "@/components/cards/IncomingRequestCard";
 import Input from "@/components/common/Input";
 import DropdownSortMovingRequest from "../../../../components/dropdowns/DropdownSortMovingRequest";
 import { ServiceFilter, DesignateFilter } from "./filters";
-
+import EmptyList from "@/components/EmptyList";
+import ScrollIndicator from "@/components/ScrollIndicator";
 import { FilterNiceModal } from "./FilterNiceModal";
 import { QuoteNiceModal } from "./QuoteNiceModal";
 
@@ -48,7 +49,8 @@ export default function RequestForm({ initialData }: RequestFormProps) {
     orderBy: "recent",
   });
   const [debouncedKeyword, setDebouncedKeyword] = useState(formState.keyword);
-  const [hideList, setHideList] = useState(false);
+  const [emptyServiceFilter, setEmptyServiceFilter] = useState(true);
+  const [emptyRequestFilter, setEmptyRequestFilter] = useState(true);
 
   const [quoteModalData, setQuoteModalData] = useState({
     id: 0,
@@ -259,11 +261,11 @@ export default function RequestForm({ initialData }: RequestFormProps) {
             }
             onChange={(states) => {
               if (!states[0] && !states[1] && !states[2]) {
-                setHideList(true);
+                setEmptyServiceFilter(false);
                 return;
               }
 
-              setHideList(false);
+              setEmptyServiceFilter(true);
 
               setFormState({ ...formState, currentServiceFilter: states });
             }}
@@ -281,11 +283,11 @@ export default function RequestForm({ initialData }: RequestFormProps) {
             }
             onChange={(states) => {
               if (!states[0] && !states[1]) {
-                setHideList(true);
+                setEmptyRequestFilter(false);
                 return;
               }
 
-              setHideList(false);
+              setEmptyRequestFilter(true);
 
               let newState = null;
 
@@ -351,20 +353,24 @@ export default function RequestForm({ initialData }: RequestFormProps) {
           </div>
           <div className={styles.itemList}>
             {isFetching && <p>Loading...</p>}
-            {data?.pages.map((page, i) =>
-              page.list.map((item, index) => (
-                <IncomingRequestCard
-                  key={`${item.id}-${index}`}
-                  data={item}
-                  onPrimaryClick={handleAcceptRequest}
-                  onOutlinedClick={handleRejectRequest}
-                />
-              ))
+            {emptyServiceFilter && emptyRequestFilter ? (
+              data?.pages.map((page, i) =>
+                page.list.map((item, index) => (
+                  <IncomingRequestCard
+                    key={`${item.id}-${index}`}
+                    data={item}
+                    onPrimaryClick={handleAcceptRequest}
+                    onOutlinedClick={handleRejectRequest}
+                  />
+                ))
+              )
+            ) : (
+              <EmptyList text="조회된 이사 요청 정보가 없습니다" />
             )}
 
             <div ref={loadMoreRef} className="h-20 bg-transparent"></div>
             {isFetchingNextPage && <p>임시 - 로딩 중</p>}
-            {!hasNextPage && <p>임시 - 추가 목록 없음</p>}
+            {hasNextPage && <ScrollIndicator />}
           </div>
         </div>
       </div>
