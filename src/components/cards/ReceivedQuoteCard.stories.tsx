@@ -25,9 +25,11 @@ const mockData = {
     "1": 0,
     "2": 0,
     "3": 1,
-    "4": 0,
+    "4": 2,
     "5": 1,
-    average: 4,
+    totalCount: 4, // 0+0+1+2+1
+    totalSum: 16, // (3×1 + 4×2 + 5×1)
+    average: 4, // 16/4
   },
   reviewCount: 7,
   confirmCount: 11,

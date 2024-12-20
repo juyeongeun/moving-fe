@@ -3,11 +3,13 @@ import assets from "@/variables/images";
 import Button from "@/components/common/Button";
 import { useRouter } from "next/navigation";
 
-const EmptyReview = ({ tab }: { tab: number }) => {
+const EmptyReview = ({ tab }: { tab?: number }) => {
   const router = useRouter();
   const message =
-    tab === 0
-      ? "아직 작성할수 있는 리뷰가 없어요"
+    tab === undefined
+      ? "아직 해당 기사님의 리뷰가 없어요"
+      : tab === 0
+      ? "아직 작성할 수 있는 리뷰가 없어요"
       : "아직 등록된 리뷰가 없어요!";
   const handleButtonClick = () => {
     router.push("/me/review?tab=0");

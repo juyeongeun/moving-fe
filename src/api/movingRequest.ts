@@ -340,7 +340,7 @@ export async function getMovingRequestListByMover({
     cursorQuery = `&cursor=${cursor}`;
   }
 
-  const query = `${serviceQuery}${sortQuery}${designateQuery}${keywordQuery}${limitQuery}${cursorQuery}&isQuoted=false`;
+  const query = `${serviceQuery}${sortQuery}${designateQuery}${keywordQuery}${limitQuery}${cursorQuery}&isQuoted=false&isPastRequest=false`;
 
   try {
     console.log("Base URL:", axiosInstance2.defaults.baseURL);
@@ -356,6 +356,7 @@ export async function getMovingRequestListByMover({
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
       }
     );
 
@@ -364,7 +365,11 @@ export async function getMovingRequestListByMover({
       throw new Error("API 요청 실패");
     }
 
-    return await response.json();
+    const data = await response.json();
+    console.log("query : ", query);
+    console.log("data : ", data);
+
+    return data;
   } catch (err: any) {
     // console.error("API 호출 오류:", err.message, err.config?.url);
     // throw new Error("API 요청 실패");

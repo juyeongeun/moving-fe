@@ -2,7 +2,7 @@ import RequestForm from "./RequestForm";
 
 import { getMovingRequestListByMover } from "@/api/movingRequest";
 
-const PAGE_SIZE = 20;
+const PAGE_SIZE = 5;
 
 export default async function RequestListPage({}) {
   try {

@@ -1,16 +1,9 @@
 import MoverList from "./moverList";
 
+import { RatingData } from "@/types/mover";
 import { REGION_CODES } from "@/variables/regions";
 
 type RegionCode = (typeof REGION_CODES)[keyof typeof REGION_CODES];
-interface Rating {
-  1: number;
-  2: number;
-  3: number;
-  4: number;
-  5: number;
-  average: number;
-}
 
 export interface MockDataItem {
   id: number;
@@ -27,7 +20,7 @@ export interface MockDataItem {
   favoriteCount: number;
   isConfirmed: boolean;
   confirmCount: number;
-  rating: Rating;
+  rating: RatingData;
 }
 
 const generateRandomName = (length: number) => {

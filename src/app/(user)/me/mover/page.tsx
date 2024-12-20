@@ -8,23 +8,31 @@ import Loader from "@/components/common/Loader";
 import Message from "@/components/common/Message";
 import { useGetFavoriteMoverList } from "@/api/query-hooks/mover";
 import { CursorResponse } from "@/types/api";
+import { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 
-// interface FavoriteMoverListProps {
-//   data: {
-//     nextCursor: number;
-//     hasNext: boolean;
-//     list: FavoriteMoverData[];
-//   };
-// }
-
-interface FavoriteMoverResponse extends CursorResponse {
-  list: FavoriteMoverData[];
-}
+type FavoriteMoverResponse = CursorResponse<FavoriteMoverData>;
 
 export default function FavoriteMoverPage() {
-  const { data, isPending, isError, isFetchingNextPage, hasNextPage } =
-    useGetFavoriteMoverList();
+  const { ref, inView } = useInView();
+  const {
+    isFetchingNextPage,
+    fetchNextPage,
+    isFetching,
+    hasNextPage,
+    isPending,
+    isError,
+    data,
+  } = useGetFavoriteMoverList();
+
+  useEffect(() => {
+    if (inView) {
+      !isFetching && hasNextPage && fetchNextPage();
+    }
+  }, [isFetching, inView, hasNextPage, fetchNextPage]);
+
   if (isPending) return <Loader msg="찜한 기사님 목록을 불러오고 있어요." />;
+
   if (isError)
     return <Message msg="찜한 기사님 목록을 불러오는 중 오류가 발생했어요." />;
 
@@ -42,15 +50,20 @@ export default function FavoriteMoverPage() {
 
         {pages.map((page: FavoriteMoverResponse) =>
           page.list.map((mover: FavoriteMoverData) => {
-            return <FavoriteMoverCard data={mover} />;
+            return <FavoriteMoverCard data={mover} key={mover.id} />;
           })
         )}
+      </ul>
 
-        {isFetchingNextPage && <Loader msg="더 불러오는 중..." />}
-        {!hasNextPage && !isFetchingNextPage && (
+      <div ref={ref}>
+        {isFetchingNextPage ? (
+          <Loader msg="찜한 기사님 목록 불러오는중" />
+        ) : hasNextPage ? (
+          <Loader msg="새 목록 불러오는 중" />
+        ) : (
           <Message msg="더 불러올 기사님이 없습니다." />
         )}
-      </ul>
+      </div>
     </>
   );
 }

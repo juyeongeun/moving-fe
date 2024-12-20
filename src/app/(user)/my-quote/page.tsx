@@ -2,15 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import PendingRequestCard, {
-  PendingRequestData,
-} from "@/components/cards/PendingRequestCard";
+import PendingRequestCard from "@/components/cards/PendingRequestCard";
 import ReceivedQuoteCard from "@/components/cards/ReceivedQuoteCard";
 import { ChevronDown, Package } from "lucide-react";
 import DropdownQuote from "@/components/dropdowns/DropdownQuote";
 import LineSeparator from "@/components/common/LineSeparator";
 import { fetchPendingQuotes } from "@/api/PendingQuotes";
-import { mapServiceType } from "@/utils/utilFunctions";
 
 interface MovingRequest {
   service: number;
@@ -95,17 +92,15 @@ const MyQuotePage = () => {
       </div>
     );
 
+  console.log("quotes:", quotes); // Debug log
+
   const pendingRequestDataArray = quotes.map((data: Quote) => ({
     quoteId: data.id,
     id: data.mover.id,
-    imageUrl: data.mover.imageUrl,
     nickname: data.mover.nickname,
     career: data.mover.career,
     isDesignated: data.mover.isDesignated,
-    rating: {
-      ...data.mover.rating,
-      // average: data.mover.rating.average || 0,
-    },
+    rating: data.mover.rating,
     reviewCount: data.mover.reviewCount,
     cost: data.cost,
     confirmCount: data.mover.confirmCount,
@@ -118,9 +113,8 @@ const MyQuotePage = () => {
     movingType: data.movingRequest.service,
     service: data.movingRequest.service,
     isFavorite: data.mover.isFavorite,
+    imageUrl: data.mover.imageUrl,
     introduction: data.mover.introduction,
-    services: [0],
-    regions: [8202],
   }));
 
   const toggleSection = (sectionNumber: number): void => {
@@ -198,7 +192,7 @@ const MyQuotePage = () => {
                         만료된 요청
                       </div>
                       <div className="text-lg tablet:text-xl pc:text-2xl text-gray-500 flex flex-row gap-[2px] tablet:gap-2">
-                        2024. 08. 28 (월) 오전 10:00{" "}
+                        2024. 08. 28 (월) 오전 10:00
                         <div className="text-black-400">에 진행된 무빙</div>
                       </div>
                     </div>

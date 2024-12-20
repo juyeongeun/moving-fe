@@ -3,8 +3,8 @@ import MoverInfo from "../common/card/MoverInfo";
 import ServiceChip, { ChipType } from "../common/card/ServiceChip";
 import { mapServiceType } from "@/utils/utilFunctions";
 import { QuoteAmount } from "./PendingRequestCard";
-import { FavoriteFields, BaseMoverData } from "@/types/mover";
-
+import { FavoriteFields, BaseMoverData, CardProps } from "@/types/mover";
+import { cva } from "class-variance-authority";
 interface ReceivedQuoteData extends BaseMoverData, FavoriteFields {
   introduction: string;
   isDesignated: boolean | undefined;
@@ -12,12 +12,27 @@ interface ReceivedQuoteData extends BaseMoverData, FavoriteFields {
   cost: number;
 }
 
-interface ReceivedQuoteCardProps {
+interface ReceivedQuoteCardProps extends CardProps {
   data: ReceivedQuoteData;
-  className?: string;
 }
 
-const ReceivedQuoteCard = ({ data, className }: ReceivedQuoteCardProps) => {
+const titleVariants = cva("text-lg font-semibold text-black-300", {
+  variants: {
+    size: {
+      fixed: "",
+      responsive: "pc:text-2xl",
+    },
+  },
+  defaultVariants: {
+    size: "responsive",
+  },
+});
+
+const ReceivedQuoteCard = ({
+  data,
+  className,
+  size = "responsive",
+}: ReceivedQuoteCardProps) => {
   const serviceType = mapServiceType([data.service])[0];
 
   return (
@@ -26,7 +41,7 @@ const ReceivedQuoteCard = ({ data, className }: ReceivedQuoteCardProps) => {
         <ServiceChip variant={serviceType as ChipType} />
         {data.isDesignated && <ServiceChip variant="designatedQuote" />}
       </div>
-
+      <h4 className={titleVariants({ size })}>{data.introduction}</h4>
       <MoverInfo data={data} />
 
       <QuoteAmount amount={data.cost} />

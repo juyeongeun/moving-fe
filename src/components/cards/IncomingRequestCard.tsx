@@ -2,7 +2,7 @@
 
 import CardContainer from "../common/card/CardContainer";
 import Button from "../common/Button";
-import { type QuoteDetailsData } from "@/types/mover";
+import { type QuoteDetailsData } from "@/types/quote";
 import QuoteDetails from "../common/card/QuoteDetails";
 
 interface RequestQuoteData extends QuoteDetailsData {

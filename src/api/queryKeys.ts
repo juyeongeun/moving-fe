@@ -3,8 +3,9 @@ export const moverKey = {
   lists: () => [...moverKey.all, "lists"] as const,
   list: (params = {}) => [...moverKey.lists(), { ...params }] as const, // 기사 찾기 리스트
   details: () => [...moverKey.all, "detail"] as const,
-  detail: (moverId: string) => [...moverKey.details(), moverId] as const, // 기사 상세 페이지
+  detail: (moverId: number) => [...moverKey.details(), moverId] as const, // 기사 상세 페이지
   favorite: (params = {}) => [...moverKey.list(params), "favorite"] as const, // 내가 찜한 기사 목록
+  myPage: () => [...moverKey.details(), "myPage"] as const, // 기사님 마이페이지
 };
 
 export const reviewKey = {
@@ -13,6 +14,7 @@ export const reviewKey = {
   list: (params = {}) => [...reviewKey.lists(), { ...params }] as const, //리뷰 리스트
   me: () => [...reviewKey.lists(), "me"] as const, // 내가 쓴 리뷰
   available: () => [...reviewKey.list(), "available"] as const, // 내가 작성할 수 있는 리뷰
+  mover: (moverId: number) => [...reviewKey.lists(), "mover", moverId] as const, // 특정 기사의 리뷰 목록
 };
 
 export const quoteKey = {
