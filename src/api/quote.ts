@@ -83,6 +83,8 @@ function generateRandomResponse(quoteId: number): GetQuoteApiResponseData {
     comment: `${getRandomInt(6, 10)}시 부터 이사 가능합니다`,
     isConfirmed: Math.random() > 0.5,
     movingRequest: {
+      id: getRandomInt(1, 1000),
+      name: `이름 ${getRandomInt(1, 1000)}`,
       service: getRandomInt(0, 2),
       movingDate: new Date(
         baseDate.getTime() + (randomOffset + 10) * 24 * 60 * 60 * 1000
