@@ -9,6 +9,7 @@ import DropdownProfile from "../dropdowns/DropdownProfile";
 import DropdownNotification from "../dropdowns/DropdownNotification";
 import useResize from "../../hooks/useResize";
 import assets from "@/variables/images";
+import { useUserStore } from "@/store/userStore";
 
 import { PC_WIDTH } from "@/variables/screen";
 
@@ -37,17 +38,11 @@ function NavItem({ href, isIncludedPath = false, children }: NavItemProps) {
   );
 }
 
-type UserType = "MOVER" | "USER" | null;
-
-interface GNBProps {
-  userType?: UserType;
-}
-
 // TODO:
 // 1. 유저타입에 따라 렌더링되는 탭 변경
 // 2. 모바일에서 메뉴 버튼 클릭 시 사이드바 토글시 유저정보는 따로 fetch하는 것이 좋을 듯
 
-const GNB = ({ userType = null }: GNBProps) => {
+const GNB = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useResize((width) => {
@@ -56,8 +51,8 @@ const GNB = ({ userType = null }: GNBProps) => {
     }
   });
 
-  // 임시
-  const userName = "테스터";
+  const { userName } = useUserStore();
+  const userType = useUserStore.getState().userRole;
 
   const renderTabs = () => {
     switch (userType) {
@@ -116,7 +111,7 @@ const GNB = ({ userType = null }: GNBProps) => {
             </>
           ) : (
             <Link
-              href="auth/login"
+              href="/auth/login"
               className="hidden pc:block px-6 py-3 bg-pr-blue-300 text-white rounded-lg font-medium hover:bg-primary/90"
             >
               로그인
