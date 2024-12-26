@@ -11,6 +11,7 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { login } from "@/api/auth";
+import { useUserStore } from "@/store/userStore";
 
 interface SignUpComponentProps {
   isUser: boolean;
@@ -46,7 +47,9 @@ export default function SignUpComponent({ isUser }: SignUpComponentProps) {
       throw new Error("유효성 검사 실패");
     }
     try {
-      await login(data);
+      // 미완성. signin API response 구조 확인 필요
+      const { userDate } = await login(data);
+      useUserStore().setUserData(userDate);
       reset();
       isUser ? router.push("/find-mover") : router.push("/mover/request");
     } catch (error: any) {

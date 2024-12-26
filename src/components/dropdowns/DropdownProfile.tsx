@@ -12,6 +12,7 @@ import {
   DropdownUserName,
 } from "../common/Dropdown";
 import { logout } from "@/api/auth";
+import { resetUserStore } from "@/utils/auth";
 
 import { PROFILE_CUSTOMER, PROFILE_MOVER } from "@/variables/dropdown";
 
@@ -80,6 +81,7 @@ export default function DropdownProfile({
 
   const handleSignOutClick = async () => {
     await logout();
+    resetUserStore();
     setIsOpen(false);
     window.location.href = "/";
   };

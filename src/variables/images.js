@@ -9,6 +9,7 @@ const assets = {
     checkboxInactive: "/assets/icons/ic_checkbox_inactive.svg",
     chevronDown: "/assets/icons/ic_chevron_down.svg",
     chevronDownActive: "/assets/icons/ic_chevron_down_active.svg",
+    chevronDownDouble: "/assets/icons/ic_chevron_down_double.svg",
     chevronLeft: "/assets/icons/ic_chevron_left.svg",
     chevronRight: "/assets/icons/ic_chevron_right.svg",
     chevronUp: "/assets/icons/ic_chevron_up.svg",

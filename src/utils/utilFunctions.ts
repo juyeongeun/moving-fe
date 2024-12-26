@@ -64,3 +64,5 @@ export const formatTimeAgo = (dateString: string) => {
     return "날짜 없음";
   }
 };
+
+export const isAllTrue = (arr: boolean[]) => arr.every(Boolean);
