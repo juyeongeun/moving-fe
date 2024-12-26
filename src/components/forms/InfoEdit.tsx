@@ -116,7 +116,7 @@ export default function InfoEdit({ isUser, userData }: InfoEditProps) {
                 NiceModal.remove("confirm-modal");
               } catch (error) {
                 toast.error("비밀번호가 일치하지 않습니다.", {
-                  position: "bottom-center",
+                  position: "top-center",
                 });
                 return false; // 모달 유지
               }
@@ -161,7 +161,7 @@ export default function InfoEdit({ isUser, userData }: InfoEditProps) {
       isUser ? router.push("/find-mover") : router.push("/mover/my-page");
 
       toast.success("기본정보 수정이 완료되었습니다.", {
-        position: "bottom-center",
+        position: "top-center",
         icon: "👏",
       });
       reset();
@@ -172,7 +172,7 @@ export default function InfoEdit({ isUser, userData }: InfoEditProps) {
         "정보 수정에 실패했습니다.";
 
       toast.error(errorMessage, {
-        position: "bottom-center",
+        position: "top-center",
       });
     }
   };
