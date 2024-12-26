@@ -52,7 +52,7 @@ const GNB = () => {
   });
 
   const { userName, userRole } = useUserStore();
-  console.log("userName : ", userName, "userRole : ", userRole);
+  console.log("GNB userName : ", userName, "userRole : ", userRole);
 
   const renderTabs = () => {
     switch (userRole) {
