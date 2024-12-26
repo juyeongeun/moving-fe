@@ -22,7 +22,7 @@ export default function EmptyList({ text }: EmptyListProps) {
   return (
     <div className={styles.container}>
       <div className={styles.imageWrapper}>
-        <Image src={assets.images.emptyFolder} alt="빈 폴더" fill />
+        <Image src={assets.icons.empty} alt="빈 폴더" fill />
       </div>
       <h3 className={styles.heading}>{text}</h3>
     </div>
