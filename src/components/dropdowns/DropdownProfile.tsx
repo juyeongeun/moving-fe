@@ -39,6 +39,8 @@ export default function DropdownProfile({
     disabled: "cursor-not-allowed",
   };
 
+  console.log("DropdownProfile isMover", isMover);
+
   const dropdownTriggerClass = clsx(dropdownStyles.base, {
     [dropdownStyles.able]: !disabled,
     [dropdownStyles.open]: isOpen,

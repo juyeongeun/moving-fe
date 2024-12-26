@@ -51,10 +51,8 @@ const GNB = () => {
     }
   });
 
-  console.log("GNB");
   const { userName, userRole } = useUserStore();
   console.log("userName : ", userName, "userRole : ", userRole);
-  // const userType = useUserStore.getState().userRole;
 
   const renderTabs = () => {
     switch (userRole) {
@@ -109,7 +107,7 @@ const GNB = () => {
                   console.log(id); // 임시. 테스트용
                 }}
               />
-              <DropdownProfile name={userName} />
+              <DropdownProfile name={userName} isMover={userRole === "MOVER"} />
             </>
           ) : (
             <Link
