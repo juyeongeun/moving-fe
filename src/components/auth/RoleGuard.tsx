@@ -53,7 +53,7 @@ export default function RoleGuard({
         const userInfo = await getUserInfo();
         const userRole = userInfo.user.mover
           ? "MOVER"
-          : userInfo.user.user
+          : userInfo.user.customer
           ? "USER"
           : null;
 

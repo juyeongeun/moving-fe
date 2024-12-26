@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { login } from "@/api/auth";
 import { useUserStore } from "@/store/userStore";
+import { getUserInfo } from "@/api/user";
 
 interface SignUpComponentProps {
   isUser: boolean;
@@ -48,8 +49,22 @@ export default function SignUpComponent({ isUser }: SignUpComponentProps) {
     }
     try {
       // 미완성. signin API response 구조 확인 필요
-      const { userDate } = await login(data);
-      useUserStore().setUserData(userDate);
+      await login(data);
+
+      const userInfo = await getUserInfo();
+      console.log("SignUpComponent userInfo: ", userInfo);
+      const userRole = userInfo.user.mover
+        ? "MOVER"
+        : userInfo.user.customer
+        ? "USER"
+        : null;
+
+      useUserStore.getState().setUserData({
+        email: userInfo.user.email,
+        name: userInfo.user.name,
+        phoneNumber: userInfo.user.phoneNumber,
+        role: userRole,
+      });
       reset();
       isUser ? router.push("/find-mover") : router.push("/mover/request");
     } catch (error: any) {
