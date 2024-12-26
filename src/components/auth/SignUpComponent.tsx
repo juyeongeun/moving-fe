@@ -69,14 +69,14 @@ export default function SignUpComponent({ isUser }: SignUpComponentProps) {
         console.log("👤 isUser");
         router.push("/me/profile");
         toast.success("프로필을 등록하여 회원가입을 완성해주세요.", {
-          position: "bottom-center",
+          position: "top-center",
           icon: "👤",
         });
       } else {
         console.log("👤 else");
         router.push("/mover/profile");
         toast.success("프로필을 등록하여 회원가입을 완성해주세요.", {
-          position: "bottom-center",
+          position: "top-center",
           icon: "👤",
         });
       }
@@ -90,7 +90,7 @@ export default function SignUpComponent({ isUser }: SignUpComponentProps) {
         "다시 시도해주세요.";
 
       toast.error(errorMessage, {
-        position: "bottom-center",
+        position: "top-center",
       });
     }
   };

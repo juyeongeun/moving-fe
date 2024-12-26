@@ -2,7 +2,7 @@ import axios from "axios";
 
 const API_URL =
   process.env.NEXT_PUBLIC_API_MOCKING === "enabled"
-    ? "/api" // mocking URL
+    ? "/mock/api" // mocking URL
     : "/api"; // 실제 API URL
 
 const commonConfig = {

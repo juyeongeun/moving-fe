@@ -38,11 +38,12 @@ export default async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
-  // mover 페이지 접근 시
+  // mover 페이지 접근 시 (register와 profile 페이지는 제외)
   if (
     pathname.startsWith("/mover") &&
-    !pathname.startsWith("/mover/auth/login") &&
-    !pathname.startsWith("/mover/auth/register")
+    !pathname.startsWith("/mover/auth/register") &&
+    pathname !== "/mover/profile" &&
+    !pathname.startsWith("/mover/auth/login")
   ) {
     if (!hasTokens) {
       return NextResponse.redirect(new URL("/mover/auth/login", request.url));

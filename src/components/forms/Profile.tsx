@@ -204,7 +204,7 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
     const icon = isEdit ? "👏" : "🎉";
 
     toast.success(message, {
-      position: "bottom-center",
+      position: "top-center",
       icon,
     });
 
@@ -244,7 +244,7 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
         "정보 수정에 실패했습니다.";
 
       toast.error(errorMessage, {
-        position: "bottom-center",
+        position: "top-center",
       });
     }
   };
@@ -286,8 +286,10 @@ export default function Profile({ isUser, isEdit, userData }: ProfileProps) {
       </p>
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <div
-          className={`pc:flex pc:flex-row pc:gap-[72px] ${
-            isUser ? "pc:flex-col pc:gap-[0px]" : ""
+          className={`${
+            isUser
+              ? "pc:flex pc:flex-col pc:gap-[0px]"
+              : "pc:flex pc:flex-row pc:gap-[72px]"
           }`}
         >
           <div className="pc:flex pc:flex-col pc:w-full">

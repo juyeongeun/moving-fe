@@ -12,7 +12,7 @@ interface RoleGuardProps {
   fallbackPath?: string;
 }
 
-// 역할 검사가 필요없는 public 경로들
+// 검사가 필요없는 public 경로들
 const publicPaths = [
   "/auth/login",
   "/auth/register",
@@ -83,11 +83,7 @@ export default function RoleGuard({
   }, [allowedRoles, fallbackPath, router, pathname]);
 
   if (isLoading) {
-    return (
-      <div className="flex flex-col w-full mt-3 gap-[32px] overflow-hidden tablet:mt-4 pc:mt-[32px] pc:gap-[48px]">
-        <Loader />
-      </div>
-    );
+    return <Loader msg="페이지 로딩중" />;
   }
 
   return isAuthorized ? children : null;

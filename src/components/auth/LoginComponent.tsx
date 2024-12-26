@@ -56,7 +56,7 @@ export default function SignUpComponent({ isUser }: SignUpComponentProps) {
         "로그인에 실패했습니다.";
 
       toast.error(errorMessage, {
-        position: "bottom-center",
+        position: "top-center",
       });
     }
   };
