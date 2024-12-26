@@ -2,7 +2,7 @@ import axios from "axios";
 
 const API_URL =
   process.env.NEXT_PUBLIC_API_MOCKING === "enabled"
-    ? "/mock/api" // mocking URL
+    ? "/mock" // mocking URL
     : "/api"; // 실제 API URL
 
 const commonConfig = {
@@ -20,6 +20,7 @@ export const axiosCSRInstance = axios.create({
 
 // SSR 전용 인스턴스
 export const axiosSSRInstance = axios.create({
+  // 임시. 테스트 코드(개인 be 주소 적용용)
   baseURL:
     process.env.NEXT_PUBLIC_API_URL || "https://moving-be-1.onrender.com",
   withCredentials: true,
@@ -73,6 +74,7 @@ axiosInstance.interceptors.response.use(
   }
 );
 
+// 임시. 테스트 코드
 export const axiosInstance2 = axios.create({
   baseURL: "https://moving-be-1.onrender.com",
   headers: {

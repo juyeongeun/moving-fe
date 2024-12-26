@@ -337,6 +337,7 @@ export async function getMovingRequestListByMover({
   const query = `${serviceQuery}${sortQuery}${designateQuery}${keywordQuery}${limitQuery}${cursorQuery}&isQuoted=false&isPastRequest=false`;
 
   try {
+    // 임시. 테스트 코드드
     console.log("Base URL:", axiosInstance2.defaults.baseURL);
     console.log("Full URL:", `${PATH}/by-mover?${query}`);
 
