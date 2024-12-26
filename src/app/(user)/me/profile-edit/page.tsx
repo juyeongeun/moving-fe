@@ -7,9 +7,9 @@ import { useEffect, useState } from "react";
 export default function ProfileEditPage() {
   const [userData, setUserData] = useState(null);
 
-  useEffect(() => {
-    getUserInfo().then(setUserData);
-  }, []);
+  // useEffect(() => {
+  //   getUserInfo().then(setUserData);
+  // }, []);
 
   if (!userData) return null;
 

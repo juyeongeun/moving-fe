@@ -2,6 +2,40 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { getMoverList, getMoverProfile } from "../mover";
 import { moverKey } from "../queryKeys";
 import { getMoverById } from "../mover";
+import { GetMoverListResponseData } from "../mover";
+
+export const useGetMoverList = ({
+  service,
+  region,
+  keyword,
+  order,
+  initialData,
+}: {
+  service?: number | null;
+  region?: number | null;
+  keyword?: string;
+  order?: string;
+  initialData: GetMoverListResponseData;
+}) => {
+  return useInfiniteQuery({
+    queryKey: moverKey.list(),
+    queryFn: ({ pageParam }: { pageParam?: number | null }) =>
+      getMoverList({
+        limit: 10,
+        nextCursorId: pageParam,
+        service,
+        region,
+        keyword,
+        order,
+      }),
+    getNextPageParam: (lastPage) => lastPage.nextCursor,
+    initialPageParam: null,
+    initialData: {
+      pages: [initialData],
+      pageParams: [null],
+    },
+  });
+};
 
 //내가 찜한 기사님 목록 조회
 export const useGetFavoriteMoverList = () => {

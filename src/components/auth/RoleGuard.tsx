@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { getUserInfo } from "@/api/user";
 import { useUserStore } from "@/store/userStore";
+import Loader from "../common/Loader";
 
 interface RoleGuardProps {
   children: React.ReactNode;
@@ -20,6 +21,8 @@ const publicPaths = [
   "/me/profile",
   "/mover/profile",
 ];
+
+const commonPaths = ["/find-mover"];
 
 export default function RoleGuard({
   children,
@@ -40,9 +43,19 @@ export default function RoleGuard({
         return;
       }
 
+      if (commonPaths.includes(pathname) && !useUserStore.getState().userRole) {
+        setIsAuthorized(true);
+        setIsLoading(false);
+        return;
+      }
+
       try {
         const userInfo = await getUserInfo();
-        const userRole = userInfo.user.mover ? "MOVER" : "USER";
+        const userRole = userInfo.user.mover
+          ? "MOVER"
+          : userInfo.user.user
+          ? "USER"
+          : null;
 
         useUserStore.getState().setUserData({
           email: userInfo.user.email,
@@ -50,8 +63,8 @@ export default function RoleGuard({
           phoneNumber: userInfo.user.phoneNumber,
           role: userRole,
         });
-        console.log(useUserStore.getState().userRole);
-        const hasPermission = allowedRoles?.includes(userRole);
+        console.log("userType : ", useUserStore.getState().userRole);
+        const hasPermission = userRole && allowedRoles?.includes(userRole);
         if (!hasPermission) {
           router.replace(fallbackPath);
           return;
@@ -72,7 +85,7 @@ export default function RoleGuard({
   if (isLoading) {
     return (
       <div className="flex flex-col w-full mt-3 gap-[32px] overflow-hidden tablet:mt-4 pc:mt-[32px] pc:gap-[48px]">
-        <p>Loading...</p>
+        <Loader />
       </div>
     );
   }

@@ -1,5 +1,5 @@
 import axios from "axios";
-import axiosInstance, { axiosInstance2 } from "./axios";
+import { axiosInstance, axiosInstance2 } from "./axios";
 
 import {
   GetMovingRequestListByMoverParamData,

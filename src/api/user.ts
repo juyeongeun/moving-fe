@@ -1,4 +1,4 @@
-import axiosInstance from "./axios";
+import { axiosInstance } from "./axios";
 import { UserInfo } from "@/types/auth";
 
 const PATH = "/users";

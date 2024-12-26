@@ -1,8 +1,7 @@
 import RequestForm from "./RequestForm";
 
 import { getMovingRequestListByMover } from "@/api/movingRequest";
-
-const PAGE_SIZE = 5;
+import { MOVING_REQUEST_DEFAULT_PAGE_SIZE } from "@/variables/movingRequest";
 
 export default async function RequestListPage({}) {
   try {
@@ -13,7 +12,7 @@ export default async function RequestListPage({}) {
       officeMove: true,
       isDesignated: null,
       orderBy: "recent",
-      limit: PAGE_SIZE,
+      limit: MOVING_REQUEST_DEFAULT_PAGE_SIZE,
       cursor: null,
     });
 

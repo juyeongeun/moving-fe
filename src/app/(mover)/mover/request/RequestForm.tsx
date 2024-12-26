@@ -24,12 +24,11 @@ import { type QuoteDetailsData } from "@/types/mover";
 
 import { getMovingRequestListByMover } from "@/api/movingRequest";
 import { type GetMovingRequestListByMoverResponseData } from "@/types/api";
+import { MOVING_REQUEST_DEFAULT_PAGE_SIZE } from "@/variables/movingRequest";
 
 NiceModal.register("FilterNiceModal", FilterNiceModal);
 NiceModal.register("RejectRequetNiceModal", RejectRequetNiceModal);
 NiceModal.register("CreateQuoteNiceModal", CreateQuoteNiceModal);
-
-const DEFAULT_PAGE_SIZE = 5;
 
 interface FormState {
   keyword: string;
@@ -92,7 +91,7 @@ export default function RequestForm({ initialData }: RequestFormProps) {
           keyword: debouncedKeyword,
           isDesignated: formState.isDesignated,
           orderBy: formState.orderBy,
-          limit: DEFAULT_PAGE_SIZE,
+          limit: MOVING_REQUEST_DEFAULT_PAGE_SIZE,
           cursor: pageParam,
         }),
       getNextPageParam: (data) => {
