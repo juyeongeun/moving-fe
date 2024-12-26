@@ -1,4 +1,5 @@
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const API_URL =
   process.env.NEXT_PUBLIC_API_MOCKING === "enabled"
@@ -38,6 +39,28 @@ axiosInstance.interceptors.response.use(
           window.location.href = "/auth/login";
           return Promise.reject(error);
         }
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (error.response?.data?.redirect) {
+      // 추후 수정 예정
+      const result = await Swal.fire({
+        title: "프로필 등록",
+        text: error.response?.data?.message,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "확인",
+        confirmButtonColor: "bg-pr-blue-300",
+      });
+
+      if (result.isConfirmed) {
+        window.location.href = error.response?.data?.redirectUrl;
       }
     }
     return Promise.reject(error);
