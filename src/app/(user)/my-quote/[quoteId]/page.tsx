@@ -2,7 +2,6 @@ import QuoteDetail from "./QuoteDetail";
 
 import { getQuote } from "@/api/quote";
 import { GetQuoteApiResponseData } from "@/types/api";
-import { Metadata } from "next";
 
 async function fetchQuoteData(
   quoteId: number
@@ -10,18 +9,21 @@ async function fetchQuoteData(
   return getQuote(quoteId);
 }
 
-interface PageProps {
-  params: { quoteId: string };
-  searchParams?: { [key: string]: string | string[] | undefined };
+export interface MyQuotesDetailPageProps {
+  params: {
+    quoteId: string;
+  };
 }
 
-export default async function MyQuotesDetailPage({ params }: PageProps) {
+export default async function MyQuotesDetailPage({
+  params,
+}: MyQuotesDetailPageProps) {
   const { quoteId } = params;
 
   const data = await fetchQuoteData(Number(quoteId));
 
   const styles = {
-    constainer: `flex flex-col items-center w-full`,
+    container: `flex flex-col items-center w-full`,
     topBar: `flex flex-row gap-2.5 items-center justify-center w-[328px] h-[54px] 
       tablet:w-[600px] 
       pc:w-[1400px] pc:h-[96px]`,
@@ -32,7 +34,7 @@ export default async function MyQuotesDetailPage({ params }: PageProps) {
   };
 
   return (
-    <div className={styles.constainer}>
+    <div className={styles.container}>
       <div className={styles.topBar}>
         <div className={styles.barItem}>견적 상세</div>
       </div>
@@ -40,7 +42,3 @@ export default async function MyQuotesDetailPage({ params }: PageProps) {
     </div>
   );
 }
-
-export const metadata: Metadata = {
-  title: "견적 상세",
-};
