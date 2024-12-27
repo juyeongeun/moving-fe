@@ -9,16 +9,12 @@ async function fetchQuoteData(
   return getQuote(quoteId);
 }
 
-export interface MyQuotesDetailPageProps {
-  params: {
-    quoteId: string;
-  };
+type Props = {
+  params: { quoteId: string };
   searchParams: { [key: string]: string | string[] | undefined };
-}
+};
 
-export default async function MyQuotesDetailPage({
-  params,
-}: MyQuotesDetailPageProps) {
+export default async function MyQuotesDetailPage({ params }: Props) {
   const { quoteId } = params;
 
   const data = await fetchQuoteData(Number(quoteId));
