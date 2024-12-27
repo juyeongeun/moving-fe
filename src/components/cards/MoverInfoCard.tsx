@@ -37,8 +37,6 @@ const MoverInfoCard = ({
   const serviceTypes = mapServiceType(data.services);
   const href = `/find-mover/${data.id}`;
 
-  console.log(data);
-
   return (
     <Link href={href}>
       <CardContainer size={size} className={className}>
