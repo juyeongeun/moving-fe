@@ -23,7 +23,7 @@ const nextConfig = {
     return [
       {
         source: "/api/:path*",
-        destination: `${process.env.NEXT_PUBLIC_API_URL}/:path*`,
+        destination: `https://52.78.245.231.nip.io/:path*`,
       },
     ];
   },
