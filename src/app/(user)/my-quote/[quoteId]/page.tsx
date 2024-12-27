@@ -19,7 +19,7 @@ export interface MyQuotesDetailPageProps {
 export default async function MyQuotesDetailPage({
   params,
 }: MyQuotesDetailPageProps) {
-  const { quoteId } = await params;
+  const { quoteId } = params;
 
   const data = await fetchQuoteData(Number(quoteId));
 
