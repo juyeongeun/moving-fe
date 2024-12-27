@@ -1,16 +1,15 @@
 "use client";
 
+import { Suspense } from "react";
 import MoverInfoCard from "@/components/cards/MoverInfoCard";
 import CheckboxChip from "@/components/common/checkboxs/CheckboxChip";
-import { useParams } from "next/navigation";
+import { useParams, usePathname, useSearchParams } from "next/navigation";
 import LineSeparator from "@/components/common/LineSeparator";
 import { SERVICE_TEXTS } from "@/variables/service";
 import { REGION_TEXTS } from "@/variables/regions";
 import { useState } from "react";
 import QuoteButtonGroup from "@/components/common/QuoteButtonGroup";
 import ShareButtons from "@/components/common/ShareButtons";
-import { usePathname, useSearchParams } from "next/navigation";
-
 import { useGetMoverDetail } from "@/api/query-hooks/mover";
 import Loader from "@/components/common/Loader";
 import MoversReviewList from "@/components/review/MoversReviewList";
@@ -32,7 +31,8 @@ const styles = {
     "flex flex-col items-center justify-center gap-[24px] p-[80px] mb-auto text-lg text-grayscale-400",
 };
 
-export default function MoverDetailPage() {
+// MoverDetailContent 컴포넌트로 분리
+function MoverDetailContent() {
   const { moverId } = useParams();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -164,5 +164,13 @@ export default function MoverDetailPage() {
         buttonText={isDesignated ? "지정 견적 요청 완료" : "지정 견적 요청하기"}
       />
     </>
+  );
+}
+
+export default function MoverDetailPage() {
+  return (
+    <Suspense fallback={<Loader msg="기사님 상세 정보 불러오는중" />}>
+      <MoverDetailContent />
+    </Suspense>
   );
 }

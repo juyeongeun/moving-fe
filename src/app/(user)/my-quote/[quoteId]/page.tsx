@@ -9,21 +9,17 @@ async function fetchQuoteData(
   return getQuote(quoteId);
 }
 
-export interface MyQuotesDetailPageProps {
-  params: {
-    quoteId: string;
-  };
-}
-
 export default async function MyQuotesDetailPage({
   params,
-}: MyQuotesDetailPageProps) {
-  const { quoteId } = params;
-
+}: {
+  params: Promise<{ quoteId: string }>;
+}) {
+  const resolvedParams = await params;
+  const { quoteId } = resolvedParams;
   const data = await fetchQuoteData(Number(quoteId));
 
   const styles = {
-    container: `flex flex-col items-center w-full`,
+    constainer: `flex flex-col items-center w-full`,
     topBar: `flex flex-row gap-2.5 items-center justify-center w-[328px] h-[54px] 
       tablet:w-[600px] 
       pc:w-[1400px] pc:h-[96px]`,
@@ -34,7 +30,7 @@ export default async function MyQuotesDetailPage({
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.constainer}>
       <div className={styles.topBar}>
         <div className={styles.barItem}>견적 상세</div>
       </div>

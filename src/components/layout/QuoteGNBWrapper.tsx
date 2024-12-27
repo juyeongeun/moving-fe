@@ -2,8 +2,10 @@
 
 import { usePathname, useSearchParams } from "next/navigation";
 import QuoteGNB from "./QuoteGNB";
+import { Suspense } from "react";
 
-export default function QuoteGNBWrapper() {
+// QuoteGNBContent 컴포넌트로 분리
+function QuoteGNBContent() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const tab = searchParams.get("tab") || 0;
@@ -49,4 +51,13 @@ export default function QuoteGNBWrapper() {
   }
 
   return null;
+}
+
+// 메인 컴포넌트
+export default function QuoteGNBWrapper() {
+  return (
+    <Suspense>
+      <QuoteGNBContent />
+    </Suspense>
+  );
 }

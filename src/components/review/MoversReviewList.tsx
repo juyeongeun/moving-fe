@@ -33,7 +33,7 @@ export const MoversReviewList = ({
   return (
     <section>
       <h2 className="text-lg font-bold text-black-400 pc:my-[32px] pc:text-2xl mb-[32px]">
-        리뷰 ({totalRating.totalCount > 0 ? totalRating.totalCount : 0})
+        리뷰 ({totalRating?.totalCount ?? 0})
       </h2>
       {totalRating?.totalCount === 0 ? (
         <EmptyReview />
@@ -47,9 +47,9 @@ export const MoversReviewList = ({
                 "3": totalRating["3"],
                 "4": totalRating["4"],
                 "5": totalRating["5"],
-                totalCount: totalRating.totalCount,
-                totalSum: totalRating.totalSum,
-                average: totalRating.average,
+                totalCount: totalRating?.totalCount ?? 0,
+                totalSum: totalRating?.totalSum ?? 0,
+                average: totalRating?.average ?? 0,
               }}
             />
           </article>

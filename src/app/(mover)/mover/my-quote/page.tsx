@@ -10,6 +10,7 @@ import { type QuoteDetailsData, type SentQuoteData } from "@/types/quote";
 import { CursorResponse } from "@/types/api";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
+import { Suspense } from "react";
 
 interface QuoteCardListProps {
   pages: CursorResponse<SentQuoteData | QuoteDetailsData>[];
@@ -46,7 +47,7 @@ const QuoteCardList = ({
   );
 };
 
-export default function MyQuotePage() {
+function MyQuoteContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentTab = Number(searchParams.get("tab") || "0");
@@ -95,7 +96,6 @@ export default function MyQuotePage() {
         currentTab={currentTab}
         onButtonClick={handleButtonClick}
       />
-
       <div ref={ref}>
         {isFetchingNextPage ? (
           <Loader msg="찜한 기사님 목록 불러오는중" />
@@ -106,5 +106,13 @@ export default function MyQuotePage() {
         )}
       </div>
     </>
+  );
+}
+
+export default function MyQuotePage() {
+  return (
+    <Suspense fallback={<Loader msg="견적을 불러오는 중입니다." />}>
+      <MyQuoteContent />
+    </Suspense>
   );
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import CreateReviewCard from "@/components/cards/CreateReviewCard";
 import MyReviewCard, {
   MyReviewCardData,
@@ -50,7 +51,8 @@ const emptyReviewList = {
   list: [],
 };
 
-export default function MyReviewPage() {
+// MyReviewContent 컴포넌트로 분리
+function MyReviewContent() {
   const [pageNum, setPageNum] = useState(1);
   const searchParams = useSearchParams();
   const currentTab = Number(searchParams.get("tab") || "0");
@@ -103,5 +105,13 @@ export default function MyReviewPage() {
         onPageChange={setPageNum}
       />
     </>
+  );
+}
+
+export default function MyReviewPage() {
+  return (
+    <Suspense fallback={<Loader msg="리뷰 목록을 불러오고 있어요." />}>
+      <MyReviewContent />
+    </Suspense>
   );
 }

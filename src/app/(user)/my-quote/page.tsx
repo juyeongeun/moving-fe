@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import PendingRequestCard from "@/components/cards/PendingRequestCard";
 import ReceivedQuoteCard from "@/components/cards/ReceivedQuoteCard";
@@ -53,7 +53,7 @@ interface Quote {
   mover: Mover;
 }
 
-const MyQuotePage = () => {
+function MyQuoteContent() {
   const [quotes, setQuotes] = useState<Quote[]>([]);
   const [totalCount, setTotalCount] = useState<number>(0);
   const [loading, setLoading] = useState(true);
@@ -268,6 +268,18 @@ const MyQuotePage = () => {
       )}
     </div>
   );
-};
+}
 
-export default MyQuotePage;
+export default function MyQuotePage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex justify-center items-center h-screen">
+          로딩중...
+        </div>
+      }
+    >
+      <MyQuoteContent />
+    </Suspense>
+  );
+}
