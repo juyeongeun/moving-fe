@@ -13,6 +13,7 @@ export interface MyQuotesDetailPageProps {
   params: {
     quoteId: string;
   };
+  searchParams: { [key: string]: string | string[] | undefined };
 }
 
 export default async function MyQuotesDetailPage({
