@@ -1,8 +1,12 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import assets from "@/variables/images";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Home() {
+  useAuth();
   return (
     <main className="container mx-auto px-4 py-16 pc:py-20 max-w-[374px] pc:max-w-[1400px]">
       <h1 className="text-2xl tablet:text-2xl pc:text-3xl text-center font-semibold mb-11">
