@@ -5,8 +5,8 @@ export interface RatingData {
   "3": number;
   "4": number;
   "5": number;
-  totalCount: number;
-  totalSum: number;
+  totalCount?: number;
+  totalSum?: number;
   average: number;
 }
 
@@ -82,4 +82,16 @@ export interface MoverDetailData extends MoverBaseData {
   reviewCount: number;
   confirmCount: number;
   rating: RatingData;
+}
+
+export interface QuoteDetailsData {
+  id: number;
+  requestDate: string;
+  service: number;
+  isDesignated: boolean;
+  isConfirmed?: boolean;
+  name: string;
+  movingDate: string;
+  pickupAddress: string;
+  dropOffAddress: string;
 }

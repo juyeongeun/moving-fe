@@ -11,6 +11,7 @@ import QuoteButtonGroup from "@/components/common/QuoteButtonGroup";
 // import QuoteRequestModal from "@/components/modals/QuoteRequestModal";
 import ShareButtons from "@/components/common/ShareButtons";
 import { usePathname, useSearchParams } from "next/navigation";
+
 import { useGetMoverDetail } from "@/api/query-hooks/mover";
 import Loader from "@/components/common/Loader";
 import MoversReviewList from "@/components/review/MoversReviewList";

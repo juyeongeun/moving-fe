@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import PendingRequestCard from "@/components/cards/PendingRequestCard";
 import ReceivedQuoteCard from "@/components/cards/ReceivedQuoteCard";
 import { ChevronDown, Package } from "lucide-react";
-import Dropdown from "./myQuoteDropdown";
+import DropdownQuote from "@/components/dropdowns/DropdownQuote";
 import LineSeparator from "@/components/common/LineSeparator";
 import { fetchPendingQuotes } from "@/api/PendingQuotes";
 
@@ -120,6 +120,8 @@ const MyQuotePage = () => {
   const toggleSection = (sectionNumber: number): void => {
     setOpenSection(openSection === sectionNumber ? null : sectionNumber);
   };
+
+  const handleQuoteFilterClick = () => {};
 
   return (
     <div className="max-w-[1400px] mx-auto my-[16px] pc:my-[24px]">
@@ -246,7 +248,10 @@ const MyQuotePage = () => {
                   <div className="px-5 py-4 flex flex-col gap-4">
                     <div className="text-2xl font-semibold">견적서 목록</div>
                     <div>
-                      <Dropdown />
+                      <DropdownQuote
+                        onSelect={handleQuoteFilterClick}
+                        disabled={false}
+                      />
                     </div>
                   </div>
 

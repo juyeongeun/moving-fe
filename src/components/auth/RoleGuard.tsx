@@ -26,6 +26,8 @@ const publicPaths = [
   "/oauth/naver",
 ];
 
+const commonPaths = ["/find-mover"];
+
 export default function RoleGuard({
   children,
   allowedRoles,
@@ -45,9 +47,19 @@ export default function RoleGuard({
         return;
       }
 
+      if (commonPaths.includes(pathname) && !useUserStore.getState().userRole) {
+        setIsAuthorized(true);
+        setIsLoading(false);
+        return;
+      }
+
       try {
         const userInfo = await getUserInfo();
-        const userRole = userInfo.user.mover ? "MOVER" : "USER";
+        const userRole = userInfo.user.mover
+          ? "MOVER"
+          : userInfo.user.customer
+          ? "USER"
+          : null;
 
         useUserStore.getState().setUserData({
           email: userInfo.user.email,
@@ -55,8 +67,8 @@ export default function RoleGuard({
           phoneNumber: userInfo.user.phoneNumber,
           role: userRole,
         });
-        console.log(useUserStore.getState().userRole);
-        const hasPermission = allowedRoles?.includes(userRole);
+        console.log("RoleGuard userType : ", useUserStore.getState().userRole);
+        const hasPermission = userRole && allowedRoles?.includes(userRole);
         if (!hasPermission) {
           router.replace(fallbackPath);
           return;

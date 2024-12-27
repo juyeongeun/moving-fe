@@ -1,4 +1,4 @@
-import axiosInstance from "./axios";
+import { axiosInstance } from "./axios";
 import { UserLogin, AuthResponse, UserValidate } from "@/types/auth";
 
 const PATH = "/auth";
@@ -32,7 +32,7 @@ export const moverSignup = async (
 
 export const login = async (userData: UserLogin) => {
   const response = await axiosInstance.post(`${PATH}/signin`, userData);
-  return { status: response.status };
+  return { status: response.status, userDate: response.data };
 };
 
 export const logout = async () => {

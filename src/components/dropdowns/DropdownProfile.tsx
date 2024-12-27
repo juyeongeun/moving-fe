@@ -12,6 +12,7 @@ import {
   DropdownUserName,
 } from "../common/Dropdown";
 import { logout } from "@/api/auth";
+import { resetUserStore } from "@/utils/auth";
 
 import { PROFILE_CUSTOMER, PROFILE_MOVER } from "@/variables/dropdown";
 
@@ -37,6 +38,8 @@ export default function DropdownProfile({
     open: "",
     disabled: "cursor-not-allowed",
   };
+
+  console.log("DropdownProfile isMover", isMover);
 
   const dropdownTriggerClass = clsx(dropdownStyles.base, {
     [dropdownStyles.able]: !disabled,
@@ -80,6 +83,7 @@ export default function DropdownProfile({
 
   const handleSignOutClick = async () => {
     await logout();
+    resetUserStore();
     setIsOpen(false);
     window.location.href = "/";
   };

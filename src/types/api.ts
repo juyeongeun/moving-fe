@@ -1,5 +1,8 @@
 import { QuoteData } from "./quote";
-import { MovingRequestDataWithComplete } from "./movingRequest";
+import {
+  MovingRequestDataByMover,
+  MovingRequestDataWithComplete,
+} from "./movingRequest";
 import { MoverDetailData } from "./mover";
 
 // API 구조 참고
@@ -31,4 +34,34 @@ export interface CursorParams {
 export interface OffsetParams {
   pageNum?: number;
   pageSize?: number;
+}
+
+export interface serviceCounts {
+  smallMove: number;
+  houseMove: number;
+  officeMove: number;
+}
+export interface requestCounts {
+  total: number;
+  designated: number;
+}
+
+// API 구조 참고
+export interface GetMovingRequestListByMoverResponseData {
+  list: MovingRequestDataByMover[];
+  serviceCounts: serviceCounts;
+  requestCounts: requestCounts;
+  nextCursor: number | string;
+  hasNext: boolean;
+}
+
+export interface GetMovingRequestListByMoverParamData {
+  smallMove: boolean;
+  houseMove: boolean;
+  officeMove: boolean;
+  keyword?: string;
+  isDesignated: boolean | null;
+  orderBy: "recent" | "movingDate";
+  limit: number;
+  cursor: number | string | null;
 }

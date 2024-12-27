@@ -1,4 +1,4 @@
-import axiosInstance from "./axios";
+import { axiosInstance } from "./axios";
 import { type OffsetResponse, type OffsetParams } from "@/types/api";
 import { type MyReviewCardData } from "@/components/cards/MyReviewCard";
 import { type ReviewMoverData } from "@/components/common/card/ReviewMover";

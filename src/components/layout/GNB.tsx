@@ -51,11 +51,11 @@ const GNB = () => {
     }
   });
 
-  const { userName } = useUserStore();
-  const userType = useUserStore.getState().userRole;
+  const { userName, userRole } = useUserStore();
+  console.log("GNB userName : ", userName, "userRole : ", userRole);
 
   const renderTabs = () => {
-    switch (userType) {
+    switch (userRole) {
       case "MOVER":
         return (
           <>
@@ -100,14 +100,14 @@ const GNB = () => {
         </div>
 
         <div className="flex flex-row items-center gap-6">
-          {userType ? (
+          {userRole ? (
             <>
               <DropdownNotification
                 onSelect={(id: number) => {
                   console.log(id); // 임시. 테스트용
                 }}
               />
-              <DropdownProfile name={userName} />
+              <DropdownProfile name={userName} isMover={userRole === "MOVER"} />
             </>
           ) : (
             <Link
@@ -145,7 +145,7 @@ const GNB = () => {
           >
             <Image src={assets.icons.x} alt="close" width={24} height={24} />
           </button>
-          {userType ? (
+          {userRole ? (
             <div className="flex items-center gap-2 mt-8 mb-6">
               <Image
                 src={assets.icons.userProfile}

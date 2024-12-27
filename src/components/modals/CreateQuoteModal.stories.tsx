@@ -1,8 +1,8 @@
 import { Meta, StoryObj } from "@storybook/react";
-import QuoteModal from "./QuoteModal";
+import QuoteModal from "./CreateQuoteModal";
 
 const meta: Meta<typeof QuoteModal> = {
-  title: "Components/QuoteModal",
+  title: "Components/CreateQuoteModal",
   component: QuoteModal,
   parameters: {
     layout: "centered",
@@ -20,7 +20,6 @@ export const QuoteRequest: Story = {
   args: {
     serviceType: 1,
     isDesignatedQuote: true,
-    isRejected: false,
     onClose: () => {
       console.log("close");
     },
@@ -33,6 +32,5 @@ export const QuoteRequest: Story = {
 export const QuoteRejected: Story = {
   args: {
     ...QuoteRequest.args,
-    isRejected: true,
   },
 };
