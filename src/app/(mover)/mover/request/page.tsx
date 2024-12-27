@@ -22,9 +22,6 @@ export default async function RequestListPage({}) {
       cursor: null,
     });
 
-    console.log("Initial Data:", initialData);
-    console.log("cookie:", cookie);
-
     return <RequestForm initialData={initialData} />;
   } catch (error) {
     console.error("RequestListPage Error:", error);

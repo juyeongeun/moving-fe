@@ -127,34 +127,6 @@ export async function getMovingRequestListByMover({
     ? { Cookie: cookie }
     : undefined;
 
-  // const serviceQuery = `smallMove=${smallMove}&houseMove=${houseMove}&officeMove=${officeMove}`;
-  // const sortQuery = `&orderBy=${orderBy}`;
-  // let designateQuery = ``;
-
-  // if (isDesignated !== null) {
-  //   designateQuery = `&isDesignated=${isDesignated}`;
-  // }
-
-  // let keywordQuery = ``;
-
-  // if (keyword !== null && keyword?.trim().length !== 0) {
-  //   keywordQuery = `&keyword=${keyword}`;
-  // }
-
-  // let limitQuery = ``;
-
-  // if (limit) {
-  //   limitQuery = `&limit=${limit}`;
-  // }
-
-  // let cursorQuery = ``;
-
-  // if (cursor !== "" && cursor) {
-  //   cursorQuery = `&cursor=${cursor}`;
-  // }
-
-  // const query = `${serviceQuery}${sortQuery}${designateQuery}${keywordQuery}${limitQuery}${cursorQuery}&isQuoted=false&isPastRequest=false`;
-
   const params: Record<string, any> = {
     smallMove,
     houseMove,
@@ -175,17 +147,16 @@ export async function getMovingRequestListByMover({
     });
 
     if (response.status !== 200) {
-      console.error("Fetch API 호출 오류:", response.statusText);
+      console.error(
+        "getMovingRequestListByMover API 호출 오류:",
+        response.statusText
+      );
       throw new Error("API 요청 실패");
     }
 
-    // const data = await response.json();
-    console.log("params : ", params);
-    console.log("response.data : ", response.data);
-
     return response.data;
   } catch (err: any) {
-    console.error("Fetch API 호출 오류:", err.message);
+    console.error("getMovingRequestListByMover API 호출 오류:", err.message);
     return {
       list: [],
       serviceCounts: { smallMove: 0, houseMove: 0, officeMove: 0 },

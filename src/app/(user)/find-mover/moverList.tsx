@@ -230,10 +230,6 @@ export default function MoverListWithFilters({
       pc:mt-[32px] pc:gap-[48px]`,
   };
 
-  // 임시. 테스트 - 아직 수정 안됨
-  console.log("==================== data ====================");
-  console.log(data);
-
   const moverInfos = data?.pages
     ?.flatMap((page) => page.list)
     ?.map((mover) => (
@@ -257,8 +253,6 @@ export default function MoverListWithFilters({
     if (newService === 99) {
       newService = null;
     }
-
-    console.log("newService :", newService);
 
     setFormState((prev) => ({
       ...prev,
@@ -285,10 +279,6 @@ export default function MoverListWithFilters({
       currentSort: sorts[newSort],
     }));
   };
-
-  useEffect(() => {
-    console.log("FormState updated:", formState);
-  }, [formState]);
 
   useEffect(() => {
     const handler = setTimeout(() => {
