@@ -53,7 +53,7 @@ export default function RoleGuard({
         const userInfo = await getUserInfo();
         const userRole = userInfo.user.mover
           ? "MOVER"
-          : userInfo.user.user
+          : userInfo.user.customer
           ? "USER"
           : null;
 
@@ -63,7 +63,7 @@ export default function RoleGuard({
           phoneNumber: userInfo.user.phoneNumber,
           role: userRole,
         });
-        console.log("userType : ", useUserStore.getState().userRole);
+        console.log("RoleGuard userType : ", useUserStore.getState().userRole);
         const hasPermission = userRole && allowedRoles?.includes(userRole);
         if (!hasPermission) {
           router.replace(fallbackPath);
