@@ -2,6 +2,7 @@ import QuoteDetail from "./QuoteDetail";
 
 import { getQuote } from "@/api/quote";
 import { GetQuoteApiResponseData } from "@/types/api";
+import { Metadata } from "next";
 
 async function fetchQuoteData(
   quoteId: number
@@ -9,12 +10,12 @@ async function fetchQuoteData(
   return getQuote(quoteId);
 }
 
-type Props = {
+interface PageProps {
   params: { quoteId: string };
-  searchParams: { [key: string]: string | string[] | undefined };
-};
+  searchParams?: { [key: string]: string | string[] | undefined };
+}
 
-export default async function MyQuotesDetailPage({ params }: Props) {
+export default async function MyQuotesDetailPage({ params }: PageProps) {
   const { quoteId } = params;
 
   const data = await fetchQuoteData(Number(quoteId));
@@ -39,3 +40,7 @@ export default async function MyQuotesDetailPage({ params }: Props) {
     </div>
   );
 }
+
+export const metadata: Metadata = {
+  title: "견적 상세",
+};
