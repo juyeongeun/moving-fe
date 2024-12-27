@@ -52,6 +52,7 @@ let isRefreshing = false;
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
+    // redirect 데이터가 data 객체 안에 있는 경우를 처리
     if (error.response?.data?.data?.redirect === true) {
       try {
         const result = await Swal.fire({
@@ -64,25 +65,25 @@ axiosInstance.interceptors.response.use(
           cancelButtonText: "취소",
         });
 
-        if (result.isConfirmed) {
-          const redirectUrl = error.response?.data?.data?.redirectUrl;
-
-          if (redirectUrl) {
-            window.location.href = redirectUrl;
-            return Promise.reject(error);
-          }
+        if (result.isConfirmed && error.response?.data?.data?.redirectUrl) {
+          window.location.href = error.response.data.data.redirectUrl;
+          return Promise.reject(error);
         }
       } catch (swalError) {
-        console.log("[Axios] Swal 에러:", swalError); // 디버깅용
+        console.log("[Axios] Swal 에러:", swalError);
       }
     }
 
     // 403 토큰 관련 에러 처리
     if (error.response?.status === 403) {
       const errorMessage = error.response?.data?.message;
+      const isAuthEndpoint =
+        error.config.url?.includes("/auth/refresh") ||
+        error.config.url?.includes("/users");
+
       if (
-        errorMessage === "Token missing" ||
-        errorMessage === "Invalid token"
+        !isAuthEndpoint &&
+        (errorMessage === "Token missing" || errorMessage === "Invalid token")
       ) {
         if (!isRefreshing) {
           isRefreshing = true;
