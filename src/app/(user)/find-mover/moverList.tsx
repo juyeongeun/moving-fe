@@ -189,6 +189,7 @@ export default function MoverListWithFilters({
         pages: [initialData],
         pageParams: [null],
       },
+      staleTime: 0,
     });
 
   const styles = {
@@ -257,6 +258,8 @@ export default function MoverListWithFilters({
       newService = null;
     }
 
+    console.log("newService :", newService);
+
     setFormState((prev) => ({
       ...prev,
       currentServiceFilter: newService,
@@ -282,6 +285,10 @@ export default function MoverListWithFilters({
       currentSort: sorts[newSort],
     }));
   };
+
+  useEffect(() => {
+    console.log("FormState updated:", formState);
+  }, [formState]);
 
   useEffect(() => {
     const handler = setTimeout(() => {
