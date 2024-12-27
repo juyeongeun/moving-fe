@@ -1,4 +1,10 @@
-import { axiosInstance } from "./axios";
+import { axiosInstance, axiosInstance2 } from "./axios";
+
+import {
+  GetMovingRequestListByMoverParamData,
+  GetMovingRequestListByMoverResponseData,
+} from "@/types/api";
+
 interface Rating {
   "1": number;
   "2": number;
@@ -101,3 +107,83 @@ export const fetchQuotesByMovingRequest = async (
 };
 
 export type { PendingQuotesResponse, Quote, Mover, MovingRequest, Rating };
+
+const PATH = "/moving-requests";
+
+export const DATA_COUNT = 5;
+
+export async function getMovingRequestListByMover({
+  smallMove,
+  houseMove,
+  officeMove,
+  keyword,
+  isDesignated,
+  orderBy,
+  limit,
+  cursor,
+}: GetMovingRequestListByMoverParamData): Promise<GetMovingRequestListByMoverResponseData> {
+  const serviceQuery = `smallMove=${smallMove}&houseMove=${houseMove}&officeMove=${officeMove}`;
+  const sortQuery = `&orderBy=${orderBy}`;
+  let designateQuery = ``;
+
+  if (isDesignated !== null) {
+    designateQuery = `&isDesignated=${isDesignated}`;
+  }
+
+  let keywordQuery = ``;
+
+  if (keyword !== null && keyword?.trim().length !== 0) {
+    keywordQuery = `&keyword=${keyword}`;
+  }
+
+  let limitQuery = ``;
+
+  if (limit) {
+    limitQuery = `&limit=${limit}`;
+  }
+
+  let cursorQuery = ``;
+
+  if (cursor !== "" && cursor) {
+    cursorQuery = `&cursor=${cursor}`;
+  }
+
+  const query = `${serviceQuery}${sortQuery}${designateQuery}${keywordQuery}${limitQuery}${cursorQuery}&isQuoted=false&isPastRequest=false`;
+
+  try {
+    // 임시. 테스트 코드
+    console.log("Base URL:", axiosInstance2.defaults.baseURL);
+    console.log("Full URL:", `${PATH}/by-mover?${query}`);
+
+    const response = await fetch(
+      `https://moving-be-1.onrender.com/moving-requests/my-mover?${query}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      }
+    );
+
+    if (!response.ok) {
+      console.error("Fetch API 호출 오류:", response.statusText);
+      throw new Error("API 요청 실패");
+    }
+
+    const data = await response.json();
+    console.log("query : ", query);
+    console.log("data : ", data);
+
+    return data;
+  } catch (err: any) {
+    console.error("Fetch API 호출 오류:", err.message);
+    return {
+      list: [],
+      serviceCounts: { smallMove: 0, houseMove: 0, officeMove: 0 },
+      requestCounts: { total: 0, designated: 0 },
+      nextCursor: "",
+      hasNext: false,
+    };
+  }
+}

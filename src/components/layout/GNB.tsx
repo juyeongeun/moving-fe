@@ -9,6 +9,7 @@ import DropdownProfile from "../dropdowns/DropdownProfile";
 import DropdownNotification from "../dropdowns/DropdownNotification";
 import useResize from "../../hooks/useResize";
 import assets from "@/variables/images";
+import { useUserStore } from "@/store/userStore";
 
 import { PC_WIDTH } from "@/variables/screen";
 
@@ -37,17 +38,11 @@ function NavItem({ href, isIncludedPath = false, children }: NavItemProps) {
   );
 }
 
-type UserType = "MOVER" | "USER" | null;
-
-interface GNBProps {
-  userType?: UserType;
-}
-
 // TODO:
 // 1. 유저타입에 따라 렌더링되는 탭 변경
 // 2. 모바일에서 메뉴 버튼 클릭 시 사이드바 토글시 유저정보는 따로 fetch하는 것이 좋을 듯
 
-const GNB = ({ userType = null }: GNBProps) => {
+const GNB = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useResize((width) => {
@@ -56,11 +51,11 @@ const GNB = ({ userType = null }: GNBProps) => {
     }
   });
 
-  // 임시
-  const userName = "테스터";
+  const { userName, userRole } = useUserStore();
+  console.log("GNB userName : ", userName, "userRole : ", userRole);
 
   const renderTabs = () => {
-    switch (userType) {
+    switch (userRole) {
       case "MOVER":
         return (
           <>
@@ -105,18 +100,18 @@ const GNB = ({ userType = null }: GNBProps) => {
         </div>
 
         <div className="flex flex-row items-center gap-6">
-          {userType ? (
+          {userRole ? (
             <>
               <DropdownNotification
                 onSelect={(id: number) => {
                   console.log(id); // 임시. 테스트용
                 }}
               />
-              <DropdownProfile name={userName} />
+              <DropdownProfile name={userName} isMover={userRole === "MOVER"} />
             </>
           ) : (
             <Link
-              href="auth/login"
+              href="/auth/login"
               className="hidden pc:block px-6 py-3 bg-pr-blue-300 text-white rounded-lg font-medium hover:bg-primary/90"
             >
               로그인
@@ -150,7 +145,7 @@ const GNB = ({ userType = null }: GNBProps) => {
           >
             <Image src={assets.icons.x} alt="close" width={24} height={24} />
           </button>
-          {userType ? (
+          {userRole ? (
             <div className="flex items-center gap-2 mt-8 mb-6">
               <Image
                 src={assets.icons.userProfile}

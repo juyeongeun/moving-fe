@@ -50,7 +50,7 @@ export default function DropdownQuote({
 
   const dropdownListClass = cn(
     "absolute flex flex-col items-center overflow-hidden\
-    top-10 right-0 w-[127px] \
+    top-10 w-[127px] \
     border-solid border-[1px] border-line-100 rounded-lg \
     bg-white \
     pc:top-[72px] pc:w-[190px]"

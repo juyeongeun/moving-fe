@@ -10,6 +10,9 @@ import { loginSchema, LoginFormData } from "@/utils/authValidation";
 import React from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { login } from "@/api/auth";
+import { useUserStore } from "@/store/userStore";
+import { getUserInfo } from "@/api/user";
 
 interface SignUpComponentProps {
   isUser: boolean;
@@ -40,18 +43,39 @@ export default function SignUpComponent({ isUser }: SignUpComponentProps) {
   });
 
   const onSubmit = async (data: LoginFormData) => {
+    const validationResult = loginSchema.safeParse(data);
+    if (!validationResult.success) {
+      throw new Error("유효성 검사 실패");
+    }
     try {
-      const validationResult = loginSchema.safeParse(data);
-      if (!validationResult.success) {
-        throw new Error("유효성 검사 실패");
-      }
-      // API 호출 로직
-      console.log("폼 제출:", data);
-      reset();
+      // 미완성. signin API response 구조 확인 필요
+      await login(data);
 
-      isUser ? router.push("/find-mover") : router.push("/mover/request");
-    } catch (error) {
-      console.error("로그인 실패:", error);
+      const userInfo = await getUserInfo();
+      console.log("SignUpComponent userInfo: ", userInfo);
+      const userRole = userInfo.user.mover
+        ? "MOVER"
+        : userInfo.user.customer
+        ? "USER"
+        : null;
+
+      useUserStore.getState().setUserData({
+        email: userInfo.user.email,
+        name: userInfo.user.name,
+        phoneNumber: userInfo.user.phoneNumber,
+        role: userRole,
+      });
+      reset();
+      isUser ? router.push("/find-mover") : router.push("/"); //router.push("/mover/request");
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.data?.message ||
+        error.response?.data?.message ||
+        "로그인에 실패했습니다.";
+
+      toast.error(errorMessage, {
+        position: "top-center",
+      });
     }
   };
 

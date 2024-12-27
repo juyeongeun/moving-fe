@@ -1,8 +1,8 @@
 export const SERVICE_CODES = {
   ALL: 99,
-  MOVE_SMALL: 0,
-  MOVE_HOME: 1,
-  MOVE_OFFICE: 2,
+  MOVE_SMALL: 1,
+  MOVE_HOME: 2,
+  MOVE_OFFICE: 3,
 } as const;
 
 export const SERVICE_TEXTS = {

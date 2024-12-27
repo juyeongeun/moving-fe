@@ -1,16 +1,43 @@
 import { type MoverDetails } from "@/components/cards/MoverInfoCard";
-import axiosInstance from "./axios";
+import { axiosInstance } from "./axios";
 import { BaseMoverData } from "@/types/mover";
+import { REGION_CODES } from "@/variables/regions";
+import { RatingData } from "@/types/mover";
+
 const PATH = "/movers";
 
 interface GetMoverListParams {
-  nextCursorId?: number | null;
+  nextCursorId: string | number | null;
   order?: string;
   limit?: number;
   keyword?: string;
-  region?: number;
-  service?: number;
+  region?: number | null;
+  service?: number | null;
   isFavorite?: boolean;
+}
+
+export interface MoverData {
+  id: number;
+  imageUrl: string | null;
+  services: number[];
+  nickname: string;
+  name: string;
+  career: number;
+  regions: (typeof REGION_CODES)[keyof typeof REGION_CODES][];
+  introduction: string;
+  isDesignated: boolean;
+  isFavorite: boolean;
+  reviewCount: number;
+  favoriteCount: number;
+  isConfirmed: boolean;
+  confirmCount: number;
+  rating: RatingData;
+}
+
+export interface GetMoverListResponseData {
+  nextCursor: string | number | null;
+  hasNext: false;
+  list: MoverData[];
 }
 
 export const getMoverList = async ({
@@ -21,7 +48,7 @@ export const getMoverList = async ({
   region,
   service,
   isFavorite = false,
-}: GetMoverListParams) => {
+}: GetMoverListParams): Promise<GetMoverListResponseData> => {
   const params = {
     ...(nextCursorId && { nextCursorId: nextCursorId }),
     ...(order && { order: order }),
@@ -32,8 +59,17 @@ export const getMoverList = async ({
     ...(isFavorite && { isFavorite: isFavorite }),
   };
 
-  const response = await axiosInstance.get(PATH, { params });
-  return response.data;
+  try {
+    const response = await axiosInstance.get(PATH, { params });
+    return response.data;
+  } catch (err) {
+    console.error(err);
+    return {
+      nextCursor: null,
+      hasNext: false,
+      list: [],
+    };
+  }
 };
 
 interface setMoverFavoriteProps {
@@ -85,3 +121,12 @@ export async function getMoverProfile(): Promise<MoverMyPageResponse> {
   const response = await axiosInstance.get(`${PATH}/my-profile`);
   return response.data;
 }
+
+export const editMoverProfile = async (userData: FormData) => {
+  const response = await axiosInstance.patch(`${PATH}`, userData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return response.data;
+};
