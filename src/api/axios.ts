@@ -52,9 +52,7 @@ let isRefreshing = false;
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
-    console.log("error 조건문 밖", error);
     if (error.response?.data?.data?.redirect === true) {
-      console.log("error 조건문 안", error.response);
       try {
         const result = await Swal.fire({
           title: "프로필 등록",

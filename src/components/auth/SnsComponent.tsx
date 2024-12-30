@@ -8,37 +8,40 @@ const styles = {
 };
 
 export default function SnsComponent({ isUser }: { isUser: boolean }) {
+  const handleSnsLogin = (provider: string) => {
+    window.location.href = `${
+      process.env.NEXT_PUBLIC_API_URL
+    }/oauth/${provider}/${isUser ? "customer" : "mover"}`;
+  };
+
   return (
     <>
       <p className={styles.linkDescription}>SNS 계정으로 간편 가입하기</p>
       <div className={styles.snsContainer}>
-        <a href={`${process.env.NEXT_PUBLIC_API_URL}/oauth/google/customer`}>
-          <Image
-            src={assets.images.logoGoogle}
-            alt="google"
-            width={54}
-            height={54}
-            className={styles.sns}
-          />
-        </a>
-        <a href={`${process.env.NEXT_PUBLIC_API_URL}/oauth/kakao/customer`}>
-          <Image
-            src={assets.images.logoKakao}
-            alt="kakao"
-            width={54}
-            height={54}
-            className={styles.sns}
-          />
-        </a>
-        <a href={`${process.env.NEXT_PUBLIC_API_URL}/oauth/naver/customer`}>
-          <Image
-            src={assets.images.logoNaver}
-            alt="naver"
-            width={54}
-            height={54}
-            className={styles.sns}
-          />
-        </a>
+        <Image
+          src={assets.images.logoGoogle}
+          alt="google"
+          width={54}
+          height={54}
+          className={styles.sns}
+          onClick={() => handleSnsLogin("google")}
+        />
+        <Image
+          src={assets.images.logoKakao}
+          alt="kakao"
+          width={54}
+          height={54}
+          className={styles.sns}
+          onClick={() => handleSnsLogin("kakao")}
+        />
+        <Image
+          src={assets.images.logoNaver}
+          alt="naver"
+          width={54}
+          height={54}
+          className={styles.sns}
+          onClick={() => handleSnsLogin("naver")}
+        />
       </div>
     </>
   );

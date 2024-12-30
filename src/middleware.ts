@@ -7,8 +7,6 @@ const authRoutes = [
   "/auth/register",
   "/mover/auth/login",
   "/mover/auth/register",
-  "/me/profile",
-  "/mover/profile",
   "/oauth/kakao",
   "/oauth/kakao/callback",
   "/oauth/google",
@@ -71,11 +69,11 @@ export default async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
-  // mover 페이지 접근 시 (register와 profile 페이지는 제외)
+  // mover 페이지 접근 시 (register, profile, login 페이지는 제외)
   if (
     pathname.startsWith("/mover") &&
     !pathname.startsWith("/mover/auth/register") &&
-    pathname !== "/mover/profile" &&
+    !pathname.startsWith("/mover/profile") &&
     !pathname.startsWith("/mover/auth/login")
   ) {
     if (!hasTokens) {
