@@ -8,41 +8,37 @@ const styles = {
 };
 
 export default function SnsComponent({ isUser }: { isUser: boolean }) {
-  const handleClickSns = (sns: string) => {
-    const redirectUri = `${window.location.origin}/oauth/${sns}/callback`;
-    window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/oauth/${sns}/${
-      isUser ? "customer" : "mover"
-    }?redirectUri=${encodeURIComponent(redirectUri)}`;
-  };
-
   return (
     <>
       <p className={styles.linkDescription}>SNS 계정으로 간편 가입하기</p>
       <div className={styles.snsContainer}>
-        <Image
-          src={assets.images.logoGoogle}
-          alt="google"
-          width={54}
-          height={54}
-          className={styles.sns}
-          onClick={() => handleClickSns("google")}
-        />
-        <Image
-          src={assets.images.logoKakao}
-          alt="kakao"
-          width={54}
-          height={54}
-          className={styles.sns}
-          onClick={() => handleClickSns("kakao")}
-        />
-        <Image
-          src={assets.images.logoNaver}
-          alt="naver"
-          width={54}
-          height={54}
-          className={styles.sns}
-          onClick={() => handleClickSns("naver")}
-        />
+        <a href={`${process.env.NEXT_PUBLIC_API_URL}/oauth/google/customer`}>
+          <Image
+            src={assets.images.logoGoogle}
+            alt="google"
+            width={54}
+            height={54}
+            className={styles.sns}
+          />
+        </a>
+        <a href={`${process.env.NEXT_PUBLIC_API_URL}/oauth/kakao/customer`}>
+          <Image
+            src={assets.images.logoKakao}
+            alt="kakao"
+            width={54}
+            height={54}
+            className={styles.sns}
+          />
+        </a>
+        <a href={`${process.env.NEXT_PUBLIC_API_URL}/oauth/naver/customer`}>
+          <Image
+            src={assets.images.logoNaver}
+            alt="naver"
+            width={54}
+            height={54}
+            className={styles.sns}
+          />
+        </a>
       </div>
     </>
   );

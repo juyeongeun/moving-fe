@@ -39,6 +39,30 @@ export default async function middleware(request: NextRequest) {
     cookieHeader?.includes("accessToken") ||
     cookieHeader?.includes("refreshToken");
 
+  // OAuth 콜백 처리 추가
+  if (pathname.startsWith("/oauth") && pathname.includes("/callback")) {
+    const searchParams = request.nextUrl.searchParams;
+    const code = searchParams.get("code");
+    const state = searchParams.get("state");
+
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}${pathname}?code=${code}&state=${state}`,
+      {
+        credentials: "include",
+      }
+    );
+
+    const cookies = response.headers.getSetCookie();
+    const redirectUrl = new URL("/", request.url);
+    const res = NextResponse.redirect(redirectUrl);
+
+    cookies.forEach((cookie) => {
+      res.headers.append("Set-Cookie", cookie);
+    });
+
+    return res;
+  }
+
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set("Host", process.env.NEXT_PUBLIC_API_URL || "");
 
@@ -74,7 +98,5 @@ export default async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    "/((?!api|_next/static|_next/image|favicon.ico|oauth/*/callback).*)",
-  ],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };
