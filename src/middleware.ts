@@ -83,11 +83,6 @@ export default async function middleware(request: NextRequest) {
         });
         return res;
       }
-      const res = NextResponse.redirect(new URL("/", request.url));
-      cookies.forEach((cookie) => {
-        res.headers.append("Set-Cookie", cookie);
-      });
-      return res;
     } catch (error) {
       console.error("OAuth 콜백 처리 에러:", error);
       return NextResponse.redirect(new URL("/", request.url));
