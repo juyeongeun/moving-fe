@@ -23,11 +23,11 @@ const nextConfig = {
     return [
       {
         source: "/api/:path*",
-        destination: `https://52.78.245.231.nip.io/:path*`,
+        destination: `${process.env.NEXT_PUBLIC_API_URL}/:path*`,
       },
       {
         source: "/oauth/:path*",
-        destination: `https://52.78.245.231.nip.io/oauth/:path*`,
+        destination: `${process.env.NEXT_PUBLIC_API_URL}/:path*`,
       },
     ];
   },
