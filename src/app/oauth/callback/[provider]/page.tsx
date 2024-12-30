@@ -1,14 +1,18 @@
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+"use client";
+
+import { useEffect } from "react";
+import { useParams, useSearchParams } from "next/navigation";
 import Swal from "sweetalert2";
 
-const OAuthCallback = () => {
-  const router = useRouter();
-  const { code, state, provider } = router.query;
+export default function OAuthCallback() {
+  const params = useParams();
+  const searchParams = useSearchParams();
+  const provider = params.provider;
+  const code = searchParams.get("code");
+  const state = searchParams.get("state");
 
   useEffect(() => {
     if (code && state) {
-      // 서버에서 403 응답을 JSON으로 받아올 수 있도록 fetch 사용
       fetch(`/oauth/${provider}/callback?code=${code}&state=${state}`, {
         credentials: "include",
       })
@@ -16,7 +20,6 @@ const OAuthCallback = () => {
           const data = await response.json();
 
           if (response.status === 403) {
-            // 403 에러 처리
             Swal.fire({
               title: "프로필 등록",
               text: data.data?.message || "프로필을 등록해주세요.",
@@ -50,7 +53,9 @@ const OAuthCallback = () => {
     }
   }, [code, state, provider]);
 
-  return <div>인증 처리중...</div>;
-};
-
-export default OAuthCallback;
+  return (
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="text-center">인증 처리중...</div>
+    </div>
+  );
+}
