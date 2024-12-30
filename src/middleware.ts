@@ -56,6 +56,7 @@ export default async function middleware(request: NextRequest) {
     if (responseData.data?.redirect === true) {
       console.log(responseData.data);
       const redirectUrl = new URL(responseData.data.redirectUrl, request.url);
+      redirectUrl.searchParams.set("oauth", "true");
       const res = NextResponse.redirect(redirectUrl);
       cookies.forEach((cookie) => {
         res.headers.append("Set-Cookie", cookie);
