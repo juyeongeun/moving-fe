@@ -19,6 +19,7 @@ export default function ProfilePage() {
       setIsOAuth(true);
     }
   }, [searchParams]);
+  console.log("mover profile page", isOAuth);
   return (
     <div className={styles.container}>
       <ProfileForm isUser={false} isEdit={false} isOAuth={isOAuth} />

@@ -100,6 +100,7 @@ export default function Profile({
   userData,
   isOAuth,
 }: ProfileProps) {
+  console.log(isOAuth);
   const router = useRouter();
   const queryClient = useQueryClient();
   const defaultValues = isUser

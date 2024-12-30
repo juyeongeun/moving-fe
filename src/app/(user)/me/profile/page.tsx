@@ -19,7 +19,7 @@ export default function ProfilePage() {
       setIsOAuth(true);
     }
   }, [searchParams]);
-
+  console.log("user profile page", isOAuth);
   return (
     <div className={styles.container}>
       <Profile isUser={true} isEdit={false} isOAuth={isOAuth} />
