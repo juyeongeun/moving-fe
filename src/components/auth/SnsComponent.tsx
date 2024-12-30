@@ -1,6 +1,6 @@
 import assets from "@/variables/images";
 import Image from "next/image";
-
+import { oauth } from "@/api/auth";
 const styles = {
   linkDescription: `text-xs text-black-100 pc:text-xl pc:text-black-200`,
   snsContainer: `flex flex-row items-center gap-[24px]`,
@@ -8,10 +8,9 @@ const styles = {
 };
 
 export default function SnsComponent({ isUser }: { isUser: boolean }) {
-  const handleClickSns = (sns: string) => {
-    window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/oauth/${sns}/${
-      isUser ? "customer" : "mover"
-    }`;
+  const handleClickSns = async (sns: string) => {
+    const url = await oauth(sns, isUser ? "customer" : "mover");
+    window.location.href = url;
   };
 
   return (

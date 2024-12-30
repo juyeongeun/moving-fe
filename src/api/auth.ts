@@ -2,6 +2,7 @@ import { axiosInstance } from "./axios";
 import { UserLogin, AuthResponse, UserValidate } from "@/types/auth";
 
 const PATH = "/auth";
+const OAUTH_PATH = "/oauth";
 
 export const customerSignup = async (
   userData: FormData
@@ -49,5 +50,10 @@ export const passwordCheck = async (password: string) => {
   const response = await axiosInstance.post(`${PATH}/password`, {
     password,
   });
+  return response.data;
+};
+
+export const oauth = async (sns: string, userRole: string) => {
+  const response = await axiosInstance.get(`${OAUTH_PATH}/${sns}/${userRole}`);
   return response.data;
 };
