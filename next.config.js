@@ -25,6 +25,10 @@ const nextConfig = {
         source: "/api/:path*",
         destination: `https://52.78.245.231.nip.io/:path*`,
       },
+      {
+        source: "/oauth/:path*",
+        destination: `https://52.78.245.231.nip.io/oauth/:path*`,
+      },
     ];
   },
 };
