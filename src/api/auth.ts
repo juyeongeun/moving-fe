@@ -52,8 +52,3 @@ export const passwordCheck = async (password: string) => {
   });
   return response.data;
 };
-
-export const oauth = async (sns: string, userRole: string) => {
-  const response = await axiosInstance.get(`${OAUTH_PATH}/${sns}/${userRole}`);
-  return response.data;
-};

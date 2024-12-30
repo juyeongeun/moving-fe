@@ -39,6 +39,9 @@ export default async function middleware(request: NextRequest) {
     cookieHeader?.includes("accessToken") ||
     cookieHeader?.includes("refreshToken");
 
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("Host", process.env.NEXT_PUBLIC_API_URL || "");
+
   // 이미 로그인된 사용자의 인증 페이지 접근 제한
   if (authRoutes.includes(pathname) && hasTokens) {
     return NextResponse.redirect(new URL("/", request.url));
@@ -63,7 +66,11 @@ export default async function middleware(request: NextRequest) {
     }
   }
 
-  return NextResponse.next();
+  return NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  });
 }
 
 export const config = {
