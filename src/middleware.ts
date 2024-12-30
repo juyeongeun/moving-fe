@@ -50,14 +50,21 @@ export default async function middleware(request: NextRequest) {
       }
     );
 
+    const responseData = await response.json();
     const cookies = response.headers.getSetCookie();
-    const redirectUrl = new URL("/", request.url);
-    const res = NextResponse.redirect(redirectUrl);
 
+    if (responseData.data?.redirect === true) {
+      const redirectUrl = new URL(responseData.data.redirectUrl, request.url);
+      const res = NextResponse.redirect(redirectUrl);
+      cookies.forEach((cookie) => {
+        res.headers.append("Set-Cookie", cookie);
+      });
+      return res;
+    }
+    const res = NextResponse.redirect(new URL("/", request.url));
     cookies.forEach((cookie) => {
       res.headers.append("Set-Cookie", cookie);
     });
-
     return res;
   }
 
