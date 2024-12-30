@@ -43,31 +43,55 @@ export default async function middleware(request: NextRequest) {
     const code = searchParams.get("code");
     const state = searchParams.get("state");
 
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}${pathname}?code=${code}&state=${state}`,
-      {
-        credentials: "include",
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}${pathname}?code=${code}&state=${state}`,
+        {
+          credentials: "include",
+          redirect: "manual",
+        }
+      );
+
+      // 백엔드에서 보낸 쿠키 처리
+      const cookies = response.headers.getSetCookie();
+
+      // 리다이렉트 응답인 경우
+      if (response.status === 302 || response.status === 301) {
+        const redirectUrl = response.headers.get("location");
+        const res = NextResponse.redirect(
+          new URL(redirectUrl || "/", request.url)
+        );
+
+        // 쿠키 설정
+        cookies.forEach((cookie) => {
+          res.headers.append("Set-Cookie", cookie);
+        });
+
+        return res;
       }
-    );
 
-    const responseData = await response.json();
-    const cookies = response.headers.getSetCookie();
+      // 객체일 경우 JSON 처리
+      const responseData = await response.json();
 
-    if (responseData.data?.redirect === true) {
-      console.log(responseData.data);
-      const redirectUrl = new URL(responseData.data.redirectUrl, request.url);
-      redirectUrl.searchParams.set("oauth", "true");
-      const res = NextResponse.redirect(redirectUrl);
+      if (responseData.data?.redirect === true) {
+        console.log(responseData.data);
+        const redirectUrl = new URL(responseData.data.redirectUrl, request.url);
+        redirectUrl.searchParams.set("oauth", "true");
+        const res = NextResponse.redirect(redirectUrl);
+        cookies.forEach((cookie) => {
+          res.headers.append("Set-Cookie", cookie);
+        });
+        return res;
+      }
+      const res = NextResponse.redirect(new URL("/", request.url));
       cookies.forEach((cookie) => {
         res.headers.append("Set-Cookie", cookie);
       });
       return res;
+    } catch (error) {
+      console.error("OAuth 콜백 처리 에러:", error);
+      return NextResponse.redirect(new URL("/", request.url));
     }
-    const res = NextResponse.redirect(new URL("/", request.url));
-    cookies.forEach((cookie) => {
-      res.headers.append("Set-Cookie", cookie);
-    });
-    return res;
   }
 
   const requestHeaders = new Headers(request.headers);
