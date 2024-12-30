@@ -10,9 +10,8 @@ const styles = {
 export default function SnsComponent({ isUser }: { isUser: boolean }) {
   const handleClickSns = async (sns: string) => {
     try {
-      const response = await oauth(sns, isUser ? "customer" : "mover");
-      const authUrl = response.data || response;
-      window.location.href = authUrl;
+      const { data } = await oauth(sns, isUser ? "customer" : "mover");
+      window.location.replace(data);
     } catch (error) {
       console.error("OAuth 에러:", error);
     }
