@@ -13,12 +13,7 @@ export default function SnsComponent({ isUser }: { isUser: boolean }) {
       isUser ? "customer" : "mover"
     }`;
 
-    // SNS 로그인 페이지로 이동하면서 콜백 URL에 리다이렉션 정보 추가
-    const redirectUrl = isUser ? "me/profile" : "mover/profile";
-
-    // window.location.href = `${loginUrl}?redirect=${encodeURIComponent(
-    //   redirectUrl
-    // )}`;
+    window.location.href = isUser ? "me/profile" : "mover/profile";
   };
 
   return (
