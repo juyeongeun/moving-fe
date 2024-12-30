@@ -9,11 +9,12 @@ const styles = {
 
 export default function SnsComponent({ isUser }: { isUser: boolean }) {
   const handleSnsLogin = async (provider: string) => {
-    const loginUrl = `${process.env.NEXT_PUBLIC_API_URL}/oauth/${provider}/${
+    const redirectUrl = isUser ? "/me/profile" : "/mover/profile";
+    window.location.href = `${
+      process.env.NEXT_PUBLIC_API_URL
+    }/oauth/${provider}/${
       isUser ? "customer" : "mover"
-    }`;
-
-    window.location.href = isUser ? "me/profile" : "mover/profile";
+    }?redirect_uri=${encodeURIComponent(redirectUrl)}`;
   };
 
   return (
