@@ -53,6 +53,7 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     // redirect 데이터가 data 객체 안에 있는 경우를 처리
+    console.log(error);
     if (error.response?.data?.data?.redirect === true) {
       try {
         const result = await Swal.fire({
