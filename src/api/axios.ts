@@ -52,9 +52,9 @@ let isRefreshing = false;
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
-    // redirect 데이터가 data 객체 안에 있는 경우를 처리
-    console.log(error);
+    console.log("error 조건문 밖", error);
     if (error.response?.data?.data?.redirect === true) {
+      console.log("error 조건문 안", error.response);
       try {
         const result = await Swal.fire({
           title: "프로필 등록",
