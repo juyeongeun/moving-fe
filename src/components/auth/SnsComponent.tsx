@@ -10,6 +10,7 @@ const styles = {
 export default function SnsComponent({ isUser }: { isUser: boolean }) {
   const handleClickSns = async (sns: string) => {
     const url = await oauth(sns, isUser ? "customer" : "mover");
+    console.log(url);
     window.location.href = url;
   };
 
