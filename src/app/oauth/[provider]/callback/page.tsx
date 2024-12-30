@@ -18,7 +18,7 @@ export default function OAuthCallback() {
       })
         .then(async (response) => {
           const data = await response.json();
-
+          console.log(data);
           if (response.status === 403) {
             Swal.fire({
               title: "프로필 등록",
