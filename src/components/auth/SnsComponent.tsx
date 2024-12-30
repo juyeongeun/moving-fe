@@ -8,10 +8,17 @@ const styles = {
 };
 
 export default function SnsComponent({ isUser }: { isUser: boolean }) {
-  const handleSnsLogin = (provider: string) => {
-    window.location.href = `${
-      process.env.NEXT_PUBLIC_API_URL
-    }/oauth/${provider}/${isUser ? "customer" : "mover"}`;
+  const handleSnsLogin = async (provider: string) => {
+    const loginUrl = `${process.env.NEXT_PUBLIC_API_URL}/oauth/${provider}/${
+      isUser ? "customer" : "mover"
+    }`;
+
+    // SNS 로그인 페이지로 이동하면서 콜백 URL에 리다이렉션 정보 추가
+    const redirectUrl = isUser ? "me/profile" : "mover/profile";
+
+    // window.location.href = `${loginUrl}?redirect=${encodeURIComponent(
+    //   redirectUrl
+    // )}`;
   };
 
   return (
