@@ -9,9 +9,13 @@ const styles = {
 
 export default function SnsComponent({ isUser }: { isUser: boolean }) {
   const handleClickSns = async (sns: string) => {
-    const url = await oauth(sns, isUser ? "customer" : "mover");
-    console.log(url);
-    window.location.href = url;
+    try {
+      const response = await oauth(sns, isUser ? "customer" : "mover");
+      const authUrl = response.data || response;
+      window.location.href = authUrl;
+    } catch (error) {
+      console.error("OAuth 에러:", error);
+    }
   };
 
   return (
