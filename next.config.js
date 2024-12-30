@@ -28,9 +28,6 @@ const nextConfig = {
       {
         source: "/oauth/:path*",
         destination: `${process.env.NEXT_PUBLIC_API_URL}/oauth/:path*`,
-        headers: {
-          Host: "https://moving-fe-e1p7.vercel.app",
-        },
       },
     ];
   },
