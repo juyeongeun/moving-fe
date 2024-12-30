@@ -8,10 +8,11 @@ const styles = {
 };
 
 export default function SnsComponent({ isUser }: { isUser: boolean }) {
-  const handleClickSns = async (sns: string) => {
+  const handleClickSns = (sns: string) => {
+    const redirectUri = `${window.location.origin}/oauth/${sns}/callback`;
     window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/oauth/${sns}/${
       isUser ? "customer" : "mover"
-    }`;
+    }?redirectUri=${encodeURIComponent(redirectUri)}`;
   };
 
   return (
