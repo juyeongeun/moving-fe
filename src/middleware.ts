@@ -54,6 +54,7 @@ export default async function middleware(request: NextRequest) {
     const cookies = response.headers.getSetCookie();
 
     if (responseData.data?.redirect === true) {
+      console.log(responseData.data);
       const redirectUrl = new URL(responseData.data.redirectUrl, request.url);
       const res = NextResponse.redirect(redirectUrl);
       cookies.forEach((cookie) => {
