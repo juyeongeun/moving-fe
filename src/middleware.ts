@@ -56,7 +56,7 @@ export default async function middleware(request: NextRequest) {
       const cookies = response.headers.getSetCookie();
       // 객체일 경우 JSON 처리
       const responseData = await response.json();
-
+      console.log("👤 responseData : ", responseData.data);
       if (responseData.data?.redirect === true) {
         console.log(responseData.data);
         const redirectUrl = new URL(responseData.data.redirectUrl, request.url);
