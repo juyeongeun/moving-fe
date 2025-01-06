@@ -8,6 +8,7 @@ import Button from "../common/Button";
 import cn from "@/config/cn";
 import { getRegionText, getServiceText } from "@/utils/utilFunctions";
 import TextWithGrayLabel from "../common/card/TextWithGrayLabel";
+import { useUserStore } from "@/store/userStore";
 
 interface MoverProfileCardProps {
   data: FullMoverData & Partial<ProfileData>;
@@ -47,6 +48,7 @@ const MoverProfileCard = ({
     .map((service) => getServiceText(service))
     .join(", ");
   const regionText = data.regions.map((code) => getRegionText(code)).join(", ");
+  const { isOAuth } = useUserStore();
 
   return (
     <section className={cn("flex flex-col gap-4 relative", className)}>
@@ -103,6 +105,7 @@ const MoverProfileCard = ({
           withIcon
           className={styles.button}
           onClick={onOutlinedClick}
+          disabled={isOAuth}
         >
           기본 정보 수정
         </Button>
