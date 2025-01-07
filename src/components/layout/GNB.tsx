@@ -52,7 +52,14 @@ const GNB = () => {
   });
 
   const { userName, userRole } = useUserStore();
-  console.log("GNB userName : ", userName, "userRole : ", userRole);
+
+  // 디버깅을 위한 상세 로그 추가
+  console.log({
+    userName,
+    userNameType: typeof userName,
+    userNameLength: userName?.length,
+    condition: Boolean(userName),
+  });
 
   const renderTabs = () => {
     switch (userRole) {
@@ -100,11 +107,11 @@ const GNB = () => {
         </div>
 
         <div className="flex flex-row items-center gap-6">
-          {userName ? (
+          {Boolean(userName) ? (
             <>
               <DropdownNotification
                 onSelect={(id: number) => {
-                  console.log(id); // 임시. 테스트용
+                  console.log(id);
                 }}
               />
               <DropdownProfile name={userName} isMover={userRole === "MOVER"} />
