@@ -100,7 +100,7 @@ const GNB = () => {
         </div>
 
         <div className="flex flex-row items-center gap-6">
-          {userRole ? (
+          {userName ? (
             <>
               <DropdownNotification
                 onSelect={(id: number) => {
