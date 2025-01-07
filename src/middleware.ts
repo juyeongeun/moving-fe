@@ -54,37 +54,42 @@ export default async function middleware(request: NextRequest) {
 
       // 백엔드에서 보낸 쿠키 처리
       const cookies = response.headers.getSetCookie();
-      // 객체일 경우 JSON 처리
-      const responseData = await response.json();
 
-      if (responseData.data?.redirect === true) {
-        console.log(responseData.data);
-        const redirectUrl = new URL(responseData.data.redirectUrl, request.url);
-        redirectUrl.searchParams.set("oauth", "true");
-        const res = NextResponse.redirect(redirectUrl);
-        cookies.forEach((cookie) => {
-          res.headers.append("Set-Cookie", cookie);
-        });
-        return res;
-      }
+      // 응답 복제 (스트림은 한 번만 읽을 수 있으므로)
+      const responseClone = response.clone();
 
-      // 리다이렉트 응답인 경우
-      if (response.status === 302 || response.status === 301) {
-        console.log(response);
-        const redirectUrl = response.headers.get("location");
-        const res = NextResponse.redirect(
-          new URL(redirectUrl || "/", request.url)
-        );
-
-        // 쿠키 설정
-        cookies.forEach((cookie) => {
-          res.headers.append("Set-Cookie", cookie);
-        });
-
-        return res;
+      try {
+        // 먼저 JSON 파싱 시도
+        const responseData = await response.json();
+        if (responseData.data?.redirect === true) {
+          console.log("OAuth redirect:", responseData.data);
+          const redirectUrl = new URL(
+            responseData.data.redirectUrl,
+            request.url
+          );
+          redirectUrl.searchParams.set("oauth", "true");
+          const res = NextResponse.redirect(redirectUrl);
+          cookies.forEach((cookie) => {
+            res.headers.append("Set-Cookie", cookie);
+          });
+          return res;
+        }
+      } catch (jsonError) {
+        // JSON 파싱 실패 시 일반 리다이렉트 처리
+        if (responseClone.status === 302 || responseClone.status === 301) {
+          console.log("Status redirect:", responseClone);
+          const redirectUrl = responseClone.headers.get("location");
+          const res = NextResponse.redirect(
+            new URL(redirectUrl || "/", request.url)
+          );
+          cookies.forEach((cookie) => {
+            res.headers.append("Set-Cookie", cookie);
+          });
+          return res;
+        }
       }
     } catch (error) {
-      console.error("OAuth 콜백 처리 에러:", error);
+      console.error("Redirect handling error:", error);
       return NextResponse.redirect(new URL("/", request.url));
     }
   }
