@@ -68,22 +68,21 @@ export default async function middleware(request: NextRequest) {
         return res;
       }
 
-      // // 리다이렉트 응답인 경우
-      // if (responseData.data.status === 302 || responseData.status === 301) {
-      //   console.log(responseData.data);
-      //   // const redirectUrl = responseData.headers.get("location");
-      //   const redirectUrl = responseData.data.redirectUrl;
-      //   const res = NextResponse.redirect(
-      //     new URL(redirectUrl || "/", request.url)
-      //   );
+      // 리다이렉트 응답인 경우
+      if (response.status === 302 || response.status === 301) {
+        console.log(response);
+        const redirectUrl = response.headers.get("location");
+        const res = NextResponse.redirect(
+          new URL(redirectUrl || "/", request.url)
+        );
 
-      //   // 쿠키 설정
-      //   cookies.forEach((cookie) => {
-      //     res.headers.append("Set-Cookie", cookie);
-      //   });
+        // 쿠키 설정
+        cookies.forEach((cookie) => {
+          res.headers.append("Set-Cookie", cookie);
+        });
 
-      //   return res;
-      // }
+        return res;
+      }
     } catch (error) {
       console.error("OAuth 콜백 처리 에러:", error);
       return NextResponse.redirect(new URL("/", request.url));
