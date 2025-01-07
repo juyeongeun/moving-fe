@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import Swal from "sweetalert2";
 
 // 로그인된 사용자가 접근하면 안 되는 페이지
 const authRoutes = [
@@ -62,20 +61,6 @@ export default async function middleware(request: NextRequest) {
         console.log(responseData.data);
         const redirectUrl = new URL(responseData.data.redirectUrl, request.url);
         redirectUrl.searchParams.set("oauth", "true");
-        const result = await Swal.fire({
-          title: "프로필 등록",
-          text: responseData.data?.message || "프로필을 등록해주세요.",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonText: "확인",
-          confirmButtonColor: "#3085d6",
-          cancelButtonText: "취소",
-        });
-
-        if (result.isConfirmed && responseData.data?.redirectUrl) {
-          window.location.href = responseData.data.redirectUrl;
-          return Promise.reject(responseData);
-        }
         const res = NextResponse.redirect(redirectUrl);
         cookies.forEach((cookie) => {
           res.headers.append("Set-Cookie", cookie);
