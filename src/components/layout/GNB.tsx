@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, ReactNode } from "react";
+import { useState, ReactNode, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -44,6 +44,14 @@ function NavItem({ href, isIncludedPath = false, children }: NavItemProps) {
 
 const GNB = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const { userName, userRole } = useUserStore();
+
+  useEffect(() => {
+    if (userName !== undefined) {
+      setIsLoading(false);
+    }
+  }, [userName]);
 
   useResize((width) => {
     if (width >= PC_WIDTH) {
@@ -51,7 +59,6 @@ const GNB = () => {
     }
   });
 
-  const { userName, userRole } = useUserStore();
   console.log("GNB userName : ", userName, "userRole : ", userRole);
 
   const renderTabs = () => {
@@ -100,22 +107,29 @@ const GNB = () => {
         </div>
 
         <div className="flex flex-row items-center gap-6">
-          {userName ? (
+          {!isLoading && (
             <>
-              <DropdownNotification
-                onSelect={(id: number) => {
-                  console.log(id); // 임시. 테스트용
-                }}
-              />
-              <DropdownProfile name={userName} isMover={userRole === "MOVER"} />
+              {userName ? (
+                <>
+                  <DropdownNotification
+                    onSelect={(id: number) => {
+                      console.log(id);
+                    }}
+                  />
+                  <DropdownProfile
+                    name={userName}
+                    isMover={userRole === "MOVER"}
+                  />
+                </>
+              ) : (
+                <Link
+                  href="/auth/login"
+                  className="hidden pc:block px-6 py-3 bg-pr-blue-300 text-white rounded-lg font-medium hover:bg-primary/90"
+                >
+                  로그인
+                </Link>
+              )}
             </>
-          ) : (
-            <Link
-              href="/auth/login"
-              className="hidden pc:block px-6 py-3 bg-pr-blue-300 text-white rounded-lg font-medium hover:bg-primary/90"
-            >
-              로그인
-            </Link>
           )}
           <button
             className="block pc:hidden"
