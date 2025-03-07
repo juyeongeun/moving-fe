@@ -6,6 +6,8 @@
 
 🌐 [무빙 - 배포사이트](https://moving-fe-weld.vercel.app/)
 
+🎥 [시연 영상](https://drive.google.com/file/d/1LSdihY3q0wDbwFijlIAKJHTLzrb0EpYZ/view?usp=drive_link)
+
 ## **목차**
 
 1. [서비스 소개](#app)
